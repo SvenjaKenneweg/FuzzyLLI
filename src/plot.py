@@ -1,0 +1,159 @@
+# plot_event_adverbial_fits.py
+"""Visualise the fitted event/adverbial membership functions.
+
+This version plots **one figure**: it chooses the event *with the largest
+fitted σ* **within the user‑supplied `events_to_plot` list only**, then
+overlays all supplied events for comparison.  The script consumes the
+labelled *JSON* parameters produced by `event_adverbial_fitting.py`.
+"""
+from __future__ import annotations
+
+import inspect
+import json
+from pathlib import Path
+from typing import Callable, Dict, List
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+# ---------------------------------------------------------------------------
+# Configuration
+# ---------------------------------------------------------------------------
+
+VAGUE_ADVERBIALS: List[str] = [
+    "recently",
+    "just",
+    "some time ago",
+    "long time ago",
+]
+
+RESULTS_JSON = Path("results/fits/event_adverbials.json")
+DATA_DIR = Path("data/with_event_properties")
+PLOT_DIR = Path("results/plots")
+PLOT_DIR.mkdir(parents=True, exist_ok=True)
+
+Y_LIMS = (0.3, 1.02)  # <- fixed y‑axis for both sub‑plots
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def _load_packed(path: Path = RESULTS_JSON) -> Dict[str, dict]:
+    with path.open("r", encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def _initial_x_axis(values_vague_adverbial: dict) -> np.ndarray:
+    max_minutes = max(map(int, values_vague_adverbial["long time ago"].keys()))
+    return np.linspace(-(max_minutes / 2), max_minutes * 1.6, 400_000)
+
+
+def _select_main_event(packed: Dict[str, dict], candidates: List[str]) -> str:
+    """Return the candidate event with the largest σ (first/maximum param).
+
+    Raises
+    ------
+    ValueError
+        If none of *candidates* has fitted parameters.
+    """
+    best_event: str | None = None
+    best_std: float = -np.inf
+
+    for ev in candidates:
+        params = packed["event_params"].get(ev)
+        if params is None:
+            continue  # skip events lacking a fit
+        std_val = max(map(float, params))  # use max in case of multi‑σ model
+        if std_val > best_std:
+            best_std = std_val
+            best_event = ev
+
+    if best_event is None:
+        raise ValueError("None of the provided events have fitted parameters.")
+    return best_event
+
+# ---------------------------------------------------------------------------
+# Public API
+# ---------------------------------------------------------------------------
+
+def plot_allPersons_event_adverbials(
+    events_to_plot: List[str],
+    event_specific_function: Callable[..., np.ndarray],
+    adverbial_specific_function: Callable[..., np.ndarray],
+) -> None:
+    """Plot one figure: main event = highest σ among *events_to_plot*.
+
+    Parameters
+    ----------
+    events_to_plot
+        List of event names to consider & overlay.  The main plot is chosen
+        **only** from this list.
+    event_specific_function, adverbial_specific_function
+        Callable signatures must match those used during fitting.
+    """
+
+    packed = _load_packed()
+    main_event = _select_main_event(packed, events_to_plot)
+
+    # Use x‑axis sized to the main event's data
+    json_path = DATA_DIR / main_event / "cleanedData_minutes.json"
+    with json_path.open("r", encoding="utf-8") as fh:
+        values_vague_adverbial = json.load(fh)
+    x1 = _initial_x_axis(values_vague_adverbial)
+
+    fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(14, 6))
+
+    colours = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+    colour_cycle = iter(colours)
+
+    # Overlay each user‑requested event
+    for ev in events_to_plot:
+        params = packed["event_params"].get(ev)
+        if params is None:
+            continue  # skip events without fits
+        y_ev = event_specific_function(x1, *params)
+        ax_left.plot(
+            x1,
+            y_ev,
+            label=f"{ev.replace('_', ' ').title()}\n$\\sigma_e={', '.join(f'{p:.0f}' for p in params)}$",
+            color=next(colour_cycle, None),
+        )
+
+    # Left‑axis styling
+    ax_left.set(
+        ylim = Y_LIMS,
+        xlabel="Time units ago in minutes",
+        ylabel="Beforeness of event",
+        title="Event specific functions $P_{Ev}$",
+    )
+    ax_left.grid(True)
+    ax_left.legend(loc="lower right")
+
+    # Right plot: adverbial curves for *main_event* only
+    main_params = packed["event_params"][main_event]
+    y_relation = event_specific_function(x1, *main_params)
+
+    for i, adv in enumerate(VAGUE_ADVERBIALS):
+        mu = packed["adverbial_means"][adv]
+        sigma = packed["adverbial_stds"][adv]
+        x_norm = np.linspace(y_relation.min(), y_relation.max(), 1_000)
+        y_norm = adverbial_specific_function(x_norm, mu, sigma)
+        ax_right.plot(
+            y_norm,
+            x_norm,
+            label=f"{adv.title()}\n$\\mu_e={mu:.2f}$, $\\sigma_a={sigma:.2f}$",
+            color=colours[i % len(colours)],
+        )
+
+    ax_right.set(
+        ylim=Y_LIMS,
+        xlabel="Probability of adverbial",
+        ylabel="Beforeness of event",
+        title="Adverbial specific functions $P_{Adv}$",
+    )
+    ax_right.grid(True)
+    ax_right.legend(loc="best")
+
+    plt.tight_layout(rect=[0, 0, 1, 0.99])
+
+    outfile = PLOT_DIR / "highestStd_allAdverbials.png"
+    fig.savefig(outfile, dpi=300)
