@@ -35,7 +35,6 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 duration_order = ['Minutes', 'Hours', 'Days', 'Weeks', 'Months', 'Years', 'Decades']
 frequency_order = ['Daily', 'Monthly', 'Yearly', 'Decadal', 'Once in Life']
-importance_order = ['Not', 'Slightly', 'Moderately', 'Very', 'Extremely']
 
 # ---------------------------------------------------------------------------
 # Persistence helpers
@@ -66,7 +65,7 @@ def _safe_round(value):
 
 def _get_event_properties_gpt(event, gpt_model="gpt-4"):
     prompt = f"""
-    I will provide you with an event performed by yourself. Your task is to evaluate the event based on three dimensions: duration, frequency, and personal importance.
+    I will provide you with an event performed by yourself. Your task is to evaluate the event based on three dimensions: duration and frequency.
 
     Please use the following definitions and rating scales:
 
@@ -76,15 +75,11 @@ def _get_event_properties_gpt(event, gpt_model="gpt-4"):
     Frequency – How often does the event typically occur?
     Scale: Daily, Monthly, Yearly, Decadal, Once in Life
 
-    Personal Importance – How significant or meaningful is the event to you personally?
-    Scale: Not important, Slightly important, Moderately important, Very important, Extremely important
-
     Event: {event}
 
     Respond in this exact format:
     Duration: <value>
     Frequency: <value>
-    Personal: <value>
     """
 
     response = client.chat.completions.create(
@@ -96,19 +91,8 @@ def _get_event_properties_gpt(event, gpt_model="gpt-4"):
     content = response.choices[0].message.content
 
     # Basic parsing
-    matches = re.findall(r"(Duration|Frequency|Personal):\s*(.+)", content)
+    matches = re.findall(r"(Duration|Frequency):\s*(.+)", content)
     response_dict = {k: v.strip() for k, v in matches}
-
-    # Normalize importance
-    importance_map = {
-        "Not important": "Not",
-        "Slightly important": "Slightly",
-        "Moderately important": "Moderately",
-        "Very important": "Very",
-        "Extremely important": "Extremely"
-    }
-    if "Personal" in response_dict:
-        response_dict["Personal"] = importance_map.get(response_dict["Personal"], response_dict["Personal"])
     return response_dict
 # ---------------------------------------------------------------------------
 # Public API
@@ -137,6 +121,7 @@ def predict_time_frame_embedding(event, adverbial, min_prob=0.6, max_prob=1.0):
 
 def predict_adverbial_embedding(event, minutes_ago):
     params = _load_packed()
+    os.environ["TOKENIZERS_PARALLELISM"] = "false" # to avoid warning
     embedding_model = SentenceTransformer(EMBEDDING_MODEL)
     ridge_model = load(RESULTS_FILE_PATH / EMBEDDING_RIDGE_FILE)
 
@@ -155,20 +140,19 @@ def predict_adverbial_embedding(event, minutes_ago):
     return adverbial_probs
 
 
-def predict_time_frame_random_forest(event, adverbial, min_prob=0.6, max_prob=1.0):
+def predict_time_frame_gpt_random_forest(event, adverbial, min_prob=0.6, max_prob=1.0):
     params = _load_packed()
     adverbial_mean = params["adverbial_means"][adverbial]
     adverbial_std = params["adverbial_stds"][adverbial]
 
     random_forest = load(RESULTS_FILE_PATH / RANDOM_FOREST_FILE)
     gpt_result = _get_event_properties_gpt(event)
-    required_keys = ["Frequency", "Personal", "Duration"]
+    required_keys = ["Frequency", "Duration"]
     missing_keys = [key for key in required_keys if key not in gpt_result]
     if missing_keys:
         raise KeyError(f"Missing keys from gpt_result, which is: {gpt_result}")
     event_properties = pd.DataFrame([{
         "Frequency": frequency_order.index(gpt_result["Frequency"]),
-        "Personal": importance_order.index(gpt_result["Personal"]),
         "Duration": duration_order.index(gpt_result["Duration"])
     }])
     event_std = random_forest.predict(event_properties)[0]
@@ -182,15 +166,57 @@ def predict_time_frame_random_forest(event, adverbial, min_prob=0.6, max_prob=1.
     return upper, lower
 
 
-def predict_adverbial_random_forest(event, minutes_ago):
+def predict_adverbial_gpt_random_forest(event, minutes_ago):
     params = _load_packed()
 
     random_forest = load(RESULTS_FILE_PATH / RANDOM_FOREST_FILE)
     gpt_result = _get_event_properties_gpt(event)
     event_properties = pd.DataFrame([{
         "Frequency": frequency_order.index(gpt_result["Frequency"]),
-        "Personal": importance_order.index(gpt_result["Personal"]),
         "Duration": duration_order.index(gpt_result["Duration"])
+    }])
+    event_std = random_forest.predict(event_properties)[0]
+
+    adverbial_probs = {}
+    for adverbial in VAGUE_ADVERBIALS:
+        adverbial_mean = params["adverbial_means"][adverbial]
+        adverbial_std = params["adverbial_stds"][adverbial]
+
+        prob_adverbial = _adverbial_specific_function(_event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
+        adverbial_probs[adverbial] = prob_adverbial
+
+    return adverbial_probs
+
+
+
+def predict_time_frame_random_forest(duration, frequency, adverbial, min_prob=0.6, max_prob=1.0):
+    params = _load_packed()
+    adverbial_mean = params["adverbial_means"][adverbial]
+    adverbial_std = params["adverbial_stds"][adverbial]
+
+    random_forest = load(RESULTS_FILE_PATH / RANDOM_FOREST_FILE)
+    event_properties = pd.DataFrame([{
+        "Frequency": frequency_order.index(frequency),
+        "Duration": duration_order.index(duration)
+    }])
+    event_std = random_forest.predict(event_properties)[0]
+
+    upper_raw = _inverse_event_specific_function(_gauss_inverse(max_prob, adverbial_mean, adverbial_std), event_std)
+    lower_raw = _inverse_event_specific_function(_gauss_inverse(min_prob, adverbial_mean, adverbial_std), event_std)
+
+    upper = max(0, _safe_round(upper_raw))
+    lower = _safe_round(lower_raw)
+
+    return upper, lower
+
+
+def predict_adverbial_random_forest(duration, frequency, minutes_ago):
+    params = _load_packed()
+
+    random_forest = load(RESULTS_FILE_PATH / RANDOM_FOREST_FILE)
+    event_properties = pd.DataFrame([{
+        "Frequency": frequency_order.index(frequency),
+        "Duration": duration_order.index(duration)
     }])
     event_std = random_forest.predict(event_properties)[0]
 

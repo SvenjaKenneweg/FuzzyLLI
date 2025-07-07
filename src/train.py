@@ -268,6 +268,7 @@ def fit_event_specific_embeddings(events_to_fit):
     ridge = Ridge(alpha=1.0)
     ridge.fit(X, y_log)
     joblib.dump(ridge, RESULTS_FILE_PATH / 'event_embeddings_ridge.pkl')
+    return ridge
 
 
 def fit_event_specific_random_forest(events_to_fit):
@@ -286,7 +287,6 @@ def fit_event_specific_random_forest(events_to_fit):
             event_properties = json.load(fh)
 
         frequency_votes = [d['Frequency'] for d in event_properties if 'Frequency' in d]
-        personal_votes = [d['Personal'] for d in event_properties if 'Personal' in d]
         duration_votes = [d['Duration'] for d in event_properties if 'Duration' in d]
 
         # Because participants first could not select "Hours" as Duration I entered hours later and it became entry 6
@@ -298,12 +298,10 @@ def fit_event_specific_random_forest(events_to_fit):
             ]
 
         median_frequency = statistics.median(frequency_votes)
-        median_personal = statistics.median(personal_votes)
         median_duration = statistics.median(duration_votes)
 
         median_rows.append({
             'Frequency': median_frequency,
-            'Personal': median_personal,
             'Duration': median_duration
         })
 
