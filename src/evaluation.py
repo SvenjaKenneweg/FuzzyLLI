@@ -104,13 +104,13 @@ def evaluate_baseline_model(events, fit_models_fn, predict_fn, metric='mae'):
         with open(file_path, "r", encoding="utf-8") as fh:
             values_vagueAdverbial = json.load(fh)
 
+        file_path = f"{DATA_DIR}/{event}/event_properties.json"
+        with open(file_path, "r", encoding="utf-8") as fh:
+            event_properties = json.load(fh)
+
         for adverbial in VAGUE_ADVERBIALS:
             target_values = {k: np.median(v) for k, v in values_vagueAdverbial[adverbial].items()}
             for minutes_ago, true_value in target_values.items():
-                file_path = f"{DATA_DIR}/{event}/event_properties.json"
-                with open(file_path, "r", encoding="utf-8") as fh:
-                    event_properties = json.load(fh)
-
                 frequency_votes = [d['Frequency'] for d in event_properties if 'Frequency' in d]
                 duration_votes = [d['Duration'] for d in event_properties if 'Duration' in d]
 

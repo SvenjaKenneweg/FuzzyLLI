@@ -166,15 +166,40 @@ def predict_time_frame_gpt_random_forest(event, adverbial, min_prob=0.6, max_pro
     return upper, lower
 
 
-def predict_adverbial_gpt_random_forest(event, minutes_ago):
-    params = _load_packed()
+def predict_adverbial_gpt_random_forest(event, minutes_ago,max_retries=10):
+    def get_index(value, order_list):
+        if value is None:
+            return None
+        for i, item in enumerate(order_list):
+            if item.lower() in value.lower():
+                return i
+        return -1  # or raise an error or use None if unmatched
 
+    params = _load_packed()
     random_forest = load(RESULTS_FILE_PATH / RANDOM_FOREST_FILE)
-    gpt_result = _get_event_properties_gpt(event)
-    event_properties = pd.DataFrame([{
-        "Frequency": frequency_order.index(gpt_result["Frequency"]),
-        "Duration": duration_order.index(gpt_result["Duration"])
-    }])
+
+    for attempt in range(max_retries):
+        gpt_result = _get_event_properties_gpt(event)
+
+        duration = gpt_result.get("Duration")
+        frequency = gpt_result.get("Frequency")
+
+        freq_index = get_index(frequency, frequency_order)
+        dur_index = get_index(duration, duration_order)
+
+        if freq_index is not None and dur_index is not None:
+            event_properties = pd.DataFrame([{
+                "Frequency": freq_index,
+                "Duration": dur_index
+            }])
+            break
+    else:
+        # After all retries, raise an error with last result for debugging
+        raise ValueError(
+            f"Failed to get valid Duration/Frequency after {max_retries} retries. "
+            f"Last result: {gpt_result}"
+        )
+
     event_std = random_forest.predict(event_properties)[0]
 
     adverbial_probs = {}

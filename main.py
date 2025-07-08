@@ -25,19 +25,19 @@ def event_specific_function(temporal_distance, std):
 events = [
     "tom_wedding_celebration",
     "own_year_abroad",
-    # "own_birthday",
-    # "own_vacation",
-    # "own_rent_payment",
-    # "own_shower",
-    # "tom_watching_film",
-    # "tom_eating_risotto",
-    # "tom_reading_book",
-    # "tom_dancing_salsa",
-    # "tom_storing_wineBottle",
-    # "tom_drinking_juice",
-    # "tom_chatting_friend",
-    # "own_wedding_celebration",
-    # "own_wallet_theft"
+    "own_birthday",
+    "own_vacation",
+    "own_rent_payment",
+    "own_shower",
+    "tom_watching_film",
+    "tom_eating_risotto",
+    "tom_reading_book",
+    "tom_dancing_salsa",
+    "tom_storing_wineBottle",
+    "tom_drinking_juice",
+    "tom_chatting_friend",
+    "own_wedding_celebration",
+    "own_wallet_theft"
 ]
 
 if __name__ == '__main__':
@@ -69,8 +69,15 @@ if __name__ == '__main__':
 
     # plot_allPersons_event_adverbials(events, event_specific_function, adverbial_specific_function)
 
-    print(evaluate_embedding(events, event_specific_function, adverbial_specific_function))
-    print(evaluate_gpt_random_forest(events, event_specific_function, adverbial_specific_function))
-    print(evaluate_random_forest(events, event_specific_function, adverbial_specific_function))
-    print(evaluate_classifier(events))
-    print(evaluate_regression(events))
+    print("Embeddings+Regressor:")
+    print(evaluate_embedding(events, event_specific_function, adverbial_specific_function, metric="rmse"))
+
+    # print("GPT+Random Forest:")
+    # print(evaluate_gpt_random_forest(events, event_specific_function, adverbial_specific_function))
+
+    # print("Random Forest:")
+    # print(evaluate_random_forest(events, event_specific_function, adverbial_specific_function))
+
+    # print("Baseline models:")
+    # print(evaluate_classifier(events))
+    # print(evaluate_regression(events))
