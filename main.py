@@ -7,7 +7,7 @@ from src.plot import plot_allPersons_event_adverbials
 from src.predictions import (predict_time_frame_embedding, predict_adverbial_embedding,
                              predict_time_frame_gpt_random_forest, predict_adverbial_gpt_random_forest,
                              predict_time_frame_random_forest, predict_adverbial_random_forest)
-from src.evaluation import evaluate_embedding, evaluate_gpt_random_forest, evaluate_random_forest
+from src.evaluation import evaluate_embedding, evaluate_gpt_random_forest, evaluate_random_forest, evaluate_classifier, evaluate_regression
 from src.simple_models_training import fit_classifier, fit_regression
 from src.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
 
@@ -25,19 +25,19 @@ def event_specific_function(temporal_distance, std):
 events = [
     "tom_wedding_celebration",
     "own_year_abroad",
-    "own_birthday",
-    "own_vacation",
-    "own_rent_payment",
-    "own_shower",
-    "tom_watching_film",
-    "tom_eating_risotto",
-    "tom_reading_book",
-    "tom_dancing_salsa",
-    "tom_storing_wineBottle",
-    "tom_drinking_juice",
-    "tom_chatting_friend",
-    "own_wedding_celebration",
-    "own_wallet_theft"
+    # "own_birthday",
+    # "own_vacation",
+    # "own_rent_payment",
+    # "own_shower",
+    # "tom_watching_film",
+    # "tom_eating_risotto",
+    # "tom_reading_book",
+    # "tom_dancing_salsa",
+    # "tom_storing_wineBottle",
+    # "tom_drinking_juice",
+    # "tom_chatting_friend",
+    # "own_wedding_celebration",
+    # "own_wallet_theft"
 ]
 
 if __name__ == '__main__':
@@ -47,16 +47,16 @@ if __name__ == '__main__':
 
     # simple models
     # fit_classifier(events)
-    fit_regression(events)
+    # fit_regression(events)
 
     # event = "Tom had a meeting"
-    duration = "Minutes"
-    frequency = "Monthly"
+    # duration = "Minutes"
+    # frequency = "Monthly"
     # adverbial = "just"
-    minutes_ago = 144000
+    # minutes_ago = 144000
 
     # print(predict_adverbial_classifier(duration, frequency, minutes_ago))
-    print(predict_adverbial_regression(duration, frequency, minutes_ago))
+    # print(predict_adverbial_regression(duration, frequency, minutes_ago))
 
     # print(predict_time_frame_embedding(event, adverbial))
     # print(predict_adverbial_embedding(event, minutes_ago))
@@ -69,6 +69,8 @@ if __name__ == '__main__':
 
     # plot_allPersons_event_adverbials(events, event_specific_function, adverbial_specific_function)
 
-    # evaluate_embedding(events, event_specific_function, adverbial_specific_function)
-    # evaluate_gpt_random_forest(events, event_specific_function, adverbial_specific_function)
-    # print(evaluate_random_forest(events, event_specific_function, adverbial_specific_function))
+    print(evaluate_embedding(events, event_specific_function, adverbial_specific_function))
+    print(evaluate_gpt_random_forest(events, event_specific_function, adverbial_specific_function))
+    print(evaluate_random_forest(events, event_specific_function, adverbial_specific_function))
+    print(evaluate_classifier(events))
+    print(evaluate_regression(events))

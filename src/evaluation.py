@@ -7,6 +7,9 @@ from typing import Dict, List
 from src.predictions import predict_adverbial_embedding, predict_adverbial_gpt_random_forest, predict_adverbial_random_forest
 from src.train import fit_event_adverbials, fit_event_specific_embeddings, fit_event_specific_random_forest
 
+from src.simple_models_training import fit_classifier, fit_regression
+from src.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
+
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
@@ -88,6 +91,76 @@ def evaluate_model(events, event_specific_function, adverbial_specific_function,
     }
 
 
+def evaluate_baseline_model(events, fit_models_fn, predict_fn, metric='mae'):
+    errors = {}  # model_name -> adverbial -> errors
+    all_errors = {}
+
+    for i, event in enumerate(events):
+        events_without_event = events[:i] + events[i+1:]
+        fit_models_fn(events_without_event)
+
+        # Load ground truth
+        file_path = f"{DATA_DIR}/{event}/cleanedData_minutes.json"
+        with open(file_path, "r", encoding="utf-8") as fh:
+            values_vagueAdverbial = json.load(fh)
+
+        for adverbial in VAGUE_ADVERBIALS:
+            target_values = {k: np.median(v) for k, v in values_vagueAdverbial[adverbial].items()}
+            for minutes_ago, true_value in target_values.items():
+                file_path = f"{DATA_DIR}/{event}/event_properties.json"
+                with open(file_path, "r", encoding="utf-8") as fh:
+                    event_properties = json.load(fh)
+
+                frequency_votes = [d['Frequency'] for d in event_properties if 'Frequency' in d]
+                duration_votes = [d['Duration'] for d in event_properties if 'Duration' in d]
+
+                if 6 in duration_votes:
+                    duration_votes = [
+                        1 if x == 6 else (x + 1 if x != 0 else x)
+                        for x in duration_votes
+                    ]
+
+                median_frequency = frequency_order[int(statistics.median(frequency_votes))]
+                median_duration = duration_order[int(statistics.median(duration_votes))]
+                predictions = predict_fn(median_duration, median_frequency, int(minutes_ago))[adverbial]
+
+                # Case 1: predictions is a dict of models
+                if isinstance(predictions, dict):
+                    for model_name, predicted in predictions.items():
+                        if model_name not in errors:
+                            errors[model_name] = {adv: [] for adv in VAGUE_ADVERBIALS}
+                            all_errors[model_name] = []
+                        error = abs(predicted - true_value)
+                        errors[model_name][adverbial].append(error)
+                        all_errors[model_name].append(error)
+                else:
+                    # Case 2: single prediction (no model name)
+                    model_name = 'default'
+                    if model_name not in errors:
+                        errors[model_name] = {adv: [] for adv in VAGUE_ADVERBIALS}
+                        all_errors[model_name] = []
+                    error = abs(predictions - true_value)
+                    errors[model_name][adverbial].append(error)
+                    all_errors[model_name].append(error)
+
+    # Aggregate errors
+    results = {}
+    for model_name in errors:
+        if metric == 'mae':
+            overall_score = np.mean(all_errors[model_name])
+        elif metric == 'rmse':
+            overall_score = np.sqrt(np.mean(np.square(all_errors[model_name])))
+        else:
+            raise ValueError(f"Unsupported metric: {metric}")
+
+        results[model_name] = {
+            'per_adverbial': {adv: np.mean(errs) for adv, errs in errors[model_name].items()},
+            'overall_score': overall_score
+        }
+
+    return results
+
+
 # === Specific wrappers ===
 
 def evaluate_embedding(events, event_specific_function, adverbial_specific_function, metric='mae'):
@@ -118,6 +191,22 @@ def evaluate_random_forest(events, event_specific_function, adverbial_specific_f
         adverbial_specific_function,
         fit_models_fn=fit_event_specific_random_forest,
         predict_fn=predict_adverbial_random_forest,
+        metric=metric
+    )
+
+def evaluate_classifier(events, metric='mae'):
+    return evaluate_baseline_model(
+        events,
+        fit_models_fn=fit_classifier,
+        predict_fn=predict_adverbial_classifier,
+        metric=metric
+    )
+
+def evaluate_regression(events, metric='mae'):
+    return evaluate_baseline_model(
+        events,
+        fit_models_fn=fit_regression,
+        predict_fn=predict_adverbial_regression,
         metric=metric
     )
 

@@ -66,7 +66,7 @@ def predict_adverbial_regression(duration, frequency, minutes_ago):
 
     for adv in VAGUE_ADVERBIALS:
         # One-hot encode the adverbial
-        adverbial_encoded = ohe.transform([[adv]])
+        adverbial_encoded = ohe.transform(pd.DataFrame([[adv]], columns=['adverbial']))
         # Build DataFrame with numeric columns first, then onehot columns, exactly like during training
         input_df = pd.DataFrame(
             data=np.hstack([
