@@ -76,6 +76,7 @@ def fit_classifier(events) -> GradientBoostingClassifier:
 
     le = LabelEncoder()
     y_encoded = le.fit_transform(y)
+    joblib.dump(le, RESULTS_FILE_PATH / 'label_encoder.pkl')
 
     smote = SMOTE(random_state=42)
     X_train_resampled, y_train_resampled = smote.fit_resample(X, y_encoded)

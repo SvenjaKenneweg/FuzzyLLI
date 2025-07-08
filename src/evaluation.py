@@ -77,18 +77,6 @@ def evaluate_model(events, event_specific_function, adverbial_specific_function,
                 errors[adverbial].append(error)
                 all_errors.append(error)
 
-    # # Evaluation summary
-    # print("\n=== Evaluation Summary ===")
-    # for adverbial, adverbial_errors in errors.items():
-    #     if metric == 'mae':
-    #         score = np.mean(adverbial_errors)
-    #         print(f"{adverbial} - MAE: {score:.4f}")
-    #     elif metric == 'rmse':
-    #         score = np.sqrt(np.mean(np.square(adverbial_errors)))
-    #         print(f"{adverbial} - RMSE: {score:.4f}")
-    #     else:
-    #         raise ValueError(f"Unsupported metric: {metric}. Use 'mae' or 'rmse'.")
-
     if metric == 'mae':
         overall_score = np.mean(all_errors)
     elif metric == 'rmse':
