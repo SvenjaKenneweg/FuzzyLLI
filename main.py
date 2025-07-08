@@ -8,6 +8,7 @@ from src.predictions import (predict_time_frame_embedding, predict_adverbial_emb
                              predict_time_frame_gpt_random_forest, predict_adverbial_gpt_random_forest,
                              predict_time_frame_random_forest, predict_adverbial_random_forest)
 from src.evaluation import evaluate_embedding, evaluate_gpt_random_forest, evaluate_random_forest
+from src.simple_models_training import fit_classifier, fit_regression
 
 
 # ========================
@@ -43,6 +44,10 @@ if __name__ == '__main__':
     # fit_event_specific_embeddings(events)
     # fit_event_specific_random_forest(events)
 
+    # simple models
+    # fit_classifier(events)
+    fit_regression(events)
+
     # event = "Tom had a meeting"
     # duration = "Minutes"
     # frequency = "Monthly"
@@ -62,4 +67,4 @@ if __name__ == '__main__':
 
     # evaluate_embedding(events, event_specific_function, adverbial_specific_function)
     # evaluate_gpt_random_forest(events, event_specific_function, adverbial_specific_function)
-    print(evaluate_random_forest(events, event_specific_function, adverbial_specific_function))
+    # print(evaluate_random_forest(events, event_specific_function, adverbial_specific_function))
