@@ -12,6 +12,12 @@ RESULTS_JSON = RESULTS_FILE_PATH / "event_adverbials.json"
 EMBEDDING_RIDGE_FILE = 'event_embeddings_ridge.pkl'
 RANDOM_FOREST_FILE = 'event_random_forest.pkl'
 EMBEDDING_MODEL = 'paraphrase-MiniLM-L6-v2'
+RESULTS_SIMPLE_FILE_PATH = Path("results/fits/simple_models/")
+GRADIENT_BOOSTING_FILE = 'gradient_boosting_classifier.pkl'
+LABEL_ENCODER_FILE = 'label_encoder.pkl'
+ONE_HOT_ENCODER_FILE = 'onehotencoder.pkl'
+RANDOM_FOREST_REGRESSOR_FILE = 'RandomForestRegressor.pkl'
+XGB_REGRESSOR_FILE = 'XGBRegressor.pkl'
 
 # List of vague adverbials
 VAGUE_ADVERBIALS: List[str] = ["recently", "just", "some time ago", "long time ago"]

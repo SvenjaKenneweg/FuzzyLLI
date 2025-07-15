@@ -36,13 +36,13 @@ if __name__ == '__main__':
     # fit_regression(events)
 
     # event = "Tom had a meeting"
-    # duration = "Minutes"
-    # frequency = "Monthly"
-    # adverbial = "just"
-    # minutes_ago = 144000
-    #
-    # print(predict_adverbial_classifier(duration, frequency, minutes_ago))
-    # print(predict_adverbial_regression(duration, frequency, minutes_ago))
+    duration = "Minutes"
+    frequency = "Monthly"
+    adverbial = "just"
+    minutes_ago = 144000
+
+    print(predict_adverbial_classifier(duration, frequency, minutes_ago))
+    print(predict_adverbial_regression(duration, frequency, minutes_ago))
     #
     # print(predict_time_frame_embedding(event, adverbial))
     # print(predict_adverbial_embedding(event, minutes_ago))
