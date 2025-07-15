@@ -40,10 +40,10 @@ if __name__ == '__main__':
     # frequency = "Monthly"
     # adverbial = "just"
     # minutes_ago = 144000
-
+    #
     # print(predict_adverbial_classifier(duration, frequency, minutes_ago))
     # print(predict_adverbial_regression(duration, frequency, minutes_ago))
-
+    #
     # print(predict_time_frame_embedding(event, adverbial))
     # print(predict_adverbial_embedding(event, minutes_ago))
     #
@@ -53,7 +53,7 @@ if __name__ == '__main__':
     # print(predict_time_frame_random_forest(duration, frequency, adverbial))
     # print(predict_adverbial_random_forest(duration, frequency, minutes_ago))
 
-    plot_all_persons_event_adverbials(events)
+    # plot_all_persons_event_adverbials(events)
 
     # print("Embeddings+Regressor:")
     # print(evaluate_embedding(events, event_specific_function, adverbial_specific_function, metric="rmse"))

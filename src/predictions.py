@@ -5,55 +5,32 @@ import re
 import os
 from openai import OpenAI
 from pathlib import Path
-from typing import Dict, List
-from scipy.special import erfinv, erf
+from typing import Dict
 from joblib import load
 import pandas as pd
-
 from sentence_transformers import SentenceTransformer
+
+from src.config import (event_specific_function,
+                        inverse_event_specific_function,
+                        adverbial_specific_function,
+                        gauss_inverse,
+                        RESULTS_FILE_PATH,
+                        VAGUE_ADVERBIALS,
+                        EMBEDDING_RIDGE_FILE,
+                        RANDOM_FOREST_FILE,
+                        EMBEDDING_MODEL,
+                        FREQUENCY_ORDER,
+                        DURATION_ORDER)
 
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
 
-RESULTS_FILE_PATH = Path("results/fits/")
-
-EMBEDDING_RIDGE_FILE = 'event_embeddings_ridge.pkl'
-RANDOM_FOREST_FILE = 'event_random_forest.pkl'
-
-EMBEDDING_MODEL = 'paraphrase-MiniLM-L6-v2'
-
-VAGUE_ADVERBIALS: List[str] = [
-    "recently",
-    "just",
-    "some time ago",
-    "long time ago",
-]
-
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-
-duration_order = ['Minutes', 'Hours', 'Days', 'Weeks', 'Months', 'Years', 'Decades']
-frequency_order = ['Daily', 'Monthly', 'Yearly', 'Decadal', 'Once in Life']
 
 # ---------------------------------------------------------------------------
 # Persistence helpers
 # ---------------------------------------------------------------------------
-
-def _gauss_inverse(y, mean, std):
-    return mean + std * np.sqrt(-2 * np.log(y))
-
-def _inverse_event_specific_function(y, std):
-    clipped_y = max(-1, min(1, 2 * y - 1))
-    return math.sqrt(2) * std * erfinv(clipped_y)
-
-def _adverbial_specific_function(x, mean, std):
-    # Normalized gaussian
-    return (np.exp(-0.5 * ((x - mean) / std) ** 2))
-
-def _event_specific_function(temporal_distance, std):
-    # Cumulative distribution function of a gaussian distribution
-    return 1/2 * (erf(temporal_distance / (math.sqrt(2) * std))+1)
 
 def _load_packed(path: Path = RESULTS_FILE_PATH / "event_adverbials") -> Dict[str, dict]:
     path = path.with_suffix('.json')
@@ -110,8 +87,8 @@ def predict_time_frame_embedding(event, adverbial, min_prob=0.6, max_prob=1.0):
     log_pred = ridge_model.predict(vecc.reshape(1, -1))[0]
     event_std = int(max(0, np.expm1(log_pred)))
 
-    upper_raw = _inverse_event_specific_function(_gauss_inverse(max_prob, adverbial_mean, adverbial_std), event_std)
-    lower_raw = _inverse_event_specific_function(_gauss_inverse(min_prob, adverbial_mean, adverbial_std), event_std)
+    upper_raw = inverse_event_specific_function(gauss_inverse(max_prob, adverbial_mean, adverbial_std), event_std)
+    lower_raw = inverse_event_specific_function(gauss_inverse(min_prob, adverbial_mean, adverbial_std), event_std)
 
     upper = max(0, _safe_round(upper_raw))
     lower = _safe_round(lower_raw)
@@ -134,7 +111,7 @@ def predict_adverbial_embedding(event, minutes_ago):
         adverbial_mean = params["adverbial_means"][adverbial]
         adverbial_std = params["adverbial_stds"][adverbial]
 
-        prob_adverbial = _adverbial_specific_function(_event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
+        prob_adverbial = adverbial_specific_function(event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
         adverbial_probs[adverbial] = prob_adverbial
 
     return adverbial_probs
@@ -152,13 +129,13 @@ def predict_time_frame_gpt_random_forest(event, adverbial, min_prob=0.6, max_pro
     if missing_keys:
         raise KeyError(f"Missing keys from gpt_result, which is: {gpt_result}")
     event_properties = pd.DataFrame([{
-        "Frequency": frequency_order.index(gpt_result["Frequency"]),
-        "Duration": duration_order.index(gpt_result["Duration"])
+        "Frequency": FREQUENCY_ORDER.index(gpt_result["Frequency"]),
+        "Duration": DURATION_ORDER.index(gpt_result["Duration"])
     }])
     event_std = random_forest.predict(event_properties)[0]
 
-    upper_raw = _inverse_event_specific_function(_gauss_inverse(max_prob, adverbial_mean, adverbial_std), event_std)
-    lower_raw = _inverse_event_specific_function(_gauss_inverse(min_prob, adverbial_mean, adverbial_std), event_std)
+    upper_raw = inverse_event_specific_function(gauss_inverse(max_prob, adverbial_mean, adverbial_std), event_std)
+    lower_raw = inverse_event_specific_function(gauss_inverse(min_prob, adverbial_mean, adverbial_std), event_std)
 
     upper = max(0, _safe_round(upper_raw))
     lower = _safe_round(lower_raw)
@@ -184,8 +161,8 @@ def predict_adverbial_gpt_random_forest(event, minutes_ago,max_retries=10):
         duration = gpt_result.get("Duration")
         frequency = gpt_result.get("Frequency")
 
-        freq_index = get_index(frequency, frequency_order)
-        dur_index = get_index(duration, duration_order)
+        freq_index = get_index(frequency, FREQUENCY_ORDER)
+        dur_index = get_index(duration, DURATION_ORDER)
 
         if freq_index is not None and dur_index is not None:
             event_properties = pd.DataFrame([{
@@ -207,7 +184,7 @@ def predict_adverbial_gpt_random_forest(event, minutes_ago,max_retries=10):
         adverbial_mean = params["adverbial_means"][adverbial]
         adverbial_std = params["adverbial_stds"][adverbial]
 
-        prob_adverbial = _adverbial_specific_function(_event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
+        prob_adverbial = adverbial_specific_function(event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
         adverbial_probs[adverbial] = prob_adverbial
 
     return adverbial_probs
@@ -221,13 +198,13 @@ def predict_time_frame_random_forest(duration, frequency, adverbial, min_prob=0.
 
     random_forest = load(RESULTS_FILE_PATH / RANDOM_FOREST_FILE)
     event_properties = pd.DataFrame([{
-        "Frequency": frequency_order.index(frequency),
-        "Duration": duration_order.index(duration)
+        "Frequency": FREQUENCY_ORDER.index(frequency),
+        "Duration": DURATION_ORDER.index(duration)
     }])
     event_std = random_forest.predict(event_properties)[0]
 
-    upper_raw = _inverse_event_specific_function(_gauss_inverse(max_prob, adverbial_mean, adverbial_std), event_std)
-    lower_raw = _inverse_event_specific_function(_gauss_inverse(min_prob, adverbial_mean, adverbial_std), event_std)
+    upper_raw = inverse_event_specific_function(gauss_inverse(max_prob, adverbial_mean, adverbial_std), event_std)
+    lower_raw = inverse_event_specific_function(gauss_inverse(min_prob, adverbial_mean, adverbial_std), event_std)
 
     upper = max(0, _safe_round(upper_raw))
     lower = _safe_round(lower_raw)
@@ -240,8 +217,8 @@ def predict_adverbial_random_forest(duration, frequency, minutes_ago):
 
     random_forest = load(RESULTS_FILE_PATH / RANDOM_FOREST_FILE)
     event_properties = pd.DataFrame([{
-        "Frequency": frequency_order.index(frequency),
-        "Duration": duration_order.index(duration)
+        "Frequency": FREQUENCY_ORDER.index(frequency),
+        "Duration": DURATION_ORDER.index(duration)
     }])
     event_std = random_forest.predict(event_properties)[0]
 
@@ -250,7 +227,7 @@ def predict_adverbial_random_forest(duration, frequency, minutes_ago):
         adverbial_mean = params["adverbial_means"][adverbial]
         adverbial_std = params["adverbial_stds"][adverbial]
 
-        prob_adverbial = _adverbial_specific_function(_event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
+        prob_adverbial = adverbial_specific_function(event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
         adverbial_probs[adverbial] = prob_adverbial
 
     return adverbial_probs
