@@ -13,10 +13,9 @@ import pandas as pd
 from scipy.optimize import least_squares
 from sklearn.linear_model import Ridge
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OrdinalEncoder
 from sentence_transformers import SentenceTransformer
+
+from src.config import RESULTS_FILE_PATH, DATA_DIR, event_specific_function, adverbial_specific_function
 
 
 # ========================
@@ -43,13 +42,6 @@ adverbials_initial_stds: Dict[str, float] = {
 fitting_bounds_events = ([1e-6], [np.inf])
 fitting_bounds_adverbials_mean = ([0.4], [1.0])
 fitting_bounds_adverbials_std = ([1e-6], [1.0])
-
-# ---------------------------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------------------------
-
-RESULTS_FILE_PATH = Path("results/fits/")
-DATA_DIR = Path("data/with_event_properties")
 
 # ---------------------------------------------------------------------------
 # Core optimisation helper
@@ -198,9 +190,7 @@ def save_optimized_params(
 
 # Fit the whole FuzzyLLI (event specific and adverbial specific function)
 def fit_event_adverbials(
-    events_to_fit_naming: List[str],
-    event_specific_function,
-    adverbial_specific_function,
+    events_to_fit_naming: List[str]
 ) -> dict:
     """Fit all specified events & return labelled parameter dictionary."""
     initial_std_relation: List[float] = []

@@ -27,22 +27,22 @@ events = [
 ]
 
 if __name__ == '__main__':
-    # fit_event_adverbials(events, event_specific_function, adverbial_specific_function)
-    # fit_event_specific_embeddings(events)
-    # fit_event_specific_random_forest(events)
+    fit_event_adverbials(events)
+    fit_event_specific_embeddings(events)
+    fit_event_specific_random_forest(events)
 
-    # simple models
+    # # simple models
     # fit_classifier(events)
     # fit_regression(events)
 
     # event = "Tom had a meeting"
-    duration = "Minutes"
-    frequency = "Monthly"
-    adverbial = "just"
-    minutes_ago = 144000
-
-    print(predict_adverbial_classifier(duration, frequency, minutes_ago))
-    print(predict_adverbial_regression(duration, frequency, minutes_ago))
+    # duration = "Minutes"
+    # frequency = "Monthly"
+    # adverbial = "just"
+    # minutes_ago = 144000
+    #
+    # print(predict_adverbial_classifier(duration, frequency, minutes_ago))
+    # print(predict_adverbial_regression(duration, frequency, minutes_ago))
     #
     # print(predict_time_frame_embedding(event, adverbial))
     # print(predict_adverbial_embedding(event, minutes_ago))
