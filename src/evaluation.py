@@ -59,14 +59,13 @@ def calculate_error(predicted: float, true: float) -> float:
 # Evaluation Functions
 # ---------------------------------------------------------------------------
 
-def evaluate_model(events, event_specific_fn, adverbial_specific_fn,
-                   fit_models_fn, predict_fn, metric='mae'):
+def evaluate_model(events, fit_models_fn, predict_fn, metric='mae'):
     errors = {adv: [] for adv in VAGUE_ADVERBIALS}
     all_errors = []
 
     for i, event in enumerate(events):
         other_events = events[:i] + events[i+1:]
-        fit_event_adverbials(other_events, event_specific_fn, adverbial_specific_fn)
+        fit_event_adverbials(other_events)
         fit_models_fn(other_events)
 
         cleaned_data = get_cleaned_data(event)
@@ -156,28 +155,16 @@ def evaluate_baseline_model(events, fit_models_fn, predict_fn, metric='mae'):
 # ---------------------------------------------------------------------------
 
 def evaluate_embedding(events, metric='mae'):
-    return evaluate_model(events, event_specific_function, adverbial_specific_function,
-                          fit_event_specific_embeddings,
-                          predict_adverbial_embedding, metric)
-
+    return evaluate_model(events, fit_event_specific_embeddings, predict_adverbial_embedding, metric)
 
 def evaluate_gpt_random_forest(events, metric='mae'):
-    return evaluate_model(events, event_specific_function, adverbial_specific_function,
-                          fit_event_specific_random_forest,
-                          predict_adverbial_gpt_random_forest, metric)
-
+    return evaluate_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest, metric)
 
 def evaluate_random_forest(events, metric='mae'):
-    return evaluate_model(events, event_specific_function, adverbial_specific_function,
-                          fit_event_specific_random_forest,
-                          predict_adverbial_random_forest, metric)
-
+    return evaluate_model(events, fit_event_specific_random_forest, predict_adverbial_random_forest, metric)
 
 def evaluate_classifier(events, metric='mae'):
-    return evaluate_baseline_model(events, fit_classifier,
-                                   predict_adverbial_classifier, metric)
-
+    return evaluate_baseline_model(events, fit_classifier, predict_adverbial_classifier, metric)
 
 def evaluate_regression(events, metric='mae'):
-    return evaluate_baseline_model(events, fit_regression,
-                                   predict_adverbial_regression, metric)
+    return evaluate_baseline_model(events, fit_regression, predict_adverbial_regression, metric)
