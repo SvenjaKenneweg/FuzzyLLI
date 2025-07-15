@@ -12,27 +12,17 @@ import inspect
 import json
 from pathlib import Path
 from typing import Callable, Dict, List
-
 import matplotlib.pyplot as plt
 import numpy as np
+
+from src.config import VAGUE_ADVERBIALS, PLOT_FILE_PATH, RESULTS_JSON, DATA_DIR, event_specific_function, adverbial_specific_function
 
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-
-VAGUE_ADVERBIALS: List[str] = [
-    "recently",
-    "just",
-    "some time ago",
-    "long time ago",
-]
-
-RESULTS_JSON = Path("results/fits/event_adverbials.json")
-DATA_DIR = Path("data/with_event_properties")
-PLOT_DIR = Path("results/plots")
-PLOT_DIR.mkdir(parents=True, exist_ok=True)
-
+PLOT_FILE_PATH.mkdir(parents=True, exist_ok=True)
 Y_LIMS = (0.3, 1.02)  # <- fixed y‑axis for both sub‑plots
+
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -75,10 +65,8 @@ def _select_main_event(packed: Dict[str, dict], candidates: List[str]) -> str:
 # Public API
 # ---------------------------------------------------------------------------
 
-def plot_allPersons_event_adverbials(
-    events_to_plot: List[str],
-    event_specific_function: Callable[..., np.ndarray],
-    adverbial_specific_function: Callable[..., np.ndarray],
+def plot_all_persons_event_adverbials(
+    events_to_plot: List[str]
 ) -> None:
     """Plot one figure: main event = highest σ among *events_to_plot*.
 
@@ -87,8 +75,6 @@ def plot_allPersons_event_adverbials(
     events_to_plot
         List of event names to consider & overlay.  The main plot is chosen
         **only** from this list.
-    event_specific_function, adverbial_specific_function
-        Callable signatures must match those used during fitting.
     """
 
     packed = _load_packed()
@@ -155,5 +141,5 @@ def plot_allPersons_event_adverbials(
 
     plt.tight_layout(rect=[0, 0, 1, 0.99])
 
-    outfile = PLOT_DIR / "highestStd_allAdverbials.png"
+    outfile = PLOT_FILE_PATH / "highestStd_allAdverbials.png"
     fig.savefig(outfile, dpi=300)

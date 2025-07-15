@@ -1,9 +1,5 @@
-import numpy as np
-import math
-from scipy.special import erf
-
 from src.train import fit_event_adverbials, fit_event_specific_embeddings, fit_event_specific_random_forest
-from src.plot import plot_allPersons_event_adverbials
+from src.plot import plot_all_persons_event_adverbials
 from src.predictions import (predict_time_frame_embedding, predict_adverbial_embedding,
                              predict_time_frame_gpt_random_forest, predict_adverbial_gpt_random_forest,
                              predict_time_frame_random_forest, predict_adverbial_random_forest)
@@ -11,16 +7,6 @@ from src.evaluation import evaluate_embedding, evaluate_gpt_random_forest, evalu
 from src.simple_models_training import fit_classifier, fit_regression
 from src.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
 
-
-# ========================
-# Fitting Functions
-# ========================
-def adverbial_specific_function(x, mean, std):
-    # Normalized gaussian
-    return (np.exp(-0.5 * ((x - mean) / std) ** 2))
-def event_specific_function(temporal_distance, std):
-    # Cumulative distribution function of a gaussian distribution
-    return 1/2 * (erf(temporal_distance / (math.sqrt(2) * std))+1)
 
 events = [
     "tom_wedding_celebration",
@@ -67,7 +53,7 @@ if __name__ == '__main__':
     # print(predict_time_frame_random_forest(duration, frequency, adverbial))
     # print(predict_adverbial_random_forest(duration, frequency, minutes_ago))
 
-    # plot_allPersons_event_adverbials(events, event_specific_function, adverbial_specific_function)
+    plot_all_persons_event_adverbials(events)
 
     # print("Embeddings+Regressor:")
     # print(evaluate_embedding(events, event_specific_function, adverbial_specific_function, metric="rmse"))
@@ -75,8 +61,8 @@ if __name__ == '__main__':
     # print("GPT+Random Forest:")
     # print(evaluate_gpt_random_forest(events, event_specific_function, adverbial_specific_function))
 
-    print("Random Forest:")
-    print(evaluate_random_forest(events, event_specific_function, adverbial_specific_function))
+    # print("Random Forest:")
+    # print(evaluate_random_forest(events, event_specific_function, adverbial_specific_function))
 
     # print("Baseline models:")
     # print(evaluate_classifier(events))
