@@ -3,19 +3,17 @@ import statistics
 import numpy as np
 import pandas as pd
 import joblib
-from pathlib import Path
 from imblearn.over_sampling import SMOTE
-from sklearn.model_selection import train_test_split
 from xgboost import XGBRegressor
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestRegressor
 
-# ---------------------------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------------------------
-DATA_DIR = Path("data/with_event_properties")
-RESULTS_FILE_PATH = Path("results/fits/simple_models/")
+from src.config import DATA_DIR,RESULTS_SIMPLE_FILE_PATH
 
+
+# ---------------------------------------------------------------------------
+# Persistence helpers
+# ---------------------------------------------------------------------------
 
 def load_data(events, classification = True) -> pd.DataFrame:
     records = []
@@ -61,8 +59,6 @@ def load_data(events, classification = True) -> pd.DataFrame:
             continue
     return pd.DataFrame(records)
 
-
-
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
@@ -76,14 +72,14 @@ def fit_classifier(events) -> GradientBoostingClassifier:
 
     le = LabelEncoder()
     y_encoded = le.fit_transform(y)
-    joblib.dump(le, RESULTS_FILE_PATH / 'label_encoder.pkl')
+    joblib.dump(le, RESULTS_SIMPLE_FILE_PATH / 'label_encoder.pkl')
 
     smote = SMOTE(random_state=42)
     X_train_resampled, y_train_resampled = smote.fit_resample(X, y_encoded)
 
     model = GradientBoostingClassifier(n_estimators=100, random_state=42)
     model.fit(X_train_resampled, y_train_resampled)
-    joblib.dump(model, RESULTS_FILE_PATH / 'gradient_boosting_classifier.pkl')
+    joblib.dump(model, RESULTS_SIMPLE_FILE_PATH / 'gradient_boosting_classifier.pkl')
 
     return model
 
@@ -107,5 +103,5 @@ def fit_regression(events) -> None:
 
     for name, model in models.items():
         model.fit(X, y)
-        joblib.dump(model, RESULTS_FILE_PATH / f"{name}.pkl")
-    joblib.dump(ohe, RESULTS_FILE_PATH / "onehotencoder.pkl")
+        joblib.dump(model, RESULTS_SIMPLE_FILE_PATH / f"{name}.pkl")
+    joblib.dump(ohe, RESULTS_SIMPLE_FILE_PATH / "onehotencoder.pkl")
