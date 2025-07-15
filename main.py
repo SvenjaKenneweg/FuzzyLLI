@@ -69,14 +69,14 @@ if __name__ == '__main__':
 
     # plot_allPersons_event_adverbials(events, event_specific_function, adverbial_specific_function)
 
-    print("Embeddings+Regressor:")
-    print(evaluate_embedding(events, event_specific_function, adverbial_specific_function, metric="rmse"))
+    # print("Embeddings+Regressor:")
+    # print(evaluate_embedding(events, event_specific_function, adverbial_specific_function, metric="rmse"))
 
     # print("GPT+Random Forest:")
     # print(evaluate_gpt_random_forest(events, event_specific_function, adverbial_specific_function))
 
-    # print("Random Forest:")
-    # print(evaluate_random_forest(events, event_specific_function, adverbial_specific_function))
+    print("Random Forest:")
+    print(evaluate_random_forest(events, event_specific_function, adverbial_specific_function))
 
     # print("Baseline models:")
     # print(evaluate_classifier(events))
