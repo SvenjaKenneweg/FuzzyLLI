@@ -21,7 +21,12 @@ from src.simple_models_predictions import (
     predict_adverbial_classifier,
     predict_adverbial_regression
 )
-from src.config import VAGUE_ADVERBIALS, DURATION_ORDER, FREQUENCY_ORDER, DATA_DIR
+from src.config import (VAGUE_ADVERBIALS,
+                        DURATION_ORDER,
+                        FREQUENCY_ORDER,
+                        DATA_DIR,
+                        event_specific_function,
+                        adverbial_specific_function)
 
 
 # ---------------------------------------------------------------------------
@@ -150,20 +155,20 @@ def evaluate_baseline_model(events, fit_models_fn, predict_fn, metric='mae'):
 # Model-specific Evaluators
 # ---------------------------------------------------------------------------
 
-def evaluate_embedding(events, event_fn, adverbial_fn, metric='mae'):
-    return evaluate_model(events, event_fn, adverbial_fn,
+def evaluate_embedding(events, metric='mae'):
+    return evaluate_model(events, event_specific_function, adverbial_specific_function,
                           fit_event_specific_embeddings,
                           predict_adverbial_embedding, metric)
 
 
-def evaluate_gpt_random_forest(events, event_fn, adverbial_fn, metric='mae'):
-    return evaluate_model(events, event_fn, adverbial_fn,
+def evaluate_gpt_random_forest(events, metric='mae'):
+    return evaluate_model(events, event_specific_function, adverbial_specific_function,
                           fit_event_specific_random_forest,
                           predict_adverbial_gpt_random_forest, metric)
 
 
-def evaluate_random_forest(events, event_fn, adverbial_fn, metric='mae'):
-    return evaluate_model(events, event_fn, adverbial_fn,
+def evaluate_random_forest(events, metric='mae'):
+    return evaluate_model(events, event_specific_function, adverbial_specific_function,
                           fit_event_specific_random_forest,
                           predict_adverbial_random_forest, metric)
 
