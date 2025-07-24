@@ -5,7 +5,8 @@ from src.predictions import (predict_time_frame_embedding, predict_adverbial_emb
                              predict_time_frame_gpt_random_forest, predict_adverbial_gpt_random_forest,
                              predict_time_frame_random_forest, predict_adverbial_random_forest)
 from src.evaluation import (evaluate_embedding, evaluate_gpt_random_forest, evaluate_random_forest,
-                            evaluate_classifier, evaluate_regression)
+                            evaluate_classifier, evaluate_regression,
+                            evaluate_gpt)
 from src.simple_models_training import fit_classifier, fit_regression
 from src.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
 
@@ -54,18 +55,21 @@ def evaluate_models(events, metric='rmse'):
     """
     Evaluate the models using different metrics.
     """
-    print("\nEvaluating Embeddings + Regressor:")
-    print(evaluate_embedding(events, metric=metric))
+    # print("\nEvaluating Embeddings + Regressor:")
+    # print(evaluate_embedding(events, metric=metric))
+    #
+    # print("\nEvaluating GPT + Random Forest:")
+    # print(evaluate_gpt_random_forest(events, metric=metric))
+    #
+    # print("\nEvaluating Random Forest:")
+    # print(evaluate_random_forest(events, metric=metric))
+    #
+    # print("\nEvaluating Baseline Models (Classifier, Regression):")
+    # print(evaluate_classifier(events, metric=metric))
+    # print(evaluate_regression(events, metric=metric))
 
-    print("\nEvaluating GPT + Random Forest:")
-    print(evaluate_gpt_random_forest(events, metric=metric))
-
-    print("\nEvaluating Random Forest:")
-    print(evaluate_random_forest(events, metric=metric))
-
-    print("\nEvaluating Baseline Models (Classifier, Regression):")
-    print(evaluate_classifier(events, metric=metric))
-    print(evaluate_regression(events, metric=metric))
+    print("\n Evaluating GPT:")
+    print(evaluate_gpt(events, metric=metric))
 
 
 def plot_results(events):
@@ -84,13 +88,17 @@ def main():
         "tom_chatting_friend", "own_wedding_celebration", "own_wallet_theft"
     ]
 
+    events = [
+        "own_birthday", "own_vacation"
+    ]
+
     event_details = ("Tom had a meeting", "Minutes", "Monthly", "just", 144000)
 
     # Run the steps sequentially
-    train_models(events) # Trains FuzzyLLI in all variants and the baseline models
-    make_predictions(event_details) #Predicts minutes ago or the event and the best fitting adverbials
+    # train_models(events) # Trains FuzzyLLI in all variants and the baseline models
+    # make_predictions(event_details) #Predicts minutes ago or the event and the best fitting adverbials
     evaluate_models(events, metric='mae') # Evaluated FuzzyLLI and baseline models via leaving one out. Possible metrics: mae and rmse
-    plot_results(events) # Plots FuzzyLLI
+    # plot_results(events) # Plots FuzzyLLI
 
 if __name__ == '__main__':
     main()

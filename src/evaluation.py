@@ -2,6 +2,9 @@ import json
 import statistics
 from pathlib import Path
 from typing import List
+import openai
+import os
+from openai import OpenAI
 
 import numpy as np
 from sklearn.metrics import mean_squared_error, mean_absolute_error
@@ -22,6 +25,7 @@ from src.simple_models_predictions import (
     predict_adverbial_regression
 )
 from src.config import (VAGUE_ADVERBIALS,
+                        RESULTS_FILE_PATH,
                         DURATION_ORDER,
                         FREQUENCY_ORDER,
                         DATA_DIR,
@@ -100,7 +104,7 @@ def evaluate_model(events, fit_models_fn, predict_fn, metric='mae'):
 
 
 def evaluate_baseline_model(events, fit_models_fn, predict_fn, metric='mae'):
-    errors = {}
+    errors = {adv: [] for adv in VAGUE_ADVERBIALS}
     all_errors = {}
 
     for i, event in enumerate(events):
@@ -150,6 +154,49 @@ def evaluate_baseline_model(events, fit_models_fn, predict_fn, metric='mae'):
     return results
 
 
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+def gpt_chat_answer(model_engine, instructions, prompt):
+    messages = [
+        {"role": "system", "content": str(instructions)},
+        {"role": "user", "content": str(prompt)}
+    ]
+    completion = client.chat.completions.create(
+        model=model_engine,
+        messages=messages,
+        temperature=0
+    )
+    return completion.choices[0].message.content.strip()
+
+
+def predict_gpt(event_name, adverb, minutes_ago, model_engine="gpt-4-1106-preview"):
+    # System instructions (guidance on how GPT should behave)
+    instructions = """
+    You are a fuzzy logic interpreter that assigns numerical membership values (ranging from 0.0 to 1.0) to vague, time-related adverbials (e.g., "recently", "some time ago") 
+    based on how long ago an event occurred.
+
+    Each event is represented by a machine-readable identifier in the format `person_event_type` (e.g., `tom_wedding_celebration`).
+
+    Your task is to interpret how well a given adverbial applies to the timing of an event using fuzzy logic principles.
+    """
+
+    # Build user prompt
+    prompt = f"""
+    Give the membership value for:
+    Event: {event_name}
+    Adverbial: {adverb}
+    Minutes ago the event happened: {minutes_ago}
+    
+    Respond ONLY with a single float value mentioning the membership value.
+    """
+    output = gpt_chat_answer(model_engine, instructions, prompt)
+
+    # Try to extract the float from GPT output
+    try:
+        value = float(output.strip().split()[-1])
+    except ValueError:
+        raise ValueError(f"Unexpected GPT response")
+
+    return value
 # ---------------------------------------------------------------------------
 # Model-specific Evaluators
 # ---------------------------------------------------------------------------
@@ -168,3 +215,26 @@ def evaluate_classifier(events, metric='mae'):
 
 def evaluate_regression(events, metric='mae'):
     return evaluate_baseline_model(events, fit_regression, predict_adverbial_regression, metric)
+
+
+
+def evaluate_gpt(events, metric='mae'):
+    errors = {adv: [] for adv in VAGUE_ADVERBIALS}
+    all_errors = []
+
+    for event in events:
+        cleaned_data = get_cleaned_data(event)
+        for adv in VAGUE_ADVERBIALS:
+            # Predict and calculate error
+            targets = {m: np.median(vals) for m, vals in cleaned_data[adv].items()}
+            for minutes_ago, true_value in targets.items():
+                prediction = predict_gpt(event, adv, minutes_ago)
+                err = calculate_error(prediction, true_value)
+                errors[adv].append(err)
+                all_errors.append(err)
+
+    overall = np.mean(all_errors) if metric == 'mae' else np.sqrt(np.mean(np.square(all_errors)))
+    return {
+        'per_adverbial': {adv: np.mean(errs) for adv, errs in errors.items()},
+        'overall_score': overall
+    }
