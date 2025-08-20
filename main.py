@@ -6,6 +6,7 @@ from src.predictions import (predict_time_frame_embedding, predict_adverbial_emb
                              predict_time_frame_random_forest, predict_adverbial_random_forest)
 from src.evaluation import (evaluate_embedding, evaluate_gpt_random_forest, evaluate_random_forest,
                             evaluate_classifier, evaluate_regression,
+                            evaluate_advanced_classifier, evaluate_advanced_regression,
                             evaluate_gpt)
 from src.simple_models_training import fit_classifier, fit_regression
 from src.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
@@ -15,7 +16,7 @@ import sys
 # Open a file in write mode
 log_file = open('output.log', 'w')
 # Redirect print statements to the file
-sys.stdout = log_file
+# sys.stdout = log_file
 
 
 def train_models(events):
@@ -55,21 +56,29 @@ def evaluate_models(events, metric='rmse'):
     """
     Evaluate the models using different metrics.
     """
-    # print("\nEvaluating Embeddings + Regressor:")
-    # print(evaluate_embedding(events, metric=metric))
-    #
-    # print("\nEvaluating GPT + Random Forest:")
-    # print(evaluate_gpt_random_forest(events, metric=metric))
-    #
+    print("\nEvaluating Embeddings + Regressor:")
+    print(evaluate_embedding(events, metric=metric))
+
+    print("\nEvaluating GPT + Random Forest:")
+    print(evaluate_gpt_random_forest(events, metric=metric))
+
     print("\nEvaluating Random Forest:")
     print(evaluate_random_forest(events, metric=metric))
-    #
-    # print("\nEvaluating Baseline Models (Classifier, Regression):")
-    # print(evaluate_classifier(events, metric=metric))
-    # print(evaluate_regression(events, metric=metric))
 
-    # print("\n Evaluating GPT:")
-    # print(evaluate_gpt(events, metric=metric))
+    print("\nEvaluating Baseline Models (Classifier, Regression):")
+    print(evaluate_classifier(events, metric=metric))
+    print(evaluate_regression(events, metric=metric))
+
+    print("\n Evaluating GPT:")
+    print(evaluate_gpt(events, metric=metric))
+
+def evaluate_advanced_models(events):
+    """
+    Evaluate the models by comparing the predicted labels
+    """
+    print("\nEvaluating Baseline Models (Classifier, Regression):")
+    print(evaluate_advanced_classifier(events))
+    print(evaluate_advanced_regression(events))
 
 
 def plot_results(events):
@@ -93,7 +102,8 @@ def main():
     # Run the steps sequentially
     # train_models(events) # Trains FuzzyLLI in all variants and the baseline models
     # make_predictions(event_details) #Predicts minutes ago or the event and the best fitting adverbials
-    evaluate_models(events, metric='rmse') # Evaluated FuzzyLLI and baseline models via leaving one out. Possible metrics: mae and rmse
+    # evaluate_models(events, metric='rmse') # Evaluated FuzzyLLI and baseline models via leaving one out. Possible metrics: mae and rmse
+    evaluate_advanced_models(events)
     # plot_results(events) # Plots FuzzyLLI
 
 if __name__ == '__main__':
