@@ -104,7 +104,7 @@ def evaluate_model(events, fit_models_fn, predict_fn, metric='mae'):
 
 
 def evaluate_baseline_model(events, fit_models_fn, predict_fn, metric='mae'):
-    errors = {adv: [] for adv in VAGUE_ADVERBIALS}
+    errors = {}
     all_errors = {}
 
     for i, event in enumerate(events):
@@ -125,30 +125,30 @@ def evaluate_baseline_model(events, fit_models_fn, predict_fn, metric='mae'):
 
         for adv in VAGUE_ADVERBIALS:
             targets = {k: np.median(v) for k, v in cleaned_data[adv].items()}
+            if adv not in errors:
+                errors.setdefault(adv, {})
+
             for minutes_ago, true_value in targets.items():
                 predictions = predict_fn(dur, freq, int(minutes_ago))[adv]
 
+                # If prediction is a dict (multiple models)
                 if isinstance(predictions, dict):
-                    for model, pred in predictions.items():
-                        errors.setdefault(model, {a: [] for a in VAGUE_ADVERBIALS})
-                        all_errors.setdefault(model, [])
-                        err = calculate_error(pred, true_value)
-                        errors[model][adv].append(err)
-                        all_errors[model].append(err)
+                    for model_name, pred_value in predictions.items():
+                        errors[adv].setdefault(model_name, []).append(calculate_error(pred_value, true_value))
+                        all_errors.setdefault(model_name, []).append(calculate_error(pred_value, true_value))
                 else:
-                    model = 'default'
-                    errors.setdefault(model, {a: [] for a in VAGUE_ADVERBIALS})
-                    all_errors.setdefault(model, [])
-                    err = calculate_error(predictions, true_value)
-                    errors[model][adv].append(err)
-                    all_errors[model].append(err)
+                    # Single prediction (default model)
+                    model_name = 'baseline'
+                    errors[adv].setdefault(model_name, []).append(calculate_error(predictions, true_value))
+                    all_errors.setdefault(model_name, []).append(calculate_error(predictions, true_value))
 
+    # Compute results
     results = {}
-    for model, errs in errors.items():
-        overall = np.mean(all_errors[model]) if metric == 'mae' else np.sqrt(np.mean(np.square(all_errors[model])))
-        results[model] = {
-            'per_adverbial': {adv: np.mean(errs[adv]) for adv in VAGUE_ADVERBIALS},
-            'overall_score': overall
+    for model_name, model_errors in all_errors.items():
+        results[model_name] = {
+            'per_adverbial': {adv: np.mean(errors[adv][model_name]) for adv in VAGUE_ADVERBIALS},
+            'overall_score': np.mean(model_errors) if metric == 'mae' else np.sqrt(
+                np.mean(np.square(model_errors)))
         }
 
     return results
