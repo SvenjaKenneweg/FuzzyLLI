@@ -7,7 +7,12 @@ import os
 from openai import OpenAI
 
 import numpy as np
-from sklearn.metrics import mean_squared_error, mean_absolute_error
+from sklearn.preprocessing import MultiLabelBinarizer
+from sklearn.metrics import (
+    mean_squared_error, mean_absolute_error,
+    accuracy_score, precision_score, recall_score, f1_score,
+    hamming_loss, jaccard_score
+)
 
 from src.predictions import (
     predict_adverbial_embedding,
@@ -102,6 +107,75 @@ def evaluate_model(events, fit_models_fn, predict_fn, metric='mae'):
         'overall_score': overall
     }
 
+def evaluate_advanced_model(events, fit_models_fn, predict_fn):
+    y_true_list = []  # ground-truth label sets per sample
+    y_pred_list = []  # predicted label sets per sample
+
+    for i, event in enumerate(events):
+        other_events = events[:i] + events[i+1:]
+        fit_event_adverbials(other_events)
+        fit_models_fn(other_events)
+
+        cleaned_data = get_cleaned_data(event)
+
+        # --- Step 1: Gather all possible numeric keys ---
+        overall_targets = {adv: {k: float(np.median(v)) for k, v in cleaned_data[adv].items()} for adv in
+                           VAGUE_ADVERBIALS}
+        all_keys = sorted({int(k) for adv in overall_targets.values() for k in adv.keys()})
+
+        # --- Step 2: Function to get value for a given key, using nearest if missing ---
+        def get_value_for_key(adv_dict, target):
+            numeric_keys = sorted(int(k) for k in adv_dict.keys())
+            if str(target) in adv_dict:
+                return adv_dict[str(target)]
+            nearest = min(numeric_keys, key=lambda x: abs(x - target))
+            return adv_dict[str(nearest)]
+
+        # --- Step 3: Build inverted dict ---
+        best_adverbials = {}
+        for key in all_keys:
+            values = {adv: get_value_for_key(adv_dict, key) for adv, adv_dict in overall_targets.items()}
+            max_val = max(values.values())
+            best_adverbials[key] = [adv for adv, val in values.items() if val == max_val]
+
+        # --- Collect predictions vs truth for metrics ---
+        for minutes_ago, adverbials in best_adverbials.items():
+            if predict_fn == predict_adverbial_random_forest:
+                props = get_event_properties(event)
+                freq_votes = [p['Frequency'] for p in props if 'Frequency' in p]
+                dur_votes = [p['Duration'] for p in props if 'Duration' in p]
+
+                if 6 in dur_votes:
+                    dur_votes = adjust_duration_votes(dur_votes)
+
+                freq = FREQUENCY_ORDER[int(statistics.median(freq_votes))]
+                dur = DURATION_ORDER[int(statistics.median(dur_votes))]
+                predictions = predict_fn(dur, freq, int(minutes_ago))
+            else:
+                predictions = predict_fn(event, int(minutes_ago))
+
+            best_predicted_adverbials = [adv for adv, val in predictions.items() if val == max(predictions.values())]
+            y_true_list.append(adverbials)
+            y_pred_list.append(best_predicted_adverbials)
+
+    # ==== Metrics ====
+    # Binarize over the union of all observed labels
+    mlb = MultiLabelBinarizer()
+    mlb.fit(y_true_list + y_pred_list)
+    y_true_bin = mlb.transform(y_true_list)
+    y_pred_bin = mlb.transform(y_pred_list)
+
+    results = {
+        "accuracy": accuracy_score(y_true_bin, y_pred_bin),
+        "precision (sample)": precision_score(y_true_bin, y_pred_bin, average="samples", zero_division=0),
+        "recall (sample)": recall_score(y_true_bin, y_pred_bin, average="samples", zero_division=0),
+        "f1 (sample)": f1_score(y_true_bin, y_pred_bin, average="samples", zero_division=0),
+        "hamming_loss": hamming_loss(y_true_bin, y_pred_bin),
+        "jaccard (sample)": jaccard_score(y_true_bin, y_pred_bin, average="samples"),
+    }
+    return results
+
+
 
 def evaluate_baseline_model(events, fit_models_fn, predict_fn, metric='mae'):
     errors = {}
@@ -153,13 +227,6 @@ def evaluate_baseline_model(events, fit_models_fn, predict_fn, metric='mae'):
         }
 
     return results
-
-
-from sklearn.preprocessing import MultiLabelBinarizer
-from sklearn.metrics import (
-    accuracy_score, precision_score, recall_score, f1_score,
-    hamming_loss, jaccard_score
-)
 
 def evaluate_advanced_baseline_model(events, fit_models_fn, predict_fn, model_to_predict=None):
     y_true_list = []  # ground-truth label sets per sample
@@ -282,11 +349,20 @@ def predict_gpt(event_name, adverb, minutes_ago, model_engine="gpt-4-1106-previe
 def evaluate_embedding(events, metric='mae'):
     return evaluate_model(events, fit_event_specific_embeddings, predict_adverbial_embedding, metric)
 
+def evaluate_advanced_embedding(events):
+    return evaluate_advanced_model(events, fit_event_specific_embeddings, predict_adverbial_embedding)
+
 def evaluate_gpt_random_forest(events, metric='mae'):
     return evaluate_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest, metric)
 
+def evaluate_advanced_gpt_random_forest(events):
+    return evaluate_advanced_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest)
+
 def evaluate_random_forest(events, metric='mae'):
     return evaluate_model(events, fit_event_specific_random_forest, predict_adverbial_random_forest, metric)
+
+def evaluate_advanced_random_forest(events):
+    return evaluate_advanced_model(events, fit_event_specific_random_forest, predict_adverbial_random_forest)
 
 def evaluate_classifier(events, metric='mae'):
     return evaluate_baseline_model(events, fit_classifier, predict_adverbial_classifier, metric)

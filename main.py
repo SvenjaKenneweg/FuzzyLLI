@@ -7,6 +7,7 @@ from src.predictions import (predict_time_frame_embedding, predict_adverbial_emb
 from src.evaluation import (evaluate_embedding, evaluate_gpt_random_forest, evaluate_random_forest,
                             evaluate_classifier, evaluate_regression,
                             evaluate_advanced_classifier, evaluate_advanced_regression,
+                            evaluate_advanced_embedding, evaluate_advanced_gpt_random_forest, evaluate_advanced_random_forest,
                             evaluate_gpt)
 from src.simple_models_training import fit_classifier, fit_regression
 from src.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
@@ -16,7 +17,7 @@ import sys
 # Open a file in write mode
 log_file = open('output.log', 'w')
 # Redirect print statements to the file
-# sys.stdout = log_file
+sys.stdout = log_file
 
 
 def train_models(events):
@@ -76,9 +77,18 @@ def evaluate_advanced_models(events):
     """
     Evaluate the models by comparing the predicted labels
     """
-    print("\nEvaluating Baseline Models (Classifier, Regression):")
-    print(evaluate_advanced_classifier(events))
-    print(evaluate_advanced_regression(events))
+    print("\nEvaluating Embeddings + Regressor:")
+    print(evaluate_advanced_embedding(events))
+
+    print("\nEvaluating GPT + Random Forest:")
+    print(evaluate_advanced_gpt_random_forest(events))
+
+    print("\nEvaluating Random Forest:")
+    print(evaluate_advanced_random_forest(events))
+
+    # print("\nEvaluating Baseline Models (Classifier, Regression):")
+    # print(evaluate_advanced_classifier(events))
+    # print(evaluate_advanced_regression(events))
 
 
 def plot_results(events):
