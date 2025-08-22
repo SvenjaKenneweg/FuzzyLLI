@@ -193,7 +193,7 @@
         "prompt": "\n    Event: own_birthday\n    Minutes since event: 43800\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "long time ago",
         "true": [
             "some time ago"
         ],
@@ -480,7 +480,7 @@
         "prompt": "\n    Event: own_shower\n    Minutes since event: 2880\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "long time ago",
         "true": [
             "long time ago"
         ],
@@ -1144,7 +1144,7 @@
         "prompt": "\n    Event: own_wedding_celebration\n    Minutes since event: 20160\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "recently"
         ],
