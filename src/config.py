@@ -7,6 +7,7 @@ from scipy.special import erf, erfinv
 # File paths
 RESULTS_FILE_PATH = Path("results/fits/")
 PLOT_FILE_PATH = Path("results/plots")
+EVALUATION_FILE_PATH = Path("results/evaluation/")
 DATA_DIR = Path("data/with_event_properties")
 RESULTS_JSON = RESULTS_FILE_PATH / "event_adverbials.json"
 EMBEDDING_RIDGE_FILE = 'event_embeddings_ridge.pkl'
@@ -19,7 +20,12 @@ ONE_HOT_ENCODER_FILE = 'onehotencoder.pkl'
 RANDOM_FOREST_REGRESSOR_FILE = 'RandomForestRegressor.pkl'
 XGB_REGRESSOR_FILE = 'XGBRegressor.pkl'
 
-GPT_PROMPT_FILE = RESULTS_FILE_PATH /'../GPT_Prompts.json'
+EVALUATION_ADVANCED_EMBEDDING_FILE = EVALUATION_FILE_PATH /'embeddings_regression.json'
+EVALUATION_ADVANCED_GPT_RANDOMFOREST_FILE = EVALUATION_FILE_PATH /'gpt_random_forest.json'
+EVALUATION_ADVANCED_RANDOMFOREST_FILE = EVALUATION_FILE_PATH /'random_forest.json'
+EVALUATION_ADVANCED_CLASSIFIER_FILE = EVALUATION_FILE_PATH /'classifier.json'
+EVALUATION_ADVANCED_REGRESSION_FILE = EVALUATION_FILE_PATH /'regression.json'
+GPT_PROMPT_FILE = EVALUATION_FILE_PATH / 'GPT_Prompts.json'
 GPT_VERSION = "gpt-4.1-2025-04-14" #gpt-5-2025-08-07
 
 # List of vague adverbials

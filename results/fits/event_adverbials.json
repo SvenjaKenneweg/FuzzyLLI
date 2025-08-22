@@ -1,58 +1,19 @@
 {
   "event_params": {
     "tom_wedding_celebration": [
-      136835691.23660997
-    ],
-    "own_year_abroad": [
-      133660323.0360176
-    ],
-    "own_birthday": [
-      25810150.550911814
-    ],
-    "own_vacation": [
-      40277458.31118073
-    ],
-    "own_rent_payment": [
-      5099443.919593053
-    ],
-    "own_shower": [
-      294602.1906590123
-    ],
-    "tom_watching_film": [
-      1337088.2405812314
-    ],
-    "tom_eating_risotto": [
-      736836.967384354
-    ],
-    "tom_reading_book": [
-      1103241.2932999625
-    ],
-    "tom_dancing_salsa": [
-      920210.5391610193
-    ],
-    "tom_storing_wineBottle": [
-      909990.7480200666
-    ],
-    "tom_drinking_juice": [
-      290361.8589609426
-    ],
-    "tom_chatting_friend": [
-      1176145.9132169848
-    ],
-    "own_wedding_celebration": [
-      309985532.2106942
+      2112941.457016901
     ]
   },
   "adverbial_means": {
-    "recently": 0.49898029128414184,
-    "just": 0.499791655546536,
-    "some time ago": 0.5084152420944611,
-    "long time ago": 0.5102236431725072
+    "recently": 0.46265719460114885,
+    "just": 0.4875311702699592,
+    "some time ago": 0.8137869224399643,
+    "long time ago": 0.9999999999999999
   },
   "adverbial_stds": {
-    "recently": 0.0014623890972645182,
-    "just": 0.00032567626112772324,
-    "some time ago": 0.006361795455432183,
-    "long time ago": 0.0051465290303053905
+    "recently": 0.07194799814295837,
+    "just": 0.023688216962428142,
+    "some time ago": 0.20398806529434452,
+    "long time ago": 0.2348474849121826
   }
 }

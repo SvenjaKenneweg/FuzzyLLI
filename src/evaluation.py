@@ -35,7 +35,7 @@ from src.config import (VAGUE_ADVERBIALS,
                         FREQUENCY_ORDER,
                         DATA_DIR,
                         event_specific_function,
-                        adverbial_specific_function, GPT_VERSION, GPT_PROMPT_FILE)
+                        adverbial_specific_function, GPT_VERSION, GPT_PROMPT_FILE, EVALUATION_ADVANCED_EMBEDDING_FILE)
 
 
 # ---------------------------------------------------------------------------
@@ -110,6 +110,7 @@ def evaluate_model(events, fit_models_fn, predict_fn, metric='mae'):
 def evaluate_advanced_model(events, fit_models_fn, predict_fn):
     y_true_list = []  # ground-truth label sets per sample
     y_pred_list = []  # predicted label sets per sample
+    all_predictions = []
 
     for i, event in enumerate(events):
         other_events = events[:i] + events[i+1:]
@@ -154,6 +155,7 @@ def evaluate_advanced_model(events, fit_models_fn, predict_fn):
             else:
                 predictions = predict_fn(event, int(minutes_ago))
 
+            all_predictions.append(predictions)
             best_predicted_adverbials = [adv for adv, val in predictions.items() if val == max(predictions.values())]
             y_true_list.append(adverbials)
             y_pred_list.append(best_predicted_adverbials)
@@ -173,7 +175,7 @@ def evaluate_advanced_model(events, fit_models_fn, predict_fn):
         "hamming_loss": hamming_loss(y_true_bin, y_pred_bin),
         "jaccard (sample)": jaccard_score(y_true_bin, y_pred_bin, average="samples"),
     }
-    return results
+    return results, all_predictions, y_true_list
 
 
 
@@ -231,6 +233,7 @@ def evaluate_baseline_model(events, fit_models_fn, predict_fn, metric='mae'):
 def evaluate_advanced_baseline_model(events, fit_models_fn, predict_fn, model_to_predict=None):
     y_true_list = []  # ground-truth label sets per sample
     y_pred_list = []  # predicted label sets per sample
+    all_predictions = []
 
     for i, event in enumerate(events):
         other_events = events[:i] + events[i+1:]
@@ -273,6 +276,7 @@ def evaluate_advanced_baseline_model(events, fit_models_fn, predict_fn, model_to
                 predictions = predict_fn(dur, freq, int(minutes_ago), model_to_predict=model_to_predict)
             else:
                 predictions = predict_fn(dur, freq, int(minutes_ago))
+            all_predictions.append(predictions)
             best_predicted_adverbials = [adv for adv, val in predictions.items() if val == max(predictions.values())]
             y_true_list.append(adverbials)
             y_pred_list.append(best_predicted_adverbials)
@@ -292,7 +296,7 @@ def evaluate_advanced_baseline_model(events, fit_models_fn, predict_fn, model_to
         "hamming_loss": hamming_loss(y_true_bin, y_pred_bin),
         "jaccard (sample)": jaccard_score(y_true_bin, y_pred_bin, average="samples"),
     }
-    return results
+    return results, all_predictions, y_true_list
 
 
 
@@ -338,33 +342,82 @@ def evaluate_embedding(events, metric='mae'):
     return evaluate_model(events, fit_event_specific_embeddings, predict_adverbial_embedding, metric)
 
 def evaluate_advanced_embedding(events):
-    return evaluate_advanced_model(events, fit_event_specific_embeddings, predict_adverbial_embedding)
+    results, all_predictions, true_values = evaluate_advanced_model(events, fit_event_specific_embeddings, predict_adverbial_embedding)
+    json_drop = []
+    for prediction, true_value in zip(all_predictions, true_values):
+        json_drop.append({
+            "prediction": prediction,
+            "true": true_value,
+        })
+    with open(EVALUATION_ADVANCED_EMBEDDING_FILE, "w") as f:
+        json.dump(json_drop, f, indent=4)
+        json.dump(results, f, indent=4)
+    return results
 
 def evaluate_gpt_random_forest(events, metric='mae'):
     return evaluate_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest, metric)
 
 def evaluate_advanced_gpt_random_forest(events):
-    return evaluate_advanced_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest)
+    results, all_predictions, true_values = evaluate_advanced_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest)
+    json_drop = []
+    for prediction, true_value in zip(all_predictions, true_values):
+        json_drop.append({
+            "prediction": prediction,
+            "true": true_value,
+        })
+    with open(EVALUATION_ADVANCED_GPT_RANDOMFOREST_FILE, "w") as f:
+        json.dump(json_drop, f, indent=4)
+        json.dump(results, f, indent=4)
+    return results
 
 def evaluate_random_forest(events, metric='mae'):
     return evaluate_model(events, fit_event_specific_random_forest, predict_adverbial_random_forest, metric)
 
 def evaluate_advanced_random_forest(events):
-    return evaluate_advanced_model(events, fit_event_specific_random_forest, predict_adverbial_random_forest)
+    results, all_predictions, true_values = evaluate_advanced_model(events, fit_event_specific_random_forest, predict_adverbial_random_forest)
+    json_drop = []
+    for prediction, true_value in zip(all_predictions, true_values):
+        json_drop.append({
+            "prediction": prediction,
+            "true": true_value,
+        })
+    with open(EVALUATION_ADVANCED_RANDOMFOREST_FILE, "w") as f:
+        json.dump(json_drop, f, indent=4)
+        json.dump(results, f, indent=4)
+    return results
 
 def evaluate_classifier(events, metric='mae'):
     return evaluate_baseline_model(events, fit_classifier, predict_adverbial_classifier, metric)
 
 def evaluate_advanced_classifier(events):
-    return evaluate_advanced_baseline_model(events, fit_classifier, predict_adverbial_classifier)
+    results, all_predictions, true_values = evaluate_advanced_baseline_model(events, fit_classifier, predict_adverbial_classifier)
+    json_drop = []
+    for prediction, true_value in zip(all_predictions, true_values):
+        json_drop.append({
+            "prediction": prediction,
+            "true": true_value,
+        })
+    with open(EVALUATION_ADVANCED_CLASSIFIER_FILE, "w") as f:
+        json.dump(json_drop, f, indent=4)
+        json.dump(results, f, indent=4)
+    return results
 
 def evaluate_regression(events, metric='mae'):
     return evaluate_baseline_model(events, fit_regression, predict_adverbial_regression, metric)
 
 def evaluate_advanced_regression(events, model_to_predict="RandomForestRegressor"):
-    print(model_to_predict + ":")
-    return evaluate_advanced_baseline_model(events, fit_regression, predict_adverbial_regression,model_to_predict=model_to_predict)
-
+    results, all_predictions, true_values = evaluate_advanced_baseline_model(events, fit_regression, predict_adverbial_regression,model_to_predict=model_to_predict)
+    json_drop = []
+    for prediction, true_value in zip(all_predictions, true_values):
+        json_drop.append({
+            "prediction": prediction,
+            "true": true_value,
+        })
+    with open(EVALUATION_ADVANCED_REGRESSION_FILE, "w") as f:
+        json.dump(json_drop, f, indent=4)
+        json.dump(results, f, indent=4)
+        json.dump(model_to_predict, f, indent=4)
+    return results
 
 
 
