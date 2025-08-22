@@ -17,7 +17,7 @@ import sys
 # Open a file in write mode
 log_file = open('output.log', 'w')
 # Redirect print statements to the file
-# sys.stdout = log_file
+sys.stdout = log_file
 
 
 def train_models(events):
@@ -76,16 +76,16 @@ def evaluate_advanced_models(events):
     """
     print("\nEvaluating Embeddings + Regressor:")
     print(evaluate_advanced_embedding(events))
-    #
-    # print("\nEvaluating GPT + Random Forest:")
-    # print(evaluate_advanced_gpt_random_forest(events))
-    #
-    # print("\nEvaluating Random Forest:")
-    # print(evaluate_advanced_random_forest(events))
 
-    # print("\nEvaluating Baseline Models (Classifier, Regression):")
-    # print(evaluate_advanced_classifier(events))
-    # print(evaluate_advanced_regression(events))
+    print("\nEvaluating GPT + Random Forest:")
+    print(evaluate_advanced_gpt_random_forest(events))
+
+    print("\nEvaluating Random Forest:")
+    print(evaluate_advanced_random_forest(events))
+
+    print("\nEvaluating Baseline Models (Classifier, Regression):")
+    print(evaluate_advanced_classifier(events))
+    print(evaluate_advanced_regression(events))
 
     # print("\n Evaluating GPT:")
     # print(evaluate_gpt(events))
@@ -105,10 +105,6 @@ def main():
         "own_rent_payment", "own_shower", "tom_watching_film", "tom_eating_risotto",
         "tom_reading_book", "tom_dancing_salsa", "tom_storing_wineBottle", "tom_drinking_juice",
         "tom_chatting_friend", "own_wedding_celebration", "own_wallet_theft"
-    ]
-
-    events = [
-        "tom_wedding_celebration", "own_year_abroad"
     ]
 
     event_details = ("Tom had a meeting", "Minutes", "Monthly", "just", 144000)

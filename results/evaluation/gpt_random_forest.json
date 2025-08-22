@@ -1,0 +1,1983 @@
+[
+    {
+        "prediction": {
+            "recently": 0.7670394860192244,
+            "just": 0.7773652650341272,
+            "some time ago": 0.4075578681497634,
+            "long time ago": 0.1364336681049087
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7622534147785411,
+            "just": 0.7536706706539491,
+            "some time ago": 0.4089919235926793,
+            "long time ago": 0.13714125694680177
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7509885906208967,
+            "just": 0.6962805118822452,
+            "some time ago": 0.4123466369113311,
+            "long time ago": 0.1388029578574597
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7240898975088162,
+            "just": 0.5565210663551904,
+            "some time ago": 0.42026045479674995,
+            "long time ago": 0.14275878964705593
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6728825070519713,
+            "just": 0.3188604807596189,
+            "some time ago": 0.435087160852495,
+            "long time ago": 0.15030723723714112
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5682113794026435,
+            "just": 0.06029150852628775,
+            "some time ago": 0.4653201482341598,
+            "long time ago": 0.1662671008489992
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.2155182019779702,
+            "just": 5.4386352346695814e-08,
+            "some time ago": 0.5911104472954696,
+            "long time ago": 0.2417100870553454
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.02213685374220139,
+            "just": 5.598327107690442e-26,
+            "some time ago": 0.7740863931590531,
+            "long time ago": 0.38637861653829625
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 2.486598023826991e-05,
+            "just": 6.164221928299213e-87,
+            "some time ago": 0.9889254027734945,
+            "long time ago": 0.7148759444641873
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 5.159817086414616e-12,
+            "just": 7.017581177852773e-235,
+            "some time ago": 0.8091382705613861,
+            "long time ago": 0.9995899216900378
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7699109462906971,
+            "just": 0.7826212539488971,
+            "some time ago": 0.3992401404719854,
+            "long time ago": 0.13517986380347946
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7657670239911233,
+            "just": 0.7619411793719868,
+            "some time ago": 0.4004899582615105,
+            "long time ago": 0.13578973361954033
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7560223659788001,
+            "just": 0.7119347192764203,
+            "some time ago": 0.4034130579314634,
+            "long time ago": 0.137220771130276
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7327899330541805,
+            "just": 0.5894240048803683,
+            "some time ago": 0.4103054825518882,
+            "long time ago": 0.14062100879458586
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6886102444950661,
+            "just": 0.3722198970391789,
+            "some time ago": 0.42320834481107744,
+            "long time ago": 0.1470853722598138
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5978776338110157,
+            "just": 0.09683547054311524,
+            "some time ago": 0.44949220688008124,
+            "long time ago": 0.16066126695625604
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.2720095145777663,
+            "just": 1.5822313421876346e-06,
+            "some time ago": 0.5591516307500953,
+            "long time ago": 0.22370446802878532
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.04433351673283016,
+            "just": 9.898837648748342e-21,
+            "some time ago": 0.7239339675815928,
+            "long time ago": 0.3429964658690527
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.0001861160937540638,
+            "just": 4.624243052451237e-70,
+            "some time ago": 0.9584473640619747,
+            "long time ago": 0.6288914105198979
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 2.253448620280746e-10,
+            "just": 5.857887636300606e-203,
+            "some time ago": 0.8858468970680613,
+            "long time ago": 0.9804319142731722
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7732830425506511,
+            "just": 0.7697650634460783,
+            "some time ago": 0.41537562809109685,
+            "long time ago": 0.14163081994741866
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7610860227746093,
+            "just": 0.7099640978405722,
+            "some time ago": 0.41877164013375745,
+            "long time ago": 0.143347026059617
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7413024989923598,
+            "just": 0.6101907178588087,
+            "some time ago": 0.4242109532135775,
+            "long time ago": 0.1461154414938618
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7111148734665003,
+            "just": 0.462315302880122,
+            "some time ago": 0.43238528973092083,
+            "long time ago": 0.1503216291860482
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6381494910673632,
+            "just": 0.18909568795038975,
+            "some time ago": 0.45182517306591397,
+            "long time ago": 0.16054864748108502
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5467671462245189,
+            "just": 0.03910101385828923,
+            "some time ago": 0.4763057716022717,
+            "long time ago": 0.17388784995453896
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.32839877808150325,
+            "just": 5.5988155831821364e-05,
+            "some time ago": 0.5418662381400845,
+            "long time ago": 0.21229912776016133
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.16974775123037994,
+            "just": 2.5329775962831385e-09,
+            "some time ago": 0.6084835168172379,
+            "long time ago": 0.25578671474160813
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.07594268659970006,
+            "just": 4.058946096240783e-15,
+            "some time ago": 0.6744110383381458,
+            "long time ago": 0.30403919462527235
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 1.6846803971289825e-05,
+            "just": 6.988214123457483e-85,
+            "some time ago": 0.9790261281965755,
+            "long time ago": 0.6863731733869887
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 5.27710292779312e-09,
+            "just": 1.8835555730335443e-156,
+            "some time ago": 0.9775870984501792,
+            "long time ago": 0.9026783339591311
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7727448005376624,
+            "just": 0.7919908912599759,
+            "some time ago": 0.40372790717405677,
+            "long time ago": 0.13799816624523148
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7683647738554901,
+            "just": 0.7703899045750037,
+            "some time ago": 0.40504707115009403,
+            "long time ago": 0.13863088801599419
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7595378552170231,
+            "just": 0.7255600689847207,
+            "some time ago": 0.407691142786164,
+            "long time ago": 0.13990282151796574
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7461405161855716,
+            "just": 0.6555004594332622,
+            "some time ago": 0.41167143985917876,
+            "long time ago": 0.1418269796516395
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7142427140799262,
+            "just": 0.4899331333087398,
+            "some time ago": 0.4210234011754783,
+            "long time ago": 0.14639284480267045
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.637070735481408,
+            "just": 0.18385799136992148,
+            "some time ago": 0.4432903250800725,
+            "long time ago": 0.15752228080362435
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.49336737082906557,
+            "just": 0.009975542028200364,
+            "some time ago": 0.4856181392532081,
+            "long time ago": 0.1797213060167159
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.2501986958609083,
+            "just": 4.2961085487568317e-07,
+            "some time ago": 0.5729660338579496,
+            "long time ago": 0.2302871775368723
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.03416040637152714,
+            "just": 8.262265692277734e-23,
+            "some time ago": 0.744727409288496,
+            "long time ago": 0.35414721996186466
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.002238456965137815,
+            "just": 9.666452601622667e-47,
+            "some time ago": 0.8858819881332554,
+            "long time ago": 0.4987637977277131
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7751687091167935,
+            "just": 0.7437118413840884,
+            "some time ago": 0.4032053719357912,
+            "long time ago": 0.13393802118392598
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6514863860074355,
+            "just": 0.20967715999944858,
+            "some time ago": 0.4402123063689703,
+            "long time ago": 0.1518825745380233
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5056980041685123,
+            "just": 0.014637933744024853,
+            "some time ago": 0.48396728113499066,
+            "long time ago": 0.17444960089406034
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.37057135659688095,
+            "just": 0.00028300183053224515,
+            "some time ago": 0.5288554171393004,
+            "long time ago": 0.19923756031155038
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.10451307760316685,
+            "just": 1.164451796812232e-12,
+            "some time ago": 0.665113250768596,
+            "long time ago": 0.2865484373026338
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.018594571260906995,
+            "just": 1.4144204535483434e-25,
+            "some time ago": 0.7918122670417357,
+            "long time ago": 0.39049268004826154
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.002233489275983405,
+            "just": 2.0591921090709963e-42,
+            "some time ago": 0.894634923733673,
+            "long time ago": 0.5044975397115732
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 8.881816392271136e-07,
+            "just": 2.7275290796795117e-108,
+            "some time ago": 0.9959172350412165,
+            "long time ago": 0.8182133774956691
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 7.047100871384821e-14,
+            "just": 2.5122132873136833e-252,
+            "some time ago": 0.6794629236341576,
+            "long time ago": 0.99297422677799
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 1.6622672957506357e-16,
+            "just": 1.3442022579073266e-306,
+            "some time ago": 0.5383349961107016,
+            "long time ago": 0.9432972801372579
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 5.62223876291544e-17,
+            "just": 2.3328339e-316,
+            "some time ago": 0.5146214213081889,
+            "long time ago": 0.9304818459205978
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 5.4296687299821684e-17,
+            "just": 1.13219026e-316,
+            "some time ago": 0.5138688353782818,
+            "long time ago": 0.9300537827055488
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 5.429668728669634e-17,
+            "just": 1.13219026e-316,
+            "some time ago": 0.5138688353730639,
+            "long time ago": 0.9300537827025764
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7797408777242611,
+            "just": 0.8300950999614388,
+            "some time ago": 0.40562293000246386,
+            "long time ago": 0.1346791796550449
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7785260522799071,
+            "just": 0.8242054864447704,
+            "some time ago": 0.4059813683760926,
+            "long time ago": 0.13485816512560755
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7724238273380086,
+            "just": 0.7937861221544545,
+            "some time ago": 0.4077756699155051,
+            "long time ago": 0.13575577004070905
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7650413165681736,
+            "just": 0.7554237012555839,
+            "some time ago": 0.409933442950998,
+            "long time ago": 0.13683879425239875
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7500928506639503,
+            "just": 0.6743722880955489,
+            "some time ago": 0.41426388941433845,
+            "long time ago": 0.13902419333548377
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7195527106390786,
+            "just": 0.5072980850304983,
+            "some time ago": 0.4229829615873805,
+            "long time ago": 0.14347272258950214
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6883266820451651,
+            "just": 0.3533753887079838,
+            "some time ago": 0.43177682041654514,
+            "long time ago": 0.14802547640756775
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.592539308934222,
+            "just": 0.0753569279852522,
+            "some time ago": 0.45857189344014154,
+            "long time ago": 0.1623150145432432
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5288064482264146,
+            "just": 0.01834355358931826,
+            "some time ago": 0.476742424806045,
+            "long time ago": 0.1723719299365342
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.40746625977837875,
+            "just": 0.00043620902396064186,
+            "some time ago": 0.5136752368610177,
+            "long time ago": 0.19376733354427997
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.14402161255562568,
+            "just": 4.5820974759170826e-12,
+            "some time ago": 0.6265841531012863,
+            "long time ago": 0.2680404329538189
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.006262790556684724,
+            "just": 7.03829963146071e-41,
+            "some time ago": 0.833082669523502,
+            "long time ago": 0.4538209708954095
+        },
+        "true": [
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 8.402400734486186e-06,
+            "just": 4.293284370023999e-108,
+            "some time ago": 0.9936531443117776,
+            "long time ago": 0.7484401003279281
+        },
+        "true": [
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7788528894165955,
+            "just": 0.8053720203023461,
+            "some time ago": 0.3972589006970702,
+            "long time ago": 0.12846735890044014
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7750399475016982,
+            "just": 0.7882905789555413,
+            "some time ago": 0.3984372764799205,
+            "long time ago": 0.12902030994549646
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7704405300088356,
+            "just": 0.7672447508843226,
+            "some time ago": 0.39985342802597296,
+            "long time ago": 0.1296862223964745
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7611665598104728,
+            "just": 0.7236531735911096,
+            "some time ago": 0.4026925531425254,
+            "long time ago": 0.13102582114564537
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.742340315441664,
+            "just": 0.6326011713418253,
+            "some time ago": 0.4083977010184668,
+            "long time ago": 0.1337362106966583
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7231853394796801,
+            "just": 0.5402654881032631,
+            "some time ago": 0.41413795378805707,
+            "long time ago": 0.1364883671592893
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6642521263244551,
+            "just": 0.2926510141905629,
+            "some time ago": 0.4315598841945421,
+            "long time ago": 0.14499740413481857
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6242330768989063,
+            "just": 0.173115215660479,
+            "some time ago": 0.44333224802993726,
+            "long time ago": 0.15088231725969634
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.544123817416669,
+            "just": 0.04585758230567483,
+            "some time ago": 0.4672177113703358,
+            "long time ago": 0.16316659084098456
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.3249880517447823,
+            "just": 9.376647631742426e-05,
+            "some time ago": 0.5409259128827154,
+            "long time ago": 0.204173202566655
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.07422109934316679,
+            "just": 2.6867221758051395e-14,
+            "some time ago": 0.6897933338134703,
+            "long time ago": 0.3042614773622859
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.00304561897941288,
+            "just": 7.102466239030317e-38,
+            "some time ago": 0.8793891140353408,
+            "long time ago": 0.488127897519372
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7891306631410309,
+            "just": 0.8079905612629026,
+            "some time ago": 0.3842806692922419,
+            "long time ago": 0.11836017231936584
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7870441489380399,
+            "just": 0.7989586528576448,
+            "some time ago": 0.3849701609786882,
+            "long time ago": 0.11865998683083105
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7845323734034891,
+            "just": 0.7879531206762606,
+            "some time ago": 0.38579832734156705,
+            "long time ago": 0.11902053095028313
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.779483296052658,
+            "just": 0.7654393096441611,
+            "some time ago": 0.3874571905160866,
+            "long time ago": 0.11974413134167937
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7692868388085773,
+            "just": 0.718728045495152,
+            "some time ago": 0.3907849627402328,
+            "long time ago": 0.12120140191979459
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7589665678484274,
+            "just": 0.6703930520297723,
+            "some time ago": 0.3941259829785119,
+            "long time ago": 0.12267213858321256
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7273500688896074,
+            "just": 0.5227525786343309,
+            "some time ago": 0.4042267291284687,
+            "long time ago": 0.1271656051645699
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7058130211724126,
+            "just": 0.42839191987909325,
+            "some time ago": 0.41102343847103484,
+            "long time ago": 0.13022940224868784
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6619464248285734,
+            "just": 0.26566187145547093,
+            "some time ago": 0.42476078448773824,
+            "long time ago": 0.1365220295178954
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5287113153653312,
+            "just": 0.03356478356036634,
+            "some time ago": 0.46700315847736923,
+            "long time ago": 0.15673955736176498
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.29242904086831845,
+            "just": 3.184078649739646e-05,
+            "some time ago": 0.5547421993027556,
+            "long time ago": 0.203304559303812
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.08559776490455337,
+            "just": 1.0591255379167643e-12,
+            "some time ago": 0.687201820531491,
+            "long time ago": 0.2880632501357636
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7797874500733758,
+            "just": 0.805739083067792,
+            "some time ago": 0.3944030024346991,
+            "long time ago": 0.13843609920980335
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.776377487613831,
+            "just": 0.7908207506625249,
+            "some time ago": 0.3954582459815832,
+            "long time ago": 0.138946158110356
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7722662002689449,
+            "just": 0.772491948593703,
+            "some time ago": 0.3967262518931192,
+            "long time ago": 0.13956007861242484
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7639825397699981,
+            "just": 0.734634444886631,
+            "some time ago": 0.39926783443738106,
+            "long time ago": 0.1407939812326688
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7471868465025258,
+            "just": 0.6555542502813936,
+            "some time ago": 0.4043730040741541,
+            "long time ago": 0.1432860872861609
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7301170837235353,
+            "just": 0.5746338271093802,
+            "some time ago": 0.40950697320982055,
+            "long time ago": 0.1458106936950872
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6776265485261485,
+            "just": 0.34772711374547016,
+            "some time ago": 0.42507496742590123,
+            "long time ago": 0.15358060166076476
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.641922495887459,
+            "just": 0.22755875794383745,
+            "some time ago": 0.43558503534587956,
+            "long time ago": 0.15892489666108942
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.570042664824891,
+            "just": 0.07872370977322038,
+            "some time ago": 0.4568938841613781,
+            "long time ago": 0.17001061946920865
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.3673307746817068,
+            "just": 0.0005982378619592238,
+            "some time ago": 0.5226577148708472,
+            "long time ago": 0.20646087347176578
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.10623331450257494,
+            "just": 2.07914388895651e-11,
+            "some time ago": 0.6569886629613767,
+            "long time ago": 0.2932901041004416
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.0073192904813789966,
+            "just": 6.2173031846787715e-30,
+            "some time ago": 0.8383022262709059,
+            "long time ago": 0.4511606432646834
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7845114261501916,
+            "just": 0.809753582118604,
+            "some time ago": 0.3909981969295061,
+            "long time ago": 0.133181505328125
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7812449225602922,
+            "just": 0.7961079554344804,
+            "some time ago": 0.39198093430258063,
+            "long time ago": 0.13364934179764162
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7773065823798022,
+            "just": 0.7793590781424959,
+            "some time ago": 0.3931617351817588,
+            "long time ago": 0.13421237396885297
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7693711917567383,
+            "just": 0.7447906638913827,
+            "some time ago": 0.3955282682922873,
+            "long time ago": 0.13534377470877457
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.753279856122011,
+            "just": 0.6724955125551776,
+            "some time ago": 0.4002808364921963,
+            "long time ago": 0.1376279721905518
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7369216870902622,
+            "just": 0.5980832881761303,
+            "some time ago": 0.4050589742924015,
+            "long time ago": 0.13994079050340288
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6865719304855912,
+            "just": 0.3841516463231054,
+            "some time ago": 0.41954143134179833,
+            "long time ago": 0.14705200570557495
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.652264236630674,
+            "just": 0.26513302964276253,
+            "some time ago": 0.4293141753234811,
+            "long time ago": 0.1519377146036587
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.582985941886663,
+            "just": 0.10535643277763529,
+            "some time ago": 0.44912104464066044,
+            "long time ago": 0.16205968822455166
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.3852345633579634,
+            "just": 0.0015646359409721283,
+            "some time ago": 0.5102566599642296,
+            "long time ago": 0.19525462437819316
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.11993672923549022,
+            "just": 6.174584169768996e-10,
+            "some time ago": 0.6358904632403257,
+            "long time ago": 0.27416455501009224
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.009628389950276199,
+            "just": 7.09416083485795e-26,
+            "some time ago": 0.8106552131817699,
+            "long time ago": 0.4188089874599606
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7880939404499239,
+            "just": 0.8105135945327722,
+            "some time ago": 0.39214514946359746,
+            "long time ago": 0.1292170505893266
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7864185453404925,
+            "just": 0.8031789943498262,
+            "some time ago": 0.3926729472879951,
+            "long time ago": 0.12946132512199415
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.784402970396841,
+            "just": 0.7942631563361585,
+            "some time ago": 0.3933067402384329,
+            "long time ago": 0.12975491474290732
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7803553947788741,
+            "just": 0.7760815580726402,
+            "some time ago": 0.39457574694417474,
+            "long time ago": 0.13034360117962723
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7721964997308616,
+            "just": 0.7384965969399538,
+            "some time ago": 0.39711940924598654,
+            "long time ago": 0.1315270111087019
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7639563504636397,
+            "just": 0.6996219590940137,
+            "some time ago": 0.3996705373926907,
+            "long time ago": 0.13271848596069608
+        },
+        "true": [
+            "recently",
+            "just",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7387933030368651,
+            "just": 0.579233023192383,
+            "some time ago": 0.407367909975741,
+            "long time ago": 0.13634148018620898
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.721694018335188,
+            "just": 0.49952108563200914,
+            "some time ago": 0.41253532280422944,
+            "long time ago": 0.1387974566767786
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6868788672941893,
+            "just": 0.35226292816252475,
+            "some time ago": 0.42295307512723174,
+            "long time ago": 0.14380754122873002
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5799947112375003,
+            "just": 0.08080997943245793,
+            "some time ago": 0.45481751846916446,
+            "long time ago": 0.15963064258687346
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.37692614204343255,
+            "just": 0.0006386638313134155,
+            "some time ago": 0.5207154699736318,
+            "long time ago": 0.19489054152235957
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.1576551627686736,
+            "just": 4.378933574629974e-09,
+            "some time ago": 0.6219626686730738,
+            "long time ago": 0.2567266149179503
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7840278975544034,
+            "just": 0.8052411885675369,
+            "some time ago": 0.3947486599840275,
+            "long time ago": 0.12559542778323268
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7786998654639425,
+            "just": 0.7814355679272452,
+            "some time ago": 0.3964185121005615,
+            "long time ago": 0.1264017595104058
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7722579532893338,
+            "just": 0.7518621764563467,
+            "some time ago": 0.39842660203295654,
+            "long time ago": 0.12737452838893584
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7592245839078664,
+            "just": 0.6902044050611518,
+            "some time ago": 0.40245659720890065,
+            "long time ago": 0.12933703505194022
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7326214161345235,
+            "just": 0.5624156795342374,
+            "some time ago": 0.4105707251596393,
+            "long time ago": 0.13333025073137728
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7054204401264467,
+            "just": 0.4382078098469397,
+            "some time ago": 0.41875483558473187,
+            "long time ago": 0.13741499438396668
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6216158304601348,
+            "just": 0.15847866286985582,
+            "some time ago": 0.4436992179456368,
+            "long time ago": 0.15022471416561292
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5652361910196274,
+            "just": 0.0643562792444963,
+            "some time ago": 0.4606258982843118,
+            "long time ago": 0.15923270679932888
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.4555222948556522,
+            "just": 0.0062303371762141065,
+            "some time ago": 0.49507698641064657,
+            "long time ago": 0.17838547411291952
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.1950809385895369,
+            "just": 8.604480736921511e-08,
+            "some time ago": 0.6011162235636092,
+            "long time ago": 0.24492698292099485
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.015584405365215055,
+            "just": 4.061498502039169e-25,
+            "some time ago": 0.8015997631405746,
+            "long time ago": 0.4137354162071185
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 7.258695981593723e-05,
+            "just": 6.243704022085148e-66,
+            "some time ago": 0.9817016849424182,
+            "long time ago": 0.6974611032633471
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.788044632188691,
+            "just": 0.8077646575988094,
+            "some time ago": 0.4024385797714844,
+            "long time ago": 0.1406471524598084
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7847982236090525,
+            "just": 0.7939206822901259,
+            "some time ago": 0.4033866363221896,
+            "long time ago": 0.1411170357465148
+        },
+        "true": [
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7808836303338036,
+            "just": 0.7769303187429538,
+            "some time ago": 0.4045256254035349,
+            "long time ago": 0.1416824369336537
+        },
+        "true": [
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7729945207595486,
+            "just": 0.7418729088301085,
+            "some time ago": 0.40680789996714406,
+            "long time ago": 0.14281828902546548
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7569908183798163,
+            "just": 0.668613283274794,
+            "some time ago": 0.4113894308537801,
+            "long time ago": 0.1451102322593332
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7407135759782819,
+            "just": 0.5933201702987887,
+            "some time ago": 0.4159932097076215,
+            "long time ago": 0.14742923449208536
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6905650719615819,
+            "just": 0.37780136867580266,
+            "some time ago": 0.4299331564049275,
+            "long time ago": 0.154549406271747
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6563560853569138,
+            "just": 0.2588024983396031,
+            "some time ago": 0.43932856944759757,
+            "long time ago": 0.15943287498449737
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5871892786331196,
+            "just": 0.10089194754003299,
+            "some time ago": 0.45834534094726764,
+            "long time ago": 0.1695299366200009
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.389142834671482,
+            "just": 0.0013680127816179403,
+            "some time ago": 0.5168681270398877,
+            "long time ago": 0.20247705749305525
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.12182768505029476,
+            "just": 3.836027590065987e-10,
+            "some time ago": 0.6367073431375968,
+            "long time ago": 0.28006556259550647
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.009800650282201485,
+            "just": 1.6627121265371642e-26,
+            "some time ago": 0.8041698357149677,
+            "long time ago": 0.4209333648084031
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7651738607355226,
+            "just": 0.7711480720991575,
+            "some time ago": 0.4022539750423373,
+            "long time ago": 0.13693385562465157
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7587393642172021,
+            "just": 0.7391815117305627,
+            "some time ago": 0.40426432353921493,
+            "long time ago": 0.1379144156014086
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7435560557679078,
+            "just": 0.6613879238319694,
+            "some time ago": 0.4089724596447046,
+            "long time ago": 0.14022275135632842
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7071479901368303,
+            "just": 0.47597852501317794,
+            "some time ago": 0.4201067516292694,
+            "long time ago": 0.145748692240818
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5674367411259734,
+            "just": 0.06122521621117489,
+            "some time ago": 0.46239157954745813,
+            "long time ago": 0.1676155248377257
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.36922629841539983,
+            "just": 0.0002466391486341584,
+            "some time ago": 0.5281431098646817,
+            "long time ago": 0.20457261763847848
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.11065245708801356,
+            "just": 7.973038086281831e-13,
+            "some time ago": 0.6620692931802583,
+            "long time ago": 0.2930652705965544
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.002953425667492042,
+            "just": 5.356091447683531e-43,
+            "some time ago": 0.8896963991167639,
+            "long time ago": 0.5129022864812646
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 8.141590257904818e-10,
+            "just": 8.803568528087006e-184,
+            "some time ago": 0.8808278931296557,
+            "long time ago": 0.9802541589363152
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 8.280339212140722e-16,
+            "just": 3.81658e-318,
+            "some time ago": 0.542538573382715,
+            "long time ago": 0.929190711764545
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 1.5451491407696887e-16,
+            "just": 0.0,
+            "some time ago": 0.5042592391864724,
+            "long time ago": 0.9055290830579682
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7793366677754173,
+            "just": 0.7938829344806342,
+            "some time ago": 0.41803772931857497,
+            "long time ago": 0.13971834739073177
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7756780054800163,
+            "just": 0.7776343910737028,
+            "some time ago": 0.41887990173511713,
+            "long time ago": 0.14024152118586056
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7670765338638172,
+            "just": 0.7384508896758645,
+            "some time ago": 0.42084776997182055,
+            "long time ago": 0.14146793688696813
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7465745359723348,
+            "just": 0.6418513877965419,
+            "some time ago": 0.42547810631360217,
+            "long time ago": 0.144375456631238
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6675546424690985,
+            "just": 0.30285514340028286,
+            "some time ago": 0.4428159588322517,
+            "long time ago": 0.15553593448288947
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5456029996373155,
+            "just": 0.049536377324818526,
+            "some time ago": 0.469314476285095,
+            "long time ago": 0.17343925790752096
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.3225722745359196,
+            "just": 0.00011299714593128643,
+            "some time ago": 0.523772994359531,
+            "long time ago": 0.2135496366705463
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.06918537914183652,
+            "just": 3.108123555067149e-14,
+            "some time ago": 0.6357587279241474,
+            "long time ago": 0.3112244285290289
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 1.3723929276945786e-05,
+            "just": 3.979622801502108e-77,
+            "some time ago": 0.9248451507219781,
+            "long time ago": 0.7027061520750898
+        },
+        "true": [
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 2.0593338420784505e-17,
+            "just": 6.261224869224592e-296,
+            "some time ago": 0.8680514467306083,
+            "long time ago": 0.9541961225759753
+        },
+        "true": [
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 3.236860634195744e-62,
+            "just": 0.0,
+            "some time ago": 0.058168308614835094,
+            "long time ago": 0.03431822074052854
+        },
+        "true": [
+            "long time ago"
+        ]
+    }
+]{
+    "accuracy": 0.41040462427745666,
+    "precision (sample)": 0.8034682080924855,
+    "recall (sample)": 0.6059730250481696,
+    "f1 (sample)": 0.6714836223506745,
+    "hamming_loss": 0.20086705202312138,
+    "jaccard (sample)": 0.6059730250481696
+}

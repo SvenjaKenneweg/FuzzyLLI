@@ -35,7 +35,10 @@ from src.config import (VAGUE_ADVERBIALS,
                         FREQUENCY_ORDER,
                         DATA_DIR,
                         event_specific_function,
-                        adverbial_specific_function, GPT_VERSION, GPT_PROMPT_FILE, EVALUATION_ADVANCED_EMBEDDING_FILE)
+                        adverbial_specific_function, GPT_VERSION,
+                        GPT_PROMPT_FILE, EVALUATION_ADVANCED_EMBEDDING_FILE,
+                        EVALUATION_ADVANCED_REGRESSION_FILE, EVALUATION_ADVANCED_CLASSIFIER_FILE,
+                        EVALUATION_ADVANCED_RANDOMFOREST_FILE, EVALUATION_ADVANCED_GPT_RANDOMFOREST_FILE)
 
 
 # ---------------------------------------------------------------------------

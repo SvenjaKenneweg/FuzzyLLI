@@ -1,0 +1,1983 @@
+[
+    {
+        "prediction": {
+            "recently": 0.7471875,
+            "just": 0.4319166666666666,
+            "some time ago": 0.4806250000000001,
+            "long time ago": 0.0975
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6875,
+            "just": 0.29,
+            "some time ago": 0.47454166666666664,
+            "long time ago": 0.09250000000000001
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5275,
+            "just": 0.2675,
+            "some time ago": 0.5531250000000001,
+            "long time ago": 0.0775
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.375,
+            "just": 0.1175,
+            "some time ago": 0.68625,
+            "long time ago": 0.05
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.3425,
+            "just": 0.11,
+            "some time ago": 0.69875,
+            "long time ago": 0.1325
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.16,
+            "just": 0.035,
+            "some time ago": 0.72875,
+            "long time ago": 0.2875
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.0675,
+            "just": 0.0125,
+            "some time ago": 0.715,
+            "long time ago": 0.49
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.0225,
+            "just": 0.0125,
+            "some time ago": 0.57,
+            "long time ago": 0.5025
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.42375,
+            "just": 0.27,
+            "some time ago": 0.74625,
+            "long time ago": 0.7625
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.4525,
+            "just": 0.32125,
+            "some time ago": 0.70375,
+            "long time ago": 0.99
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.9275,
+            "just": 0.7575,
+            "some time ago": 0.145,
+            "long time ago": 0.025
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7975,
+            "just": 0.72375,
+            "some time ago": 0.1175,
+            "long time ago": 0.02625
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7475,
+            "just": 0.65,
+            "some time ago": 0.2225,
+            "long time ago": 0.02
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.645,
+            "just": 0.2725,
+            "some time ago": 0.49375,
+            "long time ago": 0.0025
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.465,
+            "just": 0.0675,
+            "some time ago": 0.6925,
+            "long time ago": 0.04
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.2525,
+            "just": 0.0375,
+            "some time ago": 0.74,
+            "long time ago": 0.25
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.215,
+            "just": 0.0925,
+            "some time ago": 0.92,
+            "long time ago": 0.6725
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.105,
+            "just": 0.08,
+            "some time ago": 0.7575,
+            "long time ago": 0.6425
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.495,
+            "just": 0.2975,
+            "some time ago": 0.85875,
+            "long time ago": 0.7725
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5175,
+            "just": 0.33,
+            "some time ago": 0.85375,
+            "long time ago": 0.9625
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.8032916666666666,
+            "just": 0.38150000000000006,
+            "some time ago": 0.5725,
+            "long time ago": 0.0625
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7731874999999999,
+            "just": 0.28023809523809523,
+            "some time ago": 0.625,
+            "long time ago": 0.1225
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7511249999999999,
+            "just": 0.2925,
+            "some time ago": 0.43125,
+            "long time ago": 0.1
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5347916666666667,
+            "just": 0.146,
+            "some time ago": 0.42924999999999996,
+            "long time ago": 0.10833333333333334
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.495,
+            "just": 0.1485,
+            "some time ago": 0.5200833333333333,
+            "long time ago": 0.10750000000000001
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.445,
+            "just": 0.09083333333333332,
+            "some time ago": 0.6875,
+            "long time ago": 0.14333333333333334
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.42,
+            "just": 0.03833333333333334,
+            "some time ago": 0.7425,
+            "long time ago": 0.18
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.3875,
+            "just": 0.04083333333333334,
+            "some time ago": 0.745,
+            "long time ago": 0.27
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.275,
+            "just": 0.0125,
+            "some time ago": 0.8125,
+            "long time ago": 0.37
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.2225,
+            "just": 0.0075,
+            "some time ago": 0.87875,
+            "long time ago": 0.495
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.18,
+            "just": 0.0125,
+            "some time ago": 0.865,
+            "long time ago": 0.6425
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7964583333333333,
+            "just": 0.34199999999999997,
+            "some time ago": 0.56875,
+            "long time ago": 0.045
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7587291666666667,
+            "just": 0.2430714285714286,
+            "some time ago": 0.63,
+            "long time ago": 0.1125
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.775,
+            "just": 0.29191666666666666,
+            "some time ago": 0.5429166666666666,
+            "long time ago": 0.09949999999999999
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.576875,
+            "just": 0.15,
+            "some time ago": 0.43916666666666665,
+            "long time ago": 0.10491666666666667
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.49375,
+            "just": 0.15166666666666667,
+            "some time ago": 0.5008333333333334,
+            "long time ago": 0.10033333333333333
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.3725,
+            "just": 0.09166666666666667,
+            "some time ago": 0.66875,
+            "long time ago": 0.12833333333333333
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.32,
+            "just": 0.05416666666666667,
+            "some time ago": 0.71125,
+            "long time ago": 0.295
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.275,
+            "just": 0.0425,
+            "some time ago": 0.815,
+            "long time ago": 0.55
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.26,
+            "just": 0.0875,
+            "some time ago": 0.9,
+            "long time ago": 0.8125
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.1675,
+            "just": 0.045,
+            "some time ago": 0.8575,
+            "long time ago": 0.74
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.385,
+            "just": 0.563,
+            "some time ago": 0.256,
+            "long time ago": 0.005
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.535,
+            "just": 0.44356547619047615,
+            "some time ago": 0.5025,
+            "long time ago": 0.0
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5175,
+            "just": 0.24863095238095237,
+            "some time ago": 0.5025,
+            "long time ago": 0.0025
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5053333333333333,
+            "just": 0.01,
+            "some time ago": 0.5025,
+            "long time ago": 0.0095
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.41125,
+            "just": 0.01125,
+            "some time ago": 0.710625,
+            "long time ago": 0.137125
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.41125,
+            "just": 0.01375,
+            "some time ago": 0.710625,
+            "long time ago": 0.144625
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.605,
+            "just": 0.1125,
+            "some time ago": 0.7533333333333334,
+            "long time ago": 0.2525
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6370833333333333,
+            "just": 0.10333333333333333,
+            "some time ago": 0.7862500000000001,
+            "long time ago": 0.4459166666666667
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5233333333333333,
+            "just": 0.10333333333333333,
+            "some time ago": 0.66,
+            "long time ago": 0.4196666666666667
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.49708333333333327,
+            "just": 0.08333333333333331,
+            "some time ago": 0.6466666666666666,
+            "long time ago": 0.3884166666666667
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.4575,
+            "just": 0.04,
+            "some time ago": 0.6829166666666666,
+            "long time ago": 0.3734166666666666
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.39375,
+            "just": 0.0275,
+            "some time ago": 0.7216666666666667,
+            "long time ago": 0.3709166666666666
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.17375,
+            "just": 0.0125,
+            "some time ago": 0.72,
+            "long time ago": 0.38966666666666666
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 1.0,
+            "just": 1.0,
+            "some time ago": 1.0,
+            "long time ago": 0.25
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 1.0,
+            "just": 1.0,
+            "some time ago": 1.0,
+            "long time ago": 0.25
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.76,
+            "just": 0.8266448412698414,
+            "some time ago": 0.7829166666666667,
+            "long time ago": 0.19645833333333332
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6076547619047621,
+            "just": 0.6826369047619048,
+            "some time ago": 0.40290476190476193,
+            "long time ago": 0.0
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6590773809523808,
+            "just": 0.5079047619047619,
+            "some time ago": 0.5195595238095237,
+            "long time ago": 0.0025
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5654345238095237,
+            "just": 0.49969047619047613,
+            "some time ago": 0.42718750000000005,
+            "long time ago": 0.0
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5023928571428571,
+            "just": 0.24666369047619047,
+            "some time ago": 0.45139583333333333,
+            "long time ago": 0.0020833333333333333
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.4160297619047618,
+            "just": 0.17347023809523812,
+            "some time ago": 0.5722559523809525,
+            "long time ago": 0.17494345238095244
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.4214107142857142,
+            "just": 0.21197023809523807,
+            "some time ago": 0.5860416666666668,
+            "long time ago": 0.17556845238095242
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.30305853174603176,
+            "just": 0.002,
+            "some time ago": 0.6136547619047618,
+            "long time ago": 0.3132499999999999
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.25556547619047615,
+            "just": 0.0,
+            "some time ago": 0.6579761904761906,
+            "long time ago": 0.31590476190476185
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5317142857142857,
+            "just": 0.0375,
+            "some time ago": 0.7466666666666667,
+            "long time ago": 0.39567261904761897
+        },
+        "true": [
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.4554642857142857,
+            "just": 0.037333333333333336,
+            "some time ago": 0.75125,
+            "long time ago": 0.5635555555555556
+        },
+        "true": [
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 1.0,
+            "just": 0.9941666666666668,
+            "some time ago": 0.9925,
+            "long time ago": 0.35
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.9689444444444443,
+            "just": 0.8237767857142857,
+            "some time ago": 0.9104791666666666,
+            "long time ago": 0.31745833333333334
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7425,
+            "just": 0.773827380952381,
+            "some time ago": 0.276875,
+            "long time ago": 0.0
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.755,
+            "just": 0.6068095238095238,
+            "some time ago": 0.434375,
+            "long time ago": 0.018375
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7325,
+            "just": 0.5759345238095238,
+            "some time ago": 0.5,
+            "long time ago": 0.0
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.735,
+            "just": 0.376,
+            "some time ago": 0.5025,
+            "long time ago": 0.015
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7325,
+            "just": 0.25267857142857136,
+            "some time ago": 0.508125,
+            "long time ago": 0.0025
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7258333333333334,
+            "just": 0.2876785714285714,
+            "some time ago": 0.500625,
+            "long time ago": 0.0
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6114999999999999,
+            "just": 0.0025,
+            "some time ago": 0.5069642857142856,
+            "long time ago": 0.002
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.49687499999999996,
+            "just": 0.0,
+            "some time ago": 0.7483333333333333,
+            "long time ago": 0.02375
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.67375,
+            "just": 0.080625,
+            "some time ago": 0.75625,
+            "long time ago": 0.24145833333333333
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5010416666666666,
+            "just": 0.05125,
+            "some time ago": 0.8393333333333335,
+            "long time ago": 0.368
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.9983333333333334,
+            "just": 0.9975,
+            "some time ago": 0.9983333333333334,
+            "long time ago": 0.34
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.8433750000000001,
+            "just": 0.9195555555555555,
+            "some time ago": 0.8720833333333334,
+            "long time ago": 0.29908333333333337
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5402083333333333,
+            "just": 0.6670059523809522,
+            "some time ago": 0.3287380952380952,
+            "long time ago": 0.0
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.662342261904762,
+            "just": 0.49887499999999996,
+            "some time ago": 0.4714613095238096,
+            "long time ago": 0.010416666666666664
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5914107142857142,
+            "just": 0.4897083333333333,
+            "some time ago": 0.4257619047619048,
+            "long time ago": 0.0
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.49916666666666665,
+            "just": 0.2564434523809524,
+            "some time ago": 0.43576190476190474,
+            "long time ago": 0.0025
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.3404166666666667,
+            "just": 0.10605654761904759,
+            "some time ago": 0.547327380952381,
+            "long time ago": 0.17467261904761905
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.346625,
+            "just": 0.14680654761904757,
+            "some time ago": 0.5835550595238095,
+            "long time ago": 0.179922619047619
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.23616071428571422,
+            "just": 0.0,
+            "some time ago": 0.633421130952381,
+            "long time ago": 0.2944285714285714
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.173422619047619,
+            "just": 0.0,
+            "some time ago": 0.6592127976190477,
+            "long time ago": 0.3318710317460316
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.44916666666666666,
+            "just": 0.049166666666666664,
+            "some time ago": 0.7461011904761905,
+            "long time ago": 0.5827083333333334
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.41791666666666666,
+            "just": 0.03833333333333334,
+            "some time ago": 0.7483333333333334,
+            "long time ago": 0.6641299603174605
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 1.0,
+            "just": 0.9925,
+            "some time ago": 0.9925,
+            "long time ago": 0.47
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.911529761904762,
+            "just": 0.7895833333333334,
+            "some time ago": 0.8658214285714285,
+            "long time ago": 0.39336309523809526
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7279166666666665,
+            "just": 0.6832083333333333,
+            "some time ago": 0.2835714285714286,
+            "long time ago": 0.005
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7400833333333332,
+            "just": 0.4936785714285714,
+            "some time ago": 0.4354047619047619,
+            "long time ago": 0.029375
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.718,
+            "just": 0.4593035714285714,
+            "some time ago": 0.4989166666666667,
+            "long time ago": 0.0
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7225,
+            "just": 0.27656150793650797,
+            "some time ago": 0.5164166666666666,
+            "long time ago": 0.015
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.72425,
+            "just": 0.22160714285714284,
+            "some time ago": 0.5223749999999999,
+            "long time ago": 0.01875
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.733,
+            "just": 0.25160714285714286,
+            "some time ago": 0.516125,
+            "long time ago": 0.01625
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7089166666666666,
+            "just": 0.007916666666666666,
+            "some time ago": 0.5254583333333332,
+            "long time ago": 0.022678571428571426
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5285357142857143,
+            "just": 0.00375,
+            "some time ago": 0.7125,
+            "long time ago": 0.08508333333333333
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.665625,
+            "just": 0.08645833333333332,
+            "some time ago": 0.77,
+            "long time ago": 0.2802678571428572
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.530625,
+            "just": 0.07375,
+            "some time ago": 0.8683333333333333,
+            "long time ago": 0.4375
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 1.0,
+            "just": 1.0,
+            "some time ago": 1.0,
+            "long time ago": 0.44
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.9286458333333333,
+            "just": 0.8947738095238097,
+            "some time ago": 0.9173869047619049,
+            "long time ago": 0.40666666666666673
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7106666666666667,
+            "just": 0.8027440476190476,
+            "some time ago": 0.27108333333333334,
+            "long time ago": 0.0075
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7549166666666668,
+            "just": 0.6807738095238095,
+            "some time ago": 0.4493333333333333,
+            "long time ago": 0.027916666666666666
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7268333333333333,
+            "just": 0.6428571428571428,
+            "some time ago": 0.49004166666666665,
+            "long time ago": 0.0
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7075,
+            "just": 0.4839801587301588,
+            "some time ago": 0.49254166666666666,
+            "long time ago": 0.022777777777777775
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6923333333333334,
+            "just": 0.23500892857142858,
+            "some time ago": 0.5083333333333333,
+            "long time ago": 0.007083333333333334
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6990000000000001,
+            "just": 0.2930089285714286,
+            "some time ago": 0.51,
+            "long time ago": 0.007083333333333334
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.536875,
+            "just": 0.03083333333333333,
+            "some time ago": 0.5214583333333334,
+            "long time ago": 0.00875
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5055357142857143,
+            "just": 0.011833333333333331,
+            "some time ago": 0.7152291666666667,
+            "long time ago": 0.07022727272727272
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6586607142857143,
+            "just": 0.0785,
+            "some time ago": 0.74625,
+            "long time ago": 0.24714285714285716
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.4642857142857143,
+            "just": 0.042458333333333334,
+            "some time ago": 0.7325,
+            "long time ago": 0.28629166666666667
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 1.0,
+            "just": 1.0,
+            "some time ago": 0.985,
+            "long time ago": 0.42
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.9721458333333335,
+            "just": 0.8498273809523809,
+            "some time ago": 0.899577380952381,
+            "long time ago": 0.37909821428571433
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7875,
+            "just": 0.8664374999999999,
+            "some time ago": 0.425,
+            "long time ago": 0.0575
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.815,
+            "just": 0.8059583333333333,
+            "some time ago": 0.4925,
+            "long time ago": 0.0625
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.8125,
+            "just": 0.7989583333333333,
+            "some time ago": 0.5625416666666666,
+            "long time ago": 0.0575
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7725,
+            "just": 0.6504107142857143,
+            "some time ago": 0.5425416666666666,
+            "long time ago": 0.05
+        },
+        "true": [
+            "recently",
+            "just",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.755,
+            "just": 0.5665,
+            "some time ago": 0.545,
+            "long time ago": 0.04291666666666666
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.75,
+            "just": 0.5325,
+            "some time ago": 0.5375,
+            "long time ago": 0.03791666666666667
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.73375,
+            "just": 0.465,
+            "some time ago": 0.535,
+            "long time ago": 0.0375
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7,
+            "just": 0.32,
+            "some time ago": 0.5875,
+            "long time ago": 0.03
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7125,
+            "just": 0.2725,
+            "some time ago": 0.5375,
+            "long time ago": 0.13166666666666665
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.44,
+            "just": 0.0925,
+            "some time ago": 0.554375,
+            "long time ago": 0.14083333333333334
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.9958333333333335,
+            "just": 1.0,
+            "some time ago": 0.9883333333333334,
+            "long time ago": 0.27
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.851014880952381,
+            "just": 0.9134732142857145,
+            "some time ago": 0.8750833333333334,
+            "long time ago": 0.24275000000000002
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6260178571428573,
+            "just": 0.7596130952380953,
+            "some time ago": 0.3188095238095238,
+            "long time ago": 0.0
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.7383333333333334,
+            "just": 0.5850238095238095,
+            "some time ago": 0.5391666666666667,
+            "long time ago": 0.011964285714285714
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6155416666666667,
+            "just": 0.5763928571428572,
+            "some time ago": 0.4307708333333333,
+            "long time ago": 0.0
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5045000000000001,
+            "just": 0.343513888888889,
+            "some time ago": 0.4509791666666667,
+            "long time ago": 0.005
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.43926785714285715,
+            "just": 0.17897619047619048,
+            "some time ago": 0.6407708333333333,
+            "long time ago": 0.17420238095238094
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.43576785714285715,
+            "just": 0.2519166666666667,
+            "some time ago": 0.6648125,
+            "long time ago": 0.17503571428571427
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.29222321428571435,
+            "just": 0.0008333333333333333,
+            "some time ago": 0.6704047619047618,
+            "long time ago": 0.3056369047619047
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.2584761904761904,
+            "just": 0.0,
+            "some time ago": 0.6544930555555554,
+            "long time ago": 0.33688690476190464
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5262500000000002,
+            "just": 0.05238095238095238,
+            "some time ago": 0.75,
+            "long time ago": 0.48045833333333343
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.47533333333333344,
+            "just": 0.04666666666666667,
+            "some time ago": 0.75,
+            "long time ago": 0.6458224206349206
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 1.0,
+            "just": 0.9979166666666666,
+            "some time ago": 0.98875,
+            "long time ago": 0.47
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.8455119047619045,
+            "just": 0.8325059523809525,
+            "some time ago": 0.8308779761904765,
+            "long time ago": 0.39517559523809515
+        },
+        "true": [
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6383511904761903,
+            "just": 0.6029910714285713,
+            "some time ago": 0.40574999999999994,
+            "long time ago": 0.0
+        },
+        "true": [
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6648720238095237,
+            "just": 0.42083630952380935,
+            "some time ago": 0.4957083333333333,
+            "long time ago": 0.029500000000000002
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.6297470238095237,
+            "just": 0.3865029761904761,
+            "some time ago": 0.5036458333333333,
+            "long time ago": 0.0
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5077083333333333,
+            "just": 0.1818898809523809,
+            "some time ago": 0.5078541666666667,
+            "long time ago": 0.013666666666666667
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.3564444444444446,
+            "just": 0.09355357142857143,
+            "some time ago": 0.6361458333333334,
+            "long time ago": 0.24333333333333332
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.3484503968253969,
+            "just": 0.12001190476190478,
+            "some time ago": 0.6592083333333334,
+            "long time ago": 0.2475
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.13746130952380953,
+            "just": 0.0,
+            "some time ago": 0.7042366071428573,
+            "long time ago": 0.485
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.0906666666666667,
+            "just": 0.0,
+            "some time ago": 0.75,
+            "long time ago": 0.5
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.31595833333333334,
+            "just": 0.12204166666666666,
+            "some time ago": 0.75,
+            "long time ago": 0.739892857142857
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.29450000000000004,
+            "just": 0.1296547619047619,
+            "some time ago": 0.751875,
+            "long time ago": 0.8284345238095239
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.91,
+            "just": 0.9225,
+            "some time ago": 0.32375,
+            "long time ago": 0.0725
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.825,
+            "just": 0.87,
+            "some time ago": 0.30791666666666667,
+            "long time ago": 0.0425
+        },
+        "true": [
+            "recently",
+            "just"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.71875,
+            "just": 0.67,
+            "some time ago": 0.33625,
+            "long time ago": 0.0075
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.595,
+            "just": 0.37,
+            "some time ago": 0.45125,
+            "long time ago": 0.005
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.3925,
+            "just": 0.23,
+            "some time ago": 0.58375,
+            "long time ago": 0.115
+        },
+        "true": [
+            "recently"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.3,
+            "just": 0.1175,
+            "some time ago": 0.65375,
+            "long time ago": 0.195
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.1975,
+            "just": 0.025,
+            "some time ago": 0.74375,
+            "long time ago": 0.44
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.1925,
+            "just": 0.0375,
+            "some time ago": 0.70125,
+            "long time ago": 0.4925
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.4775,
+            "just": 0.24,
+            "some time ago": 0.825,
+            "long time ago": 0.8625
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.47625,
+            "just": 0.2775,
+            "some time ago": 0.80625,
+            "long time ago": 0.98375
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.39875,
+            "just": 0.25125,
+            "some time ago": 0.575,
+            "long time ago": 0.985
+        },
+        "true": [
+            "some time ago",
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.965,
+            "just": 0.95,
+            "some time ago": 0.3675,
+            "long time ago": 0.06
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.8925,
+            "just": 0.9425,
+            "some time ago": 0.3883333333333333,
+            "long time ago": 0.0575
+        },
+        "true": [
+            "recently",
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.875,
+            "just": 0.755,
+            "some time ago": 0.4075,
+            "long time ago": 0.03
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.73,
+            "just": 0.465,
+            "some time ago": 0.355,
+            "long time ago": 0.005
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.5025,
+            "just": 0.35,
+            "some time ago": 0.44,
+            "long time ago": 0.005
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.4575,
+            "just": 0.1975,
+            "some time ago": 0.565,
+            "long time ago": 0.0375
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.3325,
+            "just": 0.02,
+            "some time ago": 0.78,
+            "long time ago": 0.305
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.2275,
+            "just": 0.0025,
+            "some time ago": 0.685,
+            "long time ago": 0.465
+        },
+        "true": [
+            "some time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.755,
+            "just": 0.14,
+            "some time ago": 0.9625,
+            "long time ago": 0.5975
+        },
+        "true": [
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.8225,
+            "just": 0.2025,
+            "some time ago": 0.9975,
+            "long time ago": 0.9475
+        },
+        "true": [
+            "long time ago"
+        ]
+    },
+    {
+        "prediction": {
+            "recently": 0.8225,
+            "just": 0.2025,
+            "some time ago": 1.0,
+            "long time ago": 0.9625
+        },
+        "true": [
+            "long time ago"
+        ]
+    }
+]{
+    "accuracy": 0.4393063583815029,
+    "precision (sample)": 0.8159922928709056,
+    "recall (sample)": 0.640655105973025,
+    "f1 (sample)": 0.6961464354527939,
+    "hamming_loss": 0.19219653179190752,
+    "jaccard (sample)": 0.6319845857418113
+}"RandomForestRegressor"
