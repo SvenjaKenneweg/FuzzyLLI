@@ -70,25 +70,25 @@ def evaluate_models(events, metric='rmse'):
     print(evaluate_classifier(events, metric=metric))
     print(evaluate_regression(events, metric=metric))
 
-    print("\n Evaluating GPT:")
-    print(evaluate_gpt(events, metric=metric))
-
 def evaluate_advanced_models(events):
     """
     Evaluate the models by comparing the predicted labels
     """
-    print("\nEvaluating Embeddings + Regressor:")
-    print(evaluate_advanced_embedding(events))
-
-    print("\nEvaluating GPT + Random Forest:")
-    print(evaluate_advanced_gpt_random_forest(events))
-
-    print("\nEvaluating Random Forest:")
-    print(evaluate_advanced_random_forest(events))
+    # print("\nEvaluating Embeddings + Regressor:")
+    # print(evaluate_advanced_embedding(events))
+    #
+    # print("\nEvaluating GPT + Random Forest:")
+    # print(evaluate_advanced_gpt_random_forest(events))
+    #
+    # print("\nEvaluating Random Forest:")
+    # print(evaluate_advanced_random_forest(events))
 
     # print("\nEvaluating Baseline Models (Classifier, Regression):")
     # print(evaluate_advanced_classifier(events))
     # print(evaluate_advanced_regression(events))
+
+    print("\n Evaluating GPT:")
+    print(evaluate_gpt(events))
 
 
 def plot_results(events):

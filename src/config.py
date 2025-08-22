@@ -19,6 +19,9 @@ ONE_HOT_ENCODER_FILE = 'onehotencoder.pkl'
 RANDOM_FOREST_REGRESSOR_FILE = 'RandomForestRegressor.pkl'
 XGB_REGRESSOR_FILE = 'XGBRegressor.pkl'
 
+GPT_PROMPT_FILE = RESULTS_FILE_PATH /'../GPT_Prompts.json'
+GPT_VERSION = "gpt-4.1-2025-04-14" #gpt-5-2025-08-07
+
 # List of vague adverbials
 VAGUE_ADVERBIALS: List[str] = ["recently", "just", "some time ago", "long time ago"]
 

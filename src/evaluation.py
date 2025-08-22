@@ -35,7 +35,7 @@ from src.config import (VAGUE_ADVERBIALS,
                         FREQUENCY_ORDER,
                         DATA_DIR,
                         event_specific_function,
-                        adverbial_specific_function)
+                        adverbial_specific_function, GPT_VERSION, GPT_PROMPT_FILE)
 
 
 # ---------------------------------------------------------------------------
@@ -298,7 +298,6 @@ def evaluate_advanced_baseline_model(events, fit_models_fn, predict_fn, model_to
 
 
 
-
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 def gpt_chat_answer(model_engine, instructions, prompt):
     messages = [
@@ -308,40 +307,29 @@ def gpt_chat_answer(model_engine, instructions, prompt):
     completion = client.chat.completions.create(
         model=model_engine,
         messages=messages,
-        temperature=0
+        temperature=0 # GPT-5 does not support setting the temperature
     )
     return completion.choices[0].message.content.strip()
 
 
-def predict_gpt(event_name, adverb, minutes_ago, model_engine="gpt-4-1106-preview"):
-    # System instructions (guidance on how GPT should behave)
+def predict_gpt(event_name, minutes_ago, model_engine=GPT_VERSION):
+    # System instructions: guidance on GPT's behavior
     instructions = """
-    You are a fuzzy logic interpreter that assigns numerical membership values (ranging from 0.0 to 1.0) to vague, time-related adverbials (e.g., "recently", "some time ago") 
-    based on how long ago an event occurred.
-
-    Each event is represented by a machine-readable identifier in the format `person_event_type` (e.g., `tom_wedding_celebration`).
-
-    Your task is to interpret how well a given adverbial applies to the timing of an event using fuzzy logic principles.
+    You are to choose the most appropriate adverbial(s) from the following options: 
+    just, recently, some time ago, long time ago.
+    Base your choice on the given event and the number of minutes that have passed since it happened.
+    Respond ONLY with the appropriate adverbial(s) and nothing else.
     """
 
     # Build user prompt
     prompt = f"""
-    Give the membership value for:
     Event: {event_name}
-    Adverbial: {adverb}
-    Minutes ago the event happened: {minutes_ago}
-    
-    Respond ONLY with a single float value mentioning the membership value.
+    Minutes since event: {minutes_ago}
     """
+
+    # Get GPT's answer
     output = gpt_chat_answer(model_engine, instructions, prompt)
-
-    # Try to extract the float from GPT output
-    try:
-        value = float(output.strip().split()[-1])
-    except ValueError:
-        raise ValueError(f"Unexpected GPT response")
-
-    return value
+    return output, instructions, prompt
 # ---------------------------------------------------------------------------
 # Model-specific Evaluators
 # ---------------------------------------------------------------------------
@@ -380,23 +368,67 @@ def evaluate_advanced_regression(events, model_to_predict="RandomForestRegressor
 
 
 
-def evaluate_gpt(events, metric='mae'):
-    errors = {adv: [] for adv in VAGUE_ADVERBIALS}
-    all_errors = []
+def evaluate_gpt(events):
+    y_true_list = []  # ground-truth label sets per sample
+    y_pred_list = []  # predicted label sets per sample
 
-    for event in events:
+    with open(GPT_PROMPT_FILE, "w") as f:
+        json.dump([], f)  # Start with an empty list
+    predictions_data = []
+
+    for i, event in enumerate(events):
         cleaned_data = get_cleaned_data(event)
-        for adv in VAGUE_ADVERBIALS:
-            # Predict and calculate error
-            targets = {m: np.median(vals) for m, vals in cleaned_data[adv].items()}
-            for minutes_ago, true_value in targets.items():
-                prediction = predict_gpt(event, adv, minutes_ago)
-                err = calculate_error(prediction, true_value)
-                errors[adv].append(err)
-                all_errors.append(err)
 
-    overall = np.mean(all_errors) if metric == 'mae' else np.sqrt(np.mean(np.square(all_errors)))
-    return {
-        'per_adverbial': {adv: np.mean(errs) for adv, errs in errors.items()},
-        'overall_score': overall
+        # --- Step 1: Gather all possible numeric keys ---
+        overall_targets = {adv: {k: float(np.median(v)) for k, v in cleaned_data[adv].items()} for adv in VAGUE_ADVERBIALS}
+        all_keys = sorted({int(k) for adv in overall_targets.values() for k in adv.keys()})
+
+        # --- Step 2: Function to get value for a given key, using nearest if missing ---
+        def get_value_for_key(adv_dict, target):
+            numeric_keys = sorted(int(k) for k in adv_dict.keys())
+            if str(target) in adv_dict:
+                return adv_dict[str(target)]
+            nearest = min(numeric_keys, key=lambda x: abs(x - target))
+            return adv_dict[str(nearest)]
+
+        # --- Step 3: Build inverted dict ---
+        best_adverbials = {}
+        for key in all_keys:
+            values = {adv: get_value_for_key(adv_dict, key) for adv, adv_dict in overall_targets.items()}
+            max_val = max(values.values())
+            best_adverbials[key] = [adv for adv, val in values.items() if val == max_val]
+
+        # --- Collect predictions vs truth for metrics ---
+        for minutes_ago, adverbials in best_adverbials.items():
+            prediction, instruction, prompt = predict_gpt(event, minutes_ago)
+            y_true_list.append(adverbials)
+            y_pred_list.append([prediction])
+            # --- Step 5: Save prediction to JSON structure ---
+            predictions_data.append({
+                "prediction": prediction,
+                "true": adverbials,
+                "prompt": prompt
+            })
+
+    # --- Step 6: Write all predictions to JSON (overwrite at the end) ---
+    with open(GPT_PROMPT_FILE, "w") as f:
+        json.dump(predictions_data, f, indent=4)
+        json.dump(instruction, f, indent=4)
+        json.dump(GPT_VERSION, f, indent=4)
+
+    # ==== Metrics ====
+    # Binarize over the union of all observed labels
+    mlb = MultiLabelBinarizer()
+    mlb.fit(y_true_list + y_pred_list)
+    y_true_bin = mlb.transform(y_true_list)
+    y_pred_bin = mlb.transform(y_pred_list)
+
+    results = {
+        "accuracy": accuracy_score(y_true_bin, y_pred_bin),
+        "precision (sample)": precision_score(y_true_bin, y_pred_bin, average="samples", zero_division=0),
+        "recall (sample)": recall_score(y_true_bin, y_pred_bin, average="samples", zero_division=0),
+        "f1 (sample)": f1_score(y_true_bin, y_pred_bin, average="samples", zero_division=0),
+        "hamming_loss": hamming_loss(y_true_bin, y_pred_bin),
+        "jaccard (sample)": jaccard_score(y_true_bin, y_pred_bin, average="samples"),
     }
+    return results
