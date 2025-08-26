@@ -1,6 +1,6 @@
 [
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -8,7 +8,7 @@
         "prompt": "\n    Event: tom_wedding_celebration\n    Minutes since event: 5760\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -16,28 +16,28 @@
         "prompt": "\n    Event: tom_wedding_celebration\n    Minutes since event: 10080\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_wedding_celebration\n    Minutes since event: 20160\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_wedding_celebration\n    Minutes since event: 43800\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_wedding_celebration\n    Minutes since event: 87600\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "recently",
             "some time ago"
@@ -45,7 +45,7 @@
         "prompt": "\n    Event: tom_wedding_celebration\n    Minutes since event: 175200\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "some time ago"
         ],
@@ -74,7 +74,7 @@
         "prompt": "\n    Event: tom_wedding_celebration\n    Minutes since event: 4204800\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -82,7 +82,7 @@
         "prompt": "\n    Event: own_year_abroad\n    Minutes since event: 5760\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -90,28 +90,28 @@
         "prompt": "\n    Event: own_year_abroad\n    Minutes since event: 10080\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_year_abroad\n    Minutes since event: 20160\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_year_abroad\n    Minutes since event: 43800\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_year_abroad\n    Minutes since event: 87600\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "recently",
             "some time ago"
@@ -119,7 +119,7 @@
         "prompt": "\n    Event: own_year_abroad\n    Minutes since event: 175200\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "some time ago"
         ],
@@ -156,7 +156,7 @@
         "prompt": "\n    Event: own_birthday\n    Minutes since event: 1440\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -164,28 +164,28 @@
         "prompt": "\n    Event: own_birthday\n    Minutes since event: 2880\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_birthday\n    Minutes since event: 5760\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_birthday\n    Minutes since event: 10080\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_birthday\n    Minutes since event: 20160\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "some time ago"
@@ -193,28 +193,28 @@
         "prompt": "\n    Event: own_birthday\n    Minutes since event: 43800\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: own_birthday\n    Minutes since event: 87600\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: own_birthday\n    Minutes since event: 131400\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: own_birthday\n    Minutes since event: 175200\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "some time ago",
             "long time ago"
@@ -222,7 +222,7 @@
         "prompt": "\n    Event: own_birthday\n    Minutes since event: 350400\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "some time ago",
             "long time ago"
@@ -230,7 +230,7 @@
         "prompt": "\n    Event: own_birthday\n    Minutes since event: 512040\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -238,7 +238,7 @@
         "prompt": "\n    Event: own_vacation\n    Minutes since event: 1440\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -246,14 +246,14 @@
         "prompt": "\n    Event: own_vacation\n    Minutes since event: 2880\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_vacation\n    Minutes since event: 5760\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -261,7 +261,7 @@
         "prompt": "\n    Event: own_vacation\n    Minutes since event: 10080\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -269,28 +269,28 @@
         "prompt": "\n    Event: own_vacation\n    Minutes since event: 20160\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_vacation\n    Minutes since event: 43800\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: own_vacation\n    Minutes since event: 87600\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: own_vacation\n    Minutes since event: 175200\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "some time ago"
         ],
@@ -312,7 +312,7 @@
         "prompt": "\n    Event: own_rent_payment\n    Minutes since event: 60\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -320,70 +320,70 @@
         "prompt": "\n    Event: own_rent_payment\n    Minutes since event: 480\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_rent_payment\n    Minutes since event: 960\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_rent_payment\n    Minutes since event: 1440\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_rent_payment\n    Minutes since event: 2880\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_rent_payment\n    Minutes since event: 4320\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_rent_payment\n    Minutes since event: 5760\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: own_rent_payment\n    Minutes since event: 10080\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: own_rent_payment\n    Minutes since event: 20160\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: own_rent_payment\n    Minutes since event: 30240\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: own_rent_payment\n    Minutes since event: 43800\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "some time ago",
             "long time ago"
@@ -391,7 +391,7 @@
         "prompt": "\n    Event: own_rent_payment\n    Minutes since event: 87600\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "some time ago",
             "long time ago"
@@ -414,7 +414,7 @@
         "prompt": "\n    Event: own_shower\n    Minutes since event: 5\n    "
     },
     {
-        "prediction": "just",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -430,21 +430,21 @@
         "prompt": "\n    Event: own_shower\n    Minutes since event: 60\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_shower\n    Minutes since event: 120\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_shower\n    Minutes since event: 240\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "some time ago"
@@ -452,7 +452,7 @@
         "prompt": "\n    Event: own_shower\n    Minutes since event: 360\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
@@ -466,7 +466,7 @@
         "prompt": "\n    Event: own_shower\n    Minutes since event: 960\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
@@ -518,7 +518,7 @@
         "prompt": "\n    Event: tom_watching_film\n    Minutes since event: 60\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -526,7 +526,7 @@
         "prompt": "\n    Event: tom_watching_film\n    Minutes since event: 120\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -534,35 +534,35 @@
         "prompt": "\n    Event: tom_watching_film\n    Minutes since event: 240\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_watching_film\n    Minutes since event: 360\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_watching_film\n    Minutes since event: 720\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_watching_film\n    Minutes since event: 960\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_watching_film\n    Minutes since event: 1440\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "some time ago"
@@ -570,7 +570,7 @@
         "prompt": "\n    Event: tom_watching_film\n    Minutes since event: 2880\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
@@ -608,21 +608,21 @@
         "prompt": "\n    Event: tom_eating_risotto\n    Minutes since event: 60\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_eating_risotto\n    Minutes since event: 120\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_eating_risotto\n    Minutes since event: 240\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "some time ago"
@@ -630,35 +630,35 @@
         "prompt": "\n    Event: tom_eating_risotto\n    Minutes since event: 360\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: tom_eating_risotto\n    Minutes since event: 720\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: tom_eating_risotto\n    Minutes since event: 960\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: tom_eating_risotto\n    Minutes since event: 1440\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: tom_eating_risotto\n    Minutes since event: 2880\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
@@ -688,14 +688,14 @@
         "prompt": "\n    Event: tom_reading_book\n    Minutes since event: 30\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_reading_book\n    Minutes since event: 60\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -703,7 +703,7 @@
         "prompt": "\n    Event: tom_reading_book\n    Minutes since event: 120\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -711,28 +711,28 @@
         "prompt": "\n    Event: tom_reading_book\n    Minutes since event: 240\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_reading_book\n    Minutes since event: 360\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_reading_book\n    Minutes since event: 720\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_reading_book\n    Minutes since event: 960\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "some time ago"
@@ -740,21 +740,21 @@
         "prompt": "\n    Event: tom_reading_book\n    Minutes since event: 1440\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: tom_reading_book\n    Minutes since event: 2880\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: tom_reading_book\n    Minutes since event: 5760\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
@@ -783,63 +783,63 @@
         "prompt": "\n    Event: tom_dancing_salsa\n    Minutes since event: 60\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_dancing_salsa\n    Minutes since event: 120\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_dancing_salsa\n    Minutes since event: 240\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_dancing_salsa\n    Minutes since event: 360\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_dancing_salsa\n    Minutes since event: 720\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_dancing_salsa\n    Minutes since event: 960\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_dancing_salsa\n    Minutes since event: 1440\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: tom_dancing_salsa\n    Minutes since event: 2880\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: tom_dancing_salsa\n    Minutes since event: 5760\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
@@ -854,7 +854,7 @@
         "prompt": "\n    Event: tom_storing_wineBottle\n    Minutes since event: 5\n    "
     },
     {
-        "prediction": "just",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -870,21 +870,21 @@
         "prompt": "\n    Event: tom_storing_wineBottle\n    Minutes since event: 60\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_storing_wineBottle\n    Minutes since event: 120\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_storing_wineBottle\n    Minutes since event: 240\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just",
@@ -893,7 +893,7 @@
         "prompt": "\n    Event: tom_storing_wineBottle\n    Minutes since event: 360\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "some time ago"
@@ -901,7 +901,7 @@
         "prompt": "\n    Event: tom_storing_wineBottle\n    Minutes since event: 720\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "some time ago"
@@ -909,7 +909,7 @@
         "prompt": "\n    Event: tom_storing_wineBottle\n    Minutes since event: 960\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "some time ago"
@@ -917,14 +917,14 @@
         "prompt": "\n    Event: tom_storing_wineBottle\n    Minutes since event: 1440\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: tom_storing_wineBottle\n    Minutes since event: 2880\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
@@ -954,7 +954,7 @@
         "prompt": "\n    Event: tom_drinking_juice\n    Minutes since event: 30\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -962,7 +962,7 @@
         "prompt": "\n    Event: tom_drinking_juice\n    Minutes since event: 60\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "some time ago"
@@ -970,7 +970,7 @@
         "prompt": "\n    Event: tom_drinking_juice\n    Minutes since event: 120\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "some time ago"
@@ -986,35 +986,35 @@
         "prompt": "\n    Event: tom_drinking_juice\n    Minutes since event: 360\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: tom_drinking_juice\n    Minutes since event: 720\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: tom_drinking_juice\n    Minutes since event: 960\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: tom_drinking_juice\n    Minutes since event: 1440\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: tom_drinking_juice\n    Minutes since event: 2880\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago",
             "long time ago"
@@ -1045,14 +1045,14 @@
         "prompt": "\n    Event: tom_chatting_friend\n    Minutes since event: 30\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "just"
         ],
         "prompt": "\n    Event: tom_chatting_friend\n    Minutes since event: 60\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -1060,7 +1060,7 @@
         "prompt": "\n    Event: tom_chatting_friend\n    Minutes since event: 120\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -1068,7 +1068,7 @@
         "prompt": "\n    Event: tom_chatting_friend\n    Minutes since event: 240\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -1076,7 +1076,7 @@
         "prompt": "\n    Event: tom_chatting_friend\n    Minutes since event: 360\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "some time ago"
@@ -1084,7 +1084,7 @@
         "prompt": "\n    Event: tom_chatting_friend\n    Minutes since event: 720\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "some time ago"
@@ -1092,14 +1092,14 @@
         "prompt": "\n    Event: tom_chatting_friend\n    Minutes since event: 960\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: tom_chatting_friend\n    Minutes since event: 1440\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "some time ago"
@@ -1107,21 +1107,21 @@
         "prompt": "\n    Event: tom_chatting_friend\n    Minutes since event: 2880\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: tom_chatting_friend\n    Minutes since event: 5760\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: tom_chatting_friend\n    Minutes since event: 10080\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -1129,7 +1129,7 @@
         "prompt": "\n    Event: own_wedding_celebration\n    Minutes since event: 5760\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "just"
@@ -1137,28 +1137,28 @@
         "prompt": "\n    Event: own_wedding_celebration\n    Minutes since event: 10080\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_wedding_celebration\n    Minutes since event: 20160\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_wedding_celebration\n    Minutes since event: 43800\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "recently"
         ],
         "prompt": "\n    Event: own_wedding_celebration\n    Minutes since event: 131400\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "recently",
             "some time ago"
@@ -1166,7 +1166,7 @@
         "prompt": "\n    Event: own_wedding_celebration\n    Minutes since event: 262800\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "some time ago"
         ],
@@ -1203,7 +1203,7 @@
         "prompt": "\n    Event: own_wedding_celebration\n    Minutes since event: 10512000\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "some time ago"
@@ -1211,7 +1211,7 @@
         "prompt": "\n    Event: own_wallet_theft\n    Minutes since event: 5760\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "recently",
             "some time ago"
@@ -1219,28 +1219,28 @@
         "prompt": "\n    Event: own_wallet_theft\n    Minutes since event: 10080\n    "
     },
     {
-        "prediction": "some time ago",
+        "prediction": "recently",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: own_wallet_theft\n    Minutes since event: 20160\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: own_wallet_theft\n    Minutes since event: 43800\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "some time ago"
         ],
         "prompt": "\n    Event: own_wallet_theft\n    Minutes since event: 131400\n    "
     },
     {
-        "prediction": "long time ago",
+        "prediction": "some time ago",
         "true": [
             "some time ago"
         ],
@@ -1281,4 +1281,4 @@
         ],
         "prompt": "\n    Event: own_wallet_theft\n    Minutes since event: 10512000\n    "
     }
-]"\n    You are to choose the most appropriate adverbial(s) from the following options: \n    just, recently, some time ago, long time ago.\n    Base your choice on the given event and the number of minutes that have passed since it happened.\n    Respond ONLY with the appropriate adverbial(s) and nothing else.\n    ""gpt-4.1-2025-04-14"
+]"\n    You are to choose the most appropriate adverbial(s) from the following options: \n    just, recently, some time ago, long time ago.\n    Base your choice on the given event and the number of minutes that have passed since it happened.\n    Respond ONLY with the appropriate adverbial(s) and nothing else.\n    ""gpt-5-2025-08-07"

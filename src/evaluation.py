@@ -5,6 +5,7 @@ from typing import List
 import openai
 import os
 from openai import OpenAI
+from collections import Counter
 
 import numpy as np
 from sklearn.preprocessing import MultiLabelBinarizer
@@ -311,10 +312,15 @@ def gpt_chat_answer(model_engine, instructions, prompt):
         {"role": "system", "content": str(instructions)},
         {"role": "user", "content": str(prompt)}
     ]
+    if "5" in model_engine:
+        temperature = 1 # GPT-5 does not support a temperature of 0
+    else:
+        temperature = 0
+
     completion = client.chat.completions.create(
         model=model_engine,
         messages=messages,
-        temperature=0 # GPT-5 does not support setting the temperature
+        temperature=temperature
     )
     return completion.choices[0].message.content.strip()
 
@@ -335,7 +341,17 @@ def predict_gpt(event_name, minutes_ago, model_engine=GPT_VERSION):
     """
 
     # Get GPT's answer
-    output = gpt_chat_answer(model_engine, instructions, prompt)
+    if "5" in model_engine: # As version 5 does not support the temperature 0 setting get the output 5 times and chose the most frequent adverbials
+        outputs = []
+        for i in range(0, 5):
+            outputs.append(gpt_chat_answer(model_engine, instructions, prompt))
+        counter = Counter(outputs)
+        output, count = counter.most_common(1)[0]
+        print(output)
+        print(outputs)
+        print("")
+    else:
+        output = gpt_chat_answer(model_engine, instructions, prompt)
     return output, instructions, prompt
 # ---------------------------------------------------------------------------
 # Model-specific Evaluators

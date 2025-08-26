@@ -29,9 +29,9 @@ def train_models(events):
     fit_event_specific_embeddings(events)
     fit_event_specific_random_forest(events)
 
-    print("\nTraining Simple Models (Classifier, Regression)...")
-    fit_classifier(events)
-    fit_regression(events)
+    # print("\nTraining Simple Models (Classifier, Regression)...")
+    # fit_classifier(events)
+    # fit_regression(events)
 
 
 def make_predictions(event_details):
@@ -40,17 +40,17 @@ def make_predictions(event_details):
     """
     event, duration, frequency, adverbial, minutes_ago = event_details
 
-    print("\nPredictions using Classifiers and Regression:")
-    print(predict_adverbial_classifier(duration, frequency, minutes_ago))
-    print(predict_adverbial_regression(duration, frequency, minutes_ago))
+    # print("\nPredictions using Classifiers and Regression:")
+    # print(predict_adverbial_classifier(duration, frequency, minutes_ago))
+    # print(predict_adverbial_regression(duration, frequency, minutes_ago))
 
     print("\nPredictions using Embeddings and Random Forest:")
-    print(predict_time_frame_embedding(event, adverbial))
+    # print(predict_time_frame_embedding(event, adverbial))
     print(predict_adverbial_embedding(event, minutes_ago))
-    print(predict_time_frame_gpt_random_forest(event, adverbial))
+    # print(predict_time_frame_gpt_random_forest(event, adverbial))
     print(predict_adverbial_gpt_random_forest(event, minutes_ago))
-    print(predict_time_frame_random_forest(duration, frequency, adverbial))
-    print(predict_adverbial_random_forest(duration, frequency, minutes_ago))
+    # print(predict_time_frame_random_forest(duration, frequency, adverbial))
+    # print(predict_adverbial_random_forest(duration, frequency, minutes_ago))
 
 
 def evaluate_models(events, metric='rmse'):
@@ -74,21 +74,21 @@ def evaluate_advanced_models(events):
     """
     Evaluate the models by comparing the predicted labels
     """
-    print("\nEvaluating Embeddings + Regressor:")
-    print(evaluate_advanced_embedding(events))
+    # print("\nEvaluating Embeddings + Regressor:")
+    # print(evaluate_advanced_embedding(events))
+    #
+    # print("\nEvaluating GPT + Random Forest:")
+    # print(evaluate_advanced_gpt_random_forest(events))
+    #
+    # print("\nEvaluating Random Forest:")
+    # print(evaluate_advanced_random_forest(events))
+    #
+    # print("\nEvaluating Baseline Models (Classifier, Regression):")
+    # print(evaluate_advanced_classifier(events))
+    # print(evaluate_advanced_regression(events))
 
-    print("\nEvaluating GPT + Random Forest:")
-    print(evaluate_advanced_gpt_random_forest(events))
-
-    print("\nEvaluating Random Forest:")
-    print(evaluate_advanced_random_forest(events))
-
-    print("\nEvaluating Baseline Models (Classifier, Regression):")
-    print(evaluate_advanced_classifier(events))
-    print(evaluate_advanced_regression(events))
-
-    # print("\n Evaluating GPT:")
-    # print(evaluate_gpt(events))
+    print("\n Evaluating GPT:")
+    print(evaluate_gpt(events))
 
 
 def plot_results(events):
@@ -107,7 +107,13 @@ def main():
         "tom_chatting_friend", "own_wedding_celebration", "own_wallet_theft"
     ]
 
-    event_details = ("Tom had a meeting", "Minutes", "Monthly", "just", 144000)
+
+    minutes_ago = [5, 30, 60, 480, 1440, 4320, 10080, 20160, 30240, 43800, 131400, 262800, 525600, 1577000, 2628000, 5256000]
+
+    # for minute in minutes_ago:
+    #     event_details = ("I went camping", "Minutes", "Monthly", "just", minute)
+    #     make_predictions(event_details)
+    #     print(minute)
 
     # Run the steps sequentially
     # train_models(events) # Trains FuzzyLLI in all variants and the baseline models
