@@ -8,6 +8,7 @@ from scipy.special import erf, erfinv
 RESULTS_FILE_PATH = Path("results/fits/")
 PLOT_FILE_PATH = Path("results/plots")
 EVALUATION_FILE_PATH = Path("results/evaluation/")
+DATA_EVALUATION_SURVEY_PATH =  Path("data/evaluation_survey")
 DATA_DIR = Path("data/with_event_properties")
 RESULTS_JSON = RESULTS_FILE_PATH / "event_adverbials.json"
 EMBEDDING_RIDGE_FILE = 'event_embeddings_ridge.pkl'
@@ -26,7 +27,7 @@ EVALUATION_ADVANCED_RANDOMFOREST_FILE = EVALUATION_FILE_PATH /'random_forest.jso
 EVALUATION_ADVANCED_CLASSIFIER_FILE = EVALUATION_FILE_PATH /'classifier.json'
 EVALUATION_ADVANCED_REGRESSION_FILE = EVALUATION_FILE_PATH /'regression.json'
 GPT_PROMPT_FILE = EVALUATION_FILE_PATH / 'GPT_Prompts.json'
-GPT_VERSION = "gpt-5-2025-08-07" #"gpt-4.1-2025-04-14"
+GPT_VERSION = "gpt-4.1-2025-04-14" #"gpt-5-2025-08-07"
 
 # List of vague adverbials
 VAGUE_ADVERBIALS: List[str] = ["recently", "just", "some time ago", "long time ago"]

@@ -248,6 +248,7 @@ def fit_event_adverbials(
 def fit_event_specific_embeddings(events_to_fit):
     packed = _load_packed()
     values = []
+
     for event in events_to_fit:
         values.append(packed["event_params"][event])
 

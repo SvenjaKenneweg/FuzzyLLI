@@ -9,6 +9,7 @@ from src.evaluation import (evaluate_embedding, evaluate_gpt_random_forest, eval
                             evaluate_advanced_classifier, evaluate_advanced_regression,
                             evaluate_advanced_embedding, evaluate_advanced_gpt_random_forest, evaluate_advanced_random_forest,
                             evaluate_gpt)
+from src.evaluation_survey import (evaluate_survey_gpt_random_forest, evaluate_survey_embedding)
 from src.simple_models_training import fit_classifier, fit_regression
 from src.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
 
@@ -17,7 +18,7 @@ import sys
 # Open a file in write mode
 log_file = open('output.log', 'w')
 # Redirect print statements to the file
-sys.stdout = log_file
+# sys.stdout = log_file
 
 
 def train_models(events):
@@ -38,7 +39,7 @@ def make_predictions(event_details):
     """
     Make predictions using different models.
     """
-    event, duration, frequency, adverbial, minutes_ago = event_details
+    event, event_nl, duration, frequency, adverbial, minutes_ago = event_details
 
     # print("\nPredictions using Classifiers and Regression:")
     # print(predict_adverbial_classifier(duration, frequency, minutes_ago))
@@ -48,37 +49,37 @@ def make_predictions(event_details):
     # print(predict_time_frame_embedding(event, adverbial))
     print(predict_adverbial_embedding(event, minutes_ago))
     # print(predict_time_frame_gpt_random_forest(event, adverbial))
-    print(predict_adverbial_gpt_random_forest(event, minutes_ago))
+    print(predict_adverbial_gpt_random_forest(event_nl, minutes_ago))
     # print(predict_time_frame_random_forest(duration, frequency, adverbial))
     # print(predict_adverbial_random_forest(duration, frequency, minutes_ago))
 
 
-def evaluate_models(events, metric='rmse'):
+def evaluate_models(events, events_nl, metric='rmse'):
     """
     Evaluate the models using different metrics.
     """
-    print("\nEvaluating Embeddings + Regressor:")
-    print(evaluate_embedding(events, metric=metric))
+    # print("\nEvaluating Embeddings + Regressor:")
+    # print(evaluate_embedding(events, metric=metric))
 
     print("\nEvaluating GPT + Random Forest:")
-    print(evaluate_gpt_random_forest(events, metric=metric))
+    print(evaluate_gpt_random_forest(events, events_nl, metric=metric))
 
-    print("\nEvaluating Random Forest:")
-    print(evaluate_random_forest(events, metric=metric))
+    # print("\nEvaluating Random Forest:")
+    # print(evaluate_random_forest(events, metric=metric))
+    #
+    # print("\nEvaluating Baseline Models (Classifier, Regression):")
+    # print(evaluate_classifier(events, metric=metric))
+    # print(evaluate_regression(events, metric=metric))
 
-    print("\nEvaluating Baseline Models (Classifier, Regression):")
-    print(evaluate_classifier(events, metric=metric))
-    print(evaluate_regression(events, metric=metric))
-
-def evaluate_advanced_models(events):
+def evaluate_advanced_models(events, events_nl):
     """
     Evaluate the models by comparing the predicted labels
     """
     # print("\nEvaluating Embeddings + Regressor:")
     # print(evaluate_advanced_embedding(events))
     #
-    # print("\nEvaluating GPT + Random Forest:")
-    # print(evaluate_advanced_gpt_random_forest(events))
+    print("\nEvaluating GPT + Random Forest:")
+    print(evaluate_advanced_gpt_random_forest(events, events)) #events_nl))
     #
     # print("\nEvaluating Random Forest:")
     # print(evaluate_advanced_random_forest(events))
@@ -87,8 +88,18 @@ def evaluate_advanced_models(events):
     # print(evaluate_advanced_classifier(events))
     # print(evaluate_advanced_regression(events))
 
-    print("\n Evaluating GPT:")
-    print(evaluate_gpt(events))
+    # print("\n Evaluating GPT:")
+    # print(evaluate_gpt(events))
+
+def evaluate_survey(events_to_fit):
+    """
+    Evaluate the models by comparing the predicted adverbials for new events with the survey results
+    """
+    print("\nEvaluating GPT + Random Forest on the survey data:")
+    print(evaluate_survey_gpt_random_forest(events_to_fit))
+
+    # print("\nEvaluating Embeddings + Regressor on the survey data:")
+    # print(evaluate_survey_embedding(events_to_fit))
 
 
 def plot_results(events):
@@ -107,19 +118,26 @@ def main():
         "tom_chatting_friend", "own_wedding_celebration", "own_wallet_theft"
     ]
 
+    # Events in Natural Language Format used for GPT to predict the event properties.
+    events_nl = [
+        "Tom had his wedding celebration", "I spent a year abroad", "I had my birthday", "I went on vacation",
+        "I paid rent", "I took a shower", "Tom watched a film", "Tom ate risotto",
+        "Tom read a book", "Tom danced salsa", "Tom stored a wine bottle", "Tom dran juice",
+        "Tom chatted with a friend", "I had my wedding celebration", "I had my wallet stolen"
+    ]
 
-    minutes_ago = [5, 30, 60, 480, 1440, 4320, 10080, 20160, 30240, 43800, 131400, 262800, 525600, 1577000, 2628000, 5256000]
-
+    # minutes_ago = [5, 30, 60, 480, 1440, 4320, 10080, 20160, 30240, 43800, 131400, 262800, 525600, 1577000, 2628000, 5256000]
     # for minute in minutes_ago:
-    #     event_details = ("I went camping", "Minutes", "Monthly", "just", minute)
+    #     event_details = ("own_camping", "I went camping", "Minutes", "Monthly", "just", minute)
     #     make_predictions(event_details)
     #     print(minute)
 
     # Run the steps sequentially
     # train_models(events) # Trains FuzzyLLI in all variants and the baseline models
     # make_predictions(event_details) #Predicts minutes ago or the event and the best fitting adverbials
-    # evaluate_models(events, metric='rmse') # Evaluated FuzzyLLI and baseline models via leaving one out. Possible metrics: mae and rmse
-    evaluate_advanced_models(events)
+    # evaluate_models(events, events_nl, metric='mae') # Evaluated FuzzyLLI and baseline models via leaving one out. Possible metrics: mae and rmse
+    # evaluate_advanced_models(events, events_nl)
+    evaluate_survey(events)
     # plot_results(events) # Plots FuzzyLLI
 
 if __name__ == '__main__':

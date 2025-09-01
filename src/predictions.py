@@ -7,6 +7,7 @@ from openai import OpenAI
 from pathlib import Path
 from typing import Dict
 from joblib import load
+from collections import Counter
 import pandas as pd
 from sentence_transformers import SentenceTransformer
 
@@ -14,6 +15,7 @@ from src.config import (event_specific_function,
                         inverse_event_specific_function,
                         adverbial_specific_function,
                         gauss_inverse,
+                        GPT_VERSION,
                         RESULTS_FILE_PATH,
                         VAGUE_ADVERBIALS,
                         EMBEDDING_RIDGE_FILE,
@@ -40,37 +42,59 @@ def _load_packed(path: Path = RESULTS_FILE_PATH / "event_adverbials") -> Dict[st
 def _safe_round(value):
     return round(value) if math.isfinite(value) else value
 
-def _get_event_properties_gpt(event, gpt_model="gpt-4"):
-    prompt = f"""
-    I will provide you with an event performed by yourself. Your task is to evaluate the event based on three dimensions: duration and frequency.
-
-    Please use the following definitions and rating scales:
-
-    Duration – How long does the event typically last?
-    Scale: Minutes, Hours, Days, Weeks, Months, Years, Decades
-
-    Frequency – How often does the event typically occur?
-    Scale: Daily, Monthly, Yearly, Decadal, Once in Life
-
-    Event: {event}
-
-    Respond in this exact format:
-    Duration: <value>
-    Frequency: <value>
+def _get_event_properties_gpt(event_nl, model_engine=GPT_VERSION):
+    instruction = f"""
+    You are an assistant that evaluates events based on two dimensions: duration and frequency.
+    
+    Definitions:
+    - Duration → How long the event typically lasts.
+      Scale: Minutes, Hours, Days, Weeks, Months, Years, Decades.
+    - Frequency → How often the event typically occurs.
+      Scale: Daily, Monthly, Yearly, Decadal, Once in Life.
+    
+    Instructions:
+    - Read the event description carefully.
+    - Determine whether the event was performed by the user or someone else.
+    - Use general human knowledge to estimate duration and frequency.
+    - Always respond in the following exact format:
+    
+    Duration: <one of the duration scale values>
+    Frequency: <one of the frequency scale values>
     """
 
-    response = client.chat.completions.create(
-        model=gpt_model,
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0
-    )
+    prompt = f"""
+    Event: {event_nl}
+    """
 
-    content = response.choices[0].message.content
+    messages = [
+        {"role": "system", "content": str(instruction)},
+        {"role": "user", "content": str(prompt)}
+    ]
 
-    # Basic parsing
-    matches = re.findall(r"(Duration|Frequency):\s*(.+)", content)
-    response_dict = {k: v.strip() for k, v in matches}
-    return response_dict
+    if "5" in model_engine:
+        temperature = 1 # GPT-5 does not support a temperature of 0
+        runs = 5
+    else:
+        temperature = 0
+        runs = 1
+
+    data = []
+    for run in range(0, runs):
+        completion = client.chat.completions.create(
+            model=model_engine,
+            messages=messages,
+            temperature=temperature
+        )
+        content = completion.choices[0].message.content
+        data.append(content)
+
+    durations = [d.split("\n")[0].split(": ")[1] for d in data]
+    frequencies = [d.split("\n")[1].split(": ")[1] for d in data]
+    result = {
+        "Duration": Counter(durations).most_common(1)[0][0],
+        "Frequency": Counter(frequencies).most_common(1)[0][0]
+    }
+    return result
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
@@ -143,7 +167,7 @@ def predict_time_frame_gpt_random_forest(event, adverbial, min_prob=0.6, max_pro
     return upper, lower
 
 
-def predict_adverbial_gpt_random_forest(event, minutes_ago,max_retries=10):
+def predict_adverbial_gpt_random_forest(event_nl, minutes_ago,max_retries=10):
     def get_index(value, order_list):
         if value is None:
             return None
@@ -156,7 +180,7 @@ def predict_adverbial_gpt_random_forest(event, minutes_ago,max_retries=10):
     random_forest = load(RESULTS_FILE_PATH / RANDOM_FOREST_FILE)
 
     for attempt in range(max_retries):
-        gpt_result = _get_event_properties_gpt(event)
+        gpt_result = _get_event_properties_gpt(event_nl)
 
         duration = gpt_result.get("Duration")
         frequency = gpt_result.get("Frequency")

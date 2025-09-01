@@ -72,7 +72,7 @@ def calculate_error(predicted: float, true: float) -> float:
 # Evaluation Functions
 # ---------------------------------------------------------------------------
 
-def evaluate_model(events, fit_models_fn, predict_fn, metric='mae'):
+def evaluate_model(events, fit_models_fn, predict_fn, metric='mae', events_nl=None):
     errors = {adv: [] for adv in VAGUE_ADVERBIALS}
     all_errors = []
 
@@ -98,7 +98,10 @@ def evaluate_model(events, fit_models_fn, predict_fn, metric='mae'):
                     dur = DURATION_ORDER[int(statistics.median(dur_votes))]
                     predicted = predict_fn(dur, freq, int(minutes_ago))[adv]
                 else:
-                    predicted = predict_fn(event, int(minutes_ago))[adv]
+                    if events_nl:
+                        predicted = predict_fn(events_nl[i], int(minutes_ago))[adv]
+                    else:
+                        predicted = predict_fn(event, int(minutes_ago))[adv]
 
                 error = calculate_error(predicted, true_value)
                 errors[adv].append(error)
@@ -111,7 +114,7 @@ def evaluate_model(events, fit_models_fn, predict_fn, metric='mae'):
         'overall_score': overall
     }
 
-def evaluate_advanced_model(events, fit_models_fn, predict_fn):
+def evaluate_advanced_model(events, fit_models_fn, predict_fn, events_nl=None):
     y_true_list = []  # ground-truth label sets per sample
     y_pred_list = []  # predicted label sets per sample
     all_predictions = []
@@ -157,7 +160,10 @@ def evaluate_advanced_model(events, fit_models_fn, predict_fn):
                 dur = DURATION_ORDER[int(statistics.median(dur_votes))]
                 predictions = predict_fn(dur, freq, int(minutes_ago))
             else:
-                predictions = predict_fn(event, int(minutes_ago))
+                if events_nl:
+                    predictions = predict_fn(events_nl[i], int(minutes_ago))
+                else:
+                    predictions = predict_fn(event, int(minutes_ago))
 
             all_predictions.append(predictions)
             best_predicted_adverbials = [adv for adv, val in predictions.items() if val == max(predictions.values())]
@@ -373,11 +379,11 @@ def evaluate_advanced_embedding(events):
         json.dump(results, f, indent=4)
     return results
 
-def evaluate_gpt_random_forest(events, metric='mae'):
-    return evaluate_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest, metric)
+def evaluate_gpt_random_forest(events, events_nl, metric='mae'):
+    return evaluate_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest, metric, events_nl=events_nl)
 
-def evaluate_advanced_gpt_random_forest(events):
-    results, all_predictions, true_values = evaluate_advanced_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest)
+def evaluate_advanced_gpt_random_forest(events, events_nl):
+    results, all_predictions, true_values = evaluate_advanced_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest, events_nl=events_nl)
     json_drop = []
     for prediction, true_value in zip(all_predictions, true_values):
         json_drop.append({
