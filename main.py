@@ -54,22 +54,22 @@ def make_predictions(event_details):
     # print(predict_adverbial_random_forest(duration, frequency, minutes_ago))
 
 
-def evaluate_models(events, events_nl, metric='rmse'):
+def evaluate_models(events, events_nl):
     """
-    Evaluate the models using different metrics.
+    Evaluate the models using MAE and RMSE.
     """
     # print("\nEvaluating Embeddings + Regressor:")
-    # print(evaluate_embedding(events, metric=metric))
+    # print(evaluate_embedding(events))
 
     print("\nEvaluating GPT + Random Forest:")
-    print(evaluate_gpt_random_forest(events, events_nl, metric=metric))
+    print(evaluate_gpt_random_forest(events, events_nl))
 
     # print("\nEvaluating Random Forest:")
-    # print(evaluate_random_forest(events, metric=metric))
+    # print(evaluate_random_forest(events))
     #
     # print("\nEvaluating Baseline Models (Classifier, Regression):")
-    # print(evaluate_classifier(events, metric=metric))
-    # print(evaluate_regression(events, metric=metric))
+    # print(evaluate_classifier(events))
+    # print(evaluate_regression(events))
 
 def evaluate_advanced_models(events, events_nl):
     """
@@ -135,9 +135,9 @@ def main():
     # Run the steps sequentially
     # train_models(events) # Trains FuzzyLLI in all variants and the baseline models
     # make_predictions(event_details) #Predicts minutes ago or the event and the best fitting adverbials
-    # evaluate_models(events, events_nl, metric='mae') # Evaluated FuzzyLLI and baseline models via leaving one out. Possible metrics: mae and rmse
+    evaluate_models(events, events) # Evaluated FuzzyLLI and baseline models via leaving one out. metrics: mae and rmse
     # evaluate_advanced_models(events, events_nl)
-    evaluate_survey(events)
+    # evaluate_survey(events)
     # plot_results(events) # Plots FuzzyLLI
 
 if __name__ == '__main__':

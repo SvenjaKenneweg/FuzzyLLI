@@ -72,7 +72,7 @@ def calculate_error(predicted: float, true: float) -> float:
 # Evaluation Functions
 # ---------------------------------------------------------------------------
 
-def evaluate_model(events, fit_models_fn, predict_fn, metric='mae', events_nl=None):
+def evaluate_model(events, fit_models_fn, predict_fn, events_nl=None):
     errors = {adv: [] for adv in VAGUE_ADVERBIALS}
     all_errors = []
 
@@ -107,11 +107,10 @@ def evaluate_model(events, fit_models_fn, predict_fn, metric='mae', events_nl=No
                 errors[adv].append(error)
                 all_errors.append(error)
 
-    overall = np.mean(all_errors) if metric == 'mae' else np.sqrt(np.mean(np.square(all_errors)))
-
     return {
         'per_adverbial': {adv: np.mean(errs) for adv, errs in errors.items()},
-        'overall_score': overall
+        'overall_score_mae': np.mean(all_errors),
+        'overall_score_rmse': np.sqrt(np.mean(np.square(all_errors)))
     }
 
 def evaluate_advanced_model(events, fit_models_fn, predict_fn, events_nl=None):
@@ -189,7 +188,7 @@ def evaluate_advanced_model(events, fit_models_fn, predict_fn, events_nl=None):
 
 
 
-def evaluate_baseline_model(events, fit_models_fn, predict_fn, metric='mae'):
+def evaluate_baseline_model(events, fit_models_fn, predict_fn):
     errors = {}
     all_errors = {}
 
@@ -234,8 +233,8 @@ def evaluate_baseline_model(events, fit_models_fn, predict_fn, metric='mae'):
     for model_name, model_errors in all_errors.items():
         results[model_name] = {
             'per_adverbial': {adv: np.mean(errors[adv][model_name]) for adv in VAGUE_ADVERBIALS},
-            'overall_score': np.mean(model_errors) if metric == 'mae' else np.sqrt(
-                np.mean(np.square(model_errors)))
+            'overall_score_mae': np.mean(model_errors),
+            'overall_score_rmse': np.sqrt(np.mean(np.square(model_errors)))
         }
 
     return results
@@ -363,8 +362,8 @@ def predict_gpt(event_name, minutes_ago, model_engine=GPT_VERSION):
 # Model-specific Evaluators
 # ---------------------------------------------------------------------------
 
-def evaluate_embedding(events, metric='mae'):
-    return evaluate_model(events, fit_event_specific_embeddings, predict_adverbial_embedding, metric)
+def evaluate_embedding(events):
+    return evaluate_model(events, fit_event_specific_embeddings, predict_adverbial_embedding)
 
 def evaluate_advanced_embedding(events):
     results, all_predictions, true_values = evaluate_advanced_model(events, fit_event_specific_embeddings, predict_adverbial_embedding)
@@ -379,8 +378,8 @@ def evaluate_advanced_embedding(events):
         json.dump(results, f, indent=4)
     return results
 
-def evaluate_gpt_random_forest(events, events_nl, metric='mae'):
-    return evaluate_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest, metric, events_nl=events_nl)
+def evaluate_gpt_random_forest(events, events_nl):
+    return evaluate_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest, events_nl=events_nl)
 
 def evaluate_advanced_gpt_random_forest(events, events_nl):
     results, all_predictions, true_values = evaluate_advanced_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest, events_nl=events_nl)
@@ -395,8 +394,8 @@ def evaluate_advanced_gpt_random_forest(events, events_nl):
         json.dump(results, f, indent=4)
     return results
 
-def evaluate_random_forest(events, metric='mae'):
-    return evaluate_model(events, fit_event_specific_random_forest, predict_adverbial_random_forest, metric)
+def evaluate_random_forest(events):
+    return evaluate_model(events, fit_event_specific_random_forest, predict_adverbial_random_forest)
 
 def evaluate_advanced_random_forest(events):
     results, all_predictions, true_values = evaluate_advanced_model(events, fit_event_specific_random_forest, predict_adverbial_random_forest)
@@ -411,8 +410,8 @@ def evaluate_advanced_random_forest(events):
         json.dump(results, f, indent=4)
     return results
 
-def evaluate_classifier(events, metric='mae'):
-    return evaluate_baseline_model(events, fit_classifier, predict_adverbial_classifier, metric)
+def evaluate_classifier(events):
+    return evaluate_baseline_model(events, fit_classifier, predict_adverbial_classifier)
 
 def evaluate_advanced_classifier(events):
     results, all_predictions, true_values = evaluate_advanced_baseline_model(events, fit_classifier, predict_adverbial_classifier)
@@ -427,8 +426,8 @@ def evaluate_advanced_classifier(events):
         json.dump(results, f, indent=4)
     return results
 
-def evaluate_regression(events, metric='mae'):
-    return evaluate_baseline_model(events, fit_regression, predict_adverbial_regression, metric)
+def evaluate_regression(events):
+    return evaluate_baseline_model(events, fit_regression, predict_adverbial_regression)
 
 def evaluate_advanced_regression(events, model_to_predict="RandomForestRegressor"):
     results, all_predictions, true_values = evaluate_advanced_baseline_model(events, fit_regression, predict_adverbial_regression,model_to_predict=model_to_predict)
