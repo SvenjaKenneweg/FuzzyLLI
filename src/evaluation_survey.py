@@ -1,7 +1,7 @@
 import os
 import json
 import re
-from scipy.stats import spearmanr, kendalltau
+from scipy.stats import spearmanr, kendalltau, rankdata
 from collections import defaultdict
 
 from src.config import DATA_EVALUATION_SURVEY_PATH
@@ -99,53 +99,78 @@ def get_percentages():
                         print(f"Invalid JSON key in file {filename}: {key_str}")
     return event_time_answer_counts
 
-def compare_fuzzy_ranks(fuzzy_prediction: dict, ground_truth: dict, verbose=True):
-    all_adverbials = set(fuzzy_prediction.keys())
+
+def compare_fuzzy_ranks(fuzzy_prediction: dict, ground_truth: dict):
+    # Ensure adverbials are aligned
+    all_adverbials = sorted(set(fuzzy_prediction.keys()))
+
+    # Fill missing entries in ground truth with 0.0
     truth_filled = {k: ground_truth.get(k, 0.0) for k in all_adverbials}
 
-    def get_ranks(d):
-        sorted_items = sorted(d.items(), key=lambda x: -x[1])
-        return {k: i + 1 for i, (k, _) in enumerate(sorted_items)}
+    # Extract probability lists
+    pred_probs = [fuzzy_prediction.get(k, 0.0) for k in all_adverbials]
+    truth_probs = [truth_filled[k] for k in all_adverbials]
 
-    pred_ranks = get_ranks(fuzzy_prediction)
-    truth_ranks = get_ranks(truth_filled)
+    # Convert probabilities to ranks (higher prob = lower rank)
+    pred_ranks = rankdata([-p for p in pred_probs], method="min")
+    truth_ranks = rankdata([-p for p in truth_probs], method="min")
 
-    # Convert to lists for correlation computation
-    sorted_keys = sorted(all_adverbials)
-    pred_rank_list = [pred_ranks[k] for k in sorted_keys]
-    truth_rank_list = [truth_ranks[k] for k in sorted_keys]
-
-    # Compute correlations
-    spearman_corr, _ = spearmanr(pred_rank_list, truth_rank_list)
-    kendall_corr, _ = kendalltau(pred_rank_list, truth_rank_list)
-
-    if verbose:
-        print("Predicted Ranks:", pred_ranks)
-        print("Predicted Fuzzy:", fuzzy_prediction)
-        print("Ground Truth Ranks:", truth_ranks)
-        print("GT Prob:", ground_truth)
-        print(f"Spearman Rank Correlation: {spearman_corr:.4f}")
-        print(f"Kendall Tau: {kendall_corr:.4f}\n")
+    # Compute rank correlation coefficients
+    spearman_corr, _ = spearmanr(pred_ranks, truth_ranks)
+    kendall_corr, _ = kendalltau(pred_ranks, truth_ranks)
 
     return {
         'spearman': spearman_corr,
-        'kendall': kendall_corr,
-        'predicted_ranks': pred_ranks,
-        'ground_truth_ranks': truth_ranks
+        'kendall': kendall_corr
     }
-
 
 def evaluate_survey_gpt_random_forest(events_to_fit):
     fit_event_adverbials(events_to_fit)
     fit_event_specific_random_forest(events_to_fit)
     survey_data = get_percentages()
 
+    spearman_total = 0.0
+    kendall_total = 0.0
+    count = 0
+
+    # Use defaultdict to accumulate correlations per event
+    per_event_spearman = defaultdict(list)
+    per_event_kendall = defaultdict(list)
+
     for (event, minutes_ago), answers in survey_data.items():
+        #TODO: Make the event to tom_went_camping; own_eating_breakfast; ...
         fuzzy_prediction = predict_adverbial_gpt_random_forest(event, minutes_ago)
+
         # Normalize ground truth to probabilities
-        total_answers = sum(answers.values())
-        ground_truth = {k: v / total_answers for k, v in answers.items()}
-        compare_fuzzy_ranks(fuzzy_prediction, ground_truth)
+        ground_truth = {k: v / sum(answers.values()) for k, v in answers.items()}
+
+        corr = compare_fuzzy_ranks(fuzzy_prediction, ground_truth)
+
+        if corr['spearman'] is not None and corr['kendall'] is not None:
+            spearman_total += corr['spearman']
+            kendall_total += corr['kendall']
+            count += 1
+
+            per_event_spearman[event].append(corr['spearman'])
+            per_event_kendall[event].append(corr['kendall'])
+
+    # Compute average per-event correlations
+    per_event_correlations = {
+        event: {
+            'spearman': sum(s_list) / len(s_list) if s_list else None,
+            'kendall': sum(k_list) / len(k_list) if k_list else None
+        }
+        for event, s_list in per_event_spearman.items()
+        for k_list in [per_event_kendall[event]]
+    }
+
+    return {
+        'spearman': spearman_total / count if count else None,
+        'kendall': kendall_total / count if count else None,
+        'per_event': per_event_correlations
+    }
+
+
 
 def evaluate_survey_embedding(events_to_fit):
     fit_event_adverbials(events_to_fit)
