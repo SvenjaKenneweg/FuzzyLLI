@@ -58,16 +58,16 @@ def evaluate_models(events, events_nl):
     """
     Evaluate the models using MAE and RMSE.
     """
-    # print("\nEvaluating Embeddings + Regressor:")
-    # print(evaluate_embedding(events))
+    # print("\Advanced evaluation Embeddings + Regressor:")
+    # print(evaluate_embedding(events, events_nl))
 
     print("\nEvaluating GPT + Random Forest:")
     print(evaluate_gpt_random_forest(events, events_nl))
 
-    # print("\nEvaluating Random Forest:")
+    # print("\Evaluating Random Forest:")
     # print(evaluate_random_forest(events))
     #
-    # print("\nEvaluating Baseline Models (Classifier, Regression):")
+    # print("\Evaluating Baseline Models (Classifier, Regression):")
     # print(evaluate_classifier(events))
     # print(evaluate_regression(events))
 
@@ -75,21 +75,21 @@ def evaluate_advanced_models(events, events_nl):
     """
     Evaluate the models by comparing the predicted labels
     """
-    # print("\nEvaluating Embeddings + Regressor:")
-    # print(evaluate_advanced_embedding(events))
+    # print("\nAdvanced evaluation Embeddings + Regressor:")
+    # print(evaluate_advanced_embedding(events, events_nl))
+
+    # print("\Advanced evaluation GPT + Random Forest:")
+    # print(evaluate_advanced_gpt_random_forest(events, events_nl))
     #
-    print("\nEvaluating GPT + Random Forest:")
-    print(evaluate_advanced_gpt_random_forest(events, events)) #events_nl))
-    #
-    # print("\nEvaluating Random Forest:")
+    # print("\Advanced evaluation Random Forest:")
     # print(evaluate_advanced_random_forest(events))
     #
-    # print("\nEvaluating Baseline Models (Classifier, Regression):")
+    # print("\Advanced evaluation Baseline Models (Classifier, Regression):")
     # print(evaluate_advanced_classifier(events))
     # print(evaluate_advanced_regression(events))
 
-    # print("\n Evaluating GPT:")
-    # print(evaluate_gpt(events))
+    print("\n Evaluating GPT:")
+    print(evaluate_gpt(events, events_nl))
 
 def evaluate_survey(events_to_fit, events_to_fit_nl = None):
     """
@@ -138,9 +138,9 @@ def main():
     # Run the steps sequentially
     # train_models(events) # Trains FuzzyLLI in all variants and the baseline models
     # make_predictions(event_details) #Predicts minutes ago or the event and the best fitting adverbials
-    # evaluate_models(events, events) # Evaluated FuzzyLLI and baseline models via leaving one out. metrics: mae and rmse
+    # evaluate_models(events, events_nl) # Evaluated FuzzyLLI and baseline models via leaving one out. metrics: mae and rmse
     # evaluate_advanced_models(events, events_nl)
-    evaluate_survey(events, events_nl)
+    # evaluate_survey(events, events_nl)
     # plot_results(events) # Plots FuzzyLLI
 
 if __name__ == '__main__':

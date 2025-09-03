@@ -37,9 +37,9 @@ from src.config import (VAGUE_ADVERBIALS,
                         DATA_DIR,
                         event_specific_function,
                         adverbial_specific_function, GPT_VERSION,
-                        GPT_PROMPT_FILE, EVALUATION_ADVANCED_EMBEDDING_FILE,
+                        GPT4_PROMPT_FILE, GPT5_PROMPT_FILE, EVALUATION_ADVANCED_EMBEDDING_FILE,
                         EVALUATION_ADVANCED_REGRESSION_FILE, EVALUATION_ADVANCED_CLASSIFIER_FILE,
-                        EVALUATION_ADVANCED_RANDOMFOREST_FILE, EVALUATION_ADVANCED_GPT_RANDOMFOREST_FILE)
+                        EVALUATION_ADVANCED_RANDOMFOREST_FILE, EVALUATION_ADVANCED_GPT4, EVALUATION_ADVANCED_GPT5)
 
 
 # ---------------------------------------------------------------------------
@@ -79,7 +79,11 @@ def evaluate_model(events, fit_models_fn, predict_fn, events_nl=None):
     for i, event in enumerate(events):
         other_events = events[:i] + events[i+1:]
         fit_event_adverbials(other_events)
-        fit_models_fn(other_events)
+        if events_nl:
+            other_events_nl = events_nl[:i] + events_nl[i+1:]
+            fit_models_fn(other_events, other_events_nl)
+        else:
+            fit_models_fn(other_events)
 
         cleaned_data = get_cleaned_data(event)
 
@@ -116,12 +120,16 @@ def evaluate_model(events, fit_models_fn, predict_fn, events_nl=None):
 def evaluate_advanced_model(events, fit_models_fn, predict_fn, events_nl=None):
     y_true_list = []  # ground-truth label sets per sample
     y_pred_list = []  # predicted label sets per sample
-    all_predictions = []
+    raw_results = []
 
     for i, event in enumerate(events):
         other_events = events[:i] + events[i+1:]
         fit_event_adverbials(other_events)
-        fit_models_fn(other_events)
+        if events_nl:
+            other_events_nl = events_nl[:i] + events_nl[i + 1:]
+            fit_models_fn(other_events, other_events_nl)
+        else:
+            fit_models_fn(other_events)
 
         cleaned_data = get_cleaned_data(event)
 
@@ -164,7 +172,12 @@ def evaluate_advanced_model(events, fit_models_fn, predict_fn, events_nl=None):
                 else:
                     predictions = predict_fn(event, int(minutes_ago))
 
-            all_predictions.append(predictions)
+            raw_results.append({
+                "Event": event,
+                "Minutes ago": minutes_ago,
+                "Prediction":  predictions,
+                "True": adverbials
+            })
             best_predicted_adverbials = [adv for adv, val in predictions.items() if val == max(predictions.values())]
             y_true_list.append(adverbials)
             y_pred_list.append(best_predicted_adverbials)
@@ -184,7 +197,7 @@ def evaluate_advanced_model(events, fit_models_fn, predict_fn, events_nl=None):
         "hamming_loss": hamming_loss(y_true_bin, y_pred_bin),
         "jaccard (sample)": jaccard_score(y_true_bin, y_pred_bin, average="samples"),
     }
-    return results, all_predictions, y_true_list
+    return results, raw_results
 
 
 
@@ -330,7 +343,7 @@ def gpt_chat_answer(model_engine, instructions, prompt):
     return completion.choices[0].message.content.strip()
 
 
-def predict_gpt(event_name, minutes_ago, model_engine=GPT_VERSION):
+def predict_gpt(event_nl, minutes_ago, model_engine=GPT_VERSION):
     # System instructions: guidance on GPT's behavior
     instructions = """
     You are to choose the most appropriate adverbial(s) from the following options: 
@@ -341,20 +354,17 @@ def predict_gpt(event_name, minutes_ago, model_engine=GPT_VERSION):
 
     # Build user prompt
     prompt = f"""
-    Event: {event_name}
+    Event: {event_nl}
     Minutes since event: {minutes_ago}
     """
 
     # Get GPT's answer
-    if "5" in model_engine: # As version 5 does not support the temperature 0 setting get the output 5 times and chose the most frequent adverbials
+    if "gpt-5" in model_engine: # As version 5 does not support the temperature 0 setting get the output 5 times and chose the most frequent adverbials
         outputs = []
         for i in range(0, 5):
             outputs.append(gpt_chat_answer(model_engine, instructions, prompt))
         counter = Counter(outputs)
         output, count = counter.most_common(1)[0]
-        print(output)
-        print(outputs)
-        print("")
     else:
         output = gpt_chat_answer(model_engine, instructions, prompt)
     return output, instructions, prompt
@@ -362,52 +372,48 @@ def predict_gpt(event_name, minutes_ago, model_engine=GPT_VERSION):
 # Model-specific Evaluators
 # ---------------------------------------------------------------------------
 
-def evaluate_embedding(events):
-    return evaluate_model(events, fit_event_specific_embeddings, predict_adverbial_embedding)
+def evaluate_embedding(events, events_nl):
+    return evaluate_model(events, fit_event_specific_embeddings, predict_adverbial_embedding, events_nl=events_nl)
 
-def evaluate_advanced_embedding(events):
-    results, all_predictions, true_values = evaluate_advanced_model(events, fit_event_specific_embeddings, predict_adverbial_embedding)
-    json_drop = []
-    for prediction, true_value in zip(all_predictions, true_values):
-        json_drop.append({
-            "prediction": prediction,
-            "true": true_value,
-        })
+def evaluate_advanced_embedding(events, events_nl):
+    results, raw_results = evaluate_advanced_model(events, fit_event_specific_embeddings, predict_adverbial_embedding, events_nl=events_nl)
+    output = {
+        "evaluation": results,
+        "raw": raw_results
+    }
     with open(EVALUATION_ADVANCED_EMBEDDING_FILE, "w") as f:
-        json.dump(json_drop, f, indent=4)
-        json.dump(results, f, indent=4)
+        json.dump(output, f, indent=4)
     return results
 
 def evaluate_gpt_random_forest(events, events_nl):
     return evaluate_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest, events_nl=events_nl)
 
 def evaluate_advanced_gpt_random_forest(events, events_nl):
-    results, all_predictions, true_values = evaluate_advanced_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest, events_nl=events_nl)
-    json_drop = []
-    for prediction, true_value in zip(all_predictions, true_values):
-        json_drop.append({
-            "prediction": prediction,
-            "true": true_value,
-        })
-    with open(EVALUATION_ADVANCED_GPT_RANDOMFOREST_FILE, "w") as f:
-        json.dump(json_drop, f, indent=4)
-        json.dump(results, f, indent=4)
+    results, raw_results = evaluate_advanced_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest, events_nl=events_nl)
+    output = {
+        "evaluation": results,
+        "raw": raw_results,
+        "GPT-Version": GPT_VERSION
+    }
+    if "gpt-4" in GPT_VERSION:
+        save_file = EVALUATION_ADVANCED_GPT4
+    else:
+        save_file = EVALUATION_ADVANCED_GPT5
+    with open(save_file, "w") as f:
+        json.dump(output, f, indent=4)
     return results
 
 def evaluate_random_forest(events):
     return evaluate_model(events, fit_event_specific_random_forest, predict_adverbial_random_forest)
 
 def evaluate_advanced_random_forest(events):
-    results, all_predictions, true_values = evaluate_advanced_model(events, fit_event_specific_random_forest, predict_adverbial_random_forest)
-    json_drop = []
-    for prediction, true_value in zip(all_predictions, true_values):
-        json_drop.append({
-            "prediction": prediction,
-            "true": true_value,
-        })
+    results, raw_results = evaluate_advanced_model(events, fit_event_specific_random_forest, predict_adverbial_random_forest)
+    output = {
+        "evaluation": results,
+        "raw": raw_results
+    }
     with open(EVALUATION_ADVANCED_RANDOMFOREST_FILE, "w") as f:
-        json.dump(json_drop, f, indent=4)
-        json.dump(results, f, indent=4)
+        json.dump(output, f, indent=4)
     return results
 
 def evaluate_classifier(events):
@@ -421,9 +427,11 @@ def evaluate_advanced_classifier(events):
             "prediction": prediction,
             "true": true_value,
         })
+    json_drop.append({
+        "Results": results
+    })
     with open(EVALUATION_ADVANCED_CLASSIFIER_FILE, "w") as f:
         json.dump(json_drop, f, indent=4)
-        json.dump(results, f, indent=4)
     return results
 
 def evaluate_regression(events):
@@ -437,20 +445,19 @@ def evaluate_advanced_regression(events, model_to_predict="RandomForestRegressor
             "prediction": prediction,
             "true": true_value,
         })
+    json_drop.append({
+        "Results": results,
+        "Model": model_to_predict
+    })
     with open(EVALUATION_ADVANCED_REGRESSION_FILE, "w") as f:
         json.dump(json_drop, f, indent=4)
-        json.dump(results, f, indent=4)
-        json.dump(model_to_predict, f, indent=4)
     return results
 
 
-
-def evaluate_gpt(events):
+def evaluate_gpt(events, events_nl):
     y_true_list = []  # ground-truth label sets per sample
     y_pred_list = []  # predicted label sets per sample
 
-    with open(GPT_PROMPT_FILE, "w") as f:
-        json.dump([], f)  # Start with an empty list
     predictions_data = []
 
     for i, event in enumerate(events):
@@ -477,7 +484,7 @@ def evaluate_gpt(events):
 
         # --- Collect predictions vs truth for metrics ---
         for minutes_ago, adverbials in best_adverbials.items():
-            prediction, instruction, prompt = predict_gpt(event, minutes_ago)
+            prediction, instruction, prompt = predict_gpt(events_nl[i], minutes_ago)
             y_true_list.append(adverbials)
             y_pred_list.append([prediction])
             # --- Step 5: Save prediction to JSON structure ---
@@ -486,12 +493,6 @@ def evaluate_gpt(events):
                 "true": adverbials,
                 "prompt": prompt
             })
-
-    # --- Step 6: Write all predictions to JSON (overwrite at the end) ---
-    with open(GPT_PROMPT_FILE, "w") as f:
-        json.dump(predictions_data, f, indent=4)
-        json.dump(instruction, f, indent=4)
-        json.dump(GPT_VERSION, f, indent=4)
 
     # ==== Metrics ====
     # Binarize over the union of all observed labels
@@ -508,4 +509,18 @@ def evaluate_gpt(events):
         "hamming_loss": hamming_loss(y_true_bin, y_pred_bin),
         "jaccard (sample)": jaccard_score(y_true_bin, y_pred_bin, average="samples"),
     }
+
+    # --- Step 6: Write all predictions to JSON (overwrite at the end) ---
+    json_drop = [{
+        "Evaluation": results,
+        "Predictions": predictions_data,
+        "Instruction": instruction,
+        "GPT-Version": GPT_VERSION
+    }]
+    if "gpt-4" in GPT_VERSION:
+        save_file = GPT4_PROMPT_FILE
+    else:
+        save_file = GPT5_PROMPT_FILE
+    with open(save_file, "w") as f:
+        json.dump(json_drop, f, indent=4)
     return results

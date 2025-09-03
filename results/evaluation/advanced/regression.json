@@ -1972,12 +1972,16 @@
         "true": [
             "long time ago"
         ]
+    },
+    {
+        "Results": {
+            "accuracy": 0.4393063583815029,
+            "precision (sample)": 0.8159922928709056,
+            "recall (sample)": 0.640655105973025,
+            "f1 (sample)": 0.6961464354527939,
+            "hamming_loss": 0.19219653179190752,
+            "jaccard (sample)": 0.6319845857418113
+        },
+        "Model": "RandomForestRegressor"
     }
-]{
-    "accuracy": 0.4393063583815029,
-    "precision (sample)": 0.8159922928709056,
-    "recall (sample)": 0.640655105973025,
-    "f1 (sample)": 0.6961464354527939,
-    "hamming_loss": 0.19219653179190752,
-    "jaccard (sample)": 0.6319845857418113
-}"RandomForestRegressor"
+]

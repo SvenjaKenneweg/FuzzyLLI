@@ -121,13 +121,13 @@ def predict_time_frame_embedding(event, adverbial, min_prob=0.6, max_prob=1.0):
     return upper, lower
 
 
-def predict_adverbial_embedding(event, minutes_ago):
+def predict_adverbial_embedding(event_nl, minutes_ago):
     params = _load_packed()
     os.environ["TOKENIZERS_PARALLELISM"] = "false" # to avoid warning
     embedding_model = SentenceTransformer(EMBEDDING_MODEL)
     ridge_model = load(RESULTS_FILE_PATH / EMBEDDING_RIDGE_FILE)
 
-    vecc = embedding_model.encode(event)
+    vecc = embedding_model.encode(event_nl)
     log_pred = ridge_model.predict(vecc.reshape(1, -1))[0]
     event_std = int(max(0, np.expm1(log_pred)))
 
