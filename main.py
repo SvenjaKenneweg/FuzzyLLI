@@ -58,35 +58,35 @@ def evaluate_models(events, events_nl):
     """
     Evaluate the models using MAE and RMSE.
     """
-    # print("\Advanced evaluation Embeddings + Regressor:")
-    # print(evaluate_embedding(events, events_nl))
+    print("\Basic Evaluation Embeddings + Regressor:")
+    print(evaluate_embedding(events, events_nl))
 
-    print("\nEvaluating GPT + Random Forest:")
+    print("\nBasic Evaluation GPT + Random Forest:")
     print(evaluate_gpt_random_forest(events, events_nl))
 
-    # print("\Evaluating Random Forest:")
-    # print(evaluate_random_forest(events))
-    #
-    # print("\Evaluating Baseline Models (Classifier, Regression):")
-    # print(evaluate_classifier(events))
-    # print(evaluate_regression(events))
+    print("\Evaluating Random Forest:")
+    print(evaluate_random_forest(events))
+
+    print("\Evaluating Baseline Models (Classifier, Regression):")
+    print(evaluate_classifier(events))
+    print(evaluate_regression(events))
 
 def evaluate_advanced_models(events, events_nl):
     """
     Evaluate the models by comparing the predicted labels
     """
-    # print("\nAdvanced evaluation Embeddings + Regressor:")
-    # print(evaluate_advanced_embedding(events, events_nl))
+    print("\nAdvanced evaluation Embeddings + Regressor:")
+    print(evaluate_advanced_embedding(events, events_nl))
 
-    # print("\Advanced evaluation GPT + Random Forest:")
-    # print(evaluate_advanced_gpt_random_forest(events, events_nl))
-    #
-    # print("\Advanced evaluation Random Forest:")
-    # print(evaluate_advanced_random_forest(events))
-    #
-    # print("\Advanced evaluation Baseline Models (Classifier, Regression):")
-    # print(evaluate_advanced_classifier(events))
-    # print(evaluate_advanced_regression(events))
+    print("\Advanced evaluation GPT + Random Forest:")
+    print(evaluate_advanced_gpt_random_forest(events, events_nl))
+
+    print("\Advanced evaluation Random Forest:")
+    print(evaluate_advanced_random_forest(events))
+
+    print("\Advanced evaluation Baseline Models (Classifier, Regression):")
+    print(evaluate_advanced_classifier(events))
+    print(evaluate_advanced_regression(events))
 
     print("\n Evaluating GPT:")
     print(evaluate_gpt(events, events_nl))
@@ -100,7 +100,7 @@ def evaluate_survey(events_to_fit, events_to_fit_nl = None):
 
     # print("\nEvaluating Embeddings + Regressor on the survey data:")
     # print(evaluate_survey_embedding(events_to_fit, events_to_fit_nl))
-
+    #
     # print("\n Evaluating the baseline (random prediction) on the survey data:")
     # print(evaluate_survey_baseline())
 
@@ -140,7 +140,7 @@ def main():
     # make_predictions(event_details) #Predicts minutes ago or the event and the best fitting adverbials
     # evaluate_models(events, events_nl) # Evaluated FuzzyLLI and baseline models via leaving one out. metrics: mae and rmse
     # evaluate_advanced_models(events, events_nl)
-    # evaluate_survey(events, events_nl)
+    evaluate_survey(events, events_nl)
     # plot_results(events) # Plots FuzzyLLI
 
 if __name__ == '__main__':
