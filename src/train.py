@@ -189,12 +189,13 @@ def save_optimized_params(
 # ---------------------------------------------------------------------------
 
 # Fit the whole FuzzyLLI (event specific and adverbial specific function)
-def fit_event_adverbials(
-    events_to_fit_naming: List[str]
-) -> dict:
+def fit_event_adverbials(events_to_fit_naming: List[str]) -> dict:
     """Fit all specified events & return labelled parameter dictionary."""
     initial_std_relation: List[float] = []
     all_event_values: Dict[str, dict] = {}
+
+    if events_to_fit_naming is None:
+        return
 
     for event_name in events_to_fit_naming:
         file_path = f"{DATA_DIR}/{event_name}/cleanedData_minutes.json"
@@ -245,7 +246,7 @@ def fit_event_adverbials(
 
 
 # Fit the event specific function using word embeddings and a regression model
-def fit_event_specific_embeddings(events_to_fit):
+def fit_event_specific_embeddings(events_to_fit, events_to_fit_nl):
     packed = _load_packed()
     values = []
 
@@ -253,7 +254,7 @@ def fit_event_specific_embeddings(events_to_fit):
         values.append(packed["event_params"][event])
 
     model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
-    X = model.encode(events_to_fit)
+    X = model.encode(events_to_fit_nl)
     y_log = np.log1p(np.array(np.concatenate(values)))
 
     ridge = Ridge(alpha=1.0)

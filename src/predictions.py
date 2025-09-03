@@ -3,6 +3,7 @@ import math
 import json
 import re
 import os
+import random
 from openai import OpenAI
 from pathlib import Path
 from typing import Dict
@@ -167,7 +168,7 @@ def predict_time_frame_gpt_random_forest(event, adverbial, min_prob=0.6, max_pro
     return upper, lower
 
 
-def predict_adverbial_gpt_random_forest(event_nl, minutes_ago,max_retries=10):
+def predict_adverbial_gpt_random_forest(event, minutes_ago,max_retries=10):
     def get_index(value, order_list):
         if value is None:
             return None
@@ -179,8 +180,8 @@ def predict_adverbial_gpt_random_forest(event_nl, minutes_ago,max_retries=10):
     params = _load_packed()
     random_forest = load(RESULTS_FILE_PATH / RANDOM_FOREST_FILE)
 
-    for attempt in range(max_retries):
-        gpt_result = _get_event_properties_gpt(event_nl)
+    for _ in range(max_retries):
+        gpt_result = _get_event_properties_gpt(event)
 
         duration = gpt_result.get("Duration")
         frequency = gpt_result.get("Frequency")
@@ -254,6 +255,12 @@ def predict_adverbial_random_forest(duration, frequency, minutes_ago):
         prob_adverbial = adverbial_specific_function(event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
         adverbial_probs[adverbial] = prob_adverbial
 
+    return adverbial_probs
+
+def predict_random(*args, **kwargs):
+    adverbial_probs = {}
+    for adverbial in VAGUE_ADVERBIALS:
+        adverbial_probs[adverbial] = random.uniform(0, 1)
     return adverbial_probs
 
 

@@ -4,7 +4,11 @@ import re
 from scipy.stats import spearmanr, kendalltau, rankdata
 from collections import defaultdict
 
-from src.config import DATA_EVALUATION_SURVEY_PATH
+from src.config import (
+                        DATA_EVALUATION_SURVEY_PATH, GPT_VERSION,
+                        EVALUATION_SURVEY_GPT4, EVALUATION_SURVEY_GPT5,
+                        EVALUATION_SURVEY_EMBEDDINGS
+                        )
 
 from src.train import (
     fit_event_adverbials,
@@ -15,7 +19,8 @@ from src.train import (
 from src.predictions import (
     predict_adverbial_embedding,
     predict_adverbial_gpt_random_forest,
-    predict_adverbial_random_forest
+    predict_adverbial_random_forest,
+    predict_random
 )
 
 # Regex to match questions like "You did X 3 hours ago."
@@ -124,9 +129,13 @@ def compare_fuzzy_ranks(fuzzy_prediction: dict, ground_truth: dict):
         'kendall': kendall_corr
     }
 
-def evaluate_survey_gpt_random_forest(events_to_fit):
+def evaluate_survey(events_to_fit, fit_fn, predict_fn, events_to_fit_nl = None):
     fit_event_adverbials(events_to_fit)
-    fit_event_specific_random_forest(events_to_fit)
+    if fit_fn is not None:
+        if events_to_fit_nl is not None:
+            fit_fn(events_to_fit, events_to_fit_nl)
+        else:
+            fit_fn(events_to_fit)
     survey_data = get_percentages()
 
     spearman_total = 0.0
@@ -137,14 +146,21 @@ def evaluate_survey_gpt_random_forest(events_to_fit):
     per_event_spearman = defaultdict(list)
     per_event_kendall = defaultdict(list)
 
+    raw_results = {}
+
     for (event, minutes_ago), answers in survey_data.items():
-        #TODO: Make the event to tom_went_camping; own_eating_breakfast; ...
-        fuzzy_prediction = predict_adverbial_gpt_random_forest(event, minutes_ago)
+        fuzzy_prediction = predict_fn(event, minutes_ago)
 
         # Normalize ground truth to probabilities
         ground_truth = {k: v / sum(answers.values()) for k, v in answers.items()}
 
         corr = compare_fuzzy_ranks(fuzzy_prediction, ground_truth)
+
+        # Store JSON-safe values
+        raw_results[f"{event}: {minutes_ago}"] = {
+            'ground_truth': ground_truth,
+            'fuzzy_prediction': fuzzy_prediction
+        }
 
         if corr['spearman'] is not None and corr['kendall'] is not None:
             spearman_total += corr['spearman']
@@ -163,25 +179,41 @@ def evaluate_survey_gpt_random_forest(events_to_fit):
         for event, s_list in per_event_spearman.items()
         for k_list in [per_event_kendall[event]]
     }
-
-    return {
+    results = {
         'spearman': spearman_total / count if count else None,
         'kendall': kendall_total / count if count else None,
-        'per_event': per_event_correlations
+        'per_event': per_event_correlations,
     }
+    return results, raw_results
 
+def evaluate_survey_gpt_random_forest(events_to_fit):
+    results, raw_results = evaluate_survey(events_to_fit, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest)
+    # Combine into one JSON-serializable dictionary
+    output = {
+        "evaluation": results,
+        "raw": raw_results,
+        "GPT-Version": GPT_VERSION
+    }
+    if "gpt-4" in GPT_VERSION:
+        save_file = EVALUATION_SURVEY_GPT4
+    else:
+        save_file = EVALUATION_SURVEY_GPT5
+    with open(save_file, "w") as f:
+        json.dump(output, f, indent=4)
+    return results
 
+def evaluate_survey_embedding(events_to_fit, events_to_fit_nl):
+    results, raw_results = evaluate_survey(events_to_fit, fit_event_specific_embeddings, predict_adverbial_embedding, events_to_fit_nl = events_to_fit_nl)
+    # Combine into one JSON-serializable dictionary
+    output = {
+        "evaluation": results,
+        "raw": raw_results
+    }
+    with open(EVALUATION_SURVEY_EMBEDDINGS, "w") as f:
+        json.dump(output, f, indent=4)
+    return results
 
-def evaluate_survey_embedding(events_to_fit):
-    fit_event_adverbials(events_to_fit)
-    fit_event_specific_embeddings(events_to_fit)
-    survey_data = get_percentages()
-    for (event, minutes_ago), answers in survey_data.items():
-        prediction = predict_adverbial_embedding(event, minutes_ago)
-        print(prediction)
-        for adverbial, count in answers.items():
-            total_answers += count
-        for adverbial, count in answers.items():
-            print(f"  {adverbial}: {count / total_answers}")
-        return
+def evaluate_survey_baseline():
+    results, raw_results = evaluate_survey(None, None, predict_random)
+    return results
 

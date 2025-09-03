@@ -7,7 +7,8 @@ from scipy.special import erf, erfinv
 # File paths
 RESULTS_FILE_PATH = Path("results/fits/")
 PLOT_FILE_PATH = Path("results/plots")
-EVALUATION_FILE_PATH = Path("results/evaluation/")
+EVALUATION_FILE_PATH = Path("results/evaluation/advanced/")
+EVALUATION_SURVEY_FILE_PATH = Path("results/evaluation/survey/")
 DATA_EVALUATION_SURVEY_PATH =  Path("data/evaluation_survey")
 DATA_DIR = Path("data/with_event_properties")
 RESULTS_JSON = RESULTS_FILE_PATH / "event_adverbials.json"
@@ -27,7 +28,11 @@ EVALUATION_ADVANCED_RANDOMFOREST_FILE = EVALUATION_FILE_PATH /'random_forest.jso
 EVALUATION_ADVANCED_CLASSIFIER_FILE = EVALUATION_FILE_PATH /'classifier.json'
 EVALUATION_ADVANCED_REGRESSION_FILE = EVALUATION_FILE_PATH /'regression.json'
 GPT_PROMPT_FILE = EVALUATION_FILE_PATH / 'GPT_Prompts.json'
-GPT_VERSION = "gpt-5-2025-08-07" #"gpt-4.1-2025-04-14"
+GPT_VERSION = "gpt-4.1-2025-04-14" #"gpt-5-2025-08-07"
+
+EVALUATION_SURVEY_GPT4 = EVALUATION_SURVEY_FILE_PATH / 'gpt4_random_forest.json'
+EVALUATION_SURVEY_GPT5 = EVALUATION_SURVEY_FILE_PATH / 'gpt5_random_forest.json'
+EVALUATION_SURVEY_EMBEDDINGS = EVALUATION_SURVEY_FILE_PATH / 'embeddings_regression.json'
 
 # List of vague adverbials
 VAGUE_ADVERBIALS: List[str] = ["recently", "just", "some time ago", "long time ago"]

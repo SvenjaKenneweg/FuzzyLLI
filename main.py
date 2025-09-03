@@ -9,7 +9,7 @@ from src.evaluation import (evaluate_embedding, evaluate_gpt_random_forest, eval
                             evaluate_advanced_classifier, evaluate_advanced_regression,
                             evaluate_advanced_embedding, evaluate_advanced_gpt_random_forest, evaluate_advanced_random_forest,
                             evaluate_gpt)
-from src.evaluation_survey import (evaluate_survey_gpt_random_forest, evaluate_survey_embedding)
+from src.evaluation_survey import (evaluate_survey_gpt_random_forest, evaluate_survey_embedding, evaluate_survey_baseline)
 from src.simple_models_training import fit_classifier, fit_regression
 from src.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
 
@@ -91,7 +91,7 @@ def evaluate_advanced_models(events, events_nl):
     # print("\n Evaluating GPT:")
     # print(evaluate_gpt(events))
 
-def evaluate_survey(events_to_fit):
+def evaluate_survey(events_to_fit, events_to_fit_nl = None):
     """
     Evaluate the models by comparing the predicted adverbials for new events with the survey results
     """
@@ -99,7 +99,10 @@ def evaluate_survey(events_to_fit):
     print(evaluate_survey_gpt_random_forest(events_to_fit))
 
     # print("\nEvaluating Embeddings + Regressor on the survey data:")
-    # print(evaluate_survey_embedding(events_to_fit))
+    # print(evaluate_survey_embedding(events_to_fit, events_to_fit_nl))
+
+    # print("\n Evaluating the baseline (random prediction) on the survey data:")
+    # print(evaluate_survey_baseline())
 
 
 def plot_results(events):
@@ -135,9 +138,9 @@ def main():
     # Run the steps sequentially
     # train_models(events) # Trains FuzzyLLI in all variants and the baseline models
     # make_predictions(event_details) #Predicts minutes ago or the event and the best fitting adverbials
-    evaluate_models(events, events) # Evaluated FuzzyLLI and baseline models via leaving one out. metrics: mae and rmse
+    # evaluate_models(events, events) # Evaluated FuzzyLLI and baseline models via leaving one out. metrics: mae and rmse
     # evaluate_advanced_models(events, events_nl)
-    # evaluate_survey(events)
+    evaluate_survey(events, events_nl)
     # plot_results(events) # Plots FuzzyLLI
 
 if __name__ == '__main__':
