@@ -75,7 +75,7 @@ def evaluate_models_seen_events(events, events_nl, generate_new_predictions=Fals
 
     # Calculate only the metrics
     print("Calculating the Evaluation metrics from the saved prediction files...")
-    # print(calculate_metrics_seen_events())
+    calculate_metrics_seen_events()
 
 
 
@@ -126,7 +126,7 @@ def main():
     # Run the steps sequentially
     # train_models(events) # Trains FuzzyLLI in all variants and the baseline models
     # make_predictions(event_details) #Predicts minutes ago or the event and the best fitting adverbials
-    evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
+    evaluate_models_seen_events(events, events_nl, generate_new_predictions=False)
     # evaluate_survey(events, events_nl)
     # plot_results(events) # Plots FuzzyLLI
 

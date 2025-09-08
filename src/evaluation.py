@@ -2,6 +2,7 @@ import json
 import statistics
 from pathlib import Path
 from typing import List
+import math
 import openai
 import os
 from scipy.stats import kendalltau
@@ -9,6 +10,7 @@ from openai import OpenAI
 from collections import Counter
 
 import numpy as np
+import pandas as pd
 from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.metrics import (
     ndcg_score,
@@ -132,92 +134,111 @@ def run_evaluation_and_save_preds(events, fit_models_fn, predict_fn, events_nl=N
     return raw_results
 
 def calculate_metrics_seen_events():
-    def _rank_groups(d):
-        """Return rank groups like: [[best ties...], [2nd...], ...]"""
-        items = sorted(d.items(), key=lambda kv: (-kv[1], kv[0]))
-        groups, last = [], None
-        for k, v in items:
-            if last is None or v != last:
-                groups.append([k])
-                last = v
-            else:
-                groups[-1].append(k)
-        return groups
+    def rank_from_scores(scores, descending=True):
+        """
+        Normalize scores into ranks (1 = best, ties get average rank).
+        Supports:
+          - dict[label -> score]  -> true ranking (rankable=True)
+          - list/tuple/set[str]   -> all items become rank 1 (rankable=False)
+          - str                   -> that single label becomes rank 1 (rankable=False)
+
+        Returns:
+          ranks: dict[label] -> rank (float)
+          rankable: bool     -> True iff input was a dict with actual scores
+        """
+        # dict case: compute average (mid) ranks
+        if isinstance(scores, dict) and len(scores) > 0:
+            items = list(scores.items())
+            items.sort(key=lambda x: x[1], reverse=descending)
+            ranks = {}
+            i = 0
+            while i < len(items):
+                j = i
+                while j < len(items) and items[j][1] == items[i][1]:
+                    j += 1
+                avg_rank = (i + 1 + j) / 2.0  # average of 1-based positions for ties
+                for k in range(i, j):
+                    ranks[items[k][0]] = avg_rank
+                i = j
+            return ranks, True
+
+        # list/tuple/set -> all are top-1
+        if isinstance(scores, (list, tuple, set)) and len(scores) > 0:
+            return {str(lbl): 1.0 for lbl in scores}, False
+
+        # single string -> top-1
+        if isinstance(scores, str) and scores:
+            return {scores: 1.0}, False
+
+        # empty / unsupported
+        return {}, False
+
+    def top1_on_ranks(rank_pred, rank_gt):
+        # labels = sorted(set(rank_pred.keys()) | set(rank_gt.keys()))
+
+        min_pred = min(rank_pred[l] for l in rank_pred)
+        pred_top = {l for l in rank_pred if rank_pred[l] == min_pred}
+        min_gt = min(rank_gt[l] for l in rank_gt)
+        gt_best = {l for l in rank_gt if rank_gt[l] == min_gt}
+        inter = pred_top & gt_best
+
+        # Accuracy@1: any correct among the predicted top-rank set?
+        acc1 = 1.0 if len(inter) > 0 else 0.0
+        # Precision@1: fraction of predicted top-rank items that are correct
+        p1 = (len(inter) / len(pred_top)) if len(pred_top) > 0 else 0.0
+        # Recall@1: fraction of GT-best items recovered at predicted top rank
+        r1 = (len(inter) / len(gt_best)) if len(gt_best) > 0 else 0.0
+        return acc1, p1, r1
 
     # Loop through all .json files containing the predictions
     for json_file in EVALUATION_FILE_PATH.glob("*.json"):
         print(f"\nFile: {json_file.name}")
         with open(json_file, "r", encoding="utf-8") as f:
-            data = json.load(f)
+            data = json.load(f)["raw"]
 
-        tau_list, ndcg_list, acc1_list, prec1_list, rec1_list = [], [], [], [], []
+        results = []
+        for r in data:
+            pred = r["Prediction"]  # dict[label] -> score
+            gt = r["GT"]  # dict[label] -> relevance
 
-        for row in data:
-            event = row.get("Event", "<unknown>")
-            pred = row["Prediction"]
-            true = row["GT"]
+            rank_pred, pred_rankable = rank_from_scores(pred, descending=True)
+            rank_gt, gt_rankable = rank_from_scores(gt, descending=True)
+            rankable = pred_rankable and gt_rankable
 
-            labels = sorted(set(pred) | set(true))
-            y_score = np.array([pred.get(lbl, 0.0) for lbl in labels], dtype=float)
-            y_true = np.array([true.get(lbl, 0.0) for lbl in labels], dtype=float)
+            if rankable:
+                # ---- Kendall's Tau-b on ranks ----
+                # Align to the same label order (use GT's labels as base)
+                labels = list(gt.keys())
+                x = [rank_pred[l] for l in labels]
+                y = [rank_gt[l] for l in labels]
+                tau, _ = kendalltau(x, y, variant="b", nan_policy="raise", alternative="two-sided", method="auto")
 
-            # Ranks (for display)
-            pred_groups = _rank_groups({lbl: s for lbl, s in zip(labels, y_score)})
-            true_groups = _rank_groups({lbl: r for lbl, r in zip(labels, y_true)})
-
-            # Kendall's tau-b (SciPy)
-            tau = kendalltau(y_score, y_true, variant="b").correlation
-            if tau is None:  # fallback if undefined (e.g., all ties)
-                tau = 0.0
-
-            # NDCG (scikit-learn) — shape (1, n_labels)
-            if np.all(y_true == 0.0):
-                ndcg = 0.0
+                # ---- NDCG computed on ranks ----
+                # Transform ranks to "higher is better" scores: rel = max_rank + 1 - rank
+                max_r = max(max(rank_gt.values()), max(rank_pred.values()))
+                y_true = [[(max_r + 1 - rank_gt[l]) for l in labels]]
+                y_score = [[(max_r + 1 - rank_pred[l]) for l in labels]]
+                ndcg = ndcg_score(y_true, y_score) if any(v > 0 for v in y_true[0]) else 0.0
             else:
-                ndcg = float(ndcg_score(y_true.reshape(1, -1),
-                                        y_score.reshape(1, -1)))
+                # not rankable (e.g. GPT4 Prompts having only predicted the first item)
+                tau = 0.0
+                ndcg = 0.0
 
-            # Top-1 metrics
-            top_idx = int(np.argmax(y_score))
-            top_label = labels[top_idx]
-            max_true = float(np.max(y_true))
-            top_true_set = {labels[i] for i, v in enumerate(y_true) if v == max_true}
+            # ---- Top-1 on ranks ----
+            acc1, p1, r1 = top1_on_ranks(rank_pred, rank_gt)
 
-            acc1 = 1.0 if top_label in top_true_set else 0.0
-            prec1 = 1.0 if y_true[top_idx] > positive_threshold else 0.0
+            results.append({
+                "KendallTauB": float(tau) if not math.isnan(tau) else 0.0,
+                "NDCG": float(ndcg),
+                "Top1_Accuracy": acc1,
+                "Top1_Precision": p1,
+                "Top1_Recall": r1,
+            })
 
-            positives = {labels[i] for i, v in enumerate(y_true) if v > positive_threshold}
-            rec1 = (1.0 / len(positives)) if positives and (top_label in positives) else 0.0
-
-            # Collect
-            tau_list.append(tau);
-            ndcg_list.append(ndcg)
-            acc1_list.append(acc1);
-            prec1_list.append(prec1);
-            rec1_list.append(rec1)
-
-            # Print per-event
-            def _fmt(groups):
-                return " | ".join(f"{i + 1}: {g}" for i, g in enumerate(groups))
-
-            print(f"\nEvent: {event}")
-            print(f"  Prediction rank: {_fmt(pred_groups)}")
-            print(f"  True rank      : {_fmt(true_groups)}")
-            print(f"  Kendall's tau-b: {tau:.6f}")
-            print(f"  NDCG           : {ndcg:.6f}")
-            print(f"  Top-1 Acc / Prec / Rec: {acc1:.3f} / {prec1:.3f} / {rec1:.3f}")
-
-        # File-level averages
-        if tau_list:
-            n = len(tau_list)
-            print("\nAverages in this file:")
-            print(f"  Kendall's tau-b (avg): {np.mean(tau_list):.6f}")
-            print(f"  NDCG (avg)           : {np.mean(ndcg_list):.6f}")
-            print(f"  Top-1 Accuracy (avg) : {np.mean(acc1_list):.6f}")
-            print(f"  Top-1 Precision (avg): {np.mean(prec1_list):.6f}")
-            print(f"  Top-1 Recall (avg)   : {np.mean(rec1_list):.6f}")
-
-
+        df = pd.DataFrame(results)
+        overall = df.mean(numeric_only=True).to_frame(name="Overall").T
+        print(overall)
+    return
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 def gpt_chat_answer(model_engine, instructions, prompt):
@@ -359,11 +380,11 @@ def evaluate_gpt(events, events_nl):
             })
 
     # --- Step 6: Write all predictions to JSON (overwrite at the end) ---
-    json_drop = [{
-        "Raw": predictions_data,
+    json_drop = {
+        "raw": predictions_data,
         "Instruction": instruction,
         "GPT-Version": GPT_VERSION
-    }]
+    }
     if "gpt-4" in GPT_VERSION:
         save_file = GPT4_PROMPT_FILE
     else:
