@@ -4,9 +4,7 @@ from src.plot import plot_all_persons_event_adverbials
 from src.predictions import (predict_time_frame_embedding, predict_adverbial_embedding,
                              predict_time_frame_gpt_random_forest, predict_adverbial_gpt_random_forest,
                              predict_time_frame_random_forest, predict_adverbial_random_forest)
-from src.evaluation import (evaluate_embedding, evaluate_gpt_random_forest, evaluate_random_forest,
-                            evaluate_classifier, evaluate_regression,
-                            evaluate_advanced_classifier, evaluate_advanced_regression,
+from src.evaluation import (evaluate_advanced_classifier, evaluate_advanced_regression,
                             evaluate_advanced_embedding, evaluate_advanced_gpt_random_forest, evaluate_advanced_random_forest,
                             evaluate_gpt)
 from src.evaluation_survey import (evaluate_survey_gpt_random_forest, evaluate_survey_embedding, evaluate_survey_baseline)
@@ -52,24 +50,6 @@ def make_predictions(event_details):
     print(predict_adverbial_gpt_random_forest(event_nl, minutes_ago))
     # print(predict_time_frame_random_forest(duration, frequency, adverbial))
     # print(predict_adverbial_random_forest(duration, frequency, minutes_ago))
-
-
-def evaluate_models(events, events_nl):
-    """
-    Evaluate the models using MAE and RMSE.
-    """
-    print("\Basic Evaluation Embeddings + Regressor:")
-    print(evaluate_embedding(events, events_nl))
-
-    print("\nBasic Evaluation GPT + Random Forest:")
-    print(evaluate_gpt_random_forest(events, events_nl))
-
-    print("\Evaluating Random Forest:")
-    print(evaluate_random_forest(events))
-
-    print("\Evaluating Baseline Models (Classifier, Regression):")
-    print(evaluate_classifier(events))
-    print(evaluate_regression(events))
 
 def evaluate_advanced_models(events, events_nl):
     """
@@ -125,7 +105,7 @@ def main():
     events_nl = [
         "Tom had his wedding celebration", "I spent a year abroad", "I had my birthday", "I went on vacation",
         "I paid rent", "I took a shower", "Tom watched a film", "Tom ate risotto",
-        "Tom read a book", "Tom danced salsa", "Tom stored a wine bottle", "Tom dran juice",
+        "Tom read a book", "Tom danced salsa", "Tom stored a wine bottle", "Tom drank juice",
         "Tom chatted with a friend", "I had my wedding celebration", "I had my wallet stolen"
     ]
 
@@ -138,9 +118,8 @@ def main():
     # Run the steps sequentially
     # train_models(events) # Trains FuzzyLLI in all variants and the baseline models
     # make_predictions(event_details) #Predicts minutes ago or the event and the best fitting adverbials
-    # evaluate_models(events, events_nl) # Evaluated FuzzyLLI and baseline models via leaving one out. metrics: mae and rmse
     # evaluate_advanced_models(events, events_nl)
-    evaluate_survey(events, events_nl)
+    # evaluate_survey(events, events_nl)
     # plot_results(events) # Plots FuzzyLLI
 
 if __name__ == '__main__':

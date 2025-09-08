@@ -31,12 +31,10 @@ from src.simple_models_predictions import (
     predict_adverbial_regression
 )
 from src.config import (VAGUE_ADVERBIALS,
-                        RESULTS_FILE_PATH,
                         DURATION_ORDER,
                         FREQUENCY_ORDER,
                         DATA_DIR,
-                        event_specific_function,
-                        adverbial_specific_function, GPT_VERSION,
+                        GPT_VERSION,
                         GPT4_PROMPT_FILE, GPT5_PROMPT_FILE, EVALUATION_ADVANCED_EMBEDDING_FILE,
                         EVALUATION_ADVANCED_REGRESSION_FILE, EVALUATION_ADVANCED_CLASSIFIER_FILE,
                         EVALUATION_ADVANCED_RANDOMFOREST_FILE, EVALUATION_ADVANCED_GPT4, EVALUATION_ADVANCED_GPT5)
@@ -71,51 +69,6 @@ def calculate_error(predicted: float, true: float) -> float:
 # ---------------------------------------------------------------------------
 # Evaluation Functions
 # ---------------------------------------------------------------------------
-
-def evaluate_model(events, fit_models_fn, predict_fn, events_nl=None):
-    errors = {adv: [] for adv in VAGUE_ADVERBIALS}
-    all_errors = []
-
-    for i, event in enumerate(events):
-        other_events = events[:i] + events[i+1:]
-        fit_event_adverbials(other_events)
-        if events_nl:
-            other_events_nl = events_nl[:i] + events_nl[i+1:]
-            fit_models_fn(other_events, other_events_nl)
-        else:
-            fit_models_fn(other_events)
-
-        cleaned_data = get_cleaned_data(event)
-
-        for adv in VAGUE_ADVERBIALS:
-            targets = {k: np.median(v) for k, v in cleaned_data[adv].items()}
-            for minutes_ago, true_value in targets.items():
-                if predict_fn == predict_adverbial_random_forest:
-                    props = get_event_properties(event)
-                    freq_votes = [p['Frequency'] for p in props if 'Frequency' in p]
-                    dur_votes = [p['Duration'] for p in props if 'Duration' in p]
-
-                    if 6 in dur_votes:
-                        dur_votes = adjust_duration_votes(dur_votes)
-
-                    freq = FREQUENCY_ORDER[int(statistics.median(freq_votes))]
-                    dur = DURATION_ORDER[int(statistics.median(dur_votes))]
-                    predicted = predict_fn(dur, freq, int(minutes_ago))[adv]
-                else:
-                    if events_nl:
-                        predicted = predict_fn(events_nl[i], int(minutes_ago))[adv]
-                    else:
-                        predicted = predict_fn(event, int(minutes_ago))[adv]
-
-                error = calculate_error(predicted, true_value)
-                errors[adv].append(error)
-                all_errors.append(error)
-
-    return {
-        'per_adverbial': {adv: np.mean(errs) for adv, errs in errors.items()},
-        'overall_score_mae': np.mean(all_errors),
-        'overall_score_rmse': np.sqrt(np.mean(np.square(all_errors)))
-    }
 
 def evaluate_advanced_model(events, fit_models_fn, predict_fn, events_nl=None):
     y_true_list = []  # ground-truth label sets per sample
@@ -371,10 +324,6 @@ def predict_gpt(event_nl, minutes_ago, model_engine=GPT_VERSION):
 # ---------------------------------------------------------------------------
 # Model-specific Evaluators
 # ---------------------------------------------------------------------------
-
-def evaluate_embedding(events, events_nl):
-    return evaluate_model(events, fit_event_specific_embeddings, predict_adverbial_embedding, events_nl=events_nl)
-
 def evaluate_advanced_embedding(events, events_nl):
     results, raw_results = evaluate_advanced_model(events, fit_event_specific_embeddings, predict_adverbial_embedding, events_nl=events_nl)
     output = {
@@ -384,9 +333,6 @@ def evaluate_advanced_embedding(events, events_nl):
     with open(EVALUATION_ADVANCED_EMBEDDING_FILE, "w") as f:
         json.dump(output, f, indent=4)
     return results
-
-def evaluate_gpt_random_forest(events, events_nl):
-    return evaluate_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest, events_nl=events_nl)
 
 def evaluate_advanced_gpt_random_forest(events, events_nl):
     results, raw_results = evaluate_advanced_model(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest, events_nl=events_nl)
@@ -403,9 +349,6 @@ def evaluate_advanced_gpt_random_forest(events, events_nl):
         json.dump(output, f, indent=4)
     return results
 
-def evaluate_random_forest(events):
-    return evaluate_model(events, fit_event_specific_random_forest, predict_adverbial_random_forest)
-
 def evaluate_advanced_random_forest(events):
     results, raw_results = evaluate_advanced_model(events, fit_event_specific_random_forest, predict_adverbial_random_forest)
     output = {
@@ -415,9 +358,6 @@ def evaluate_advanced_random_forest(events):
     with open(EVALUATION_ADVANCED_RANDOMFOREST_FILE, "w") as f:
         json.dump(output, f, indent=4)
     return results
-
-def evaluate_classifier(events):
-    return evaluate_baseline_model(events, fit_classifier, predict_adverbial_classifier)
 
 def evaluate_advanced_classifier(events):
     results, all_predictions, true_values = evaluate_advanced_baseline_model(events, fit_classifier, predict_adverbial_classifier)
@@ -433,9 +373,6 @@ def evaluate_advanced_classifier(events):
     with open(EVALUATION_ADVANCED_CLASSIFIER_FILE, "w") as f:
         json.dump(json_drop, f, indent=4)
     return results
-
-def evaluate_regression(events):
-    return evaluate_baseline_model(events, fit_regression, predict_adverbial_regression)
 
 def evaluate_advanced_regression(events, model_to_predict="RandomForestRegressor"):
     results, all_predictions, true_values = evaluate_advanced_baseline_model(events, fit_regression, predict_adverbial_regression,model_to_predict=model_to_predict)
