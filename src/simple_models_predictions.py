@@ -35,9 +35,8 @@ def predict_adverbial_classifier(duration, frequency, minutes_ago):
     return dict(zip(class_labels, probas))
 
 
-def predict_adverbial_regression(duration, frequency, minutes_ago, model_to_predict=None):
+def predict_adverbial_regression(duration, frequency, minutes_ago):
     rf_model = joblib.load(RESULTS_SIMPLE_FILE_PATH / RANDOM_FOREST_REGRESSOR_FILE)
-    xgb_model = joblib.load(RESULTS_SIMPLE_FILE_PATH / XGB_REGRESSOR_FILE)
     ohe = joblib.load(RESULTS_SIMPLE_FILE_PATH / ONE_HOT_ENCODER_FILE)
 
     results = {}
@@ -58,14 +57,6 @@ def predict_adverbial_regression(duration, frequency, minutes_ago, model_to_pred
 
         # Predict votes
         rf_pred = rf_model.predict(input_df)[0]
-        xgb_pred = xgb_model.predict(input_df)[0]
-
-        results[adv] = {
-            "RandomForestRegressor": rf_pred,
-            "XGBRegressor": xgb_pred
-        }
-
-    if model_to_predict is not None:
-        return {adv: results[adv][model_to_predict] for adv in results}
+        results[adv] = rf_pred
 
     return results

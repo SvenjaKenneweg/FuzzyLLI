@@ -1,12 +1,4 @@
 {
-    "evaluation": {
-        "accuracy": 0.3872832369942196,
-        "precision (sample)": 0.7745664739884393,
-        "recall (sample)": 0.579961464354528,
-        "f1 (sample)": 0.6445086705202312,
-        "hamming_loss": 0.2153179190751445,
-        "jaccard (sample)": 0.579961464354528
-    },
     "raw": [
         {
             "Event": "tom_wedding_celebration",
@@ -17,24 +9,28 @@
                 "some time ago": 0.4073255838475095,
                 "long time ago": 0.1363192093145338
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_wedding_celebration",
             "Minutes ago": 10080,
             "Prediction": {
-                "recently": 0.7622534147785411,
-                "just": 0.7536706706539491,
-                "some time ago": 0.4089919235926793,
-                "long time ago": 0.13714125694680177
+                "recently": 0.7636139188835361,
+                "just": 0.7604574232327372,
+                "some time ago": 0.4085848338125915,
+                "long time ago": 0.13694022456418142
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_wedding_celebration",
@@ -45,9 +41,12 @@
                 "some time ago": 0.4115297218637771,
                 "long time ago": 0.1383974822256566
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_wedding_celebration",
@@ -58,9 +57,12 @@
                 "some time ago": 0.41847201631947645,
                 "long time ago": 0.1418603914683825
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_wedding_celebration",
@@ -71,9 +73,12 @@
                 "some time ago": 0.43146256710905,
                 "long time ago": 0.14844526121749094
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_wedding_celebration",
@@ -84,10 +89,12 @@
                 "some time ago": 0.45790226881551127,
                 "long time ago": 0.1622793660298097
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_wedding_celebration",
@@ -98,9 +105,12 @@
                 "some time ago": 0.5678804254274497,
                 "long time ago": 0.22658027827473487
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "tom_wedding_celebration",
@@ -111,9 +121,12 @@
                 "some time ago": 0.7320540079668966,
                 "long time ago": 0.348293292642381
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "tom_wedding_celebration",
@@ -124,9 +137,12 @@
                 "some time ago": 0.9619455323609836,
                 "long time ago": 0.6385699814406555
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 0.75
+            }
         },
         {
             "Event": "tom_wedding_celebration",
@@ -137,10 +153,12 @@
                 "some time ago": 0.8819312373569296,
                 "long time ago": 0.984556637861545
             },
-            "True": [
-                "some time ago",
-                "long time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 1.0
+            }
         },
         {
             "Event": "own_year_abroad",
@@ -151,10 +169,12 @@
                 "some time ago": 0.3992401404719854,
                 "long time ago": 0.13517986380347946
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_year_abroad",
@@ -165,10 +185,12 @@
                 "some time ago": 0.4004899582615105,
                 "long time ago": 0.13578973361954033
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_year_abroad",
@@ -179,9 +201,12 @@
                 "some time ago": 0.4034130579314634,
                 "long time ago": 0.137220771130276
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_year_abroad",
@@ -192,9 +217,12 @@
                 "some time ago": 0.4103054825518882,
                 "long time ago": 0.14062100879458586
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_year_abroad",
@@ -205,9 +233,12 @@
                 "some time ago": 0.42320834481107744,
                 "long time ago": 0.1470853722598138
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_year_abroad",
@@ -218,10 +249,12 @@
                 "some time ago": 0.44949220688008124,
                 "long time ago": 0.16066126695625604
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_year_abroad",
@@ -232,9 +265,12 @@
                 "some time ago": 0.5591516307500953,
                 "long time ago": 0.22370446802878532
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "own_year_abroad",
@@ -245,9 +281,12 @@
                 "some time ago": 0.7239339675815928,
                 "long time ago": 0.3429964658690527
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "own_year_abroad",
@@ -258,9 +297,12 @@
                 "some time ago": 0.9584473640619747,
                 "long time ago": 0.6288914105198979
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 0.75
+            }
         },
         {
             "Event": "own_year_abroad",
@@ -271,10 +313,12 @@
                 "some time ago": 0.8858468970680613,
                 "long time ago": 0.9804319142731722
             },
-            "True": [
-                "some time ago",
-                "long time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 1.0
+            }
         },
         {
             "Event": "own_birthday",
@@ -285,10 +329,12 @@
                 "some time ago": 0.41605765828281466,
                 "long time ago": 0.14197473761118398
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_birthday",
@@ -299,10 +345,12 @@
                 "some time ago": 0.4187607327678917,
                 "long time ago": 0.14334149889175354
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_birthday",
@@ -313,9 +361,12 @@
                 "some time ago": 0.4241890204905269,
                 "long time ago": 0.14610422985983323
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_birthday",
@@ -326,9 +377,12 @@
                 "some time ago": 0.43238528973092083,
                 "long time ago": 0.1503216291860482
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_birthday",
@@ -339,9 +393,12 @@
                 "some time ago": 0.4517465208425808,
                 "long time ago": 0.1605066258892006
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.125,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_birthday",
@@ -352,10 +409,12 @@
                 "some time ago": 0.49826158183153796,
                 "long time ago": 0.18630344321569078
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_birthday",
@@ -366,9 +425,12 @@
                 "some time ago": 0.5869212367021892,
                 "long time ago": 0.24117675857739396
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "own_birthday",
@@ -379,9 +441,12 @@
                 "some time ago": 0.6753689804790601,
                 "long time ago": 0.3047838920079275
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "own_birthday",
@@ -392,9 +457,12 @@
                 "some time ago": 0.7592808433478708,
                 "long time ago": 0.37585565358034884
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "own_birthday",
@@ -405,10 +473,12 @@
                 "some time ago": 0.9790261281965755,
                 "long time ago": 0.6863731733869887
             },
-            "True": [
-                "some time ago",
-                "long time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 1.0
+            }
         },
         {
             "Event": "own_birthday",
@@ -419,10 +489,12 @@
                 "some time ago": 0.9780787402154709,
                 "long time ago": 0.9017151136560415
             },
-            "True": [
-                "some time ago",
-                "long time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 1.0
+            }
         },
         {
             "Event": "own_vacation",
@@ -433,10 +505,12 @@
                 "some time ago": 0.40411565747634953,
                 "long time ago": 0.13818401768060057
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_vacation",
@@ -447,10 +521,12 @@
                 "some time ago": 0.405823868003022,
                 "long time ago": 0.13900404948790912
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_vacation",
@@ -461,9 +537,12 @@
                 "some time ago": 0.4092498689789577,
                 "long time ago": 0.14065498925248954
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_vacation",
@@ -474,10 +553,12 @@
                 "some time ago": 0.4144124502186748,
                 "long time ago": 0.14315865964558872
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_vacation",
@@ -488,10 +569,12 @@
                 "some time ago": 0.4265649637611894,
                 "long time ago": 0.14912838813772739
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_vacation",
@@ -502,9 +585,12 @@
                 "some time ago": 0.45560497394051064,
                 "long time ago": 0.16383708614054726
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_vacation",
@@ -515,9 +601,12 @@
                 "some time ago": 0.5110315483084064,
                 "long time ago": 0.1937417230112313
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_vacation",
@@ -528,9 +617,12 @@
                 "some time ago": 0.6247912490298537,
                 "long time ago": 0.2637649349338226
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "own_vacation",
@@ -541,9 +633,12 @@
                 "some time ago": 0.8333024555756455,
                 "long time ago": 0.4377320937833767
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "own_vacation",
@@ -554,9 +649,12 @@
                 "some time ago": 0.9659030542357302,
                 "long time ago": 0.6293378091957564
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 0.75
+            }
         },
         {
             "Event": "own_rent_payment",
@@ -567,10 +665,12 @@
                 "some time ago": 0.4032053719357912,
                 "long time ago": 0.13393802118392598
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_rent_payment",
@@ -581,10 +681,12 @@
                 "some time ago": 0.4402123063689703,
                 "long time ago": 0.1518825745380233
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_rent_payment",
@@ -595,9 +697,12 @@
                 "some time ago": 0.48396728113499066,
                 "long time ago": 0.17444960089406034
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_rent_payment",
@@ -608,9 +713,12 @@
                 "some time ago": 0.5288554171393004,
                 "long time ago": 0.19923756031155038
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_rent_payment",
@@ -621,9 +729,12 @@
                 "some time ago": 0.665113250768596,
                 "long time ago": 0.2865484373026338
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_rent_payment",
@@ -634,9 +745,12 @@
                 "some time ago": 0.7918122670417357,
                 "long time ago": 0.39049268004826154
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_rent_payment",
@@ -647,9 +761,12 @@
                 "some time ago": 0.894634923733673,
                 "long time ago": 0.5044975397115732
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_rent_payment",
@@ -660,9 +777,12 @@
                 "some time ago": 0.9959172350412165,
                 "long time ago": 0.8182133774956691
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_rent_payment",
@@ -673,9 +793,12 @@
                 "some time ago": 0.6794629236341576,
                 "long time ago": 0.99297422677799
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "own_rent_payment",
@@ -686,9 +809,12 @@
                 "some time ago": 0.5383349961107016,
                 "long time ago": 0.9432972801372579
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "own_rent_payment",
@@ -699,9 +825,12 @@
                 "some time ago": 0.5146214213081889,
                 "long time ago": 0.9304818459205978
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "own_rent_payment",
@@ -712,10 +841,12 @@
                 "some time ago": 0.5138688353782818,
                 "long time ago": 0.9300537827055488
             },
-            "True": [
-                "some time ago",
-                "long time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.75
+            }
         },
         {
             "Event": "own_rent_payment",
@@ -726,10 +857,12 @@
                 "some time ago": 0.5138688353730639,
                 "long time ago": 0.9300537827025764
             },
-            "True": [
-                "some time ago",
-                "long time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 1.0
+            }
         },
         {
             "Event": "own_shower",
@@ -740,9 +873,12 @@
                 "some time ago": 0.40562293000246386,
                 "long time ago": 0.1346791796550449
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 0.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_shower",
@@ -753,10 +889,12 @@
                 "some time ago": 0.4059813683760926,
                 "long time ago": 0.13485816512560755
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_shower",
@@ -767,10 +905,12 @@
                 "some time ago": 0.4077756699155051,
                 "long time ago": 0.13575577004070905
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_shower",
@@ -781,10 +921,12 @@
                 "some time ago": 0.409933442950998,
                 "long time ago": 0.13683879425239875
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_shower",
@@ -795,9 +937,12 @@
                 "some time ago": 0.41426388941433845,
                 "long time ago": 0.13902419333548377
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_shower",
@@ -808,9 +953,12 @@
                 "some time ago": 0.4229829615873805,
                 "long time ago": 0.14347272258950214
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_shower",
@@ -821,10 +969,12 @@
                 "some time ago": 0.43177682041654514,
                 "long time ago": 0.14802547640756775
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_shower",
@@ -835,9 +985,12 @@
                 "some time ago": 0.45857189344014154,
                 "long time ago": 0.1623150145432432
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "own_shower",
@@ -848,9 +1001,12 @@
                 "some time ago": 0.476742424806045,
                 "long time ago": 0.1723719299365342
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "own_shower",
@@ -861,9 +1017,12 @@
                 "some time ago": 0.5136752368610177,
                 "long time ago": 0.19376733354427997
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "own_shower",
@@ -874,9 +1033,12 @@
                 "some time ago": 0.6265841531012863,
                 "long time ago": 0.2680404329538189
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "own_shower",
@@ -887,9 +1049,12 @@
                 "some time ago": 0.833082669523502,
                 "long time ago": 0.4538209708954095
             },
-            "True": [
-                "long time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 1.0
+            }
         },
         {
             "Event": "own_shower",
@@ -900,9 +1065,12 @@
                 "some time ago": 0.9936531443117776,
                 "long time ago": 0.7484401003279281
             },
-            "True": [
-                "long time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 1.0
+            }
         },
         {
             "Event": "tom_watching_film",
@@ -913,10 +1081,12 @@
                 "some time ago": 0.39713646990302615,
                 "long time ago": 0.12840996842258584
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_watching_film",
@@ -927,10 +1097,12 @@
                 "some time ago": 0.3977019543446594,
                 "long time ago": 0.12867513841207798
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_watching_film",
@@ -941,10 +1113,12 @@
                 "some time ago": 0.3983810214821417,
                 "long time ago": 0.1289938885845541
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_watching_film",
@@ -955,10 +1129,12 @@
                 "some time ago": 0.39974073988182557,
                 "long time ago": 0.12963317796311927
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_watching_film",
@@ -969,10 +1145,12 @@
                 "some time ago": 0.40246647058333207,
                 "long time ago": 0.13091892382084697
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_watching_film",
@@ -983,9 +1161,12 @@
                 "some time ago": 0.4052005112206966,
                 "long time ago": 0.1322142463563438
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_watching_film",
@@ -996,9 +1177,12 @@
                 "some time ago": 0.4134514905077965,
                 "long time ago": 0.13615791215549997
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_watching_film",
@@ -1009,9 +1193,12 @@
                 "some time ago": 0.4189918315403934,
                 "long time ago": 0.13883533173001122
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_watching_film",
@@ -1022,9 +1209,12 @@
                 "some time ago": 0.430163948117171,
                 "long time ago": 0.1443068727636576
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_watching_film",
@@ -1035,10 +1225,12 @@
                 "some time ago": 0.46434669367957143,
                 "long time ago": 0.16166522242182121
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "tom_watching_film",
@@ -1049,9 +1241,12 @@
                 "some time ago": 0.5349856581674262,
                 "long time ago": 0.20068455909554342
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "tom_watching_film",
@@ -1062,9 +1257,12 @@
                 "some time ago": 0.6428661637361237,
                 "long time ago": 0.26980331788860584
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "tom_eating_risotto",
@@ -1075,10 +1273,12 @@
                 "some time ago": 0.3847238512901253,
                 "long time ago": 0.11855284572114742
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_eating_risotto",
@@ -1089,10 +1289,12 @@
                 "some time ago": 0.38763515508930085,
                 "long time ago": 0.1198218718361034
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_eating_risotto",
@@ -1103,10 +1305,12 @@
                 "some time ago": 0.3911423585126396,
                 "long time ago": 0.12135836220996236
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_eating_risotto",
@@ -1117,9 +1321,12 @@
                 "some time ago": 0.39820060974432525,
                 "long time ago": 0.1244762574038039
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_eating_risotto",
@@ -1130,9 +1337,12 @@
                 "some time ago": 0.4124864859488605,
                 "long time ago": 0.13089317445910728
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_eating_risotto",
@@ -1143,10 +1353,12 @@
                 "some time ago": 0.42698617848408,
                 "long time ago": 0.13755416607183904
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_eating_risotto",
@@ -1157,9 +1369,12 @@
                 "some time ago": 0.4716105119067072,
                 "long time ago": 0.15902660404505942
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "tom_eating_risotto",
@@ -1170,9 +1385,12 @@
                 "some time ago": 0.502123962890122,
                 "long time ago": 0.17459965234758842
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "tom_eating_risotto",
@@ -1183,9 +1401,12 @@
                 "some time ago": 0.5642846985893121,
                 "long time ago": 0.2087792411964186
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "tom_eating_risotto",
@@ -1196,9 +1417,12 @@
                 "some time ago": 0.7470528819989888,
                 "long time ago": 0.33402269577459964
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "tom_eating_risotto",
@@ -1209,9 +1433,12 @@
                 "some time ago": 0.9800620332149826,
                 "long time ago": 0.6373788631191126
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "tom_eating_risotto",
@@ -1222,10 +1449,12 @@
                 "some time ago": 0.9023869300618205,
                 "long time ago": 0.946570404036963
             },
-            "True": [
-                "some time ago",
-                "long time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.75
+            }
         },
         {
             "Event": "tom_reading_book",
@@ -1236,10 +1465,12 @@
                 "some time ago": 0.39430438719845473,
                 "long time ago": 0.13838847230375062
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_reading_book",
@@ -1250,9 +1481,12 @@
                 "some time ago": 0.3948659947059078,
                 "long time ago": 0.13865979455723007
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 0.875,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_reading_book",
@@ -1263,9 +1497,12 @@
                 "some time ago": 0.39554041073987867,
                 "long time ago": 0.13898590537590513
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 0.875,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_reading_book",
@@ -1276,10 +1513,12 @@
                 "some time ago": 0.3968908310646732,
                 "long time ago": 0.1396398434661731
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_reading_book",
@@ -1290,10 +1529,12 @@
                 "some time ago": 0.3995979832270306,
                 "long time ago": 0.1409545938729993
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_reading_book",
@@ -1304,9 +1545,12 @@
                 "some time ago": 0.4023134708783513,
                 "long time ago": 0.14227852560617746
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_reading_book",
@@ -1317,9 +1561,12 @@
                 "some time ago": 0.4105089696540759,
                 "long time ago": 0.14630558886720452
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_reading_book",
@@ -1330,9 +1577,12 @@
                 "some time ago": 0.4160124978344525,
                 "long time ago": 0.14903652391320382
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_reading_book",
@@ -1343,10 +1593,12 @@
                 "some time ago": 0.4271114998703395,
                 "long time ago": 0.1546098910444664
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_reading_book",
@@ -1357,9 +1609,12 @@
                 "some time ago": 0.46108052901291857,
                 "long time ago": 0.17222886113084984
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_reading_book",
@@ -1370,9 +1625,12 @@
                 "some time ago": 0.5313334226924781,
                 "long time ago": 0.21153767174629257
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "tom_reading_book",
@@ -1383,9 +1641,12 @@
                 "some time ago": 0.6388112594213148,
                 "long time ago": 0.2804053398383885
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "tom_dancing_salsa",
@@ -1396,10 +1657,12 @@
                 "some time ago": 0.39092690333656105,
                 "long time ago": 0.13314759234370724
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_dancing_salsa",
@@ -1410,9 +1673,12 @@
                 "some time ago": 0.39155276218857865,
                 "long time ago": 0.13344542435278856
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_dancing_salsa",
@@ -1423,9 +1689,12 @@
                 "some time ago": 0.39230440916815795,
                 "long time ago": 0.13380348334355757
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_dancing_salsa",
@@ -1436,9 +1705,12 @@
                 "some time ago": 0.39380971252027064,
                 "long time ago": 0.134521765062537
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_dancing_salsa",
@@ -1449,9 +1721,12 @@
                 "some time ago": 0.396828299536474,
                 "long time ago": 0.1359669966951697
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_dancing_salsa",
@@ -1462,9 +1737,12 @@
                 "some time ago": 0.3998574166701222,
                 "long time ago": 0.13742381062893474
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_dancing_salsa",
@@ -1475,9 +1753,12 @@
                 "some time ago": 0.40900659576604326,
                 "long time ago": 0.1418640300403382
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_dancing_salsa",
@@ -1488,9 +1769,12 @@
                 "some time ago": 0.41515618137306143,
                 "long time ago": 0.1448825916197267
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_dancing_salsa",
@@ -1501,9 +1785,12 @@
                 "some time ago": 0.4275704776656833,
                 "long time ago": 0.15106078629015163
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_dancing_salsa",
@@ -1514,9 +1801,12 @@
                 "some time ago": 0.4586032002621379,
                 "long time ago": 0.16701174842473712
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_dancing_salsa",
@@ -1527,22 +1817,28 @@
                 "some time ago": 0.5445303817300842,
                 "long time ago": 0.21525080850228973
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "tom_dancing_salsa",
             "Minutes ago": 10080,
             "Prediction": {
-                "recently": 0.08631959029222022,
-                "just": 6.641614551050242e-12,
-                "some time ago": 0.6644323832220456,
-                "long time ago": 0.29449707912447654
+                "recently": 0.1156881052409022,
+                "just": 3.777570282350709e-10,
+                "some time ago": 0.6391328136436444,
+                "long time ago": 0.27642356885713587
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "tom_storing_wineBottle",
@@ -1553,38 +1849,44 @@
                 "some time ago": 0.39214514946359746,
                 "long time ago": 0.1292170505893266
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_storing_wineBottle",
             "Minutes ago": 30,
             "Prediction": {
-                "recently": 0.7883344670549106,
-                "just": 0.8115606286323723,
-                "some time ago": 0.3920693029152845,
-                "long time ago": 0.12918196348638236
+                "recently": 0.7864185453404925,
+                "just": 0.8031789943498262,
+                "some time ago": 0.3926729472879951,
+                "long time ago": 0.12946132512199415
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_storing_wineBottle",
             "Minutes ago": 60,
             "Prediction": {
-                "recently": 0.7882403698476568,
-                "just": 0.811151196433635,
-                "some time ago": 0.3920989773145046,
-                "long time ago": 0.12919569057415728
+                "recently": 0.784402970396841,
+                "just": 0.7942631563361585,
+                "some time ago": 0.3933067402384329,
+                "long time ago": 0.12975491474290732
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_storing_wineBottle",
@@ -1595,22 +1897,28 @@
                 "some time ago": 0.3921583292520633,
                 "long time ago": 0.12922314805640112
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_storing_wineBottle",
             "Minutes ago": 240,
             "Prediction": {
-                "recently": 0.7876755270448991,
-                "just": 0.8086885938432247,
-                "some time ago": 0.39227704568016614,
-                "long time ago": 0.1292780762485356
+                "recently": 0.7721964997308616,
+                "just": 0.7384965969399538,
+                "some time ago": 0.39711940924598654,
+                "long time ago": 0.1315270111087019
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_storing_wineBottle",
@@ -1621,53 +1929,60 @@
                 "some time ago": 0.3996705373926907,
                 "long time ago": 0.13271848596069608
             },
-            "True": [
-                "recently",
-                "just",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_storing_wineBottle",
             "Minutes ago": 720,
             "Prediction": {
-                "recently": 0.7387933030368651,
-                "just": 0.579233023192383,
-                "some time ago": 0.407367909975741,
-                "long time ago": 0.13634148018620898
+                "recently": 0.7866328578777666,
+                "just": 0.8041211879428114,
+                "some time ago": 0.3926054824017616,
+                "long time ago": 0.12943009022741964
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_storing_wineBottle",
             "Minutes ago": 960,
             "Prediction": {
-                "recently": 0.721694018335188,
-                "just": 0.49952108563200914,
-                "some time ago": 0.41253532280422944,
-                "long time ago": 0.1387974566767786
+                "recently": 0.7854117329819961,
+                "just": 0.798737568073802,
+                "some time ago": 0.39298969531290245,
+                "long time ago": 0.12960801587956697
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_storing_wineBottle",
             "Minutes ago": 1440,
             "Prediction": {
-                "recently": 0.7838986407959933,
-                "just": 0.792017294318858,
-                "some time ago": 0.3934651288278131,
-                "long time ago": 0.1298283286150015
+                "recently": 0.6868788672941893,
+                "just": 0.35226292816252475,
+                "some time ago": 0.42295307512723174,
+                "long time ago": 0.14380754122873002
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_storing_wineBottle",
@@ -1678,9 +1993,12 @@
                 "some time ago": 0.45481751846916446,
                 "long time ago": 0.15963064258687346
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.375,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "tom_storing_wineBottle",
@@ -1691,9 +2009,12 @@
                 "some time ago": 0.3977559567596135,
                 "long time ago": 0.1318238721259459
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.375,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "tom_storing_wineBottle",
@@ -1704,9 +2025,12 @@
                 "some time ago": 0.4020679836754624,
                 "long time ago": 0.1338423903528482
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.375,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "tom_drinking_juice",
@@ -1717,10 +2041,12 @@
                 "some time ago": 0.3947486599840275,
                 "long time ago": 0.12559542778323268
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_drinking_juice",
@@ -1731,10 +2057,12 @@
                 "some time ago": 0.3964185121005615,
                 "long time ago": 0.1264017595104058
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_drinking_juice",
@@ -1745,10 +2073,12 @@
                 "some time ago": 0.39842660203295654,
                 "long time ago": 0.12737452838893584
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_drinking_juice",
@@ -1759,10 +2089,12 @@
                 "some time ago": 0.40245659720890065,
                 "long time ago": 0.12933703505194022
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_drinking_juice",
@@ -1773,10 +2105,12 @@
                 "some time ago": 0.4105707251596393,
                 "long time ago": 0.13333025073137728
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_drinking_juice",
@@ -1787,10 +2121,12 @@
                 "some time ago": 0.41875483558473187,
                 "long time ago": 0.13741499438396668
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_drinking_juice",
@@ -1801,9 +2137,12 @@
                 "some time ago": 0.4436992179456368,
                 "long time ago": 0.15022471416561292
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "tom_drinking_juice",
@@ -1814,9 +2153,12 @@
                 "some time ago": 0.4606258982843118,
                 "long time ago": 0.15923270679932888
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "tom_drinking_juice",
@@ -1827,9 +2169,12 @@
                 "some time ago": 0.49507698641064657,
                 "long time ago": 0.17838547411291952
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.125,
+                "just": 0.0,
+                "some time ago": 0.625,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "tom_drinking_juice",
@@ -1840,9 +2185,12 @@
                 "some time ago": 0.6011162235636092,
                 "long time ago": 0.24492698292099485
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "tom_drinking_juice",
@@ -1853,10 +2201,12 @@
                 "some time ago": 0.8015997631405746,
                 "long time ago": 0.4137354162071185
             },
-            "True": [
-                "some time ago",
-                "long time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.75
+            }
         },
         {
             "Event": "tom_drinking_juice",
@@ -1867,10 +2217,12 @@
                 "some time ago": 0.9817016849424182,
                 "long time ago": 0.6974611032633471
             },
-            "True": [
-                "some time ago",
-                "long time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.75
+            }
         },
         {
             "Event": "tom_chatting_friend",
@@ -1881,10 +2233,12 @@
                 "some time ago": 0.4026411578761447,
                 "long time ago": 0.14074749955326107
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_chatting_friend",
@@ -1895,9 +2249,12 @@
                 "some time ago": 0.40460407602268456,
                 "long time ago": 0.1417214159502535
             },
-            "True": [
-                "just"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_chatting_friend",
@@ -1908,9 +2265,12 @@
                 "some time ago": 0.4069652008353173,
                 "long time ago": 0.14289671876269772
             },
-            "True": [
-                "just"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_chatting_friend",
@@ -1921,10 +2281,12 @@
                 "some time ago": 0.4117056060772514,
                 "long time ago": 0.145268983388162
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_chatting_friend",
@@ -1935,10 +2297,12 @@
                 "some time ago": 0.4212571927632987,
                 "long time ago": 0.15010048444314344
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_chatting_friend",
@@ -1949,10 +2313,12 @@
                 "some time ago": 0.4308995205346503,
                 "long time ago": 0.15504853217768985
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_chatting_friend",
@@ -1963,10 +2329,12 @@
                 "some time ago": 0.46032483339308006,
                 "long time ago": 0.17059757740892995
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_chatting_friend",
@@ -1977,10 +2345,12 @@
                 "some time ago": 0.48030768784564,
                 "long time ago": 0.18155478235696954
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_chatting_friend",
@@ -1991,9 +2361,12 @@
                 "some time ago": 0.5209590277696688,
                 "long time ago": 0.20489126061769145
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.625,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_chatting_friend",
@@ -2004,10 +2377,12 @@
                 "some time ago": 0.6448994384751419,
                 "long time ago": 0.285947748532868
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_chatting_friend",
@@ -2018,9 +2393,12 @@
                 "some time ago": 0.8637905016826946,
                 "long time ago": 0.486420200803432
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "tom_chatting_friend",
@@ -2031,9 +2409,12 @@
                 "some time ago": 0.9999166200487618,
                 "long time ago": 0.7878253102965831
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "own_wedding_celebration",
@@ -2044,10 +2425,12 @@
                 "some time ago": 0.40287086886992124,
                 "long time ago": 0.13723442650692042
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_wedding_celebration",
@@ -2058,10 +2441,12 @@
                 "some time ago": 0.40534657464663343,
                 "long time ago": 0.1384435489140959
             },
-            "True": [
-                "recently",
-                "just"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_wedding_celebration",
@@ -2072,9 +2457,12 @@
                 "some time ago": 0.41114929240505466,
                 "long time ago": 0.14129568915991814
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_wedding_celebration",
@@ -2085,9 +2473,12 @@
                 "some time ago": 0.42489643929113763,
                 "long time ago": 0.1481550242941986
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_wedding_celebration",
@@ -2098,9 +2489,12 @@
                 "some time ago": 0.47732701491846835,
                 "long time ago": 0.17568415883471108
             },
-            "True": [
-                "recently"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_wedding_celebration",
@@ -2111,10 +2505,12 @@
                 "some time ago": 0.5590025859003411,
                 "long time ago": 0.2232707415092621
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_wedding_celebration",
@@ -2125,9 +2521,12 @@
                 "some time ago": 0.7216743584031254,
                 "long time ago": 0.3397067191471874
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "own_wedding_celebration",
@@ -2138,9 +2537,12 @@
                 "some time ago": 0.9558749048186015,
                 "long time ago": 0.6196657138282652
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "own_wedding_celebration",
@@ -2151,9 +2553,12 @@
                 "some time ago": 0.7589672176743671,
                 "long time ago": 0.9995006379928159
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "own_wedding_celebration",
@@ -2164,10 +2569,12 @@
                 "some time ago": 0.5131812996327069,
                 "long time ago": 0.9113431503717582
             },
-            "True": [
-                "some time ago",
-                "long time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 1.0
+            }
         },
         {
             "Event": "own_wedding_celebration",
@@ -2178,10 +2585,12 @@
                 "some time ago": 0.5042475498794445,
                 "long time ago": 0.9055213454682912
             },
-            "True": [
-                "some time ago",
-                "long time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 1.0
+            }
         },
         {
             "Event": "own_wallet_theft",
@@ -2192,10 +2601,12 @@
                 "some time ago": 0.41803772931857497,
                 "long time ago": 0.13971834739073177
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.75,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_wallet_theft",
@@ -2206,10 +2617,12 @@
                 "some time ago": 0.41887990173511713,
                 "long time ago": 0.14024152118586056
             },
-            "True": [
-                "recently",
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.75,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_wallet_theft",
@@ -2220,9 +2633,12 @@
                 "some time ago": 0.42084776997182055,
                 "long time ago": 0.14146793688696813
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.75,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_wallet_theft",
@@ -2233,9 +2649,12 @@
                 "some time ago": 0.42547810631360217,
                 "long time ago": 0.144375456631238
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.0
+            }
         },
         {
             "Event": "own_wallet_theft",
@@ -2246,9 +2665,12 @@
                 "some time ago": 0.4428159588322517,
                 "long time ago": 0.15553593448288947
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "own_wallet_theft",
@@ -2259,9 +2681,12 @@
                 "some time ago": 0.469314476285095,
                 "long time ago": 0.17343925790752096
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
         },
         {
             "Event": "own_wallet_theft",
@@ -2272,9 +2697,12 @@
                 "some time ago": 0.523772994359531,
                 "long time ago": 0.2135496366705463
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "own_wallet_theft",
@@ -2285,9 +2713,12 @@
                 "some time ago": 0.6357587279241474,
                 "long time ago": 0.3112244285290289
             },
-            "True": [
-                "some time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
         },
         {
             "Event": "own_wallet_theft",
@@ -2298,9 +2729,12 @@
                 "some time ago": 0.9248451507219781,
                 "long time ago": 0.7027061520750898
             },
-            "True": [
-                "long time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 1.0
+            }
         },
         {
             "Event": "own_wallet_theft",
@@ -2311,9 +2745,12 @@
                 "some time ago": 0.8680514467306083,
                 "long time ago": 0.9541961225759753
             },
-            "True": [
-                "long time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.625,
+                "long time ago": 1.0
+            }
         },
         {
             "Event": "own_wallet_theft",
@@ -2324,9 +2761,12 @@
                 "some time ago": 0.058168308614835094,
                 "long time ago": 0.03431822074052854
             },
-            "True": [
-                "long time ago"
-            ]
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.25,
+                "long time ago": 1.0
+            }
         }
     ],
     "GPT-Version": "gpt-4.1-2025-04-14"

@@ -1,0 +1,2772 @@
+{
+    "raw": [
+        {
+            "Event": "tom_wedding_celebration",
+            "Minutes ago": 5760,
+            "Prediction": {
+                "recently": 0.7383430711741995,
+                "just": 0.6304676438195699,
+                "some time ago": 0.4160821823207425,
+                "long time ago": 0.1406639277436084
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_wedding_celebration",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 0.7113171578135762,
+                "just": 0.49204621853583774,
+                "some time ago": 0.4239811350894502,
+                "long time ago": 0.14463614026959376
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_wedding_celebration",
+            "Minutes ago": 20160,
+            "Prediction": {
+                "recently": 0.6466000429598244,
+                "just": 0.2245013740153088,
+                "some time ago": 0.44264452958463324,
+                "long time ago": 0.15422452647698542
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_wedding_celebration",
+            "Minutes ago": 43800,
+            "Prediction": {
+                "recently": 0.49384950832285185,
+                "just": 0.011523727602477132,
+                "some time ago": 0.48752207234898987,
+                "long time ago": 0.1784896519873795
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_wedding_celebration",
+            "Minutes ago": 87600,
+            "Prediction": {
+                "recently": 0.25367012787245197,
+                "just": 7.543630280274612e-07,
+                "some time ago": 0.5733232148658052,
+                "long time ago": 0.23007249026868773
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_wedding_celebration",
+            "Minutes ago": 175200,
+            "Prediction": {
+                "recently": 0.03623117214660815,
+                "just": 7.121678027920303e-22,
+                "some time ago": 0.7421060632566415,
+                "long time ago": 0.3570792415515843
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_wedding_celebration",
+            "Minutes ago": 525600,
+            "Prediction": {
+                "recently": 7.574798317800936e-08,
+                "just": 9.252381129320595e-142,
+                "some time ago": 0.9811200754292296,
+                "long time ago": 0.8916677081280691
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "tom_wedding_celebration",
+            "Minutes ago": 1051200,
+            "Prediction": {
+                "recently": 3.3332568099793214e-15,
+                "just": 2.7242268215506756e-307,
+                "some time ago": 0.6403017824430677,
+                "long time ago": 0.9664228680742785
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "tom_wedding_celebration",
+            "Minutes ago": 2102400,
+            "Prediction": {
+                "recently": 1.4291685042743342e-17,
+                "just": 0.0,
+                "some time ago": 0.5212111716209306,
+                "long time ago": 0.9011064779813746
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 0.75
+            }
+        },
+        {
+            "Event": "tom_wedding_celebration",
+            "Minutes ago": 4204800,
+            "Prediction": {
+                "recently": 1.3831074141572917e-17,
+                "just": 0.0,
+                "some time ago": 0.5205316948097073,
+                "long time ago": 0.9006418483452994
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 1.0
+            }
+        },
+        {
+            "Event": "own_year_abroad",
+            "Minutes ago": 5760,
+            "Prediction": {
+                "recently": 0.7223664252060236,
+                "just": 0.5350708203937519,
+                "some time ago": 0.41336935106877465,
+                "long time ago": 0.1421442795549856
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_year_abroad",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 0.6810925206858882,
+                "just": 0.3398418149780913,
+                "some time ago": 0.42538762454238777,
+                "long time ago": 0.1481900589601575
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_year_abroad",
+            "Minutes ago": 20160,
+            "Prediction": {
+                "recently": 0.5825991919451595,
+                "just": 0.07308801389780872,
+                "some time ago": 0.4539557563307925,
+                "long time ago": 0.16302220054889954
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_year_abroad",
+            "Minutes ago": 43800,
+            "Prediction": {
+                "recently": 0.3644242859659522,
+                "just": 0.00014700951505111902,
+                "some time ago": 0.5232183226205953,
+                "long time ago": 0.2018377243416393
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_year_abroad",
+            "Minutes ago": 87600,
+            "Prediction": {
+                "recently": 0.10571436378211872,
+                "just": 1.245949390592811e-13,
+                "some time ago": 0.6544261895066641,
+                "long time ago": 0.28835787376727623
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_year_abroad",
+            "Minutes ago": 175200,
+            "Prediction": {
+                "recently": 0.0025153979445202887,
+                "just": 5.859893251169698e-46,
+                "some time ago": 0.8806118439588975,
+                "long time ago": 0.5039184838413403
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_year_abroad",
+            "Minutes ago": 525600,
+            "Prediction": {
+                "recently": 3.3142267280429643e-12,
+                "just": 3.104891748392542e-245,
+                "some time ago": 0.793240101513509,
+                "long time ago": 0.9998844913928968
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "own_year_abroad",
+            "Minutes ago": 1051200,
+            "Prediction": {
+                "recently": 3.79823267658728e-17,
+                "just": 0.0,
+                "some time ago": 0.5318776586449006,
+                "long time ago": 0.9167682608510638
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "own_year_abroad",
+            "Minutes ago": 2102400,
+            "Prediction": {
+                "recently": 2.1590245940893675e-17,
+                "just": 0.0,
+                "some time ago": 0.5198812533859853,
+                "long time ago": 0.909123704914169
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 0.75
+            }
+        },
+        {
+            "Event": "own_year_abroad",
+            "Minutes ago": 4204800,
+            "Prediction": {
+                "recently": 2.1590070233993376e-17,
+                "just": 0.0,
+                "some time ago": 0.5198810816366881,
+                "long time ago": 0.9091235931310523
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 1.0
+            }
+        },
+        {
+            "Event": "own_birthday",
+            "Minutes ago": 1440,
+            "Prediction": {
+                "recently": 0.774729815516071,
+                "just": 0.7766795437176506,
+                "some time ago": 0.4149703380411832,
+                "long time ago": 0.14142662898718927
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_birthday",
+            "Minutes ago": 2880,
+            "Prediction": {
+                "recently": 0.7689677896933685,
+                "just": 0.7488868611029216,
+                "some time ago": 0.41658127203205947,
+                "long time ago": 0.14223902930762744
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_birthday",
+            "Minutes ago": 5760,
+            "Prediction": {
+                "recently": 0.7573275609213069,
+                "just": 0.6911446657795244,
+                "some time ago": 0.4198111287834842,
+                "long time ago": 0.14387421890761934
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_birthday",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 0.7396000811556364,
+                "just": 0.6016018970790866,
+                "some time ago": 0.42467557032573583,
+                "long time ago": 0.1463530386649234
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_birthday",
+            "Minutes ago": 20160,
+            "Prediction": {
+                "recently": 0.6972063531674252,
+                "just": 0.39942462466273587,
+                "some time ago": 0.43611464787896714,
+                "long time ago": 0.15225899875637777
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.125,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_birthday",
+            "Minutes ago": 43800,
+            "Prediction": {
+                "recently": 0.5946929532695416,
+                "just": 0.09547309878554903,
+                "some time ago": 0.4633909007047378,
+                "long time ago": 0.16678570988259203
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_birthday",
+            "Minutes ago": 87600,
+            "Prediction": {
+                "recently": 0.41058719634768714,
+                "just": 0.0011874450011649788,
+                "some time ago": 0.5152759328795676,
+                "long time ago": 0.19622980925356961
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "own_birthday",
+            "Minutes ago": 131400,
+            "Prediction": {
+                "recently": 0.25727761243890224,
+                "just": 1.5922618451994269e-06,
+                "some time ago": 0.5682582111478884,
+                "long time ago": 0.228952942199801
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "own_birthday",
+            "Minutes ago": 175200,
+            "Prediction": {
+                "recently": 0.14666944419836112,
+                "just": 2.4135772006902973e-10,
+                "some time ago": 0.6214861433914124,
+                "long time ago": 0.2648615450918356
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "own_birthday",
+            "Minutes ago": 350400,
+            "Prediction": {
+                "recently": 0.006480699719651985,
+                "just": 2.0056597015996715e-34,
+                "some time ago": 0.8185831976645807,
+                "long time ago": 0.43484489075758415
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 1.0
+            }
+        },
+        {
+            "Event": "own_birthday",
+            "Minutes ago": 512040,
+            "Prediction": {
+                "recently": 0.00013091612260390244,
+                "just": 3.719955757452938e-67,
+                "some time ago": 0.9452588678184992,
+                "long time ago": 0.608929446324895
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 1.0
+            }
+        },
+        {
+            "Event": "own_vacation",
+            "Minutes ago": 1440,
+            "Prediction": {
+                "recently": 0.7579096198871105,
+                "just": 0.717143501358741,
+                "some time ago": 0.4081769015208898,
+                "long time ago": 0.1401370392668055
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_vacation",
+            "Minutes ago": 2880,
+            "Prediction": {
+                "recently": 0.7383189632780591,
+                "just": 0.614227386966973,
+                "some time ago": 0.41397919921301174,
+                "long time ago": 0.1429478106939235
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_vacation",
+            "Minutes ago": 5760,
+            "Prediction": {
+                "recently": 0.6981678189412791,
+                "just": 0.4123947536065606,
+                "some time ago": 0.4256881326716187,
+                "long time ago": 0.14869405076330425
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_vacation",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 0.6363520396673754,
+                "just": 0.1818562866853511,
+                "some time ago": 0.4434971722262488,
+                "long time ago": 0.1576273991149347
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_vacation",
+            "Minutes ago": 20160,
+            "Prediction": {
+                "recently": 0.4919774277788434,
+                "just": 0.009622316997886213,
+                "some time ago": 0.48604433005524444,
+                "long time ago": 0.1799520359064193
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_vacation",
+            "Minutes ago": 43800,
+            "Prediction": {
+                "recently": 0.2157207622702891,
+                "just": 3.729740866678022e-08,
+                "some time ago": 0.5891491262712922,
+                "long time ago": 0.24043794410928326
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_vacation",
+            "Minutes ago": 87600,
+            "Prediction": {
+                "recently": 0.021792369479241007,
+                "just": 1.2473728438242817e-26,
+                "some time ago": 0.7737912554077628,
+                "long time ago": 0.37957204920609083
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_vacation",
+            "Minutes ago": 175200,
+            "Prediction": {
+                "recently": 2.286804791999813e-05,
+                "just": 2.3154695150387866e-89,
+                "some time ago": 0.989616279104715,
+                "long time ago": 0.6970656250979292
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "own_vacation",
+            "Minutes ago": 350400,
+            "Prediction": {
+                "recently": 3.815802293323316e-12,
+                "just": 3.7783876385823375e-242,
+                "some time ago": 0.8016901310196313,
+                "long time ago": 0.9966660119586318
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "own_vacation",
+            "Minutes ago": 525600,
+            "Prediction": {
+                "recently": 3.476896420010394e-16,
+                "just": 0.0,
+                "some time ago": 0.5883024149134976,
+                "long time ago": 0.9655692488668446
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 0.75
+            }
+        },
+        {
+            "Event": "own_rent_payment",
+            "Minutes ago": 60,
+            "Prediction": {
+                "recently": 0.7910045680520859,
+                "just": 0.8182285954585645,
+                "some time ago": 0.3982674044902828,
+                "long time ago": 0.13161937342108343
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_rent_payment",
+            "Minutes ago": 480,
+            "Prediction": {
+                "recently": 0.7857538911948617,
+                "just": 0.7941844983287694,
+                "some time ago": 0.39991328440018364,
+                "long time ago": 0.13239025946108973
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_rent_payment",
+            "Minutes ago": 960,
+            "Prediction": {
+                "recently": 0.7797067392163003,
+                "just": 0.7656300032601099,
+                "some time ago": 0.4017980598876321,
+                "long time ago": 0.13327542534262346
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_rent_payment",
+            "Minutes ago": 1440,
+            "Prediction": {
+                "recently": 0.7736119072363904,
+                "just": 0.7361130945603933,
+                "some time ago": 0.4036868254839542,
+                "long time ago": 0.13416502843476363
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_rent_payment",
+            "Minutes ago": 2880,
+            "Prediction": {
+                "recently": 0.7550600587365269,
+                "just": 0.64371044600917,
+                "some time ago": 0.4093767338149444,
+                "long time ago": 0.1368605326968432
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_rent_payment",
+            "Minutes ago": 4320,
+            "Prediction": {
+                "recently": 0.7361465676164027,
+                "just": 0.549405206349763,
+                "some time ago": 0.4151013550438163,
+                "long time ago": 0.13959622433457616
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_rent_payment",
+            "Minutes ago": 5760,
+            "Prediction": {
+                "recently": 0.7169220251702925,
+                "just": 0.45767289553187945,
+                "some time ago": 0.4208597623001542,
+                "long time ago": 0.14237228027033538
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_rent_payment",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 0.6578828548009714,
+                "just": 0.22874990889736166,
+                "some time ago": 0.43832805527751384,
+                "long time ago": 0.1509442287554748
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_rent_payment",
+            "Minutes ago": 20160,
+            "Prediction": {
+                "recently": 0.5182484692078727,
+                "just": 0.019462029464221448,
+                "some time ago": 0.4800805509045472,
+                "long time ago": 0.17238320336382013
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "own_rent_payment",
+            "Minutes ago": 30240,
+            "Prediction": {
+                "recently": 0.3872873162021279,
+                "just": 0.0005112413073120167,
+                "some time ago": 0.5229071476858774,
+                "long time ago": 0.19585230978235482
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "own_rent_payment",
+            "Minutes ago": 43800,
+            "Prediction": {
+                "recently": 0.2412434712525267,
+                "just": 6.170338320933464e-07,
+                "some time ago": 0.5814472804226023,
+                "long time ago": 0.23060534276904324
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "own_rent_payment",
+            "Minutes ago": 87600,
+            "Prediction": {
+                "recently": 0.028723482730112056,
+                "just": 3.1266709945005574e-22,
+                "some time ago": 0.7643023170951474,
+                "long time ago": 0.3653928273463471
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.75
+            }
+        },
+        {
+            "Event": "own_rent_payment",
+            "Minutes ago": 175200,
+            "Prediction": {
+                "recently": 4.8311542679944655e-05,
+                "just": 3.437331956077319e-74,
+                "some time ago": 0.9859645455616789,
+                "long time ago": 0.6789066852069782
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 1.0
+            }
+        },
+        {
+            "Event": "own_shower",
+            "Minutes ago": 0,
+            "Prediction": {
+                "recently": 0.7797408777242611,
+                "just": 0.8300950999614388,
+                "some time ago": 0.40562293000246386,
+                "long time ago": 0.1346791796550449
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 0.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_shower",
+            "Minutes ago": 5,
+            "Prediction": {
+                "recently": 0.7796075197484664,
+                "just": 0.8294514795128406,
+                "some time ago": 0.4056622982733886,
+                "long time ago": 0.13469883284358475
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_shower",
+            "Minutes ago": 30,
+            "Prediction": {
+                "recently": 0.7789403851837943,
+                "just": 0.8262208755551033,
+                "some time ago": 0.4058591651716152,
+                "long time ago": 0.13479713107555247
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_shower",
+            "Minutes ago": 60,
+            "Prediction": {
+                "recently": 0.7781390680111507,
+                "just": 0.8223170079814185,
+                "some time ago": 0.4060954616058302,
+                "long time ago": 0.13491516000063697
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_shower",
+            "Minutes ago": 120,
+            "Prediction": {
+                "recently": 0.7765339768797819,
+                "just": 0.814422714796911,
+                "some time ago": 0.4065682380100653,
+                "long time ago": 0.13515145043201993
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_shower",
+            "Minutes ago": 240,
+            "Prediction": {
+                "recently": 0.7733140872997042,
+                "just": 0.7983046134571952,
+                "some time ago": 0.40751452314172004,
+                "long time ago": 0.135624962089786
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_shower",
+            "Minutes ago": 360,
+            "Prediction": {
+                "recently": 0.7700814829991774,
+                "just": 0.781779255101296,
+                "some time ago": 0.40846178122619475,
+                "long time ago": 0.13609971569718612
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_shower",
+            "Minutes ago": 720,
+            "Prediction": {
+                "recently": 0.7603101246399604,
+                "just": 0.7301485102023384,
+                "some time ago": 0.41130935118744794,
+                "long time ago": 0.13753143875094806
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "own_shower",
+            "Minutes ago": 960,
+            "Prediction": {
+                "recently": 0.7537373427800951,
+                "just": 0.6944055166765234,
+                "some time ago": 0.41321251856372454,
+                "long time ago": 0.138492149664985
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "own_shower",
+            "Minutes ago": 1440,
+            "Prediction": {
+                "recently": 0.7404611605752996,
+                "just": 0.6211250516087362,
+                "some time ago": 0.4170301888360735,
+                "long time ago": 0.140428557122369
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "own_shower",
+            "Minutes ago": 2880,
+            "Prediction": {
+                "recently": 0.6997454045477783,
+                "just": 0.4066167468219948,
+                "some time ago": 0.42857135690641746,
+                "long time ago": 0.14635821325689116
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "own_shower",
+            "Minutes ago": 5760,
+            "Prediction": {
+                "recently": 0.6158705400844201,
+                "just": 0.11675932760378546,
+                "some time ago": 0.4520239734880777,
+                "long time ago": 0.1587642897910716
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 1.0
+            }
+        },
+        {
+            "Event": "own_shower",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 0.490438917376747,
+                "just": 0.006625742210480832,
+                "some time ago": 0.48800060501057224,
+                "long time ago": 0.1787561126924568
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 1.0
+            }
+        },
+        {
+            "Event": "tom_watching_film",
+            "Minutes ago": 5,
+            "Prediction": {
+                "recently": 0.7791735986931492,
+                "just": 0.8067920095949368,
+                "some time ago": 0.39715959906134346,
+                "long time ago": 0.12842080954797416
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_watching_film",
+            "Minutes ago": 30,
+            "Prediction": {
+                "recently": 0.7769715576865711,
+                "just": 0.7969886771656914,
+                "some time ago": 0.3978408289996367,
+                "long time ago": 0.12874029709971177
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_watching_film",
+            "Minutes ago": 60,
+            "Prediction": {
+                "recently": 0.7743210105744831,
+                "just": 0.7850309342251324,
+                "some time ago": 0.3986590093954489,
+                "long time ago": 0.12912447478627448
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_watching_film",
+            "Minutes ago": 120,
+            "Prediction": {
+                "recently": 0.7689940019565966,
+                "just": 0.7605380228408325,
+                "some time ago": 0.4002976655901007,
+                "long time ago": 0.129895426852021
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_watching_film",
+            "Minutes ago": 240,
+            "Prediction": {
+                "recently": 0.758240625411296,
+                "just": 0.7096579849756803,
+                "some time ago": 0.4035840849357279,
+                "long time ago": 0.1314477368330337
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_watching_film",
+            "Minutes ago": 360,
+            "Prediction": {
+                "recently": 0.7473629637679837,
+                "just": 0.6570383721102575,
+                "some time ago": 0.40688250301215634,
+                "long time ago": 0.1330139568934411
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_watching_film",
+            "Minutes ago": 720,
+            "Prediction": {
+                "recently": 0.7140825199955719,
+                "just": 0.49762534876704123,
+                "some time ago": 0.41684798310668836,
+                "long time ago": 0.13779648710493236
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_watching_film",
+            "Minutes ago": 960,
+            "Prediction": {
+                "recently": 0.6914537741036069,
+                "just": 0.39767122665283805,
+                "some time ago": 0.42354834107277944,
+                "long time ago": 0.1410551185968472
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_watching_film",
+            "Minutes ago": 1440,
+            "Prediction": {
+                "recently": 0.6454826333468037,
+                "just": 0.23131355160214986,
+                "some time ago": 0.43707835088531805,
+                "long time ago": 0.1477423159221119
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_watching_film",
+            "Minutes ago": 2880,
+            "Prediction": {
+                "recently": 0.5070568182950546,
+                "just": 0.021613118519191274,
+                "some time ago": 0.47858566775182854,
+                "long time ago": 0.16917922592412046
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "tom_watching_film",
+            "Minutes ago": 5760,
+            "Prediction": {
+                "recently": 0.26798262929817285,
+                "just": 6.877962945370552e-06,
+                "some time ago": 0.5644069318459075,
+                "long time ago": 0.21830149077345976
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "tom_watching_film",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 0.07111809860025978,
+                "just": 1.3574918035936116e-14,
+                "some time ago": 0.6932915121907555,
+                "long time ago": 0.3069563142639269
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "tom_eating_risotto",
+            "Minutes ago": 5,
+            "Prediction": {
+                "recently": 0.7892845997134044,
+                "just": 0.8086527249117968,
+                "some time ago": 0.38422974427922363,
+                "long time ago": 0.11833804125110857
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_eating_risotto",
+            "Minutes ago": 30,
+            "Prediction": {
+                "recently": 0.7879699670781789,
+                "just": 0.8029790919800638,
+                "some time ago": 0.38466439793259943,
+                "long time ago": 0.11852699058553923
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_eating_risotto",
+            "Minutes ago": 60,
+            "Prediction": {
+                "recently": 0.7863892245557011,
+                "just": 0.796102594558137,
+                "some time ago": 0.38518629135103455,
+                "long time ago": 0.11875403450160853
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_eating_risotto",
+            "Minutes ago": 120,
+            "Prediction": {
+                "recently": 0.7832174514323054,
+                "just": 0.7821377447269019,
+                "some time ago": 0.3862310869998814,
+                "long time ago": 0.11920912032032438
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_eating_risotto",
+            "Minutes ago": 240,
+            "Prediction": {
+                "recently": 0.7768337049988389,
+                "just": 0.7534424609371004,
+                "some time ago": 0.3883246946380641,
+                "long time ago": 0.12012328925839012
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_eating_risotto",
+            "Minutes ago": 360,
+            "Prediction": {
+                "recently": 0.7703981745735503,
+                "just": 0.7238827959811558,
+                "some time ago": 0.3904236210855587,
+                "long time ago": 0.121042798025767
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_eating_risotto",
+            "Minutes ago": 720,
+            "Prediction": {
+                "recently": 0.7508027187271695,
+                "just": 0.631875777865142,
+                "some time ago": 0.396751870435353,
+                "long time ago": 0.12383348192512801
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "tom_eating_risotto",
+            "Minutes ago": 960,
+            "Prediction": {
+                "recently": 0.7375202237579949,
+                "just": 0.5695512907408112,
+                "some time ago": 0.40099647647712944,
+                "long time ago": 0.12572085121283116
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "tom_eating_risotto",
+            "Minutes ago": 1440,
+            "Prediction": {
+                "recently": 0.7105085560582471,
+                "just": 0.4482938272372193,
+                "some time ago": 0.4095458713264199,
+                "long time ago": 0.12956057991203754
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "tom_eating_risotto",
+            "Minutes ago": 2880,
+            "Prediction": {
+                "recently": 0.6271374348713261,
+                "just": 0.1696793902794328,
+                "some time ago": 0.4356472296608574,
+                "long time ago": 0.14160544951649748
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "tom_eating_risotto",
+            "Minutes ago": 5760,
+            "Prediction": {
+                "recently": 0.46128892203241273,
+                "just": 0.007820709418997724,
+                "some time ago": 0.4895771257013687,
+                "long time ago": 0.1681051370690683
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "tom_eating_risotto",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 0.252771354489935,
+                "just": 4.75734761078933e-06,
+                "some time ago": 0.5731722357828609,
+                "long time ago": 0.2139568396071073
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.75
+            }
+        },
+        {
+            "Event": "tom_reading_book",
+            "Minutes ago": 5,
+            "Prediction": {
+                "recently": 0.7801512141468737,
+                "just": 0.8073138996295999,
+                "some time ago": 0.39429023658138945,
+                "long time ago": 0.1383816387184706
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_reading_book",
+            "Minutes ago": 30,
+            "Prediction": {
+                "recently": 0.7785670699907475,
+                "just": 0.8004318053484637,
+                "some time ago": 0.39478103864825825,
+                "long time ago": 0.13861873679748116
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 0.875,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_reading_book",
+            "Minutes ago": 60,
+            "Prediction": {
+                "recently": 0.7766618472926297,
+                "just": 0.7920751535523993,
+                "some time ago": 0.3953703732701605,
+                "long time ago": 0.13890365479871644
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 0.875,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_reading_book",
+            "Minutes ago": 120,
+            "Prediction": {
+                "recently": 0.7728377135752077,
+                "just": 0.7750604022290437,
+                "some time ago": 0.3965502566679789,
+                "long time ago": 0.1394748016766988
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_reading_book",
+            "Minutes ago": 240,
+            "Prediction": {
+                "recently": 0.7651362999888621,
+                "just": 0.7399700274584677,
+                "some time ago": 0.3989148524131961,
+                "long time ago": 0.14062234457222303
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_reading_book",
+            "Minutes ago": 360,
+            "Prediction": {
+                "recently": 0.7573670889863391,
+                "just": 0.7037415106274181,
+                "some time ago": 0.4012858336009888,
+                "long time ago": 0.14177689686267061
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_reading_book",
+            "Minutes ago": 720,
+            "Prediction": {
+                "recently": 0.7336894638725941,
+                "just": 0.591472874227524,
+                "some time ago": 0.40843644096913523,
+                "long time ago": 0.14528273184838603
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_reading_book",
+            "Minutes ago": 960,
+            "Prediction": {
+                "recently": 0.7176327983893253,
+                "just": 0.5166804894486733,
+                "some time ago": 0.41323423631777767,
+                "long time ago": 0.1476552191889328
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_reading_book",
+            "Minutes ago": 1440,
+            "Prediction": {
+                "recently": 0.6849991389883926,
+                "just": 0.37641114312016943,
+                "some time ago": 0.42290110744548626,
+                "long time ago": 0.15248521124093814
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_reading_book",
+            "Minutes ago": 2880,
+            "Prediction": {
+                "recently": 0.5849759407237837,
+                "just": 0.10050485008851769,
+                "some time ago": 0.4524303292581005,
+                "long time ago": 0.16766033046633097
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_reading_book",
+            "Minutes ago": 5760,
+            "Prediction": {
+                "recently": 0.39331101872092783,
+                "just": 0.0013687068088185077,
+                "some time ago": 0.5134071325285212,
+                "long time ago": 0.20111922222276346
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "tom_reading_book",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 0.17786098648550988,
+                "just": 3.7703915338757256e-08,
+                "some time ago": 0.6072872685461557,
+                "long time ago": 0.2589724633643926
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "tom_dancing_salsa",
+            "Minutes ago": 5,
+            "Prediction": {
+                "recently": 0.7850762428386564,
+                "just": 0.8120884547320506,
+                "some time ago": 0.39082795051803815,
+                "long time ago": 0.13310052837085742
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_dancing_salsa",
+            "Minutes ago": 30,
+            "Prediction": {
+                "recently": 0.7846422361039456,
+                "just": 0.8102950009267089,
+                "some time ago": 0.39095877684179764,
+                "long time ago": 0.13316275350885876
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_dancing_salsa",
+            "Minutes ago": 60,
+            "Prediction": {
+                "recently": 0.7841210914884578,
+                "just": 0.8081356243432191,
+                "some time ago": 0.3911157954522773,
+                "long time ago": 0.13323745254659763
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_dancing_salsa",
+            "Minutes ago": 120,
+            "Prediction": {
+                "recently": 0.78307770548132,
+                "just": 0.803793561813081,
+                "some time ago": 0.3914299210380772,
+                "long time ago": 0.13338694512970484
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_dancing_salsa",
+            "Minutes ago": 240,
+            "Prediction": {
+                "recently": 0.7809865800284519,
+                "just": 0.7950188294655416,
+                "some time ago": 0.39205852515177975,
+                "long time ago": 0.13368630845022922
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_dancing_salsa",
+            "Minutes ago": 360,
+            "Prediction": {
+                "recently": 0.7788897141489606,
+                "just": 0.7861283149606736,
+                "some time ago": 0.3926875988673361,
+                "long time ago": 0.13398617621131653
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_dancing_salsa",
+            "Minutes ago": 720,
+            "Prediction": {
+                "recently": 0.7725654445492195,
+                "just": 0.758822726846729,
+                "some time ago": 0.39457762571697325,
+                "long time ago": 0.13488880893216498
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_dancing_salsa",
+            "Minutes ago": 960,
+            "Prediction": {
+                "recently": 0.768321976212095,
+                "just": 0.7401515065327666,
+                "some time ago": 0.39583996972225816,
+                "long time ago": 0.1354930913747744
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_dancing_salsa",
+            "Minutes ago": 1440,
+            "Prediction": {
+                "recently": 0.7597723267857853,
+                "just": 0.701906089220166,
+                "some time ago": 0.398370196886819,
+                "long time ago": 0.13670773156334742
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_dancing_salsa",
+            "Minutes ago": 2880,
+            "Prediction": {
+                "recently": 0.7336661921143462,
+                "just": 0.5833624593065212,
+                "some time ago": 0.4060044832311448,
+                "long time ago": 0.14040040594915257
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_dancing_salsa",
+            "Minutes ago": 5760,
+            "Prediction": {
+                "recently": 0.6798399607152724,
+                "just": 0.3587704163773394,
+                "some time ago": 0.42146194824635974,
+                "long time ago": 0.14800655159535422
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "tom_dancing_salsa",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 0.5970126648040649,
+                "just": 0.1294920966459418,
+                "some time ago": 0.4450854289308301,
+                "long time ago": 0.15997315373163137
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "tom_storing_wineBottle",
+            "Minutes ago": 5,
+            "Prediction": {
+                "recently": 0.788093551437964,
+                "just": 0.8105118998961041,
+                "some time ago": 0.3921452721177362,
+                "long time ago": 0.12921710733319353
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_storing_wineBottle",
+            "Minutes ago": 30,
+            "Prediction": {
+                "recently": 0.7864162058439379,
+                "just": 0.8031687027910341,
+                "some time ago": 0.39267368367388233,
+                "long time ago": 0.12946166607158852
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_storing_wineBottle",
+            "Minutes ago": 60,
+            "Prediction": {
+                "recently": 0.7843982785331941,
+                "just": 0.7942422896707336,
+                "some time ago": 0.39330821411414757,
+                "long time ago": 0.1297555978100785
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_storing_wineBottle",
+            "Minutes ago": 120,
+            "Prediction": {
+                "recently": 0.7803459605455008,
+                "just": 0.7760387789429384,
+                "some time ago": 0.39457869909432985,
+                "long time ago": 0.1303449719900602
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_storing_wineBottle",
+            "Minutes ago": 240,
+            "Prediction": {
+                "recently": 0.7721774370606317,
+                "just": 0.7384075664758797,
+                "some time ago": 0.3971253310038017,
+                "long time ago": 0.1315297714667742
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_storing_wineBottle",
+            "Minutes ago": 360,
+            "Prediction": {
+                "recently": 0.7639274808212927,
+                "just": 0.6994846235043591,
+                "some time ago": 0.3996794459377286,
+                "long time ago": 0.13272265466803762
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.5,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_storing_wineBottle",
+            "Minutes ago": 720,
+            "Prediction": {
+                "recently": 0.7387340981860092,
+                "just": 0.5789519002097203,
+                "some time ago": 0.40738587910525825,
+                "long time ago": 0.13634998736442894
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_storing_wineBottle",
+            "Minutes ago": 960,
+            "Prediction": {
+                "recently": 0.7216139846294507,
+                "just": 0.49915669834046916,
+                "some time ago": 0.41255941290085596,
+                "long time ago": 0.13880895126442008
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_storing_wineBottle",
+            "Minutes ago": 1440,
+            "Prediction": {
+                "recently": 0.6867562798632275,
+                "just": 0.3517905682942348,
+                "some time ago": 0.42298958951252663,
+                "long time ago": 0.14382524074234512
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_storing_wineBottle",
+            "Minutes ago": 2880,
+            "Prediction": {
+                "recently": 0.5797457009086963,
+                "just": 0.08047430385883188,
+                "some time ago": 0.45489257365103514,
+                "long time ago": 0.1596688207605024
+            },
+            "GT": {
+                "recently": 0.375,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "tom_storing_wineBottle",
+            "Minutes ago": 5760,
+            "Prediction": {
+                "recently": 0.3764951423083888,
+                "just": 0.0006296779516015172,
+                "some time ago": 0.520871139556815,
+                "long time ago": 0.1949781386470185
+            },
+            "GT": {
+                "recently": 0.375,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "tom_storing_wineBottle",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 0.15722698948860273,
+                "just": 4.20894827713606e-09,
+                "some time ago": 0.6222366464191051,
+                "long time ago": 0.25690838085700246
+            },
+            "GT": {
+                "recently": 0.375,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "tom_drinking_juice",
+            "Minutes ago": 5,
+            "Prediction": {
+                "recently": 0.7837075683586775,
+                "just": 0.8038292104501237,
+                "some time ago": 0.3948492947897421,
+                "long time ago": 0.12564395551462645
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_drinking_juice",
+            "Minutes ago": 30,
+            "Prediction": {
+                "recently": 0.7767624163672984,
+                "just": 0.7726236267231215,
+                "some time ago": 0.3970236717263419,
+                "long time ago": 0.12669455611396752
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_drinking_juice",
+            "Minutes ago": 60,
+            "Prediction": {
+                "recently": 0.7683475381052448,
+                "just": 0.7335725886441355,
+                "some time ago": 0.3996401344045082,
+                "long time ago": 0.12796404308547052
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_drinking_juice",
+            "Minutes ago": 120,
+            "Prediction": {
+                "recently": 0.7512723124585228,
+                "just": 0.6519418588973496,
+                "some time ago": 0.40489632305718304,
+                "long time ago": 0.13053180768178818
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_drinking_juice",
+            "Minutes ago": 240,
+            "Prediction": {
+                "recently": 0.7162761197171361,
+                "just": 0.4864195241249588,
+                "some time ago": 0.4154992467768232,
+                "long time ago": 0.135783205392519
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_drinking_juice",
+            "Minutes ago": 360,
+            "Prediction": {
+                "recently": 0.6804101890262987,
+                "just": 0.3364059994640728,
+                "some time ago": 0.4262179509959826,
+                "long time ago": 0.1411903489521967
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_drinking_juice",
+            "Minutes ago": 720,
+            "Prediction": {
+                "recently": 0.5705857470476661,
+                "just": 0.07066029941304554,
+                "some time ago": 0.45900531423172525,
+                "long time ago": 0.1583590101069696
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "tom_drinking_juice",
+            "Minutes ago": 960,
+            "Prediction": {
+                "recently": 0.49827190722234566,
+                "just": 0.01712692682103449,
+                "some time ago": 0.4813212083019678,
+                "long time ago": 0.1706037536564286
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "tom_drinking_juice",
+            "Minutes ago": 1440,
+            "Prediction": {
+                "recently": 0.36395375994941925,
+                "just": 0.0004105035510385869,
+                "some time ago": 0.5267815757532804,
+                "long time ago": 0.19702764417271315
+            },
+            "GT": {
+                "recently": 0.125,
+                "just": 0.0,
+                "some time ago": 0.625,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "tom_drinking_juice",
+            "Minutes ago": 2880,
+            "Prediction": {
+                "recently": 0.10170988186228254,
+                "just": 5.369634805355411e-12,
+                "some time ago": 0.6648575536016098,
+                "long time ago": 0.29136563441524616
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "tom_drinking_juice",
+            "Minutes ago": 5760,
+            "Prediction": {
+                "recently": 0.0021578206591490985,
+                "just": 8.798012867180585e-40,
+                "some time ago": 0.8965113650727561,
+                "long time ago": 0.5292501233463924
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.75
+            }
+        },
+        {
+            "Event": "tom_drinking_juice",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 9.149396156489476e-07,
+                "just": 1.169183070285098e-100,
+                "some time ago": 0.9952525550009645,
+                "long time ago": 0.8572700987171556
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.75
+            }
+        },
+        {
+            "Event": "tom_chatting_friend",
+            "Minutes ago": 5,
+            "Prediction": {
+                "recently": 0.7885158237892015,
+                "just": 0.8097537801036637,
+                "some time ago": 0.4023007061184316,
+                "long time ago": 0.1405788742075479
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_chatting_friend",
+            "Minutes ago": 30,
+            "Prediction": {
+                "recently": 0.7876334534484125,
+                "just": 0.8060245588367873,
+                "some time ago": 0.4025588366400433,
+                "long time ago": 0.14070671802968734
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_chatting_friend",
+            "Minutes ago": 60,
+            "Prediction": {
+                "recently": 0.7865731797764539,
+                "just": 0.8015193172173574,
+                "some time ago": 0.40286869169126943,
+                "long time ago": 0.14086024491817162
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_chatting_friend",
+            "Minutes ago": 120,
+            "Prediction": {
+                "recently": 0.7844479940181421,
+                "just": 0.7924132630981748,
+                "some time ago": 0.40348872335923536,
+                "long time ago": 0.1411676728903301
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_chatting_friend",
+            "Minutes ago": 240,
+            "Prediction": {
+                "recently": 0.7801793552161189,
+                "just": 0.7738422614115356,
+                "some time ago": 0.40473006890070073,
+                "long time ago": 0.14178402645819674
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_chatting_friend",
+            "Minutes ago": 360,
+            "Prediction": {
+                "recently": 0.7758869060731733,
+                "just": 0.7548374927679811,
+                "some time ago": 0.4059731162889716,
+                "long time ago": 0.14240237844693965
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_chatting_friend",
+            "Minutes ago": 720,
+            "Prediction": {
+                "recently": 0.7628732600328682,
+                "just": 0.6957586173095928,
+                "some time ago": 0.40971237559687734,
+                "long time ago": 0.14426944362955763
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_chatting_friend",
+            "Minutes ago": 960,
+            "Prediction": {
+                "recently": 0.7540904867661272,
+                "just": 0.6551850650647697,
+                "some time ago": 0.4122135511214064,
+                "long time ago": 0.14552417963165415
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_chatting_friend",
+            "Minutes ago": 1440,
+            "Prediction": {
+                "recently": 0.736291796272109,
+                "just": 0.5730343370239791,
+                "some time ago": 0.4172355613895955,
+                "long time ago": 0.14805777671177786
+            },
+            "GT": {
+                "recently": 0.625,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_chatting_friend",
+            "Minutes ago": 2880,
+            "Prediction": {
+                "recently": 0.681407768603129,
+                "just": 0.3433234440667847,
+                "some time ago": 0.43245313639763405,
+                "long time ago": 0.15585248797264856
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_chatting_friend",
+            "Minutes ago": 5760,
+            "Prediction": {
+                "recently": 0.5685991897384868,
+                "just": 0.0750746111537327,
+                "some time ago": 0.4635095200735664,
+                "long time ago": 0.17232190189962
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "tom_chatting_friend",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 0.4062978725131682,
+                "just": 0.002239670371467434,
+                "some time ago": 0.5113475819448692,
+                "long time ago": 0.19924297373932875
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "own_wedding_celebration",
+            "Minutes ago": 5760,
+            "Prediction": {
+                "recently": 0.7704436804560032,
+                "just": 0.7966238926104512,
+                "some time ago": 0.4005999785812283,
+                "long time ago": 0.1361293831846402
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_wedding_celebration",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 0.7680079664918853,
+                "just": 0.7849383384193988,
+                "some time ago": 0.4013653336659471,
+                "long time ago": 0.13650138240708837
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 1.0,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_wedding_celebration",
+            "Minutes ago": 20160,
+            "Prediction": {
+                "recently": 0.7622979048527649,
+                "just": 0.756963665641231,
+                "some time ago": 0.4031537242234047,
+                "long time ago": 0.13737233846058047
+            },
+            "GT": {
+                "recently": 1.0,
+                "just": 0.75,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_wedding_celebration",
+            "Minutes ago": 43800,
+            "Prediction": {
+                "recently": 0.748766964193409,
+                "just": 0.6883327860463759,
+                "some time ago": 0.4073618586353924,
+                "long time ago": 0.13943121237080483
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_wedding_celebration",
+            "Minutes ago": 131400,
+            "Prediction": {
+                "recently": 0.6972060580665116,
+                "just": 0.4286686833734032,
+                "some time ago": 0.4231202681984666,
+                "long time ago": 0.14726061519174263
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.25,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_wedding_celebration",
+            "Minutes ago": 262800,
+            "Prediction": {
+                "recently": 0.6173199993557745,
+                "just": 0.14726746404060972,
+                "some time ago": 0.44721029770293835,
+                "long time ago": 0.15960131159131385
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.5,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_wedding_celebration",
+            "Minutes ago": 525600,
+            "Prediction": {
+                "recently": 0.4592297413878954,
+                "just": 0.0048179430875036604,
+                "some time ago": 0.4967495301974512,
+                "long time ago": 0.18645802254284632
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "own_wedding_celebration",
+            "Minutes ago": 1051200,
+            "Prediction": {
+                "recently": 0.20697899639116454,
+                "just": 3.320131171006841e-08,
+                "some time ago": 0.5988817204244364,
+                "long time ago": 0.24884988940437158
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "own_wedding_celebration",
+            "Minutes ago": 2628000,
+            "Prediction": {
+                "recently": 0.004359187314040647,
+                "just": 1.3398036928194533e-39,
+                "some time ago": 0.8731067889532425,
+                "long time ago": 0.49151629851289386
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "own_wedding_celebration",
+            "Minutes ago": 5256000,
+            "Prediction": {
+                "recently": 3.4584719834238124e-07,
+                "just": 4.460920245842808e-126,
+                "some time ago": 0.9846410242218286,
+                "long time ago": 0.8748472054576245
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 1.0
+            }
+        },
+        {
+            "Event": "own_wedding_celebration",
+            "Minutes ago": 10512000,
+            "Prediction": {
+                "recently": 4.3460863257530724e-14,
+                "just": 2.6843489927052284e-279,
+                "some time ago": 0.6381925592112734,
+                "long time ago": 0.97386487942776
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 1.0,
+                "long time ago": 1.0
+            }
+        },
+        {
+            "Event": "own_wallet_theft",
+            "Minutes ago": 5760,
+            "Prediction": {
+                "recently": 0.5288037352640859,
+                "just": 0.03608780396211,
+                "some time ago": 0.47304204888678586,
+                "long time ago": 0.17604101056950305
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.5,
+                "some time ago": 0.75,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_wallet_theft",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 0.34823530596645363,
+                "just": 0.00029636864574230287,
+                "some time ago": 0.5166940221504106,
+                "long time ago": 0.20807667917552358
+            },
+            "GT": {
+                "recently": 0.75,
+                "just": 0.25,
+                "some time ago": 0.75,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_wallet_theft",
+            "Minutes ago": 20160,
+            "Prediction": {
+                "recently": 0.08742482701329492,
+                "just": 1.0922856282691215e-12,
+                "some time ago": 0.6213401486666478,
+                "long time ago": 0.2974127124732678
+            },
+            "GT": {
+                "recently": 0.5,
+                "just": 0.25,
+                "some time ago": 0.75,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_wallet_theft",
+            "Minutes ago": 43800,
+            "Prediction": {
+                "recently": 0.00036509806528781005,
+                "just": 4.685268252799594e-52,
+                "some time ago": 0.8508040705741452,
+                "long time ago": 0.5737640345035053
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "own_wallet_theft",
+            "Minutes ago": 131400,
+            "Prediction": {
+                "recently": 7.540497951013681e-25,
+                "just": 0.0,
+                "some time ago": 0.6430358928603033,
+                "long time ago": 0.7201753058048301
+            },
+            "GT": {
+                "recently": 0.25,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "own_wallet_theft",
+            "Minutes ago": 262800,
+            "Prediction": {
+                "recently": 7.960037616262255e-91,
+                "just": 0.0,
+                "some time ago": 0.005989198658676707,
+                "long time ago": 0.0015151819656435892
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.25
+            }
+        },
+        {
+            "Event": "own_wallet_theft",
+            "Minutes ago": 525600,
+            "Prediction": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 1.3561497034653606e-13,
+                "long time ago": 5.79630399884333e-19
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "own_wallet_theft",
+            "Minutes ago": 1051200,
+            "Prediction": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 4.4216802440549407e-60,
+                "long time ago": 2.493930984264324e-88
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 0.5
+            }
+        },
+        {
+            "Event": "own_wallet_theft",
+            "Minutes ago": 2628000,
+            "Prediction": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.75,
+                "long time ago": 1.0
+            }
+        },
+        {
+            "Event": "own_wallet_theft",
+            "Minutes ago": 5256000,
+            "Prediction": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.625,
+                "long time ago": 1.0
+            }
+        },
+        {
+            "Event": "own_wallet_theft",
+            "Minutes ago": 10512000,
+            "Prediction": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.0,
+                "long time ago": 0.0
+            },
+            "GT": {
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.25,
+                "long time ago": 1.0
+            }
+        }
+    ]
+}
