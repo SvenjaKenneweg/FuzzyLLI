@@ -43,7 +43,7 @@ def _load_packed(path: Path = RESULTS_FILE_PATH / "event_adverbials") -> Dict[st
 def _safe_round(value):
     return round(value) if math.isfinite(value) else value
 
-def _get_event_properties_gpt(event_nl, model_engine=GPT_VERSION):
+def get_event_properties_gpt(event_nl, model_engine=GPT_VERSION):
     instruction = f"""
     You are an assistant that evaluates events based on two dimensions: duration and frequency.
     
@@ -148,7 +148,7 @@ def predict_time_frame_gpt_random_forest(event, adverbial, min_prob=0.6, max_pro
     adverbial_std = params["adverbial_stds"][adverbial]
 
     random_forest = load(RESULTS_FILE_PATH / RANDOM_FOREST_FILE)
-    gpt_result = _get_event_properties_gpt(event)
+    gpt_result = get_event_properties_gpt(event)
     required_keys = ["Frequency", "Duration"]
     missing_keys = [key for key in required_keys if key not in gpt_result]
     if missing_keys:
@@ -181,7 +181,7 @@ def predict_adverbial_gpt_random_forest(event, minutes_ago,max_retries=10):
     random_forest = load(RESULTS_FILE_PATH / RANDOM_FOREST_FILE)
 
     for _ in range(max_retries):
-        gpt_result = _get_event_properties_gpt(event)
+        gpt_result = get_event_properties_gpt(event)
 
         duration = gpt_result.get("Duration")
         frequency = gpt_result.get("Frequency")
@@ -255,12 +255,6 @@ def predict_adverbial_random_forest(duration, frequency, minutes_ago):
         prob_adverbial = adverbial_specific_function(event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
         adverbial_probs[adverbial] = prob_adverbial
 
-    return adverbial_probs
-
-def predict_random(*args, **kwargs):
-    adverbial_probs = {}
-    for adverbial in VAGUE_ADVERBIALS:
-        adverbial_probs[adverbial] = random.uniform(0, 1)
     return adverbial_probs
 
 

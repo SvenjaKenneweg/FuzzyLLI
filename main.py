@@ -6,10 +6,11 @@ from src.predictions import (predict_time_frame_embedding, predict_adverbial_emb
                              predict_time_frame_random_forest, predict_adverbial_random_forest)
 from src.evaluation import (get_predictions_classifier, get_predictions_regression,
                             get_predictions_embedding, get_predictions_gpt_random_forest, get_predictions_random_forest,
-                            evaluate_gpt, calculate_metrics_seen_events)
-from src.evaluation_survey import (evaluate_survey_gpt_random_forest, evaluate_survey_embedding, evaluate_survey_baseline)
+                            evaluate_gpt, calculate_metrics)
+from src.evaluation_survey import (evaluate_survey_gpt_random_forest, evaluate_survey_embedding, evaluate_survey_gpt, evaluate_survey_gpt_regression, evaluate_survey_gpt_classifier)
 from src.simple_models_training import fit_classifier, fit_regression
-from src.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
+from src.simple_models_predictions import predict_adverbial_gpt_classifier, predict_adverbial_gpt_regression
+from src.config import EVALUATION_SURVEY_FILE_PATH, EVALUATION_FILE_PATH
 
 import sys
 
@@ -40,8 +41,8 @@ def make_predictions(event_details):
     event, event_nl, duration, frequency, adverbial, minutes_ago = event_details
 
     print("\nPredictions using Classifiers and Regression:")
-    print(predict_adverbial_classifier(duration, frequency, minutes_ago))
-    print(predict_adverbial_regression(duration, frequency, minutes_ago))
+    print(predict_adverbial_gpt_classifier(duration, frequency, minutes_ago))
+    print(predict_adverbial_gpt_regression(duration, frequency, minutes_ago))
 
     print("\nPredictions using Embeddings and Random Forest:")
     print(predict_time_frame_embedding(event, adverbial))
@@ -60,37 +61,46 @@ def evaluate_models_seen_events(events, events_nl, generate_new_predictions=Fals
         # print("\nEvaluation Embeddings + Regressor:")
         # get_predictions_embedding(events, events_nl)
         #
-        print("\nEvaluation GPT + Random Forest:")
-        get_predictions_gpt_random_forest(events, events_nl)
+        # print("\nEvaluation GPT + Random Forest:")
+        # get_predictions_gpt_random_forest(events, events_nl)
         #
         # print("\nEvaluation Random Forest:")
         # get_predictions_random_forest(events)
-        #
-        # print("\nEvaluation Baseline Models (Classifier, Regression):")
-        # get_predictions_classifier(events)
-        # get_predictions_regression(events)
 
-        print("\n Evaluating GPT:")
-        evaluate_gpt(events, events_nl)
+        print("\nEvaluation Baseline Models (Classifier, Regression):")
+        # get_predictions_classifier(events, events_nl)
+        get_predictions_regression(events, events_nl)
+
+        # print("\n Evaluating GPT:")
+        # evaluate_gpt(events, events_nl)
 
     # Calculate only the metrics
     print("Calculating the Evaluation metrics from the saved prediction files...")
-    calculate_metrics_seen_events()
+    calculate_metrics(EVALUATION_FILE_PATH)
 
 
 
-def evaluate_survey(events_to_fit, events_to_fit_nl = None):
+def evaluate_survey(events_to_fit, events_to_fit_nl, generate_new_predictions=False):
     """
     Evaluate the models by comparing the predicted adverbials for new events with the unseen_events results
     """
-    print("\nEvaluating GPT + Random Forest on the unseen_events data:")
-    print(evaluate_survey_gpt_random_forest(events_to_fit))
+    if generate_new_predictions:
+        print("\nEvaluating GPT + Random Forest on the unseen_events data:")
+        evaluate_survey_gpt_random_forest(events_to_fit)
 
-    print("\nEvaluating Embeddings + Regressor on the unseen_events data:")
-    print(evaluate_survey_embedding(events_to_fit, events_to_fit_nl))
+        # print("\nEvaluating Embeddings + Regressor on the unseen_events data:")
+        # evaluate_survey_embedding(events_to_fit, events_to_fit_nl)
+        #
+        # print("\nEvaluating Classifier and Regression Model on the unseen_events data:")
+        # evaluate_survey_gpt_classifier(events_to_fit, events_to_fit_nl)
+        # evaluate_survey_gpt_regression(events_to_fit, events_to_fit_nl)
 
-    print("\n Evaluating the baseline (random prediction) on the unseen_events data:")
-    print(evaluate_survey_baseline())
+        print("\nEvaluating GPT on the unseen events data:")
+        evaluate_survey_gpt()
+
+    # Calculate only the metrics
+    print("Calculating the Evaluation metrics from the saved prediction files...")
+    calculate_metrics(EVALUATION_SURVEY_FILE_PATH)
 
 
 def plot_results(events):
@@ -126,8 +136,8 @@ def main():
     # Run the steps sequentially
     # train_models(events) # Trains FuzzyLLI in all variants and the baseline models
     # make_predictions(event_details) #Predicts minutes ago or the event and the best fitting adverbials
-    evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
-    # evaluate_survey(events, events_nl)
+    # evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
+    evaluate_survey(events, events_nl, generate_new_predictions=True)
     # plot_results(events) # Plots FuzzyLLI
 
 if __name__ == '__main__':

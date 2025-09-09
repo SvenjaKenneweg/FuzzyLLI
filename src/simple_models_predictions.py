@@ -4,6 +4,8 @@ import joblib
 from imblearn.over_sampling import SMOTE
 from xgboost import XGBRegressor
 
+from src.predictions import get_event_properties_gpt
+
 from src.config import (VAGUE_ADVERBIALS,
                         DURATION_ORDER,
                         FREQUENCY_ORDER,
@@ -20,14 +22,20 @@ from src.config import (VAGUE_ADVERBIALS,
 # Public API
 # ---------------------------------------------------------------------------
 
-def predict_adverbial_classifier(duration, frequency, minutes_ago):
+def predict_adverbial_gpt_classifier(event_nl, minutes_ago, max_retries=5):
+    duration, frequency = None, None
+    #Get the event properties with gpt
+    for _ in range(max_retries):
+        gpt_result = get_event_properties_gpt(event_nl)
+        duration = (gpt_result.get("Duration")).replace(" ", "")
+        frequency = (gpt_result.get("Frequency")).replace(" ", "")
+        if frequency == "OnceinLife": frequency = "Once in Life"
+
     model = joblib.load(RESULTS_SIMPLE_FILE_PATH / GRADIENT_BOOSTING_FILE)
     le = joblib.load(RESULTS_SIMPLE_FILE_PATH / LABEL_ENCODER_FILE)
 
-    log_minutes_ago = np.log1p(minutes_ago)
-    X_input = pd.DataFrame([[FREQUENCY_ORDER.index(frequency), DURATION_ORDER.index(duration), log_minutes_ago]],
+    X_input = pd.DataFrame([[FREQUENCY_ORDER.index(frequency), DURATION_ORDER.index(duration), np.log1p(minutes_ago)]],
                            columns=["frequency", "duration", "log_minutes_ago"])
-
     # Get class probabilities
     probas = model.predict_proba(X_input)[0]  # shape: (num_classes,)
     class_labels = le.inverse_transform(np.arange(len(probas)))
@@ -35,7 +43,15 @@ def predict_adverbial_classifier(duration, frequency, minutes_ago):
     return dict(zip(class_labels, probas))
 
 
-def predict_adverbial_regression(duration, frequency, minutes_ago):
+def predict_adverbial_gpt_regression(event_nl, minutes_ago, max_retries=5):
+    duration, frequency = None, None
+    #Get the event properties with gpt
+    for _ in range(max_retries):
+        gpt_result = get_event_properties_gpt(event_nl)
+        duration = (gpt_result.get("Duration")).replace(" ", "")
+        frequency = (gpt_result.get("Frequency")).replace(" ", "")
+        if frequency == "OnceinLife": frequency = "Once in Life"
+
     rf_model = joblib.load(RESULTS_SIMPLE_FILE_PATH / RANDOM_FOREST_REGRESSOR_FILE)
     ohe = joblib.load(RESULTS_SIMPLE_FILE_PATH / ONE_HOT_ENCODER_FILE)
 

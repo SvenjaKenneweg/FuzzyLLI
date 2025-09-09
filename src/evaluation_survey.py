@@ -7,7 +7,9 @@ from collections import defaultdict
 from src.config import (
                         DATA_EVALUATION_SURVEY_PATH, GPT_VERSION,
                         EVALUATION_SURVEY_GPT4, EVALUATION_SURVEY_GPT5,
-                        EVALUATION_SURVEY_EMBEDDINGS
+                        GPT4_SURVEY_PROMPT_FILE, GPT5_SURVEY_PROMPT_FILE,
+                        EVALUATION_SURVEY_EMBEDDINGS, VAGUE_ADVERBIALS,
+                        EVALUATION_SURVEY_GPT_REGRESSION, EVALUATION_SURVEY_GPT_CLASSIFIER
                         )
 
 from src.train import (
@@ -15,13 +17,14 @@ from src.train import (
     fit_event_specific_embeddings,
     fit_event_specific_random_forest
 )
-
 from src.predictions import (
     predict_adverbial_embedding,
     predict_adverbial_gpt_random_forest,
-    predict_adverbial_random_forest,
-    predict_random
 )
+from src.evaluation import predict_gpt
+from src.simple_models_training import fit_classifier, fit_regression
+from src.simple_models_predictions import predict_adverbial_gpt_classifier, predict_adverbial_gpt_regression
+
 
 # Regex to match questions like "You did X 3 hours ago."
 pattern = re.compile(r'^(.*?)(\d+\s+\w+\s+ago)\.?$', re.IGNORECASE)
@@ -129,7 +132,7 @@ def compare_fuzzy_ranks(fuzzy_prediction: dict, ground_truth: dict):
         'kendall': kendall_corr
     }
 
-def evaluate_survey(events_to_fit, fit_fn, predict_fn, events_to_fit_nl = None):
+def run_survey_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn, events_to_fit_nl = None):
     fit_event_adverbials(events_to_fit)
     if fit_fn is not None:
         if events_to_fit_nl is not None:
@@ -137,60 +140,27 @@ def evaluate_survey(events_to_fit, fit_fn, predict_fn, events_to_fit_nl = None):
         else:
             fit_fn(events_to_fit)
     survey_data = get_percentages()
-
-    spearman_total = 0.0
-    kendall_total = 0.0
-    count = 0
-
-    # Use defaultdict to accumulate correlations per event
-    per_event_spearman = defaultdict(list)
-    per_event_kendall = defaultdict(list)
-
-    raw_results = {}
+    raw_results = []
 
     for (event, minutes_ago), answers in survey_data.items():
         fuzzy_prediction = predict_fn(event, minutes_ago)
-
         # Normalize ground truth to probabilities
         ground_truth = {k: v / sum(answers.values()) for k, v in answers.items()}
+        for adv in VAGUE_ADVERBIALS:
+            if adv not in ground_truth:
+                ground_truth[adv] = 0.0
 
-        corr = compare_fuzzy_ranks(fuzzy_prediction, ground_truth)
-
-        # Store JSON-safe values
-        raw_results[f"{event}: {minutes_ago}"] = {
-            'ground_truth': ground_truth,
-            'fuzzy_prediction': fuzzy_prediction
-        }
-
-        if corr['spearman'] is not None and corr['kendall'] is not None:
-            spearman_total += corr['spearman']
-            kendall_total += corr['kendall']
-            count += 1
-
-            per_event_spearman[event].append(corr['spearman'])
-            per_event_kendall[event].append(corr['kendall'])
-
-    # Compute average per-event correlations
-    per_event_correlations = {
-        event: {
-            'spearman': sum(s_list) / len(s_list) if s_list else None,
-            'kendall': sum(k_list) / len(k_list) if k_list else None
-        }
-        for event, s_list in per_event_spearman.items()
-        for k_list in [per_event_kendall[event]]
-    }
-    results = {
-        'spearman': spearman_total / count if count else None,
-        'kendall': kendall_total / count if count else None,
-        'per_event': per_event_correlations,
-    }
-    return results, raw_results
+        raw_results.append({
+            "Event": event,
+            "Minutes ago": minutes_ago,
+            "Prediction": fuzzy_prediction,
+            "GT": ground_truth
+        })
+    return raw_results
 
 def evaluate_survey_gpt_random_forest(events_to_fit):
-    results, raw_results = evaluate_survey(events_to_fit, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest)
-    # Combine into one JSON-serializable dictionary
+    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest)
     output = {
-        "evaluation": results,
         "raw": raw_results,
         "GPT-Version": GPT_VERSION
     }
@@ -200,20 +170,67 @@ def evaluate_survey_gpt_random_forest(events_to_fit):
         save_file = EVALUATION_SURVEY_GPT5
     with open(save_file, "w") as f:
         json.dump(output, f, indent=4)
-    return results
+    return
 
 def evaluate_survey_embedding(events_to_fit, events_to_fit_nl):
-    results, raw_results = evaluate_survey(events_to_fit, fit_event_specific_embeddings, predict_adverbial_embedding, events_to_fit_nl = events_to_fit_nl)
-    # Combine into one JSON-serializable dictionary
+    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_event_specific_embeddings, predict_adverbial_embedding, events_to_fit_nl = events_to_fit_nl)
     output = {
-        "evaluation": results,
-        "raw": raw_results
+        "raw": raw_results,
     }
     with open(EVALUATION_SURVEY_EMBEDDINGS, "w") as f:
         json.dump(output, f, indent=4)
-    return results
+    return
 
-def evaluate_survey_baseline():
-    results, raw_results = evaluate_survey(None, None, predict_random)
-    return results
+def evaluate_survey_gpt_classifier(events_to_fit, events_to_fit_nl):
+    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_classifier, predict_adverbial_gpt_classifier, events_to_fit_nl = events_to_fit_nl)
+    output = {
+        "raw": raw_results,
+        "GPT-Version": GPT_VERSION
+    }
+    with open(EVALUATION_SURVEY_GPT_CLASSIFIER, "w") as f:
+        json.dump(output, f, indent=4)
+    return
+
+def evaluate_survey_gpt_regression(events_to_fit, events_to_fit_nl):
+    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_regression, predict_adverbial_gpt_regression, events_to_fit_nl = events_to_fit_nl)
+    output = {
+        "raw": raw_results,
+        "GPT-Version": GPT_VERSION
+    }
+    with open(EVALUATION_SURVEY_GPT_REGRESSION, "w") as f:
+        json.dump(output, f, indent=4)
+    return
+
+
+def evaluate_survey_gpt():
+    predictions_data = []
+    survey_data = get_percentages()
+
+    for (event, minutes_ago), answers in survey_data.items():
+        ground_truth = {k: v / sum(answers.values()) for k, v in answers.items()}
+        for adv in VAGUE_ADVERBIALS:
+            if adv not in ground_truth:
+                ground_truth[adv] = 0.0
+
+        prediction, instruction, prompt = predict_gpt(event, minutes_ago)
+        # --- Step 5: Save prediction to JSON structure ---
+        predictions_data.append({
+            "Prediction": prediction,
+            "GT": ground_truth,
+            "Prompt": prompt
+        })
+
+    # --- Step 6: Write all predictions to JSON (overwrite at the end) ---
+    json_drop = {
+        "raw": predictions_data,
+        "Instruction": instruction,
+        "GPT-Version": GPT_VERSION
+    }
+    if "gpt-4" in GPT_VERSION:
+        save_file = GPT4_SURVEY_PROMPT_FILE
+    else:
+        save_file = GPT5_SURVEY_PROMPT_FILE
+    with open(save_file, "w") as f:
+        json.dump(json_drop, f, indent=4)
+    return
 

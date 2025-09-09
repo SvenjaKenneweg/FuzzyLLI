@@ -31,8 +31,8 @@ from src.train import (
 )
 from src.simple_models_training import fit_classifier, fit_regression
 from src.simple_models_predictions import (
-    predict_adverbial_classifier,
-    predict_adverbial_regression
+    predict_adverbial_gpt_classifier,
+    predict_adverbial_gpt_regression
 )
 from src.config import (VAGUE_ADVERBIALS,
                         DURATION_ORDER,
@@ -41,7 +41,7 @@ from src.config import (VAGUE_ADVERBIALS,
                         GPT_VERSION,
                         EVALUATION_FILE_PATH,
                         GPT4_PROMPT_FILE, GPT5_PROMPT_FILE, EVALUATION_EMBEDDING_FILE,
-                        EVALUATION_REGRESSION_FILE, EVALUATION_CLASSIFIER_FILE,
+                        EVALUATION_GPT_REGRESSION_FILE, EVALUATION_GPT_CLASSIFIER_FILE,
                         EVALUATION_RANDOM_FOREST_FILE, EVALUATION_GPT4_RANDOM_FOREST_FILE, EVALUATION_GPT5_RANDOM_FOREST_FILE)
 
 
@@ -106,9 +106,7 @@ def run_evaluation_and_save_preds(events, fit_models_fn, predict_fn, events_nl=N
 
         # --- Collect predictions vs truth for metrics ---
         for minutes_ago, adverbial_values in gt_adverbials.items():
-            if predict_fn in (predict_adverbial_random_forest,
-                              predict_adverbial_classifier,
-                              predict_adverbial_regression):
+            if predict_fn == predict_adverbial_random_forest:
                 props = get_event_properties(event)
                 freq_votes = [p['Frequency'] for p in props if 'Frequency' in p]
                 dur_votes = [p['Duration'] for p in props if 'Duration' in p]
@@ -133,7 +131,7 @@ def run_evaluation_and_save_preds(events, fit_models_fn, predict_fn, events_nl=N
             })
     return raw_results
 
-def calculate_metrics_seen_events():
+def calculate_metrics(file_path):
     def rank_from_scores(scores, descending=True):
         """
         Normalize scores into ranks (1 = best, ties get average rank).
@@ -191,7 +189,7 @@ def calculate_metrics_seen_events():
         return acc1, p1, r1
 
     # Loop through all .json files containing the predictions
-    for json_file in EVALUATION_FILE_PATH.glob("*.json"):
+    for json_file in file_path.glob("*.json"):
         print(f"\nFile: {json_file.name}")
         with open(json_file, "r", encoding="utf-8") as f:
             data = json.load(f)["raw"]
@@ -320,29 +318,28 @@ def get_predictions_random_forest(events):
         json.dump(output, f, indent=4)
     return
 
-def get_predictions_classifier(events):
-    raw_results = run_evaluation_and_save_preds(events, fit_classifier, predict_adverbial_classifier)
+def get_predictions_classifier(events, events_nl):
+    raw_results = run_evaluation_and_save_preds(events, fit_classifier, predict_adverbial_gpt_classifier, events_nl=events_nl)
     output = {
         "raw": raw_results,
+        "GPT-Version": GPT_VERSION
     }
-    with open(EVALUATION_CLASSIFIER_FILE, "w") as f:
+    with open(EVALUATION_GPT_CLASSIFIER_FILE, "w") as f:
         json.dump(output, f, indent=4)
     return
 
-def get_predictions_regression(events):
-    raw_results = run_evaluation_and_save_preds(events, fit_regression, predict_adverbial_regression)
+def get_predictions_regression(events, events_nl):
+    raw_results = run_evaluation_and_save_preds(events, fit_regression, predict_adverbial_gpt_regression, events_nl=events_nl)
     output = {
         "raw": raw_results,
+        "GPT-Version": GPT_VERSION
     }
-    with open(EVALUATION_REGRESSION_FILE, "w") as f:
+    with open(EVALUATION_GPT_REGRESSION_FILE, "w") as f:
         json.dump(output, f, indent=4)
     return
 
 
 def evaluate_gpt(events, events_nl):
-    y_true_list = []  # ground-truth label sets per sample
-    y_pred_list = []  # predicted label sets per sample
-
     predictions_data = []
 
     for i, event in enumerate(events):
@@ -370,8 +367,6 @@ def evaluate_gpt(events, events_nl):
         # --- Collect predictions vs truth for metrics ---
         for minutes_ago, adverbials in best_adverbials.items():
             prediction, instruction, prompt = predict_gpt(events_nl[i], minutes_ago)
-            y_true_list.append(adverbials)
-            y_pred_list.append([prediction])
             # --- Step 5: Save prediction to JSON structure ---
             predictions_data.append({
                 "Prediction": prediction,
