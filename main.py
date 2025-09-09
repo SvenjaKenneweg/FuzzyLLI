@@ -57,18 +57,18 @@ def evaluate_models_seen_events(events, events_nl, generate_new_predictions=Fals
     Evaluate the models by comparing the predicted labels on seen events
     """
     if generate_new_predictions:
-        print("\nEvaluation Embeddings + Regressor:")
-        get_predictions_embedding(events, events_nl)
-
-        print("\Evaluation GPT + Random Forest:")
+        # print("\nEvaluation Embeddings + Regressor:")
+        # get_predictions_embedding(events, events_nl)
+        #
+        print("\nEvaluation GPT + Random Forest:")
         get_predictions_gpt_random_forest(events, events_nl)
-
-        print("\Evaluation Random Forest:")
-        get_predictions_random_forest(events)
-
-        print("\nEvaluation Baseline Models (Classifier, Regression):")
-        get_predictions_classifier(events)
-        get_predictions_regression(events)
+        #
+        # print("\nEvaluation Random Forest:")
+        # get_predictions_random_forest(events)
+        #
+        # print("\nEvaluation Baseline Models (Classifier, Regression):")
+        # get_predictions_classifier(events)
+        # get_predictions_regression(events)
 
         print("\n Evaluating GPT:")
         evaluate_gpt(events, events_nl)
@@ -126,7 +126,7 @@ def main():
     # Run the steps sequentially
     # train_models(events) # Trains FuzzyLLI in all variants and the baseline models
     # make_predictions(event_details) #Predicts minutes ago or the event and the best fitting adverbials
-    evaluate_models_seen_events(events, events_nl, generate_new_predictions=False)
+    evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
     # evaluate_survey(events, events_nl)
     # plot_results(events) # Plots FuzzyLLI
 
