@@ -19,6 +19,8 @@ from sklearn.metrics import (
     hamming_loss, jaccard_score
 )
 
+from src.plot import plot_single_events
+
 from src.predictions import (
     predict_adverbial_embedding,
     predict_adverbial_gpt_random_forest,
@@ -71,7 +73,7 @@ def calculate_error(predicted: float, true: float) -> float:
 # Evaluation Functions
 # ---------------------------------------------------------------------------
 
-def run_evaluation_and_save_preds(events, fit_models_fn, predict_fn, events_nl=None):
+def run_evaluation_and_save_preds(events, fit_models_fn, predict_fn, events_nl=None, plot_not_fitted_event = False):
     raw_results = []
 
     for i, event in enumerate(events):
@@ -84,6 +86,9 @@ def run_evaluation_and_save_preds(events, fit_models_fn, predict_fn, events_nl=N
             fit_models_fn(other_events)
 
         cleaned_data = get_cleaned_data(event)
+
+        if plot_not_fitted_event:
+            plot_single_events(event, predict_fn)
 
         # --- Step 1: Gather all possible numeric keys ---
         overall_targets = {adv: {k: float(np.median(v)) for k, v in cleaned_data[adv].items()} for adv in
@@ -197,6 +202,8 @@ def calculate_metrics(file_path):
             data = json.load(f)["raw"]
 
         results = []
+        error_counter = Counter()
+        minutes_counter = Counter()
         for r in data:
             pred = r["Prediction"]  # dict[label] -> score
             gt = r["GT"]  # dict[label] -> relevance
@@ -204,13 +211,6 @@ def calculate_metrics(file_path):
             rank_pred, pred_rankable = rank_from_scores(pred, descending=True)
             rank_gt, gt_rankable = rank_from_scores(gt, descending=True)
             rankable = pred_rankable and gt_rankable
-
-            if rank_pred != rank_gt:
-                print(r["Event"])
-                print(r["Minutes ago"])
-                print(pred)
-                print(gt)
-                print("")
 
             if rankable:
                 # ---- Kendall's Tau-b on ranks ----
@@ -234,6 +234,19 @@ def calculate_metrics(file_path):
             # ---- Top-1 on ranks ----
             acc1, p1, r1 = top1_on_ranks(rank_pred, rank_gt)
 
+            # min_pred = min(rank_pred[l] for l in rank_pred)
+            # pred_top = {l for l in rank_pred if rank_pred[l] == min_pred}
+            # min_gt = min(rank_gt[l] for l in rank_gt)
+            # gt_best = {l for l in rank_gt if rank_gt[l] == min_gt}
+            if p1 == 0:
+                error_counter[r["Event"]] += 1
+                minutes_counter[r["Minutes ago"]] += 1
+                print(r["Event"])
+                print(r["Minutes ago"])
+                print(pred)
+                print(gt)
+                print("")
+
             results.append({
                 "KendallTauB": float(tau) if not math.isnan(tau) else 0.0,
                 "NDCG": float(ndcg),
@@ -245,6 +258,10 @@ def calculate_metrics(file_path):
         df = pd.DataFrame(results)
         overall = df.mean(numeric_only=True).to_frame(name="Overall").T
         print(overall)
+
+        print("Mismatched Events and adverbials:")
+        print(error_counter)
+        print(minutes_counter)
     return
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -319,7 +336,7 @@ def get_predictions_gpt_random_forest(events, events_nl):
     return
 
 def get_predictions_random_forest(events):
-    raw_results = run_evaluation_and_save_preds(events, fit_event_specific_random_forest, predict_adverbial_random_forest)
+    raw_results = run_evaluation_and_save_preds(events, fit_event_specific_random_forest, predict_adverbial_random_forest, plot_not_fitted_event=True)
     output = {
         "raw": raw_results,
     }

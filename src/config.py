@@ -54,7 +54,7 @@ FREQUENCY_ORDER = ['Daily', 'Monthly', 'Yearly', 'Decadal', 'Once in Life']
 # ========================
 
 def adverbial_specific_function(x, mean, std):
-    # Normalized gaussian
+    # Fuzzy Gaussian
     return (np.exp(-0.5 * ((x - mean) / std) ** 2))
 
 def event_specific_function(temporal_distance, std):

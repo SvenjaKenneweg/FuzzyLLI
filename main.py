@@ -1,6 +1,6 @@
 # src/main.py
 from src.train import (fit_event_adverbials, fit_event_specific_embeddings, fit_event_specific_random_forest)
-from src.plot import plot_all_persons_event_adverbials
+from src.plot import plot_all_persons_event_adverbials, plot_single_events
 from src.predictions import (predict_time_frame_embedding, predict_adverbial_embedding,
                              predict_time_frame_gpt_random_forest, predict_adverbial_gpt_random_forest,
                              predict_time_frame_random_forest, predict_adverbial_random_forest)
@@ -20,13 +20,13 @@ log_file = open('output.log', 'w')
 # sys.stdout = log_file
 
 
-def train_models(events):
+def train_models(events, events_nl):
     """
     Train various models for event adverbials, embeddings, and random forests.
     """
     print("\nTraining Event Adverbials, Embeddings, and Random Forest...")
     fit_event_adverbials(events)
-    fit_event_specific_embeddings(events)
+    fit_event_specific_embeddings(events, events_nl)
     fit_event_specific_random_forest(events)
 
     print("\nTraining Simple Models (Classifier, Regression)...")
@@ -107,8 +107,12 @@ def plot_results(events):
     """
     Plot the results for event adverbials.
     """
-    print("Plotting Event Adverbials...")
-    plot_all_persons_event_adverbials(events)
+    # print("Plotting Event Adverbials...")
+    # plot_all_persons_event_adverbials(events)
+
+    for event_name in events:
+        print("Plotting single Event")
+        plot_single_events(event_name)
 
 
 def main():
@@ -134,11 +138,11 @@ def main():
     #     print(minute)
 
     # Run the steps sequentially
-    # train_models(events) # Trains FuzzyLLI in all variants and the baseline models
+    # train_models(events, events_nl) # Trains FuzzyLLI in all variants and the baseline models
     # make_predictions(event_details) #Predicts minutes ago or the event and the best fitting adverbials
     evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
     # evaluate_survey(events, events_nl, generate_new_predictions=True)
-    plot_results(events) # Plots FuzzyLLI
+    # plot_results(events) # Plots FuzzyLLI
 
 if __name__ == '__main__':
     main()

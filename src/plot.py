@@ -9,13 +9,27 @@ labelled *JSON* parameters produced by `event_adverbial_fitting.py`.
 from __future__ import annotations
 
 import inspect
+import statistics
 import json
 from pathlib import Path
 from typing import Callable, Dict, List
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.config import VAGUE_ADVERBIALS, PLOT_FILE_PATH, RESULTS_JSON, DATA_DIR, event_specific_function, adverbial_specific_function
+from src.config import (VAGUE_ADVERBIALS,
+                        PLOT_FILE_PATH,
+                        DURATION_ORDER,
+                        FREQUENCY_ORDER,
+                        RESULTS_JSON,
+                        DATA_DIR,
+                        event_specific_function,
+                        adverbial_specific_function)
+
+from src.predictions import (
+    predict_adverbial_embedding,
+    predict_adverbial_gpt_random_forest,
+    predict_adverbial_random_forest
+)
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -143,3 +157,92 @@ def plot_all_persons_event_adverbials(
 
     outfile = PLOT_FILE_PATH / "highestStd_allAdverbials.png"
     fig.savefig(outfile, dpi=300)
+
+
+def get_event_properties(event: str):
+    with open(DATA_DIR / event / "event_properties.json", "r", encoding="utf-8") as f:
+        return json.load(f)
+def adjust_duration_votes(votes: List[int]) -> List[int]:
+    """Correct for late addition of 'Hours' in unseen_events options."""
+    return [
+        1 if v == 6 else (v + 1 if v != 0 else v)
+        for v in votes
+    ]
+def plot_single_events(event_name, predict_fn):
+    with open(DATA_DIR / event_name / "cleanedData_minutes.json", "r", encoding="utf-8") as f:
+        cleaned_data = json.load(f)
+
+    x_limit_max = None
+    x_limit_min = None
+    results = {}
+
+    # --- Collect everything once ---
+    for adverbial, time_series in cleaned_data.items():
+        times, medians = zip(*[
+            (int(t), np.median(v)) for t, v in time_series.items()
+        ])
+        sorted_indices = np.argsort(times)
+        times = np.array(times)[sorted_indices]
+        medians = np.array(medians)[sorted_indices]
+
+        if adverbial == "recently":
+            x_limit_max = times[-1]
+        elif "some" in adverbial:
+            x_limit_min = times[0]
+
+        predictions = []
+        for minutes_ago in times:
+            if predict_fn == predict_adverbial_random_forest:
+                props = get_event_properties(event_name)
+                freq_votes = [p['Frequency'] for p in props if 'Frequency' in p]
+                dur_votes = [p['Duration'] for p in props if 'Duration' in p]
+
+                if 6 in dur_votes:
+                    dur_votes = adjust_duration_votes(dur_votes)
+
+                freq = FREQUENCY_ORDER[int(statistics.median(freq_votes))]
+                dur = DURATION_ORDER[int(statistics.median(dur_votes))]
+                prob_adverbial = predict_fn(dur, freq, int(minutes_ago))
+                predictions.append(prob_adverbial[adverbial])
+        results[adverbial] = (times, medians, predictions)
+
+    if x_limit_max is None or x_limit_min is None:
+        raise ValueError("x_limit was not set – check that 'recently' is in cleaned_data")
+
+    # --- Plot 1: Until x_limit ---
+    plt.figure(figsize=(8, 5))
+    for adverbial, (times, medians, predictions) in results.items():
+        line, = plt.plot(times, medians, marker='o', label=adverbial)
+        plt.plot(times, predictions, linestyle='--', color=line.get_color())
+
+    plt.xlim(left=0, right=x_limit_max)
+    plt.xlabel('Time ago in minutes')
+    plt.ylabel('Median Value')
+    plt.title(f'{event_name} with {predict_fn.__name__}')
+    plt.ylim(0, 1)
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    outfile = PLOT_FILE_PATH / event_name / "small_time_ago.png"
+    outfile.parent.mkdir(parents=True, exist_ok=True)
+    plt.savefig(outfile, dpi=300)
+
+    # --- Plot 2: After x_limit ---
+    plt.figure(figsize=(8, 5))
+    for adverbial, (times, medians, predictions) in results.items():
+        line, = plt.plot(times, medians, marker='o', label=adverbial)
+        plt.plot(times, predictions, linestyle='--', color=line.get_color())
+
+    plt.xlim(left=x_limit_min, right=max(max(t) for t, _, _ in results.values()))
+    plt.xlabel('Time ago in minutes')
+    plt.ylabel('Median Value')
+    plt.title(f'{event_name} with {predict_fn.__name__}')
+    plt.ylim(0, 1)
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    outfile = PLOT_FILE_PATH / event_name / "big_time_ago.png"
+    outfile.parent.mkdir(parents=True, exist_ok=True)
+    plt.savefig(outfile, dpi=300)
+    return
+
