@@ -63,14 +63,14 @@ def evaluate_models_seen_events(events, events_nl, generate_new_predictions=Fals
         #
         # print("\nEvaluation GPT + Random Forest:")
         # get_predictions_gpt_random_forest(events, events_nl)
+
+        print("\nEvaluation Random Forest:")
+        get_predictions_random_forest(events)
+
+        # print("\nEvaluation Baseline Models (Classifier, Regression):")
+        # # get_predictions_classifier(events, events_nl)
+        # get_predictions_regression(events, events_nl)
         #
-        # print("\nEvaluation Random Forest:")
-        # get_predictions_random_forest(events)
-
-        print("\nEvaluation Baseline Models (Classifier, Regression):")
-        # get_predictions_classifier(events, events_nl)
-        get_predictions_regression(events, events_nl)
-
         # print("\n Evaluating GPT:")
         # evaluate_gpt(events, events_nl)
 
@@ -136,9 +136,9 @@ def main():
     # Run the steps sequentially
     # train_models(events) # Trains FuzzyLLI in all variants and the baseline models
     # make_predictions(event_details) #Predicts minutes ago or the event and the best fitting adverbials
-    # evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
-    evaluate_survey(events, events_nl, generate_new_predictions=True)
-    # plot_results(events) # Plots FuzzyLLI
+    evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
+    # evaluate_survey(events, events_nl, generate_new_predictions=True)
+    plot_results(events) # Plots FuzzyLLI
 
 if __name__ == '__main__':
     main()

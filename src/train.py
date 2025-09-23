@@ -26,22 +26,22 @@ from src.config import RESULTS_FILE_PATH, DATA_DIR, event_specific_function, adv
 adverbials_initial_means: Dict[str, float] = {
     "recently": 0.5,
     "just": 0.5,
-    "some time ago": 0.9,
-    "long time ago": 0.9,
+    "some time ago": 0.8,
+    "long time ago": 1.0,
 }
 
 # Standard deviation initial guesses for adverbials
 adverbials_initial_stds: Dict[str, float] = {
-    "recently": 0.2,
-    "just": 0.1,
-    "some time ago": 0.2,
-    "long time ago": 0.3,
+    "recently": 0.05,
+    "just": 0.05,
+    "some time ago": 0.4,
+    "long time ago": 0.2,
 }
 
 # Bounds for the fitting (lower, upper)
 fitting_bounds_events = ([1e-6], [np.inf])
-fitting_bounds_adverbials_mean = ([0.4], [1.0])
-fitting_bounds_adverbials_std = ([1e-6], [1.0])
+fitting_bounds_adverbials_mean = ([0.5], [1.0])
+fitting_bounds_adverbials_std = ([1e-6], [0.5])
 
 # ---------------------------------------------------------------------------
 # Core optimisation helper

@@ -190,6 +190,8 @@ def calculate_metrics(file_path):
 
     # Loop through all .json files containing the predictions
     for json_file in file_path.glob("*.json"):
+        if json_file.name != "random_forest.json":
+            continue
         print(f"\nFile: {json_file.name}")
         with open(json_file, "r", encoding="utf-8") as f:
             data = json.load(f)["raw"]
@@ -202,6 +204,13 @@ def calculate_metrics(file_path):
             rank_pred, pred_rankable = rank_from_scores(pred, descending=True)
             rank_gt, gt_rankable = rank_from_scores(gt, descending=True)
             rankable = pred_rankable and gt_rankable
+
+            if rank_pred != rank_gt:
+                print(r["Event"])
+                print(r["Minutes ago"])
+                print(pred)
+                print(gt)
+                print("")
 
             if rankable:
                 # ---- Kendall's Tau-b on ranks ----
