@@ -72,7 +72,7 @@ def get_event_properties_gpt(event_nl, model_engine=GPT_VERSION):
         {"role": "user", "content": str(prompt)}
     ]
 
-    if "5" in model_engine:
+    if "gpt-5" in model_engine:
         temperature = 1 # GPT-5 does not support a temperature of 0
         runs = 5
     else:
