@@ -195,8 +195,8 @@ def calculate_metrics(file_path):
 
     # Loop through all .json files containing the predictions
     for json_file in file_path.glob("*.json"):
-        if json_file.name != "random_forest.json":
-            continue
+        # if json_file.name != "random_forest.json":
+        #     continue
         print(f"\nFile: {json_file.name}")
         with open(json_file, "r", encoding="utf-8") as f:
             data = json.load(f)["raw"]
@@ -238,14 +238,14 @@ def calculate_metrics(file_path):
             # pred_top = {l for l in rank_pred if rank_pred[l] == min_pred}
             # min_gt = min(rank_gt[l] for l in rank_gt)
             # gt_best = {l for l in rank_gt if rank_gt[l] == min_gt}
-            if p1 == 0:
-                error_counter[r["Event"]] += 1
-                minutes_counter[r["Minutes ago"]] += 1
-                print(r["Event"])
-                print(r["Minutes ago"])
-                print(pred)
-                print(gt)
-                print("")
+            # if p1 == 0:
+            #     error_counter[r["Event"]] += 1
+            #     minutes_counter[r["Minutes ago"]] += 1
+            #     print(r["Event"])
+            #     print(r["Minutes ago"])
+            #     print(pred)
+            #     print(gt)
+            #     print("")
 
             results.append({
                 "KendallTauB": float(tau) if not math.isnan(tau) else 0.0,
@@ -259,9 +259,9 @@ def calculate_metrics(file_path):
         overall = df.mean(numeric_only=True).to_frame(name="Overall").T
         print(overall)
 
-        print("Mismatched Events and adverbials:")
-        print(error_counter)
-        print(minutes_counter)
+        # print("Mismatched Events and adverbials:")
+        # print(error_counter)
+        # print(minutes_counter)
     return
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))

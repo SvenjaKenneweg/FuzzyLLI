@@ -61,11 +61,11 @@ def evaluate_models_seen_events(events, events_nl, generate_new_predictions=Fals
         # print("\nEvaluation Embeddings + Regressor:")
         # get_predictions_embedding(events, events_nl)
         #
-        # print("\nEvaluation GPT + Random Forest:")
-        # get_predictions_gpt_random_forest(events, events_nl)
+        print("\nEvaluation GPT + Random Forest:")
+        get_predictions_gpt_random_forest(events, events_nl)
 
-        print("\nEvaluation Random Forest:")
-        get_predictions_random_forest(events)
+        # print("\nEvaluation Random Forest:")
+        # get_predictions_random_forest(events)
 
         # print("\nEvaluation Baseline Models (Classifier, Regression):")
         # # get_predictions_classifier(events, events_nl)
@@ -86,17 +86,17 @@ def evaluate_survey(events_to_fit, events_to_fit_nl, generate_new_predictions=Fa
     """
     if generate_new_predictions:
         print("\nEvaluating GPT + Random Forest on the unseen_events data:")
-        evaluate_survey_gpt_random_forest(events_to_fit)
+        evaluate_survey_gpt_random_forest(events_to_fit, events_to_fit_nl)
 
         # print("\nEvaluating Embeddings + Regressor on the unseen_events data:")
         # evaluate_survey_embedding(events_to_fit, events_to_fit_nl)
-        #
+
         # print("\nEvaluating Classifier and Regression Model on the unseen_events data:")
         # evaluate_survey_gpt_classifier(events_to_fit, events_to_fit_nl)
         # evaluate_survey_gpt_regression(events_to_fit, events_to_fit_nl)
 
-        print("\nEvaluating GPT on the unseen events data:")
-        evaluate_survey_gpt()
+        # print("\nEvaluating GPT on the unseen events data:")
+        # evaluate_survey_gpt()
 
     # Calculate only the metrics
     print("Calculating the Evaluation metrics from the saved prediction files...")
@@ -140,8 +140,8 @@ def main():
     # Run the steps sequentially
     # train_models(events, events_nl) # Trains FuzzyLLI in all variants and the baseline models
     # make_predictions(event_details) #Predicts minutes ago or the event and the best fitting adverbials
-    evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
-    # evaluate_survey(events, events_nl, generate_new_predictions=True)
+    # evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
+    evaluate_survey(events, events_nl, generate_new_predictions=True)
     # plot_results(events) # Plots FuzzyLLI
 
 if __name__ == '__main__':

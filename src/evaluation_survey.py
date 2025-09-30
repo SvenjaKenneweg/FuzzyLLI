@@ -158,8 +158,8 @@ def run_survey_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn, even
         })
     return raw_results
 
-def evaluate_survey_gpt_random_forest(events_to_fit):
-    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest)
+def evaluate_survey_gpt_random_forest(events_to_fit, events_to_fit_nl):
+    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest, events_to_fit_nl = events_to_fit_nl)
     output = {
         "raw": raw_results,
         "GPT-Version": GPT_VERSION

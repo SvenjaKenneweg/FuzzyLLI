@@ -80,7 +80,7 @@ def get_event_properties_gpt(event_nl, model_engine=GPT_VERSION):
         runs = 1
 
     data = []
-    for run in range(0, runs):
+    for _ in range(0, runs):
         completion = client.chat.completions.create(
             model=model_engine,
             messages=messages,
@@ -203,6 +203,12 @@ def predict_adverbial_gpt_random_forest(event, minutes_ago,max_retries=10):
         )
 
     event_std = random_forest.predict(event_properties)[0]
+    # print(event)
+    # print(event_std)
+    # print(frequency)
+    # print(duration)
+    # print(impact)
+    # print("")
 
     adverbial_probs = {}
     for adverbial in VAGUE_ADVERBIALS:
