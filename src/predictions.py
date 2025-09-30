@@ -44,6 +44,7 @@ def _safe_round(value):
     return round(value) if math.isfinite(value) else value
 
 def get_event_properties_gpt(event_nl, model_engine=GPT_VERSION):
+    event_nl = event_nl.replace("You", "I")
     instruction = f"""
     You are an assistant that evaluates events based on two dimensions: duration and frequency.
     

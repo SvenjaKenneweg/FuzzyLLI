@@ -4,10 +4,10 @@
             "Event": "You attended a meeting",
             "Minutes ago": 240,
             "Prediction": {
-                "just": 0.024856125937989984,
-                "long time ago": 0.46694695202037695,
-                "recently": 0.04124997002125608,
-                "some time ago": 0.4669469520203769
+                "just": 0.02784203715650952,
+                "long time ago": 0.462311320839515,
+                "recently": 0.04753532116446047,
+                "some time ago": 0.462311320839515
             },
             "GT": {
                 "recently": 0.62,

@@ -1364,10 +1364,10 @@
             "Event": "tom_eating_risotto",
             "Minutes ago": 720,
             "Prediction": {
-                "just": 0.47604602247930067,
-                "long time ago": 0.02509511284359658,
-                "recently": 0.4737637518335063,
-                "some time ago": 0.02509511284359658
+                "just": 0.4479282777593374,
+                "long time ago": 0.0011286825676395714,
+                "recently": 0.5498143571053834,
+                "some time ago": 0.0011286825676395725
             },
             "GT": {
                 "recently": 0.5,
@@ -1844,10 +1844,10 @@
             "Event": "tom_storing_wineBottle",
             "Minutes ago": 5,
             "Prediction": {
-                "just": 0.4750600930778548,
-                "long time ago": 0.0011407091325772313,
-                "recently": 0.5226584886569906,
-                "some time ago": 0.0011407091325772313
+                "just": 0.4523387760282934,
+                "long time ago": 0.0008874359983310939,
+                "recently": 0.5458863519750445,
+                "some time ago": 0.0008874359983310939
             },
             "GT": {
                 "recently": 1.0,
@@ -1908,10 +1908,10 @@
             "Event": "tom_storing_wineBottle",
             "Minutes ago": 240,
             "Prediction": {
-                "just": 0.13940129718444041,
-                "long time ago": 0.285526173331909,
-                "recently": 0.2895463561517417,
-                "some time ago": 0.2855261733319087
+                "just": 0.12371404505429054,
+                "long time ago": 0.32123335470808223,
+                "recently": 0.2338192455295449,
+                "some time ago": 0.32123335470808223
             },
             "GT": {
                 "recently": 0.75,
@@ -1924,10 +1924,10 @@
             "Event": "tom_storing_wineBottle",
             "Minutes ago": 360,
             "Prediction": {
-                "just": 0.4974848693815458,
-                "long time ago": 0.0044222930079574905,
-                "recently": 0.49367054460253923,
-                "some time ago": 0.0044222930079574905
+                "just": 0.4751544994875984,
+                "long time ago": 0.0033318080082749414,
+                "recently": 0.5181818844958518,
+                "some time ago": 0.0033318080082749414
             },
             "GT": {
                 "recently": 0.5,
@@ -1940,10 +1940,10 @@
             "Event": "tom_storing_wineBottle",
             "Minutes ago": 720,
             "Prediction": {
-                "just": 0.47545653730164905,
-                "long time ago": 0.004096863906317866,
-                "recently": 0.5163497348857152,
-                "some time ago": 0.004096863906317866
+                "just": 0.4448949671948755,
+                "long time ago": 0.0032561902931014584,
+                "recently": 0.5485926522189217,
+                "some time ago": 0.0032561902931014584
             },
             "GT": {
                 "recently": 0.5,
@@ -1956,10 +1956,10 @@
             "Event": "tom_storing_wineBottle",
             "Minutes ago": 960,
             "Prediction": {
-                "just": 0.45193806361473354,
-                "long time ago": 0.015264549986250384,
-                "recently": 0.5175328364127657,
-                "some time ago": 0.015264549986250384
+                "just": 0.4368791939138778,
+                "long time ago": 0.024923407938638648,
+                "recently": 0.5132739902088449,
+                "some time ago": 0.024923407938638648
             },
             "GT": {
                 "recently": 0.5,
@@ -1972,10 +1972,10 @@
             "Event": "tom_storing_wineBottle",
             "Minutes ago": 1440,
             "Prediction": {
-                "just": 0.4603301642611651,
-                "long time ago": 0.03134712513864271,
-                "recently": 0.47697558546154967,
-                "some time ago": 0.03134712513864271
+                "just": 0.48890655018554763,
+                "long time ago": 0.01935575284141824,
+                "recently": 0.47238194413161605,
+                "some time ago": 0.01935575284141824
             },
             "GT": {
                 "recently": 0.5,
@@ -1988,10 +1988,10 @@
             "Event": "tom_storing_wineBottle",
             "Minutes ago": 2880,
             "Prediction": {
-                "just": 0.4344524284249958,
-                "long time ago": 0.03285025273600151,
-                "recently": 0.4998470661030011,
-                "some time ago": 0.03285025273600151
+                "just": 0.4573243266243255,
+                "long time ago": 0.019779728459276277,
+                "recently": 0.5031162164571219,
+                "some time ago": 0.019779728459276277
             },
             "GT": {
                 "recently": 0.375,
@@ -2020,10 +2020,10 @@
             "Event": "tom_storing_wineBottle",
             "Minutes ago": 10080,
             "Prediction": {
-                "just": 0.1856710311184812,
-                "long time ago": 0.29275225722656056,
-                "recently": 0.22882445442839786,
-                "some time ago": 0.29275225722656045
+                "just": 0.3548127978800506,
+                "long time ago": 0.1421154577439163,
+                "recently": 0.3609562866321169,
+                "some time ago": 0.1421154577439163
             },
             "GT": {
                 "recently": 0.375,
@@ -2768,5 +2768,6 @@
                 "long time ago": 1.0
             }
         }
-    ]
+    ],
+    "GPT-Version": "gpt-4.1-2025-04-14"
 }

@@ -24,23 +24,23 @@ from src.config import RESULTS_FILE_PATH, DATA_DIR, event_specific_function, adv
 
 # Initial guesses for vague adverbials' mean values
 adverbials_initial_means: Dict[str, float] = {
-    "recently": 0.5,
+    "recently": 0.6,
     "just": 0.5,
     "some time ago": 0.8,
-    "long time ago": 1.0,
+    "long time ago": 0.95,
 }
 
 # Standard deviation initial guesses for adverbials
 adverbials_initial_stds: Dict[str, float] = {
     "recently": 0.05,
     "just": 0.05,
-    "some time ago": 0.4,
+    "some time ago": 0.3,
     "long time ago": 0.2,
 }
 
 # Bounds for the fitting (lower, upper)
 fitting_bounds_events = ([1e-6], [np.inf])
-fitting_bounds_adverbials_mean = ([0.5], [1.0])
+fitting_bounds_adverbials_mean = ([0.45], [1.0])
 fitting_bounds_adverbials_std = ([1e-6], [0.5])
 
 # ---------------------------------------------------------------------------

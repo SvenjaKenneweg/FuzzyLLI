@@ -251,7 +251,7 @@
             "Prompt": "\n    Event: You attended a meeting\n    Minutes since event: 5\n    "
         },
         {
-            "Prediction": "long time ago",
+            "Prediction": "some time ago",
             "GT": {
                 "recently": 0.36,
                 "some time ago": 0.26,

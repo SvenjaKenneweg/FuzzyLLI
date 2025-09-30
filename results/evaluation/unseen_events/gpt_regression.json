@@ -100,10 +100,10 @@
             "Event": "You bought a house",
             "Minutes ago": 262800,
             "Prediction": {
-                "recently": 0.4475,
-                "just": 0.2175,
-                "some time ago": 0.5225,
-                "long time ago": 0.045
+                "recently": 0.135,
+                "just": 0.055,
+                "some time ago": 0.73,
+                "long time ago": 0.21
             },
             "GT": {
                 "some time ago": 0.52,
@@ -212,9 +212,9 @@
             "Event": "You bought a house",
             "Minutes ago": 240,
             "Prediction": {
-                "recently": 0.9775,
-                "just": 0.945,
-                "some time ago": 0.50125,
+                "recently": 0.91,
+                "just": 0.9004166666666665,
+                "some time ago": 0.47,
                 "long time ago": 0.0875
             },
             "GT": {
@@ -324,10 +324,10 @@
             "Event": "You bought a house",
             "Minutes ago": 2628000,
             "Prediction": {
-                "recently": 0.6325,
-                "just": 0.2475,
-                "some time ago": 0.965,
-                "long time ago": 0.69
+                "recently": 0.46,
+                "just": 0.2425,
+                "some time ago": 0.725,
+                "long time ago": 0.8825
             },
             "GT": {
                 "long time ago": 0.28,
@@ -372,10 +372,10 @@
             "Event": "You bought a house",
             "Minutes ago": 10080,
             "Prediction": {
-                "recently": 0.68625,
-                "just": 0.3275,
-                "some time ago": 0.5223749999999999,
-                "long time ago": 0.09300000000000001
+                "recently": 0.7975,
+                "just": 0.88,
+                "some time ago": 0.33375,
+                "long time ago": 0.0275
             },
             "GT": {
                 "recently": 0.5,
@@ -420,10 +420,10 @@
             "Event": "You attended a meeting",
             "Minutes ago": 43800,
             "Prediction": {
-                "recently": 0.48133333333333334,
-                "just": 0.075625,
-                "some time ago": 0.8086249999999999,
-                "long time ago": 0.4662083333333334
+                "recently": 0.465,
+                "just": 0.1175,
+                "some time ago": 0.7375,
+                "long time ago": 0.4733333333333334
             },
             "GT": {
                 "some time ago": 0.62,
@@ -436,10 +436,10 @@
             "Event": "You bought a house",
             "Minutes ago": 5256000,
             "Prediction": {
-                "recently": 0.675,
-                "just": 0.3125,
-                "some time ago": 0.97875,
-                "long time ago": 0.975
+                "recently": 0.44875,
+                "just": 0.25625,
+                "some time ago": 0.66125,
+                "long time ago": 0.99
             },
             "GT": {
                 "long time ago": 0.7,
@@ -532,10 +532,10 @@
             "Event": "You bought a house",
             "Minutes ago": 525600,
             "Prediction": {
-                "recently": 0.2375,
-                "just": 0.02,
-                "some time ago": 0.7325,
-                "long time ago": 0.285
+                "recently": 0.0625,
+                "just": 0.005,
+                "some time ago": 0.72875,
+                "long time ago": 0.435
             },
             "GT": {
                 "some time ago": 0.66,

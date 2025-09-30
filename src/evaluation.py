@@ -195,7 +195,7 @@ def calculate_metrics(file_path):
 
     # Loop through all .json files containing the predictions
     for json_file in file_path.glob("*.json"):
-        # if json_file.name != "random_forest.json":
+        # if json_file.name != "gpt4_random_forest.json":
         #     continue
         print(f"\nFile: {json_file.name}")
         with open(json_file, "r", encoding="utf-8") as f:
@@ -234,17 +234,13 @@ def calculate_metrics(file_path):
             # ---- Top-1 on ranks ----
             acc1, p1, r1 = top1_on_ranks(rank_pred, rank_gt)
 
-            # min_pred = min(rank_pred[l] for l in rank_pred)
-            # pred_top = {l for l in rank_pred if rank_pred[l] == min_pred}
-            # min_gt = min(rank_gt[l] for l in rank_gt)
-            # gt_best = {l for l in rank_gt if rank_gt[l] == min_gt}
             # if p1 == 0:
             #     error_counter[r["Event"]] += 1
             #     minutes_counter[r["Minutes ago"]] += 1
             #     print(r["Event"])
             #     print(r["Minutes ago"])
-            #     print(pred)
-            #     print(gt)
+            #     print(rank_pred)
+            #     print(rank_gt)
             #     print("")
 
             results.append({
@@ -336,7 +332,7 @@ def get_predictions_gpt_random_forest(events, events_nl):
     return
 
 def get_predictions_random_forest(events):
-    raw_results = run_evaluation_and_save_preds(events, fit_event_specific_random_forest, predict_adverbial_random_forest, plot_not_fitted_event=True)
+    raw_results = run_evaluation_and_save_preds(events, fit_event_specific_random_forest, predict_adverbial_random_forest, plot_not_fitted_event=False)
     output = {
         "raw": raw_results,
     }
