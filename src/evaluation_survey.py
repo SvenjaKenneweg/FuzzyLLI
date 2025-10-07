@@ -1,12 +1,13 @@
 import os
 import json
 import re
+import pandas as pd
 from scipy.stats import spearmanr, kendalltau, rankdata
 from collections import defaultdict
 
 from src.config import (
                         DATA_EVALUATION_SURVEY_PATH, GPT_VERSION,
-                        EVALUATION_SURVEY_GPT4, EVALUATION_SURVEY_GPT5,
+                        EVALUATION_SURVEY_GPT4, EVALUATION_SURVEY_GPT5, EVALUATION_SURVEY_RANDOM_FOREST,
                         GPT4_SURVEY_PROMPT_FILE, GPT5_SURVEY_PROMPT_FILE,
                         EVALUATION_SURVEY_EMBEDDINGS, VAGUE_ADVERBIALS,
                         EVALUATION_SURVEY_GPT_REGRESSION, EVALUATION_SURVEY_GPT_CLASSIFIER
@@ -19,6 +20,7 @@ from src.train import (
 )
 from src.predictions import (
     predict_adverbial_embedding,
+    predict_adverbial_random_forest,
     predict_adverbial_gpt_random_forest,
 )
 from src.evaluation import predict_gpt
@@ -61,9 +63,10 @@ def time_ago_to_minutes(time_str):
 def get_percentages():
     event_time_answer_counts = defaultdict(lambda: defaultdict(int))
     attention_check_questions = defaultdict(lambda: defaultdict(int))
-    for filename in os.listdir(DATA_EVALUATION_SURVEY_PATH):
+    votes_path = os.path.join(DATA_EVALUATION_SURVEY_PATH, "votes")
+    for filename in os.listdir(votes_path):
         if filename.endswith('.json'):
-            file_path = os.path.join(DATA_EVALUATION_SURVEY_PATH, filename)
+            file_path = os.path.join(votes_path, filename)
             with open(file_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 answers = data.get('answers', {})
@@ -143,7 +146,19 @@ def run_survey_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn, even
     raw_results = []
 
     for (event, minutes_ago), answers in survey_data.items():
-        fuzzy_prediction = predict_fn(event, minutes_ago)
+        if predict_fn == predict_adverbial_random_forest:
+            file_path = f"{DATA_EVALUATION_SURVEY_PATH}/event_properties.json"
+            with open(file_path, "r", encoding="utf-8") as fh:
+                event_properties = json.load(fh)
+
+            properties = pd.DataFrame([{
+                'Frequency': event_properties[event.replace("You", "I")]["Frequency"],
+                'Duration': event_properties[event.replace("You", "I")]["Duration"],
+                'Importance': event_properties[event.replace("You", "I")]["Importance"]
+            }])
+            fuzzy_prediction =  predict_fn(properties, minutes_ago)
+        else:
+            fuzzy_prediction = predict_fn(event, minutes_ago)
         # Normalize ground truth to probabilities
         ground_truth = {k: v / sum(answers.values()) for k, v in answers.items()}
         for adv in VAGUE_ADVERBIALS:
@@ -169,6 +184,15 @@ def evaluate_survey_gpt_random_forest(events_to_fit, events_to_fit_nl):
     else:
         save_file = EVALUATION_SURVEY_GPT5
     with open(save_file, "w") as f:
+        json.dump(output, f, indent=4)
+    return
+
+def evaluate_survey_random_forest(events_to_fit, events_to_fit_nl):
+    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_event_specific_random_forest, predict_adverbial_random_forest, events_to_fit_nl = events_to_fit_nl)
+    output = {
+        "raw": raw_results
+    }
+    with open(EVALUATION_SURVEY_RANDOM_FOREST, "w") as f:
         json.dump(output, f, indent=4)
     return
 

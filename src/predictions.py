@@ -303,12 +303,6 @@ def predict_adverbial_gpt_random_forest(event, minutes_ago,max_retries=10):
         )
 
     event_std = random_forest.predict(event_properties)[0]
-    # print(event)
-    # print(event_std)
-    # print(frequency)
-    # print(duration)
-    # print(impact)
-    # print("")
 
     adverbial_probs = {}
     for adverbial in VAGUE_ADVERBIALS:
@@ -343,15 +337,11 @@ def predict_time_frame_random_forest(duration, frequency, adverbial, min_prob=0.
     return upper, lower
 
 
-def predict_adverbial_random_forest(duration, frequency, minutes_ago):
+def predict_adverbial_random_forest(properties, minutes_ago):
     params = _load_packed()
 
     random_forest = load(RESULTS_FILE_PATH / RANDOM_FOREST_FILE)
-    event_properties = pd.DataFrame([{
-        "Frequency": FREQUENCY_ORDER.index(frequency),
-        "Duration": DURATION_ORDER.index(duration)
-    }])
-    event_std = random_forest.predict(event_properties)[0]
+    event_std = random_forest.predict(properties)[0]
 
     adverbial_probs = {}
     for adverbial in VAGUE_ADVERBIALS:

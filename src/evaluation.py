@@ -112,16 +112,16 @@ def run_evaluation_and_save_preds(events, fit_models_fn, predict_fn, events_nl=N
         # --- Collect predictions vs truth for metrics ---
         for minutes_ago, adverbial_values in gt_adverbials.items():
             if predict_fn == predict_adverbial_random_forest:
-                props = get_event_properties(event)
-                freq_votes = [p['Frequency'] for p in props if 'Frequency' in p]
-                dur_votes = [p['Duration'] for p in props if 'Duration' in p]
+                file_path = f"{DATA_DIR}/event_properties.json"
+                with open(file_path, "r", encoding="utf-8") as fh:
+                    event_properties = json.load(fh)
 
-                if 6 in dur_votes:
-                    dur_votes = adjust_duration_votes(dur_votes)
-
-                freq = FREQUENCY_ORDER[int(statistics.median(freq_votes))]
-                dur = DURATION_ORDER[int(statistics.median(dur_votes))]
-                predictions = predict_fn(dur, freq, int(minutes_ago))
+                properties = pd.DataFrame([{
+                    'Frequency': event_properties[events_nl[i].replace("Tom", "A friend")]["Frequency"],
+                    'Duration': event_properties[events_nl[i].replace("Tom", "A friend")]["Duration"],
+                    'Importance': event_properties[events_nl[i].replace("Tom", "A friend")]["Importance"]
+                }])
+                predictions = predict_fn(properties, int(minutes_ago))
             else:
                 if events_nl:
                     predictions = predict_fn(events_nl[i], int(minutes_ago))
@@ -195,8 +195,8 @@ def calculate_metrics(file_path):
 
     # Loop through all .json files containing the predictions
     for json_file in file_path.glob("*.json"):
-        # if json_file.name != "gpt4_random_forest.json":
-        #     continue
+        if json_file.name != "random_forest.json":
+            continue
         print(f"\nFile: {json_file.name}")
         with open(json_file, "r", encoding="utf-8") as f:
             data = json.load(f)["raw"]
@@ -317,22 +317,8 @@ def get_predictions_embedding(events, events_nl):
         json.dump(output, f, indent=4)
     return
 
-def get_predictions_gpt_random_forest(events, events_nl):
-    raw_results = run_evaluation_and_save_preds(events, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest, events_nl=events_nl)
-    output = {
-        "raw": raw_results,
-        "GPT-Version": GPT_VERSION
-    }
-    if "gpt-4" in GPT_VERSION:
-        save_file = EVALUATION_GPT4_RANDOM_FOREST_FILE
-    else:
-        save_file = EVALUATION_GPT5_RANDOM_FOREST_FILE
-    with open(save_file, "w") as f:
-        json.dump(output, f, indent=4)
-    return
-
-def get_predictions_random_forest(events):
-    raw_results = run_evaluation_and_save_preds(events, fit_event_specific_random_forest, predict_adverbial_random_forest, plot_not_fitted_event=False)
+def get_predictions_random_forest(events, events_nl):
+    raw_results = run_evaluation_and_save_preds(events, fit_event_specific_random_forest, predict_adverbial_random_forest, events_nl=events_nl, plot_not_fitted_event=False)
     output = {
         "raw": raw_results,
     }

@@ -24,7 +24,7 @@ from src.config import RESULTS_FILE_PATH, DATA_DIR, event_specific_function, adv
 
 # Initial guesses for vague adverbials' mean values
 adverbials_initial_means: Dict[str, float] = {
-    "recently": 0.6,
+    "recently": 0.7,
     "just": 0.5,
     "some time ago": 0.8,
     "long time ago": 0.95,
@@ -263,43 +263,29 @@ def fit_event_specific_embeddings(events_to_fit, events_to_fit_nl):
     return ridge
 
 
-def fit_event_specific_random_forest(events_to_fit, *args):
+def fit_event_specific_random_forest(events_to_fit, events_to_fit_nl, *args):
     packed = _load_packed()
     values = []
-    median_rows = []  # To store median rows per event
+    properties = []  # To store properties per event
 
     for event in events_to_fit:
         values.append(packed["event_params"][event])
 
     y = np.array(np.concatenate(values))
 
-    for event in events_to_fit:
-        file_path = f"{DATA_DIR}/{event}/event_properties.json"
+    for event in events_to_fit_nl:
+        file_path = f"{DATA_DIR}/event_properties.json"
         with open(file_path, "r", encoding="utf-8") as fh:
             event_properties = json.load(fh)
 
-        frequency_votes = [d['Frequency'] for d in event_properties if 'Frequency' in d]
-        duration_votes = [d['Duration'] for d in event_properties if 'Duration' in d]
-
-        # Because participants first could not select "Hours" as Duration I entered hours later and it became entry 6
-        # Real entry 6 ("Decades") is 5
-        if 6 in duration_votes:
-            duration_votes = [
-                1 if x == 6 else (x + 1 if x != 0 else x)
-                for x in duration_votes
-            ]
-
-        median_frequency = statistics.median(frequency_votes)
-        median_duration = statistics.median(duration_votes)
-
-        median_rows.append({
-            'Frequency': median_frequency,
-            'Duration': median_duration
+        properties.append({
+            'Frequency': event_properties[event.replace("Tom", "A friend")]["Frequency"],
+            'Duration': event_properties[event.replace("Tom", "A friend")]["Duration"],
+            'Importance': event_properties[event.replace("Tom", "A friend")]["Importance"]
         })
 
+    X = pd.DataFrame(properties)
 
-    X = pd.DataFrame(median_rows)
-
-    model = RandomForestRegressor(n_estimators=10, max_depth=5, random_state=42)
+    model = RandomForestRegressor(n_estimators=8, max_depth=5, random_state=42)
     model.fit(X, y)
     joblib.dump(model, RESULTS_FILE_PATH / 'event_random_forest.pkl')
