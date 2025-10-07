@@ -3,14 +3,14 @@ from src.train import (fit_event_adverbials, fit_event_specific_embeddings, fit_
 from src.plot import plot_all_persons_event_adverbials, plot_single_events
 from src.predictions import (predict_time_frame_embedding, predict_adverbial_embedding,
                              predict_time_frame_gpt_random_forest, predict_adverbial_gpt_random_forest,
-                             predict_time_frame_random_forest, predict_adverbial_random_forest)
+                             predict_time_frame_random_forest, predict_adverbial_random_forest, get_all_event_properties_gpt)
 from src.evaluation import (get_predictions_classifier, get_predictions_regression,
                             get_predictions_embedding, get_predictions_gpt_random_forest, get_predictions_random_forest,
                             evaluate_gpt, calculate_metrics)
 from src.evaluation_survey import (evaluate_survey_gpt_random_forest, evaluate_survey_embedding, evaluate_survey_gpt, evaluate_survey_gpt_regression, evaluate_survey_gpt_classifier)
 from src.simple_models_training import fit_classifier, fit_regression
 from src.simple_models_predictions import predict_adverbial_gpt_classifier, predict_adverbial_gpt_regression
-from src.config import EVALUATION_SURVEY_FILE_PATH, EVALUATION_FILE_PATH
+from src.config import EVALUATION_SURVEY_FILE_PATH, EVALUATION_FILE_PATH, DATA_DIR
 
 import sys
 
@@ -24,14 +24,17 @@ def train_models(events, events_nl):
     """
     Train various models for event adverbials, embeddings, and random forests.
     """
-    print("\nTraining Event Adverbials, Embeddings, and Random Forest...")
-    fit_event_adverbials(events)
-    fit_event_specific_embeddings(events, events_nl)
-    fit_event_specific_random_forest(events)
+    # print("\nTraining Event Adverbials, Embeddings, and Random Forest...")
+    # fit_event_adverbials(events)
+    # fit_event_specific_embeddings(events, events_nl)
+    # fit_event_specific_random_forest(events)
+    #
+    # print("\nTraining Simple Models (Classifier, Regression)...")
+    # fit_classifier(events)
+    # fit_regression(events)
 
-    print("\nTraining Simple Models (Classifier, Regression)...")
-    fit_classifier(events)
-    fit_regression(events)
+    print("\nGet the event properties using GPT")
+    get_all_event_properties_gpt(events_nl, DATA_DIR / "event_properties.json")
 
 
 def make_predictions(event_details):
@@ -138,10 +141,10 @@ def main():
     #     print(minute)
 
     # Run the steps sequentially
-    # train_models(events, events_nl) # Trains FuzzyLLI in all variants and the baseline models
+    train_models(events, events_nl) # Trains FuzzyLLI in all variants and the baseline models
     # make_predictions(event_details) #Predicts minutes ago or the event and the best fitting adverbials
-    evaluate_models_seen_events(events, events_nl, generate_new_predictions=False)
-    evaluate_survey(events, events_nl, generate_new_predictions=False)
+    # evaluate_models_seen_events(events, events_nl, generate_new_predictions=False)
+    # evaluate_survey(events, events_nl, generate_new_predictions=False)
     # plot_results(events) # Plots FuzzyLLI
 
 if __name__ == '__main__':
