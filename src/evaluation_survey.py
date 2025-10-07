@@ -6,12 +6,11 @@ from scipy.stats import spearmanr, kendalltau, rankdata
 from collections import defaultdict
 
 from src.config import (
-                        DATA_EVALUATION_SURVEY_PATH, GPT_VERSION,
-                        EVALUATION_SURVEY_GPT4, EVALUATION_SURVEY_GPT5, EVALUATION_SURVEY_RANDOM_FOREST,
-                        GPT4_SURVEY_PROMPT_FILE, GPT5_SURVEY_PROMPT_FILE,
-                        EVALUATION_SURVEY_EMBEDDINGS, VAGUE_ADVERBIALS,
-                        EVALUATION_SURVEY_GPT_REGRESSION, EVALUATION_SURVEY_GPT_CLASSIFIER
-                        )
+    DATA_EVALUATION_SURVEY_PATH, GPT_VERSION,
+    EVALUATION_SURVEY_RANDOM_FOREST,
+    GPT4_SURVEY_PROMPT_FILE, GPT5_SURVEY_PROMPT_FILE,
+    EVALUATION_SURVEY_EMBEDDINGS, VAGUE_ADVERBIALS,
+    EVALUATION_SURVEY_REGRESSION, EVALUATION_SURVEY_CLASSIFIER)
 
 from src.train import (
     fit_event_adverbials,
@@ -20,12 +19,11 @@ from src.train import (
 )
 from src.predictions import (
     predict_adverbial_embedding,
-    predict_adverbial_random_forest,
-    predict_adverbial_gpt_random_forest,
+    predict_adverbial_random_forest
 )
 from src.evaluation import predict_gpt
 from src.simple_models_training import fit_classifier, fit_regression
-from src.simple_models_predictions import predict_adverbial_gpt_classifier, predict_adverbial_gpt_regression
+from src.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
 
 
 # Regex to match questions like "You did X 3 hours ago."
@@ -173,20 +171,6 @@ def run_survey_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn, even
         })
     return raw_results
 
-def evaluate_survey_gpt_random_forest(events_to_fit, events_to_fit_nl):
-    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_event_specific_random_forest, predict_adverbial_gpt_random_forest, events_to_fit_nl = events_to_fit_nl)
-    output = {
-        "raw": raw_results,
-        "GPT-Version": GPT_VERSION
-    }
-    if "gpt-4" in GPT_VERSION:
-        save_file = EVALUATION_SURVEY_GPT4
-    else:
-        save_file = EVALUATION_SURVEY_GPT5
-    with open(save_file, "w") as f:
-        json.dump(output, f, indent=4)
-    return
-
 def evaluate_survey_random_forest(events_to_fit, events_to_fit_nl):
     raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_event_specific_random_forest, predict_adverbial_random_forest, events_to_fit_nl = events_to_fit_nl)
     output = {
@@ -205,23 +189,21 @@ def evaluate_survey_embedding(events_to_fit, events_to_fit_nl):
         json.dump(output, f, indent=4)
     return
 
-def evaluate_survey_gpt_classifier(events_to_fit, events_to_fit_nl):
-    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_classifier, predict_adverbial_gpt_classifier, events_to_fit_nl = events_to_fit_nl)
+def evaluate_survey_classifier(events_to_fit, events_to_fit_nl):
+    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_classifier, predict_adverbial_classifier, events_to_fit_nl = events_to_fit_nl)
     output = {
-        "raw": raw_results,
-        "GPT-Version": GPT_VERSION
+        "raw": raw_results
     }
-    with open(EVALUATION_SURVEY_GPT_CLASSIFIER, "w") as f:
+    with open(EVALUATION_SURVEY_CLASSIFIER, "w") as f:
         json.dump(output, f, indent=4)
     return
 
-def evaluate_survey_gpt_regression(events_to_fit, events_to_fit_nl):
-    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_regression, predict_adverbial_gpt_regression, events_to_fit_nl = events_to_fit_nl)
+def evaluate_survey_regression(events_to_fit, events_to_fit_nl):
+    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_regression, predict_adverbial_regression, events_to_fit_nl = events_to_fit_nl)
     output = {
-        "raw": raw_results,
-        "GPT-Version": GPT_VERSION
+        "raw": raw_results
     }
-    with open(EVALUATION_SURVEY_GPT_REGRESSION, "w") as f:
+    with open(EVALUATION_SURVEY_REGRESSION, "w") as f:
         json.dump(output, f, indent=4)
     return
 

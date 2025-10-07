@@ -23,7 +23,6 @@ from src.plot import plot_single_events
 
 from src.predictions import (
     predict_adverbial_embedding,
-    predict_adverbial_gpt_random_forest,
     predict_adverbial_random_forest
 )
 from src.train import (
@@ -33,18 +32,16 @@ from src.train import (
 )
 from src.simple_models_training import fit_classifier, fit_regression
 from src.simple_models_predictions import (
-    predict_adverbial_gpt_classifier,
-    predict_adverbial_gpt_regression
+    predict_adverbial_classifier,
+    predict_adverbial_regression
 )
 from src.config import (VAGUE_ADVERBIALS,
-                        DURATION_ORDER,
-                        FREQUENCY_ORDER,
                         DATA_DIR,
                         GPT_VERSION,
                         EVALUATION_FILE_PATH,
                         GPT4_PROMPT_FILE, GPT5_PROMPT_FILE, EVALUATION_EMBEDDING_FILE,
-                        EVALUATION_GPT_REGRESSION_FILE, EVALUATION_GPT_CLASSIFIER_FILE,
-                        EVALUATION_RANDOM_FOREST_FILE, EVALUATION_GPT4_RANDOM_FOREST_FILE, EVALUATION_GPT5_RANDOM_FOREST_FILE)
+                        EVALUATION_REGRESSION_FILE, EVALUATION_CLASSIFIER_FILE,
+                        EVALUATION_RANDOM_FOREST_FILE)
 
 
 # ---------------------------------------------------------------------------
@@ -56,10 +53,6 @@ def adjust_duration_votes(votes: List[int]) -> List[int]:
         1 if v == 6 else (v + 1 if v != 0 else v)
         for v in votes
     ]
-
-def get_event_properties(event: str):
-    with open(DATA_DIR / event / "event_properties.json", "r", encoding="utf-8") as f:
-        return json.load(f)
 
 def get_cleaned_data(event: str):
     with open(DATA_DIR / event / "cleanedData_minutes.json", "r", encoding="utf-8") as f:
@@ -88,7 +81,7 @@ def run_evaluation_and_save_preds(events, fit_models_fn, predict_fn, events_nl=N
         cleaned_data = get_cleaned_data(event)
 
         if plot_not_fitted_event:
-            plot_single_events(event, predict_fn)
+            plot_single_events(event, events_nl[i], predict_fn)
 
         # --- Step 1: Gather all possible numeric keys ---
         overall_targets = {adv: {k: float(np.median(v)) for k, v in cleaned_data[adv].items()} for adv in
@@ -195,15 +188,11 @@ def calculate_metrics(file_path):
 
     # Loop through all .json files containing the predictions
     for json_file in file_path.glob("*.json"):
-        if json_file.name != "random_forest.json":
-            continue
         print(f"\nFile: {json_file.name}")
         with open(json_file, "r", encoding="utf-8") as f:
             data = json.load(f)["raw"]
 
         results = []
-        error_counter = Counter()
-        minutes_counter = Counter()
         for r in data:
             pred = r["Prediction"]  # dict[label] -> score
             gt = r["GT"]  # dict[label] -> relevance
@@ -234,15 +223,6 @@ def calculate_metrics(file_path):
             # ---- Top-1 on ranks ----
             acc1, p1, r1 = top1_on_ranks(rank_pred, rank_gt)
 
-            # if p1 == 0:
-            #     error_counter[r["Event"]] += 1
-            #     minutes_counter[r["Minutes ago"]] += 1
-            #     print(r["Event"])
-            #     print(r["Minutes ago"])
-            #     print(rank_pred)
-            #     print(rank_gt)
-            #     print("")
-
             results.append({
                 "KendallTauB": float(tau) if not math.isnan(tau) else 0.0,
                 "NDCG": float(ndcg),
@@ -254,10 +234,6 @@ def calculate_metrics(file_path):
         df = pd.DataFrame(results)
         overall = df.mean(numeric_only=True).to_frame(name="Overall").T
         print(overall)
-
-        # print("Mismatched Events and adverbials:")
-        # print(error_counter)
-        # print(minutes_counter)
     return
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -280,7 +256,6 @@ def gpt_chat_answer(model_engine, instructions, prompt):
 
 
 def predict_gpt(event_nl, minutes_ago, model_engine=GPT_VERSION):
-    # System instructions: guidance on GPT's behavior
     instructions = """
     You are to choose the most appropriate adverbial(s) from the following options: 
     just, recently, some time ago, long time ago.
@@ -297,7 +272,7 @@ def predict_gpt(event_nl, minutes_ago, model_engine=GPT_VERSION):
     # Get GPT's answer
     if "gpt-5" in model_engine: # As version 5 does not support the temperature 0 setting get the output 5 times and chose the most frequent adverbials
         outputs = []
-        for i in range(0, 5):
+        for _ in range(0, 5):
             outputs.append(gpt_chat_answer(model_engine, instructions, prompt))
         counter = Counter(outputs)
         output, count = counter.most_common(1)[0]
@@ -327,22 +302,20 @@ def get_predictions_random_forest(events, events_nl):
     return
 
 def get_predictions_classifier(events, events_nl):
-    raw_results = run_evaluation_and_save_preds(events, fit_classifier, predict_adverbial_gpt_classifier, events_nl=events_nl)
+    raw_results = run_evaluation_and_save_preds(events, fit_classifier, predict_adverbial_classifier, events_nl=events_nl)
     output = {
-        "raw": raw_results,
-        "GPT-Version": GPT_VERSION
+        "raw": raw_results
     }
-    with open(EVALUATION_GPT_CLASSIFIER_FILE, "w") as f:
+    with open(EVALUATION_CLASSIFIER_FILE, "w") as f:
         json.dump(output, f, indent=4)
     return
 
 def get_predictions_regression(events, events_nl):
-    raw_results = run_evaluation_and_save_preds(events, fit_regression, predict_adverbial_gpt_regression, events_nl=events_nl)
+    raw_results = run_evaluation_and_save_preds(events, fit_regression, predict_adverbial_regression, events_nl=events_nl)
     output = {
-        "raw": raw_results,
-        "GPT-Version": GPT_VERSION
+        "raw": raw_results
     }
-    with open(EVALUATION_GPT_REGRESSION_FILE, "w") as f:
+    with open(EVALUATION_REGRESSION_FILE, "w") as f:
         json.dump(output, f, indent=4)
     return
 

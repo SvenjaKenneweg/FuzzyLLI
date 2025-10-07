@@ -263,7 +263,7 @@ def fit_event_specific_embeddings(events_to_fit, events_to_fit_nl):
     return ridge
 
 
-def fit_event_specific_random_forest(events_to_fit, events_to_fit_nl, *args):
+def fit_event_specific_random_forest(events_to_fit, events_to_fit_nl):
     packed = _load_packed()
     values = []
     properties = []  # To store properties per event

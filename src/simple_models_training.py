@@ -8,66 +8,60 @@ from xgboost import XGBRegressor
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestRegressor
 
-from src.config import DATA_DIR,RESULTS_SIMPLE_FILE_PATH
+from src.config import DATA_DIR,RESULTS_SIMPLE_FILE_PATH, DATA_EVALUATION_SURVEY_PATH
 
 
 # ---------------------------------------------------------------------------
 # Persistence helpers
 # ---------------------------------------------------------------------------
 
-def load_data(events, classification = True) -> pd.DataFrame:
+def load_data(events, events_nl, classification = True) -> pd.DataFrame:
     records = []
-    for event in events:
-        try:
-            with open(f"{DATA_DIR}/{event}/cleanedData_minutes.json", "r") as f:
-                adverbial_data = json.load(f)
-            with open(f"{DATA_DIR}/{event}/event_properties.json", "r") as f:
-                properties_list = json.load(f)
+    for event, event_nl in zip(events, events_nl):
+        with open(f"{DATA_DIR}/{event}/cleanedData_minutes.json", "r") as f:
+            adverbial_data = json.load(f)
+        with open(f"{DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
+            properties_list = json.load(fh)
 
-            if not isinstance(properties_list, list):
-                continue
+        event_to_search = event_nl.replace("Tom", "A friend").replace("You", "I")
+        frequency = properties_list[event_to_search]["Frequency"]
+        duration = properties_list[event_to_search]["Duration"]
+        importance = properties_list[event_to_search]["Importance"]
 
-            frequency = int(statistics.median([int(p["Frequency"]) for p in properties_list if "Frequency" in p]))
-            duration = int(statistics.median([int(p["Duration"]) for p in properties_list if "Duration" in p]))
+        for adverbial, time_dict in adverbial_data.items():
+            for minutes_str, votes in time_dict.items():
+                vote_values = list(map(float, votes))
 
-            for adverbial, time_dict in adverbial_data.items():
-                for minutes_str, votes in time_dict.items():
-                    try:
-                        vote_values = list(map(float, votes))
-                        if not vote_values:
-                            continue
-                        vote_median = statistics.median(vote_values)
-                        minutes_ago = int(minutes_str)
-                        if vote_median > 0.49 and classification:
-                            records.append({
-                                "adverbial": adverbial,
-                                "frequency": frequency,
-                                "duration": duration,
-                                "minutes_ago": minutes_ago
-                            })
-                        else:
-                            records.append({
-                                "adverbial": adverbial,
-                                "frequency": frequency,
-                                "duration": duration,
-                                "minutes_ago": minutes_ago,
-                                "vote": vote_median
-                            })
-                    except:
-                        continue
-        except:
-            continue
+                vote_median = statistics.median(vote_values)
+                minutes_ago = int(minutes_str)
+                if vote_median > 0.49 and classification:
+                    records.append({
+                        "adverbial": adverbial,
+                        "frequency": frequency,
+                        "duration": duration,
+                        "importance": importance,
+                        "minutes_ago": minutes_ago
+                    })
+                else:
+                    records.append({
+                        "adverbial": adverbial,
+                        "frequency": frequency,
+                        "duration": duration,
+                        "importance": importance,
+                        "minutes_ago": minutes_ago,
+                        "vote": vote_median
+                    })
     return pd.DataFrame(records)
 
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
 
-def fit_classifier(events, *args) -> GradientBoostingClassifier:
-    df = load_data(events, classification=False)
+def fit_classifier(events, events_nl) -> GradientBoostingClassifier:
+    df = load_data(events, events_nl, classification=False)
 
     df['log_minutes_ago'] = np.log1p(df['minutes_ago'])
-    X = df[["frequency", "duration", "log_minutes_ago"]]
+    X = df[["frequency", "duration", "importance", "log_minutes_ago"]]
     y = df["adverbial"]
 
     le = LabelEncoder()
@@ -84,24 +78,19 @@ def fit_classifier(events, *args) -> GradientBoostingClassifier:
     return model
 
 
-def fit_regression(events, *args) -> None:
-    df = load_data(events, classification=False)
+def fit_regression(events, events_nl) -> None:
+    df = load_data(events, events_nl, classification=False)
 
     ohe = OneHotEncoder(sparse_output=False)
     adverbial_encoded = ohe.fit_transform(df[['adverbial']])
     adverbial_cols = ohe.get_feature_names_out(['adverbial'])
     adverbial_df = pd.DataFrame(adverbial_encoded, columns=adverbial_cols, index=df.index)
 
-    features_df = pd.concat([df[["frequency", "duration", "minutes_ago"]], adverbial_df], axis=1)
+    features_df = pd.concat([df[["frequency", "duration", "importance", "minutes_ago"]], adverbial_df], axis=1)
     X = features_df
     y = df["vote"]
 
-    models = {
-        "RandomForestRegressor": RandomForestRegressor(n_estimators=100, random_state=42),
-        "XGBRegressor": XGBRegressor(objective="reg:squarederror", random_state=42)
-    }
-
-    for name, model in models.items():
-        model.fit(X, y)
-        joblib.dump(model, RESULTS_SIMPLE_FILE_PATH / f"{name}.pkl")
+    model = XGBRegressor(objective="reg:squarederror", random_state=42)
+    model.fit(X, y)
+    joblib.dump(model, RESULTS_SIMPLE_FILE_PATH / f"XGBRegressor.pkl")
     joblib.dump(ohe, RESULTS_SIMPLE_FILE_PATH / "onehotencoder.pkl")

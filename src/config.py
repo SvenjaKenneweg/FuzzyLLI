@@ -19,36 +19,49 @@ RESULTS_SIMPLE_FILE_PATH = Path("results/fits/simple_models/")
 GRADIENT_BOOSTING_FILE = 'gradient_boosting_classifier.pkl'
 LABEL_ENCODER_FILE = 'label_encoder.pkl'
 ONE_HOT_ENCODER_FILE = 'onehotencoder.pkl'
-RANDOM_FOREST_REGRESSOR_FILE = 'RandomForestRegressor.pkl'
 XGB_REGRESSOR_FILE = 'XGBRegressor.pkl'
 
 EVALUATION_EMBEDDING_FILE = EVALUATION_FILE_PATH / 'embeddings_regression.json'
-EVALUATION_GPT4_RANDOM_FOREST_FILE = EVALUATION_FILE_PATH / 'gpt4_random_forest.json'
-EVALUATION_GPT5_RANDOM_FOREST_FILE = EVALUATION_FILE_PATH / 'gpt5_random_forest.json'
 EVALUATION_RANDOM_FOREST_FILE = EVALUATION_FILE_PATH / 'random_forest.json'
-EVALUATION_GPT_CLASSIFIER_FILE = EVALUATION_FILE_PATH / 'gpt_classifier.json'
-EVALUATION_GPT_REGRESSION_FILE = EVALUATION_FILE_PATH / 'gpt_regression.json'
+EVALUATION_CLASSIFIER_FILE = EVALUATION_FILE_PATH / 'classifier.json'
+EVALUATION_REGRESSION_FILE = EVALUATION_FILE_PATH / 'regression.json'
 GPT4_PROMPT_FILE = EVALUATION_FILE_PATH / 'GPT4_Prompts.json'
 GPT5_PROMPT_FILE = EVALUATION_FILE_PATH / 'GPT5_Prompts.json'
 
 GPT_VERSION = "gpt-4.1-2025-04-14" # "gpt-5-2025-08-07" #
 
-EVALUATION_SURVEY_GPT4 = EVALUATION_SURVEY_FILE_PATH / 'gpt4_random_forest.json'
-EVALUATION_SURVEY_GPT5 = EVALUATION_SURVEY_FILE_PATH / 'gpt5_random_forest.json'
 EVALUATION_SURVEY_RANDOM_FOREST = EVALUATION_SURVEY_FILE_PATH / 'random_forest.json'
 GPT4_SURVEY_PROMPT_FILE = EVALUATION_SURVEY_FILE_PATH / 'GPT4_Prompts.json'
 GPT5_SURVEY_PROMPT_FILE = EVALUATION_SURVEY_FILE_PATH / 'GPT5_Prompts.json'
 EVALUATION_SURVEY_EMBEDDINGS = EVALUATION_SURVEY_FILE_PATH / 'embeddings_regression.json'
-EVALUATION_SURVEY_GPT_CLASSIFIER = EVALUATION_SURVEY_FILE_PATH / 'gpt_classifier.json'
-EVALUATION_SURVEY_GPT_REGRESSION = EVALUATION_SURVEY_FILE_PATH / 'gpt_regression.json'
+EVALUATION_SURVEY_CLASSIFIER = EVALUATION_SURVEY_FILE_PATH / 'classifier.json'
+EVALUATION_SURVEY_REGRESSION = EVALUATION_SURVEY_FILE_PATH / 'regression.json'
 
 # List of vague adverbials
 VAGUE_ADVERBIALS: List[str] = ["recently", "just", "some time ago", "long time ago"]
 
-# Duration and frequency order
-DURATION_ORDER = ['Minutes', 'Hours', 'Days', 'Weeks', 'Months', 'Years', 'Decades']
-FREQUENCY_ORDER = ['Daily', 'Monthly', 'Yearly', 'Decadal', 'Once in Life']
-
+# Define the description mappings for each dimension
+DURATION_DESCRIPTIONS = {
+    1: "Very Short (Seconds to 5 minutes)",
+    2: "Short (5 minutes to 1 Hour)",
+    3: "Moderate (1-8 hours)",
+    4: "Long (8–24 hours)",
+    5: "Extended (More than a day)"
+}
+FREQUENCY_DESCRIPTIONS = {
+    1: "One-time (Once or extremely rare per life)",
+    2: "Rare (Once or a few times a year)",
+    3: "Occasional (Monthly or semi-regular)",
+    4: "Frequent (Weekly)",
+    5: "Very Frequent (Daily or more)"
+}
+IMPORTANCE_DESCRIPTIONS = {
+    1: "Not Important (Trivial or forgettable)",
+    2: "Slightly Important (Minor relevance or enjoyment)",
+    3: "Moderately Important (Some meaning)",
+    4: "Important (Emotionally or practically significant)",
+    5: "Very Important (Life-defining or deeply personal)"
+}
 
 # ========================
 # Fitting Functions

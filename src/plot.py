@@ -15,11 +15,10 @@ from pathlib import Path
 from typing import Callable, Dict, List
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 from src.config import (VAGUE_ADVERBIALS,
                         PLOT_FILE_PATH,
-                        DURATION_ORDER,
-                        FREQUENCY_ORDER,
                         RESULTS_JSON,
                         DATA_DIR,
                         event_specific_function,
@@ -27,7 +26,6 @@ from src.config import (VAGUE_ADVERBIALS,
 
 from src.predictions import (
     predict_adverbial_embedding,
-    predict_adverbial_gpt_random_forest,
     predict_adverbial_random_forest
 )
 
@@ -158,17 +156,7 @@ def plot_all_persons_event_adverbials(
     outfile = PLOT_FILE_PATH / "highestStd_allAdverbials.png"
     fig.savefig(outfile, dpi=300)
 
-
-def get_event_properties(event: str):
-    with open(DATA_DIR / event / "event_properties.json", "r", encoding="utf-8") as f:
-        return json.load(f)
-def adjust_duration_votes(votes: List[int]) -> List[int]:
-    """Correct for late addition of 'Hours' in unseen_events options."""
-    return [
-        1 if v == 6 else (v + 1 if v != 0 else v)
-        for v in votes
-    ]
-def plot_single_events(event_name, predict_fn):
+def plot_single_events(event_name, event_name_nl, predict_fn):
     with open(DATA_DIR / event_name / "cleanedData_minutes.json", "r", encoding="utf-8") as f:
         cleaned_data = json.load(f)
 
@@ -193,16 +181,16 @@ def plot_single_events(event_name, predict_fn):
         predictions = []
         for minutes_ago in times:
             if predict_fn == predict_adverbial_random_forest:
-                props = get_event_properties(event_name)
-                freq_votes = [p['Frequency'] for p in props if 'Frequency' in p]
-                dur_votes = [p['Duration'] for p in props if 'Duration' in p]
+                file_path = f"{DATA_DIR}/event_properties.json"
+                with open(file_path, "r", encoding="utf-8") as fh:
+                    event_properties = json.load(fh)
 
-                if 6 in dur_votes:
-                    dur_votes = adjust_duration_votes(dur_votes)
-
-                freq = FREQUENCY_ORDER[int(statistics.median(freq_votes))]
-                dur = DURATION_ORDER[int(statistics.median(dur_votes))]
-                prob_adverbial = predict_fn(dur, freq, int(minutes_ago))
+                properties = pd.DataFrame([{
+                    'Frequency': event_properties[event_name_nl.replace("Tom", "A friend").replace("You", "I")]["Frequency"],
+                    'Duration': event_properties[event_name_nl.replace("Tom", "A friend").replace("You", "I")]["Duration"],
+                    'Importance': event_properties[event_name_nl.replace("Tom", "A friend").replace("You", "I")]["Importance"]
+                }])
+                prob_adverbial = predict_fn(properties, int(minutes_ago))
                 predictions.append(prob_adverbial[adverbial])
         results[adverbial] = (times, medians, predictions)
 
