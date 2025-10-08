@@ -95,6 +95,6 @@ def predict_adverbial_regression(event_nl, minutes_ago, event_properties=None):
 
         # Predict votes
         rf_pred = rf_model.predict(input_df)[0]
-        results[adv] = rf_pred
+        results[adv] = float(rf_pred)
 
     return results

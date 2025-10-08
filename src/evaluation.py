@@ -123,8 +123,8 @@ def run_evaluation_and_save_preds(events, fit_models_fn, predict_fn, events_nl=N
 
             raw_results.append({
                 "Event": event,
-                "Minutes ago": minutes_ago,
-                "Prediction":  predictions,
+                "Minutes ago": float(minutes_ago),
+                "Prediction": predictions,
                 "GT": adverbial_values
             })
     return raw_results

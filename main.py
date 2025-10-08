@@ -144,8 +144,8 @@ def main():
     # Run the steps sequentially
     # train_models(events, events_nl) # Trains FuzzyLLI in all variants and the baseline models
     # make_predictions(event_nl, event_properties, adverbial, minutes_ago) #Predicts minutes ago or the event and the best fitting adverbials
-    evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
-    evaluate_survey(events, events_nl, generate_new_predictions=True)
+    evaluate_models_seen_events(events, events_nl, generate_new_predictions=False)
+    evaluate_survey(events, events_nl, generate_new_predictions=False)
     # plot_results(events, events_nl) # Plots FuzzyLLI
 
 if __name__ == '__main__':
