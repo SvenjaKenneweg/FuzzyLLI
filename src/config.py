@@ -23,6 +23,7 @@ XGB_REGRESSOR_FILE = 'XGBRegressor.pkl'
 
 EVALUATION_EMBEDDING_FILE = EVALUATION_FILE_PATH / 'embeddings_regression.json'
 EVALUATION_RANDOM_FOREST_FILE = EVALUATION_FILE_PATH / 'random_forest.json'
+EVALUATION_FUNCTIONS_FILE = EVALUATION_FILE_PATH / 'functions_'
 EVALUATION_CLASSIFIER_FILE = EVALUATION_FILE_PATH / 'classifier.json'
 EVALUATION_REGRESSION_FILE = EVALUATION_FILE_PATH / 'regression.json'
 GPT4_PROMPT_FILE = EVALUATION_FILE_PATH / 'GPT4_Prompts.json'
@@ -31,6 +32,7 @@ GPT5_PROMPT_FILE = EVALUATION_FILE_PATH / 'GPT5_Prompts.json'
 GPT_VERSION = "gpt-4.1-2025-04-14" # "gpt-5-2025-08-07" #
 
 EVALUATION_SURVEY_RANDOM_FOREST = EVALUATION_SURVEY_FILE_PATH / 'random_forest.json'
+EVALUATION_SURVEY_FUNCTIONS_FILE = EVALUATION_SURVEY_FILE_PATH / 'functions_'
 GPT4_SURVEY_PROMPT_FILE = EVALUATION_SURVEY_FILE_PATH / 'GPT4_Prompts.json'
 GPT5_SURVEY_PROMPT_FILE = EVALUATION_SURVEY_FILE_PATH / 'GPT5_Prompts.json'
 EVALUATION_SURVEY_EMBEDDINGS = EVALUATION_SURVEY_FILE_PATH / 'embeddings_regression.json'
@@ -81,3 +83,10 @@ def gauss_inverse(y, mean, std):
 def inverse_event_specific_function(y, std):
     clipped_y = max(-1, min(1, 2 * y - 1))
     return math.sqrt(2) * std * erfinv(clipped_y)
+
+def powerlaw(vars, a, b, c, d):
+    Duration, Frequency, Importance = vars
+    return a * (Duration ** b) * (Frequency ** c) * (Importance ** d)
+def exp_decay(vars, a, b, c, d):
+    Duration, Frequency, Importance = vars
+    return a * np.exp(b * Duration + c * Importance - d * Frequency)

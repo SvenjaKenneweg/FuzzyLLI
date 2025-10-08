@@ -23,12 +23,14 @@ from src.plot import plot_single_events
 
 from src.predictions import (
     predict_adverbial_embedding,
-    predict_adverbial_random_forest
+    predict_adverbial_random_forest,
+    predict_adverbial_functions
 )
 from src.train import (
     fit_event_adverbials,
     fit_event_specific_embeddings,
-    fit_event_specific_random_forest
+    fit_event_specific_random_forest,
+    fit_event_specific_functions
 )
 from src.simple_models_training import fit_classifier, fit_regression
 from src.simple_models_predictions import (
@@ -41,7 +43,7 @@ from src.config import (VAGUE_ADVERBIALS,
                         EVALUATION_FILE_PATH,
                         GPT4_PROMPT_FILE, GPT5_PROMPT_FILE, EVALUATION_EMBEDDING_FILE,
                         EVALUATION_REGRESSION_FILE, EVALUATION_CLASSIFIER_FILE,
-                        EVALUATION_RANDOM_FOREST_FILE)
+                        EVALUATION_RANDOM_FOREST_FILE, powerlaw, exp_decay, EVALUATION_FUNCTIONS_FILE)
 
 
 # ---------------------------------------------------------------------------
@@ -66,7 +68,7 @@ def calculate_error(predicted: float, true: float) -> float:
 # Evaluation Functions
 # ---------------------------------------------------------------------------
 
-def run_evaluation_and_save_preds(events, fit_models_fn, predict_fn, events_nl=None, plot_not_fitted_event = False):
+def run_evaluation_and_save_preds(events, fit_models_fn, predict_fn, events_nl=None, plot_not_fitted_event = False, function_to_use=None):
     raw_results = []
 
     for i, event in enumerate(events):
@@ -74,7 +76,10 @@ def run_evaluation_and_save_preds(events, fit_models_fn, predict_fn, events_nl=N
         fit_event_adverbials(other_events)
         if events_nl:
             other_events_nl = events_nl[:i] + events_nl[i + 1:]
-            fit_models_fn(other_events, other_events_nl)
+            if function_to_use:
+                fit_models_fn(other_events, other_events_nl, function_to_use)
+            else:
+                fit_models_fn(other_events, other_events_nl)
         else:
             fit_models_fn(other_events)
 
@@ -104,7 +109,7 @@ def run_evaluation_and_save_preds(events, fit_models_fn, predict_fn, events_nl=N
 
         # --- Collect predictions vs truth for metrics ---
         for minutes_ago, adverbial_values in gt_adverbials.items():
-            if predict_fn == predict_adverbial_random_forest:
+            if predict_fn == predict_adverbial_random_forest or predict_fn == predict_adverbial_functions:
                 file_path = f"{DATA_DIR}/event_properties.json"
                 with open(file_path, "r", encoding="utf-8") as fh:
                     event_properties = json.load(fh)
@@ -114,7 +119,10 @@ def run_evaluation_and_save_preds(events, fit_models_fn, predict_fn, events_nl=N
                     'Duration': event_properties[events_nl[i].replace("Tom", "A friend")]["Duration"],
                     'Importance': event_properties[events_nl[i].replace("Tom", "A friend")]["Importance"]
                 }])
-                predictions = predict_fn(properties, int(minutes_ago))
+                if function_to_use:
+                    predictions = predict_fn(properties, int(minutes_ago), function_to_use)
+                else:
+                    predictions = predict_fn(properties, int(minutes_ago))
             else:
                 if events_nl:
                     predictions = predict_fn(events_nl[i], int(minutes_ago))
@@ -298,6 +306,15 @@ def get_predictions_random_forest(events, events_nl):
         "raw": raw_results,
     }
     with open(EVALUATION_RANDOM_FOREST_FILE, "w") as f:
+        json.dump(output, f, indent=4)
+    return
+
+def get_predictions_functions(events, events_nl, function_to_use):
+    raw_results = run_evaluation_and_save_preds(events, fit_event_specific_functions, predict_adverbial_functions, events_nl=events_nl, plot_not_fitted_event=False, function_to_use=function_to_use)
+    output = {
+        "raw": raw_results,
+    }
+    with open(f"{EVALUATION_FUNCTIONS_FILE}{function_to_use.__name__}.json", "w") as f:
         json.dump(output, f, indent=4)
     return
 

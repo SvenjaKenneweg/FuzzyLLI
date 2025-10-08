@@ -10,12 +10,12 @@ from typing import Dict, List
 
 import numpy as np
 import pandas as pd
-from scipy.optimize import least_squares
+from scipy.optimize import least_squares, curve_fit
 from sklearn.linear_model import Ridge
 from sklearn.ensemble import RandomForestRegressor
 from sentence_transformers import SentenceTransformer
 
-from src.config import RESULTS_FILE_PATH, DATA_DIR, event_specific_function, adverbial_specific_function
+from src.config import RESULTS_FILE_PATH, DATA_DIR, event_specific_function, adverbial_specific_function, powerlaw, exp_decay
 
 
 # ========================
@@ -270,22 +270,41 @@ def fit_event_specific_random_forest(events_to_fit, events_to_fit_nl):
 
     for event in events_to_fit:
         values.append(packed["event_params"][event])
-
     y = np.array(np.concatenate(values))
 
+    with open(f"{DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
+        event_properties = json.load(fh)
     for event in events_to_fit_nl:
-        file_path = f"{DATA_DIR}/event_properties.json"
-        with open(file_path, "r", encoding="utf-8") as fh:
-            event_properties = json.load(fh)
-
         properties.append({
             'Frequency': event_properties[event.replace("Tom", "A friend")]["Frequency"],
             'Duration': event_properties[event.replace("Tom", "A friend")]["Duration"],
             'Importance': event_properties[event.replace("Tom", "A friend")]["Importance"]
         })
-
     X = pd.DataFrame(properties)
 
     model = RandomForestRegressor(n_estimators=8, max_depth=5, random_state=42)
     model.fit(X, y)
     joblib.dump(model, RESULTS_FILE_PATH / 'event_random_forest.pkl')
+
+
+def fit_event_specific_functions(events_to_fit, events_to_fit_nl, function_to_fit):
+    packed = _load_packed()
+    values = []
+    properties = []  # To store properties per event
+
+    for event in events_to_fit:
+        values.append(packed["event_params"][event])
+    y = np.array(np.concatenate(values))
+
+    with open(f"{DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
+        event_properties = json.load(fh)
+    for event in events_to_fit_nl:
+        properties.append({
+            'Frequency': event_properties[event.replace("Tom", "A friend")]["Frequency"],
+            'Duration': event_properties[event.replace("Tom", "A friend")]["Duration"],
+            'Importance': event_properties[event.replace("Tom", "A friend")]["Importance"]
+        })
+    X = pd.DataFrame(properties)
+
+    p, _ = curve_fit(function_to_fit, (X.Duration, X.Frequency, X.Importance), y, p0=[1000, 1, -1, 1], maxfev=20000)
+    joblib.dump({"params": dict(zip("abcd", p))}, f"{RESULTS_FILE_PATH}/{function_to_fit.__name__}.pkl")

@@ -9,17 +9,20 @@ from src.config import (
     DATA_EVALUATION_SURVEY_PATH, GPT_VERSION,
     EVALUATION_SURVEY_RANDOM_FOREST,
     GPT4_SURVEY_PROMPT_FILE, GPT5_SURVEY_PROMPT_FILE,
+    EVALUATION_SURVEY_FUNCTIONS_FILE,
     EVALUATION_SURVEY_EMBEDDINGS, VAGUE_ADVERBIALS,
     EVALUATION_SURVEY_REGRESSION, EVALUATION_SURVEY_CLASSIFIER)
 
 from src.train import (
     fit_event_adverbials,
     fit_event_specific_embeddings,
-    fit_event_specific_random_forest
+    fit_event_specific_random_forest,
+    fit_event_specific_functions
 )
 from src.predictions import (
     predict_adverbial_embedding,
-    predict_adverbial_random_forest
+    predict_adverbial_random_forest,
+    predict_adverbial_functions
 )
 from src.evaluation import predict_gpt
 from src.simple_models_training import fit_classifier, fit_regression
@@ -133,18 +136,21 @@ def compare_fuzzy_ranks(fuzzy_prediction: dict, ground_truth: dict):
         'kendall': kendall_corr
     }
 
-def run_survey_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn, events_to_fit_nl = None):
+def run_survey_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn, events_to_fit_nl=None, function_to_use=None):
     fit_event_adverbials(events_to_fit)
     if fit_fn is not None:
         if events_to_fit_nl is not None:
-            fit_fn(events_to_fit, events_to_fit_nl)
+            if function_to_use is not None:
+                fit_fn(events_to_fit, events_to_fit_nl, function_to_use)
+            else:
+                fit_fn(events_to_fit, events_to_fit_nl)
         else:
             fit_fn(events_to_fit)
     survey_data = get_percentages()
     raw_results = []
 
     for (event, minutes_ago), answers in survey_data.items():
-        if predict_fn == predict_adverbial_random_forest:
+        if predict_fn == predict_adverbial_random_forest or predict_fn == predict_adverbial_functions:
             file_path = f"{DATA_EVALUATION_SURVEY_PATH}/event_properties.json"
             with open(file_path, "r", encoding="utf-8") as fh:
                 event_properties = json.load(fh)
@@ -154,7 +160,10 @@ def run_survey_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn, even
                 'Duration': event_properties[event.replace("You", "I")]["Duration"],
                 'Importance': event_properties[event.replace("You", "I")]["Importance"]
             }])
-            fuzzy_prediction =  predict_fn(properties, minutes_ago)
+            if function_to_use is not None:
+                fuzzy_prediction = predict_fn(properties, minutes_ago, function_to_use)
+            else:
+                fuzzy_prediction =  predict_fn(properties, minutes_ago)
         else:
             fuzzy_prediction = predict_fn(event, minutes_ago)
         # Normalize ground truth to probabilities
@@ -177,6 +186,16 @@ def evaluate_survey_random_forest(events_to_fit, events_to_fit_nl):
         "raw": raw_results
     }
     with open(EVALUATION_SURVEY_RANDOM_FOREST, "w") as f:
+        json.dump(output, f, indent=4)
+    return
+
+
+def evaluate_survey_functions(events_to_fit, events_to_fit_nl, function_to_use):
+    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_event_specific_functions, predict_adverbial_functions, events_to_fit_nl=events_to_fit_nl, function_to_use=function_to_use)
+    output = {
+        "raw": raw_results
+    }
+    with open(f"{EVALUATION_SURVEY_FUNCTIONS_FILE}{function_to_use.__name__}.json", "w") as f:
         json.dump(output, f, indent=4)
     return
 

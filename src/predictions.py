@@ -16,13 +16,14 @@ from src.config import (event_specific_function,
                         inverse_event_specific_function,
                         adverbial_specific_function,
                         gauss_inverse,
+                        powerlaw, exp_decay,
                         GPT_VERSION,
                         RESULTS_FILE_PATH,
                         VAGUE_ADVERBIALS,
                         EMBEDDING_RIDGE_FILE,
                         RANDOM_FOREST_FILE,
                         EMBEDDING_MODEL,
-                        DURATION_DESCRIPTIONS, FREQUENCY_DESCRIPTIONS, IMPORTANCE_DESCRIPTIONS)
+                        DURATION_DESCRIPTIONS, FREQUENCY_DESCRIPTIONS, IMPORTANCE_DESCRIPTIONS, powerlaw)
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -190,6 +191,23 @@ def predict_adverbial_random_forest(properties, minutes_ago):
         prob_adverbial = adverbial_specific_function(event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
         adverbial_probs[adverbial] = prob_adverbial
 
+    return adverbial_probs
+
+
+def predict_adverbial_functions(properties, minutes_ago, function_to_predict):
+    params = _load_packed()
+
+    model = load( f"{RESULTS_FILE_PATH}/{function_to_predict.__name__}.pkl")
+    a, b, c, d = model["params"].values()
+    event_std = function_to_predict((properties["Duration"].values, properties["Frequency"].values, properties["Importance"].values), a, b, c, d)
+
+    adverbial_probs = {}
+    for adverbial in VAGUE_ADVERBIALS:
+        adverbial_mean = params["adverbial_means"][adverbial]
+        adverbial_std = params["adverbial_stds"][adverbial]
+
+        prob_adverbial = adverbial_specific_function(event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
+        adverbial_probs[adverbial] = prob_adverbial[0]
     return adverbial_probs
 
 
