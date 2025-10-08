@@ -246,7 +246,7 @@ def fit_event_adverbials(events_to_fit_naming: List[str]) -> dict:
 
 
 # Fit the event specific function using word embeddings and a regression model
-def fit_event_specific_embeddings(events_to_fit, events_to_fit_nl):
+def fit_event_specific_embeddings(events_to_fit, events_to_fit_nl, *args):
     packed = _load_packed()
     values = []
 
@@ -263,7 +263,7 @@ def fit_event_specific_embeddings(events_to_fit, events_to_fit_nl):
     return ridge
 
 
-def fit_event_specific_random_forest(events_to_fit, events_to_fit_nl):
+def fit_event_specific_random_forest(events_to_fit, events_to_fit_nl, *args):
     packed = _load_packed()
     values = []
     properties = []  # To store properties per event
@@ -287,7 +287,7 @@ def fit_event_specific_random_forest(events_to_fit, events_to_fit_nl):
     joblib.dump(model, RESULTS_FILE_PATH / 'event_random_forest.pkl')
 
 
-def fit_event_specific_functions(events_to_fit, events_to_fit_nl, function_to_fit):
+def fit_event_specific_functions(events_to_fit, events_to_fit_nl, function_to_fit, *args):
     packed = _load_packed()
     values = []
     properties = []  # To store properties per event

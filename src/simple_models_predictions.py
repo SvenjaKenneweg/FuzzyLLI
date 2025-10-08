@@ -20,7 +20,7 @@ from src.config import (VAGUE_ADVERBIALS,
 # Public API
 # ---------------------------------------------------------------------------
 
-def predict_adverbial_classifier(event_nl, minutes_ago, event_properties=None):
+def predict_adverbial_classifier(event_nl, minutes_ago, event_properties=None, *args):
     if event_properties is not None and not event_properties.empty:
         values_dict = event_properties.iloc[0].to_dict()
         frequency = values_dict["Frequency"]
@@ -54,7 +54,7 @@ def predict_adverbial_classifier(event_nl, minutes_ago, event_properties=None):
     return dict(zip(class_labels, probas))
 
 
-def predict_adverbial_regression(event_nl, minutes_ago, event_properties=None):
+def predict_adverbial_regression(event_nl, minutes_ago, event_properties=None, *args):
     if event_properties is not None and not event_properties.empty:
         values_dict = event_properties.iloc[0].to_dict()
         frequency = values_dict["Frequency"]

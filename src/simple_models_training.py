@@ -57,7 +57,7 @@ def load_data(events, events_nl, classification = True) -> pd.DataFrame:
 # Public API
 # ---------------------------------------------------------------------------
 
-def fit_classifier(events, events_nl) -> GradientBoostingClassifier:
+def fit_classifier(events, events_nl, *args):
     df = load_data(events, events_nl, classification=False)
 
     df['log_minutes_ago'] = np.log1p(df['minutes_ago'])
@@ -78,7 +78,7 @@ def fit_classifier(events, events_nl) -> GradientBoostingClassifier:
     return model
 
 
-def fit_regression(events, events_nl) -> None:
+def fit_regression(events, events_nl, *args):
     df = load_data(events, events_nl, classification=False)
 
     ohe = OneHotEncoder(sparse_output=False)

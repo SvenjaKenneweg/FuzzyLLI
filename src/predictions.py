@@ -140,7 +140,7 @@ def predict_time_frame_embedding(event, adverbial, min_prob=0.6, max_prob=1.0):
     return upper, lower
 
 
-def predict_adverbial_embedding(event_nl, minutes_ago):
+def predict_adverbial_embedding(event_nl, minutes_ago, *args):
     params = _load_packed()
     os.environ["TOKENIZERS_PARALLELISM"] = "false" # to avoid warning
     embedding_model = SentenceTransformer(EMBEDDING_MODEL)
@@ -177,7 +177,7 @@ def predict_time_frame_random_forest(properties, adverbial, min_prob=0.6, max_pr
     return upper, lower
 
 
-def predict_adverbial_random_forest(properties, minutes_ago):
+def predict_adverbial_random_forest(properties, minutes_ago, *args):
     params = _load_packed()
 
     random_forest = load(RESULTS_FILE_PATH / RANDOM_FOREST_FILE)
@@ -194,7 +194,7 @@ def predict_adverbial_random_forest(properties, minutes_ago):
     return adverbial_probs
 
 
-def predict_adverbial_functions(properties, minutes_ago, function_to_predict):
+def predict_adverbial_functions(properties, minutes_ago, function_to_predict, *args):
     params = _load_packed()
 
     model = load( f"{RESULTS_FILE_PATH}/{function_to_predict.__name__}.pkl")

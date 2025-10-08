@@ -63,25 +63,24 @@ def get_cleaned_data(event: str):
 def calculate_error(predicted: float, true: float) -> float:
     return abs(predicted - true)
 
+requires_properties = {
+    predict_adverbial_random_forest,
+    predict_adverbial_functions
+}
+
 
 # ---------------------------------------------------------------------------
 # Evaluation Functions
 # ---------------------------------------------------------------------------
 
-def run_evaluation_and_save_preds(events, fit_models_fn, predict_fn, events_nl=None, plot_not_fitted_event = False, function_to_use=None):
+def run_evaluation_and_save_pred(events, fit_models_fn, predict_fn, plot_not_fitted_event=False, events_nl=None, function_to_use=None):
     raw_results = []
 
     for i, event in enumerate(events):
         other_events = events[:i] + events[i+1:]
+        other_events_nl = events_nl[:i] + events_nl[i + 1:]
         fit_event_adverbials(other_events)
-        if events_nl:
-            other_events_nl = events_nl[:i] + events_nl[i + 1:]
-            if function_to_use:
-                fit_models_fn(other_events, other_events_nl, function_to_use)
-            else:
-                fit_models_fn(other_events, other_events_nl)
-        else:
-            fit_models_fn(other_events)
+        fit_models_fn(other_events, other_events_nl, function_to_use)
 
         cleaned_data = get_cleaned_data(event)
 
@@ -109,9 +108,8 @@ def run_evaluation_and_save_preds(events, fit_models_fn, predict_fn, events_nl=N
 
         # --- Collect predictions vs truth for metrics ---
         for minutes_ago, adverbial_values in gt_adverbials.items():
-            if predict_fn == predict_adverbial_random_forest or predict_fn == predict_adverbial_functions:
-                file_path = f"{DATA_DIR}/event_properties.json"
-                with open(file_path, "r", encoding="utf-8") as fh:
+            if predict_fn in requires_properties:
+                with open(f"{DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
                     event_properties = json.load(fh)
 
                 properties = pd.DataFrame([{
@@ -119,15 +117,10 @@ def run_evaluation_and_save_preds(events, fit_models_fn, predict_fn, events_nl=N
                     'Duration': event_properties[events_nl[i].replace("Tom", "A friend")]["Duration"],
                     'Importance': event_properties[events_nl[i].replace("Tom", "A friend")]["Importance"]
                 }])
-                if function_to_use:
-                    predictions = predict_fn(properties, int(minutes_ago), function_to_use)
-                else:
-                    predictions = predict_fn(properties, int(minutes_ago))
+                predictions = predict_fn(properties, int(minutes_ago), function_to_use)
             else:
-                if events_nl:
-                    predictions = predict_fn(events_nl[i], int(minutes_ago))
-                else:
-                    predictions = predict_fn(event, int(minutes_ago))
+                input_data = events_nl[i] if events_nl else event
+                predictions = predict_fn(input_data, int(minutes_ago))
 
             raw_results.append({
                 "Event": event,
@@ -292,7 +285,7 @@ def predict_gpt(event_nl, minutes_ago, model_engine=GPT_VERSION):
 # Model-specific Evaluators
 # ---------------------------------------------------------------------------
 def get_predictions_embedding(events, events_nl):
-    raw_results = run_evaluation_and_save_preds(events, fit_event_specific_embeddings, predict_adverbial_embedding, events_nl=events_nl)
+    raw_results = run_evaluation_and_save_pred(events, fit_event_specific_embeddings, predict_adverbial_embedding, events_nl=events_nl)
     output = {
         "raw": raw_results,
     }
@@ -301,7 +294,7 @@ def get_predictions_embedding(events, events_nl):
     return
 
 def get_predictions_random_forest(events, events_nl):
-    raw_results = run_evaluation_and_save_preds(events, fit_event_specific_random_forest, predict_adverbial_random_forest, events_nl=events_nl, plot_not_fitted_event=False)
+    raw_results = run_evaluation_and_save_pred(events, fit_event_specific_random_forest, predict_adverbial_random_forest, events_nl=events_nl, plot_not_fitted_event=False)
     output = {
         "raw": raw_results,
     }
@@ -310,7 +303,7 @@ def get_predictions_random_forest(events, events_nl):
     return
 
 def get_predictions_functions(events, events_nl, function_to_use):
-    raw_results = run_evaluation_and_save_preds(events, fit_event_specific_functions, predict_adverbial_functions, events_nl=events_nl, plot_not_fitted_event=False, function_to_use=function_to_use)
+    raw_results = run_evaluation_and_save_pred(events, fit_event_specific_functions, predict_adverbial_functions, events_nl=events_nl, plot_not_fitted_event=False, function_to_use=function_to_use)
     output = {
         "raw": raw_results,
     }
@@ -319,7 +312,7 @@ def get_predictions_functions(events, events_nl, function_to_use):
     return
 
 def get_predictions_classifier(events, events_nl):
-    raw_results = run_evaluation_and_save_preds(events, fit_classifier, predict_adverbial_classifier, events_nl=events_nl)
+    raw_results = run_evaluation_and_save_pred(events, fit_classifier, predict_adverbial_classifier, events_nl=events_nl)
     output = {
         "raw": raw_results
     }
@@ -328,7 +321,7 @@ def get_predictions_classifier(events, events_nl):
     return
 
 def get_predictions_regression(events, events_nl):
-    raw_results = run_evaluation_and_save_preds(events, fit_regression, predict_adverbial_regression, events_nl=events_nl)
+    raw_results = run_evaluation_and_save_pred(events, fit_regression, predict_adverbial_regression, events_nl=events_nl)
     output = {
         "raw": raw_results
     }
