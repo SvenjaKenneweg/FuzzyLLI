@@ -94,19 +94,19 @@ def evaluate_survey(events_to_fit, events_to_fit_nl, generate_new_predictions=Fa
     Evaluate the models by comparing the predicted adverbials for new events with the unseen_events results
     """
     if generate_new_predictions:
-        # print("\nEvaluating Random Forest on the unseen_events data:")
-        # evaluate_survey_random_forest(events_to_fit, events_to_fit_nl)
-        #
-        # print("\nEvaluating Embeddings + Regressor on the unseen_events data:")
-        # evaluate_survey_embedding(events_to_fit, events_to_fit_nl)
+        print("\nEvaluating Random Forest on the unseen_events data:")
+        evaluate_survey_random_forest(events_to_fit, events_to_fit_nl)
+
+        print("\nEvaluating Embeddings + Regressor on the unseen_events data:")
+        evaluate_survey_embedding(events_to_fit, events_to_fit_nl)
 
         print("\nEvaluation Power Law and Exponential Decay on the unseen survey data:")
         evaluate_survey_functions(events_to_fit, events_to_fit_nl, powerlaw)
         evaluate_survey_functions(events_to_fit, events_to_fit_nl, exp_decay)
-        #
-        # print("\nEvaluating Classifier and Regression Model on the unseen_events data:")
-        # evaluate_survey_classifier(events_to_fit, events_to_fit_nl)
-        # evaluate_survey_regression(events_to_fit, events_to_fit_nl)
+
+        print("\nEvaluating Classifier and Regression Model on the unseen_events data:")
+        evaluate_survey_classifier(events_to_fit, events_to_fit_nl)
+        evaluate_survey_regression(events_to_fit, events_to_fit_nl)
 
         # print("\nEvaluating GPT on the unseen events data:")
         # evaluate_survey_gpt()

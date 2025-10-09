@@ -29,6 +29,11 @@ from src.simple_models_training import fit_classifier, fit_regression
 from src.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
 
 
+requires_properties = {
+    predict_adverbial_random_forest,
+    predict_adverbial_functions
+}
+
 # Regex to match questions like "You did X 3 hours ago."
 pattern = re.compile(r'^(.*?)(\d+\s+\w+\s+ago)\.?$', re.IGNORECASE)
 
@@ -138,21 +143,13 @@ def compare_fuzzy_ranks(fuzzy_prediction: dict, ground_truth: dict):
 
 def run_survey_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn, events_to_fit_nl=None, function_to_use=None):
     fit_event_adverbials(events_to_fit)
-    if fit_fn is not None:
-        if events_to_fit_nl is not None:
-            if function_to_use is not None:
-                fit_fn(events_to_fit, events_to_fit_nl, function_to_use)
-            else:
-                fit_fn(events_to_fit, events_to_fit_nl)
-        else:
-            fit_fn(events_to_fit)
+    fit_fn(events_to_fit, events_to_fit_nl, function_to_use)
     survey_data = get_percentages()
     raw_results = []
 
     for (event, minutes_ago), answers in survey_data.items():
-        if predict_fn == predict_adverbial_random_forest or predict_fn == predict_adverbial_functions:
-            file_path = f"{DATA_EVALUATION_SURVEY_PATH}/event_properties.json"
-            with open(file_path, "r", encoding="utf-8") as fh:
+        if predict_fn in requires_properties:
+            with open(f"{DATA_EVALUATION_SURVEY_PATH}/event_properties.json", "r", encoding="utf-8") as fh:
                 event_properties = json.load(fh)
 
             properties = pd.DataFrame([{
@@ -160,12 +157,9 @@ def run_survey_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn, even
                 'Duration': event_properties[event.replace("You", "I")]["Duration"],
                 'Importance': event_properties[event.replace("You", "I")]["Importance"]
             }])
-            if function_to_use is not None:
-                fuzzy_prediction = predict_fn(properties, minutes_ago, function_to_use)
-            else:
-                fuzzy_prediction =  predict_fn(properties, minutes_ago)
+            fuzzy_prediction = predict_fn(properties, minutes_ago, function_to_use)
         else:
-            fuzzy_prediction = predict_fn(event, minutes_ago)
+            fuzzy_prediction = predict_fn(event, minutes_ago, function_to_use)
         # Normalize ground truth to probabilities
         ground_truth = {k: v / sum(answers.values()) for k, v in answers.items()}
         for adv in VAGUE_ADVERBIALS:
