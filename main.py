@@ -149,7 +149,7 @@ def main():
     event_nl = "I was at the hospital"
     event_properties = pd.DataFrame([{
         'Frequency': 2,
-        'Duration': 5,
+        'Richness': 5,
         'Importance': 4
     }])
     adverbial = "just"
