@@ -277,7 +277,7 @@ def fit_event_specific_random_forest(events_to_fit, events_to_fit_nl, *args):
     for event in events_to_fit_nl:
         properties.append({
             'Frequency': event_properties[event.replace("Tom", "A friend")]["Frequency"],
-            'Duration': event_properties[event.replace("Tom", "A friend")]["Duration"],
+            'Richness': event_properties[event.replace("Tom", "A friend")]["Richness"],
             'Importance': event_properties[event.replace("Tom", "A friend")]["Importance"]
         })
     X = pd.DataFrame(properties)
@@ -301,10 +301,10 @@ def fit_event_specific_functions(events_to_fit, events_to_fit_nl, function_to_fi
     for event in events_to_fit_nl:
         properties.append({
             'Frequency': event_properties[event.replace("Tom", "A friend")]["Frequency"],
-            'Duration': event_properties[event.replace("Tom", "A friend")]["Duration"],
+            'Richness': event_properties[event.replace("Tom", "A friend")]["Richness"],
             'Importance': event_properties[event.replace("Tom", "A friend")]["Importance"]
         })
     X = pd.DataFrame(properties)
 
-    p, _ = curve_fit(function_to_fit, (X.Duration, X.Frequency, X.Importance), y, p0=[1000, 1, -1, 1], maxfev=20000)
+    p, _ = curve_fit(function_to_fit, (X.Richness, X.Frequency, X.Importance), y, p0=[1000, 1, -1, 1], maxfev=20000)
     joblib.dump({"params": dict(zip("abcd", p))}, f"{RESULTS_FILE_PATH}/{function_to_fit.__name__}.pkl")

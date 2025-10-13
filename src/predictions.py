@@ -23,7 +23,7 @@ from src.config import (event_specific_function,
                         EMBEDDING_RIDGE_FILE,
                         RANDOM_FOREST_FILE,
                         EMBEDDING_MODEL,
-                        DURATION_DESCRIPTIONS, FREQUENCY_DESCRIPTIONS, IMPORTANCE_DESCRIPTIONS, powerlaw)
+                        RICHNESS_DESCRIPTIONS, FREQUENCY_DESCRIPTIONS, IMPORTANCE_DESCRIPTIONS, powerlaw)
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -49,7 +49,7 @@ def get_all_event_properties_gpt(events_nl, file_path, model_engine=GPT_VERSION)
 
     instruction = f"""You are an assistant that evaluates events based on three dimensions: richness, frequency, and importance.
     - Richness → How vivid, detailed, and contextually rich the event is.  
-      Scale: {format_scale(DURATION_DESCRIPTIONS)}
+      Scale: {format_scale(RICHNESS_DESCRIPTIONS)}
 
     - Frequency → How often the event typically occurs.  
       Scale: {format_scale(FREQUENCY_DESCRIPTIONS)}
@@ -82,18 +82,18 @@ def get_all_event_properties_gpt(events_nl, file_path, model_engine=GPT_VERSION)
         )
 
         content = completion.choices[0].message.content
-        duration_match = re.search(r"Richness:\s*(\d)", content)
+        richness_match = re.search(r"Richness:\s*(\d)", content)
         frequency_match = re.search(r"Frequency:\s*(\d)", content)
         importance_match = re.search(r"Importance:\s*(\d)", content)
 
-        if duration_match and frequency_match and importance_match:
-            duration = int(duration_match.group(1))
+        if richness_match and frequency_match and importance_match:
+            richness = int(richness_match.group(1))
             frequency = int(frequency_match.group(1))
             importance = int(importance_match.group(1))
 
             results[event_clean] = {
-                "Duration": duration,
-                "Duration_desc": DURATION_DESCRIPTIONS.get(duration),
+                "Richness": richness,
+                "Richness_desc": RICHNESS_DESCRIPTIONS.get(richness),
                 "Frequency": frequency,
                 "Frequency_desc": FREQUENCY_DESCRIPTIONS.get(frequency),
                 "Importance": importance,
@@ -102,8 +102,8 @@ def get_all_event_properties_gpt(events_nl, file_path, model_engine=GPT_VERSION)
         else:
             print(f"Could not parse response for event: {event_nl}")
             results[event_clean] = {
-                "Duration": None,
-                "Duration_desc": None,
+                "Richness": None,
+                "Richness_desc": None,
                 "Frequency": None,
                 "Frequency_desc": None,
                 "Importance": None,
@@ -112,8 +112,8 @@ def get_all_event_properties_gpt(events_nl, file_path, model_engine=GPT_VERSION)
             }
 
         print(event_nl)
-        print(int(duration_match.group(1)))
-        print(DURATION_DESCRIPTIONS.get(int(duration_match.group(1))))
+        print(int(richness_match.group(1)))
+        print(RICHNESS_DESCRIPTIONS.get(int(richness_match.group(1))))
         print("")
     # # Save to JSON
     # with open(file_path, "w", encoding="utf-8") as f:
@@ -203,7 +203,7 @@ def predict_adverbial_functions(properties, minutes_ago, function_to_predict, *a
 
     model = load( f"{RESULTS_FILE_PATH}/{function_to_predict.__name__}.pkl")
     a, b, c, d = model["params"].values()
-    event_std = function_to_predict((properties["Duration"].values, properties["Frequency"].values, properties["Importance"].values), a, b, c, d)
+    event_std = function_to_predict((properties["Richness"].values, properties["Frequency"].values, properties["Importance"].values), a, b, c, d)
 
     adverbial_probs = {}
     for adverbial in VAGUE_ADVERBIALS:

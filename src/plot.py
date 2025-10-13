@@ -187,7 +187,7 @@ def plot_single_events(event_name, event_name_nl, predict_fn):
 
                 properties = pd.DataFrame([{
                     'Frequency': event_properties[event_name_nl.replace("Tom", "A friend").replace("You", "I")]["Frequency"],
-                    'Duration': event_properties[event_name_nl.replace("Tom", "A friend").replace("You", "I")]["Duration"],
+                    'Richness': event_properties[event_name_nl.replace("Tom", "A friend").replace("You", "I")]["Richness"],
                     'Importance': event_properties[event_name_nl.replace("Tom", "A friend").replace("You", "I")]["Importance"]
                 }])
                 prob_adverbial = predict_fn(properties, int(minutes_ago))

@@ -154,7 +154,7 @@ def run_survey_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn, even
 
             properties = pd.DataFrame([{
                 'Frequency': event_properties[event.replace("You", "I")]["Frequency"],
-                'Duration': event_properties[event.replace("You", "I")]["Duration"],
+                'Richness': event_properties[event.replace("You", "I")]["Richness"],
                 'Importance': event_properties[event.replace("You", "I")]["Importance"]
             }])
             fuzzy_prediction = predict_fn(properties, minutes_ago, function_to_use)

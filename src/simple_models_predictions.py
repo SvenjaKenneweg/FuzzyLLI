@@ -24,7 +24,7 @@ def predict_adverbial_classifier(event_nl, minutes_ago, event_properties=None, *
     if event_properties is not None and not event_properties.empty:
         values_dict = event_properties.iloc[0].to_dict()
         frequency = values_dict["Frequency"]
-        duration = values_dict["Duration"]
+        richness = values_dict["Richness"]
         importance = values_dict["Importance"]
     else:
         # Get the previously saved event properties
@@ -37,12 +37,12 @@ def predict_adverbial_classifier(event_nl, minutes_ago, event_properties=None, *
             with open(file_path, "r", encoding="utf-8") as fh:
                 properties = json.load(fh)
         frequency = properties[event_to_find]["Frequency"]
-        duration = properties[event_to_find]["Duration"]
+        richness = properties[event_to_find]["Richness"]
         importance = properties[event_to_find]["Importance"]
 
     x_input = pd.DataFrame(
-        [[frequency, duration, importance, np.log1p(minutes_ago)]],
-        columns=["frequency", "duration", "importance", "log_minutes_ago"])
+        [[frequency, richness, importance, np.log1p(minutes_ago)]],
+        columns=["frequency", "richness", "importance", "log_minutes_ago"])
 
     model = joblib.load(RESULTS_SIMPLE_FILE_PATH / GRADIENT_BOOSTING_FILE)
     le = joblib.load(RESULTS_SIMPLE_FILE_PATH / LABEL_ENCODER_FILE)
@@ -58,7 +58,7 @@ def predict_adverbial_regression(event_nl, minutes_ago, event_properties=None, *
     if event_properties is not None and not event_properties.empty:
         values_dict = event_properties.iloc[0].to_dict()
         frequency = values_dict["Frequency"]
-        duration = values_dict["Duration"]
+        richness = values_dict["Richness"]
         importance = values_dict["Importance"]
     else:
         # Get the previously saved event properties
@@ -71,7 +71,7 @@ def predict_adverbial_regression(event_nl, minutes_ago, event_properties=None, *
             with open(file_path, "r", encoding="utf-8") as fh:
                 properties = json.load(fh)
         frequency = properties[event_to_find]["Frequency"]
-        duration = properties[event_to_find]["Duration"]
+        richness = properties[event_to_find]["Richness"]
         importance = properties[event_to_find]["Importance"]
 
     rf_model = joblib.load(RESULTS_SIMPLE_FILE_PATH / XGB_REGRESSOR_FILE)
@@ -79,7 +79,7 @@ def predict_adverbial_regression(event_nl, minutes_ago, event_properties=None, *
 
     results = {}
     adverbial_cols = ohe.get_feature_names_out(['adverbial'])
-    numeric_cols = ["frequency", "duration", "importance", "minutes_ago"]
+    numeric_cols = ["frequency", "richness", "importance", "minutes_ago"]
 
     for adv in VAGUE_ADVERBIALS:
         # One-hot encode the adverbial
@@ -87,7 +87,7 @@ def predict_adverbial_regression(event_nl, minutes_ago, event_properties=None, *
         # Build DataFrame with numeric columns first, then onehot columns, exactly like during training
         input_df = pd.DataFrame(
             data=np.hstack([
-                [frequency, duration, importance, minutes_ago],
+                [frequency, richness, importance, minutes_ago],
                 adverbial_encoded.flatten()
             ]).reshape(1, -1),
             columns=numeric_cols + list(adverbial_cols)

@@ -25,7 +25,7 @@ def load_data(events, events_nl, classification = True) -> pd.DataFrame:
 
         event_to_search = event_nl.replace("Tom", "A friend").replace("You", "I")
         frequency = properties_list[event_to_search]["Frequency"]
-        duration = properties_list[event_to_search]["Duration"]
+        richness = properties_list[event_to_search]["Richness"]
         importance = properties_list[event_to_search]["Importance"]
 
         for adverbial, time_dict in adverbial_data.items():
@@ -38,7 +38,7 @@ def load_data(events, events_nl, classification = True) -> pd.DataFrame:
                     records.append({
                         "adverbial": adverbial,
                         "frequency": frequency,
-                        "duration": duration,
+                        "richness": richness,
                         "importance": importance,
                         "minutes_ago": minutes_ago
                     })
@@ -46,7 +46,7 @@ def load_data(events, events_nl, classification = True) -> pd.DataFrame:
                     records.append({
                         "adverbial": adverbial,
                         "frequency": frequency,
-                        "duration": duration,
+                        "richness": richness,
                         "importance": importance,
                         "minutes_ago": minutes_ago,
                         "vote": vote_median
@@ -61,7 +61,7 @@ def fit_classifier(events, events_nl, *args):
     df = load_data(events, events_nl, classification=False)
 
     df['log_minutes_ago'] = np.log1p(df['minutes_ago'])
-    X = df[["frequency", "duration", "importance", "log_minutes_ago"]]
+    X = df[["frequency", "richness", "importance", "log_minutes_ago"]]
     y = df["adverbial"]
 
     le = LabelEncoder()
@@ -86,7 +86,7 @@ def fit_regression(events, events_nl, *args):
     adverbial_cols = ohe.get_feature_names_out(['adverbial'])
     adverbial_df = pd.DataFrame(adverbial_encoded, columns=adverbial_cols, index=df.index)
 
-    features_df = pd.concat([df[["frequency", "duration", "importance", "minutes_ago"]], adverbial_df], axis=1)
+    features_df = pd.concat([df[["frequency", "richness", "importance", "minutes_ago"]], adverbial_df], axis=1)
     X = features_df
     y = df["vote"]
 

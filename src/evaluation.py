@@ -49,7 +49,7 @@ from src.config import (VAGUE_ADVERBIALS,
 # ---------------------------------------------------------------------------
 # Utility Functions
 # ---------------------------------------------------------------------------
-def adjust_duration_votes(votes: List[int]) -> List[int]:
+def adjust_richness_votes(votes: List[int]) -> List[int]:
     """Correct for late addition of 'Hours' in unseen_events options."""
     return [
         1 if v == 6 else (v + 1 if v != 0 else v)
@@ -114,7 +114,7 @@ def run_evaluation_and_save_pred(events, fit_models_fn, predict_fn, plot_not_fit
 
                 properties = pd.DataFrame([{
                     'Frequency': event_properties[events_nl[i].replace("Tom", "A friend")]["Frequency"],
-                    'Duration': event_properties[events_nl[i].replace("Tom", "A friend")]["Duration"],
+                    'Richness': event_properties[events_nl[i].replace("Tom", "A friend")]["Richness"],
                     'Importance': event_properties[events_nl[i].replace("Tom", "A friend")]["Importance"]
                 }])
                 predictions = predict_fn(properties, int(minutes_ago), function_to_use)

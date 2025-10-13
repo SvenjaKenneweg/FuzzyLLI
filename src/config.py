@@ -43,7 +43,7 @@ EVALUATION_SURVEY_REGRESSION = EVALUATION_SURVEY_FILE_PATH / 'regression.json'
 VAGUE_ADVERBIALS: List[str] = ["recently", "just", "some time ago", "long time ago"]
 
 # Define the description mappings for each dimension
-DURATION_DESCRIPTIONS = {
+RICHNESS_DESCRIPTIONS = {
     1: "Minimal detail (routine, automatic)",
     2: "Simple, few contextual cues",
     3: "Moderate richness (some distinct aspects)",
@@ -86,8 +86,8 @@ def inverse_event_specific_function(y, std):
     return math.sqrt(2) * std * erfinv(clipped_y)
 
 def powerlaw(vars, a, b, c, d):
-    Duration, Frequency, Importance = vars
-    return a * (Duration ** b) * (Frequency ** c) * (Importance ** d)
+    Richness, Frequency, Importance = vars
+    return a * (Richness ** b) * (Frequency ** c) * (Importance ** d)
 def exp_decay(vars, a, b, c, d):
-    Duration, Frequency, Importance = vars
-    return a * np.exp(b * Duration + c * Importance - d * Frequency)
+    Richness, Frequency, Importance = vars
+    return a * np.exp(b * Richness + c * Importance - d * Frequency)
