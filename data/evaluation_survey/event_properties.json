@@ -1,39 +1,39 @@
 {
     "I attended a meeting": {
-        "Duration": 2,
-        "Duration_desc": "Short (5 minutes to 1 Hour)",
+        "Duration": 3,
+        "Duration_desc": "Moderate richness (some distinct aspects)",
         "Frequency": 4,
         "Frequency_desc": "Frequent (Weekly)",
         "Importance": 2,
         "Importance_desc": "Slightly Important (Minor relevance or enjoyment)"
     },
     "I bought a house": {
-        "Duration": 3,
-        "Duration_desc": "Moderate (1-8 hours)",
+        "Duration": 4,
+        "Duration_desc": "Rich (many sensory/contextual elements)",
         "Frequency": 1,
         "Frequency_desc": "One-time (Once or extremely rare per life)",
         "Importance": 5,
         "Importance_desc": "Very Important (Life-defining or deeply personal)"
     },
     "I went camping": {
-        "Duration": 5,
-        "Duration_desc": "Extended (More than a day)",
+        "Duration": 3,
+        "Duration_desc": "Moderate richness (some distinct aspects)",
         "Frequency": 2,
         "Frequency_desc": "Rare (Once or a few times a year)",
         "Importance": 4,
         "Importance_desc": "Important (Emotionally or practically significant)"
     },
     "I went to a concert": {
-        "Duration": 3,
-        "Duration_desc": "Moderate (1-8 hours)",
+        "Duration": 5,
+        "Duration_desc": "Extremely rich (vivid, complex, multisensory)",
         "Frequency": 2,
         "Frequency_desc": "Rare (Once or a few times a year)",
         "Importance": 4,
         "Importance_desc": "Important (Emotionally or practically significant)"
     },
     "I ate breakfast": {
-        "Duration": 2,
-        "Duration_desc": "Short (5 minutes to 1 Hour)",
+        "Duration": 1,
+        "Duration_desc": "Minimal detail (routine, automatic)",
         "Frequency": 5,
         "Frequency_desc": "Very Frequent (Daily or more)",
         "Importance": 1,

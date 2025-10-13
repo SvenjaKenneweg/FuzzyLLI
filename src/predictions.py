@@ -47,8 +47,8 @@ def get_all_event_properties_gpt(events_nl, file_path, model_engine=GPT_VERSION)
     def format_scale(scale_dict):
         return "\n".join([f"{k} – {v}" for k, v in scale_dict.items()])
 
-    instruction = f"""You are an assistant that evaluates events based on three dimensions: duration, frequency, and importance.
-    - Duration → How long the event typically lasts.  
+    instruction = f"""You are an assistant that evaluates events based on three dimensions: richness, frequency, and importance.
+    - Richness → How vivid, detailed, and contextually rich the event is.  
       Scale: {format_scale(DURATION_DESCRIPTIONS)}
 
     - Frequency → How often the event typically occurs.  
@@ -60,9 +60,9 @@ def get_all_event_properties_gpt(events_nl, file_path, model_engine=GPT_VERSION)
     Instructions:
     - Read the event description carefully.
     - Determine whether the event was performed by the user or someone else.
-    - Use general human knowledge to estimate duration, frequency, and importance.
+    - Use general human knowledge to estimate richness, frequency, and importance.
     - Always respond in the following exact format:
-    Duration: <1–5>
+    Richness: <1–5>
     Frequency: <1–5>
     Importance: <1–5>
     """
@@ -82,7 +82,7 @@ def get_all_event_properties_gpt(events_nl, file_path, model_engine=GPT_VERSION)
         )
 
         content = completion.choices[0].message.content
-        duration_match = re.search(r"Duration:\s*(\d)", content)
+        duration_match = re.search(r"Richness:\s*(\d)", content)
         frequency_match = re.search(r"Frequency:\s*(\d)", content)
         importance_match = re.search(r"Importance:\s*(\d)", content)
 
@@ -111,9 +111,13 @@ def get_all_event_properties_gpt(events_nl, file_path, model_engine=GPT_VERSION)
                 "raw_response": content
             }
 
-    # Save to JSON
-    with open(file_path, "w", encoding="utf-8") as f:
-        json.dump(results, f, indent=4, ensure_ascii=False)
+        print(event_nl)
+        print(int(duration_match.group(1)))
+        print(DURATION_DESCRIPTIONS.get(int(duration_match.group(1))))
+        print("")
+    # # Save to JSON
+    # with open(file_path, "w", encoding="utf-8") as f:
+    #     json.dump(results, f, indent=4, ensure_ascii=False)
     return
 # ---------------------------------------------------------------------------
 # Public API

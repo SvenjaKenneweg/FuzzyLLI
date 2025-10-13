@@ -1,47 +1,47 @@
 {
     "A friend had his wedding celebration": {
         "Duration": 4,
-        "Duration_desc": "Long (8–24 hours)",
+        "Duration_desc": "Rich (many sensory/contextual elements)",
         "Frequency": 1,
         "Frequency_desc": "One-time (Once or extremely rare per life)",
         "Importance": 4,
         "Importance_desc": "Important (Emotionally or practically significant)"
     },
     "I spent a year abroad": {
-        "Duration": 5,
-        "Duration_desc": "Extended (More than a day)",
+        "Duration": 4,
+        "Duration_desc": "Rich (many sensory/contextual elements)",
         "Frequency": 1,
         "Frequency_desc": "One-time (Once or extremely rare per life)",
         "Importance": 5,
         "Importance_desc": "Very Important (Life-defining or deeply personal)"
     },
     "I had my birthday": {
-        "Duration": 4,
-        "Duration_desc": "Long (8–24 hours)",
+        "Duration": 3,
+        "Duration_desc": "Moderate richness (some distinct aspects)",
         "Frequency": 2,
         "Frequency_desc": "Rare (Once or a few times a year)",
         "Importance": 4,
         "Importance_desc": "Important (Emotionally or practically significant)"
     },
     "I went on vacation": {
-        "Duration": 5,
-        "Duration_desc": "Extended (More than a day)",
+        "Duration": 3,
+        "Duration_desc": "Moderate richness (some distinct aspects)",
         "Frequency": 2,
         "Frequency_desc": "Rare (Once or a few times a year)",
         "Importance": 4,
         "Importance_desc": "Important (Emotionally or practically significant)"
     },
     "I paid rent": {
-        "Duration": 2,
-        "Duration_desc": "Short (5 minutes to 1 Hour)",
+        "Duration": 1,
+        "Duration_desc": "Minimal detail (routine, automatic)",
         "Frequency": 3,
         "Frequency_desc": "Occasional (Monthly or semi-regular)",
         "Importance": 4,
         "Importance_desc": "Important (Emotionally or practically significant)"
     },
     "I took a shower": {
-        "Duration": 2,
-        "Duration_desc": "Short (5 minutes to 1 Hour)",
+        "Duration": 1,
+        "Duration_desc": "Minimal detail (routine, automatic)",
         "Frequency": 5,
         "Frequency_desc": "Very Frequent (Daily or more)",
         "Importance": 2,
@@ -49,7 +49,7 @@
     },
     "A friend watched a film": {
         "Duration": 2,
-        "Duration_desc": "Short (5 minutes to 1 Hour)",
+        "Duration_desc": "Simple, few contextual cues",
         "Frequency": 3,
         "Frequency_desc": "Occasional (Monthly or semi-regular)",
         "Importance": 1,
@@ -57,15 +57,15 @@
     },
     "A friend ate risotto": {
         "Duration": 2,
-        "Duration_desc": "Short (5 minutes to 1 Hour)",
+        "Duration_desc": "Simple, few contextual cues",
         "Frequency": 3,
         "Frequency_desc": "Occasional (Monthly or semi-regular)",
         "Importance": 1,
         "Importance_desc": "Not Important (Trivial or forgettable)"
     },
     "A friend read a book": {
-        "Duration": 3,
-        "Duration_desc": "Moderate (1-8 hours)",
+        "Duration": 1,
+        "Duration_desc": "Minimal detail (routine, automatic)",
         "Frequency": 3,
         "Frequency_desc": "Occasional (Monthly or semi-regular)",
         "Importance": 1,
@@ -73,7 +73,7 @@
     },
     "A friend danced salsa": {
         "Duration": 2,
-        "Duration_desc": "Short (5 minutes to 1 Hour)",
+        "Duration_desc": "Simple, few contextual cues",
         "Frequency": 3,
         "Frequency_desc": "Occasional (Monthly or semi-regular)",
         "Importance": 1,
@@ -81,7 +81,7 @@
     },
     "A friend stored a wine bottle": {
         "Duration": 1,
-        "Duration_desc": "Very Short (Seconds to 5 minutes)",
+        "Duration_desc": "Minimal detail (routine, automatic)",
         "Frequency": 3,
         "Frequency_desc": "Occasional (Monthly or semi-regular)",
         "Importance": 1,
@@ -89,7 +89,7 @@
     },
     "A friend drank juice": {
         "Duration": 1,
-        "Duration_desc": "Very Short (Seconds to 5 minutes)",
+        "Duration_desc": "Minimal detail (routine, automatic)",
         "Frequency": 5,
         "Frequency_desc": "Very Frequent (Daily or more)",
         "Importance": 1,
@@ -97,23 +97,23 @@
     },
     "A friend chatted with a friend": {
         "Duration": 2,
-        "Duration_desc": "Short (5 minutes to 1 Hour)",
+        "Duration_desc": "Simple, few contextual cues",
         "Frequency": 4,
         "Frequency_desc": "Frequent (Weekly)",
         "Importance": 2,
         "Importance_desc": "Slightly Important (Minor relevance or enjoyment)"
     },
     "I had my wedding celebration": {
-        "Duration": 4,
-        "Duration_desc": "Long (8–24 hours)",
+        "Duration": 5,
+        "Duration_desc": "Extremely rich (vivid, complex, multisensory)",
         "Frequency": 1,
         "Frequency_desc": "One-time (Once or extremely rare per life)",
         "Importance": 5,
         "Importance_desc": "Very Important (Life-defining or deeply personal)"
     },
     "I had my wallet stolen": {
-        "Duration": 1,
-        "Duration_desc": "Very Short (Seconds to 5 minutes)",
+        "Duration": 3,
+        "Duration_desc": "Moderate richness (some distinct aspects)",
         "Frequency": 1,
         "Frequency_desc": "One-time (Once or extremely rare per life)",
         "Importance": 4,

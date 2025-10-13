@@ -44,12 +44,13 @@ VAGUE_ADVERBIALS: List[str] = ["recently", "just", "some time ago", "long time a
 
 # Define the description mappings for each dimension
 DURATION_DESCRIPTIONS = {
-    1: "Very Short (Seconds to 5 minutes)",
-    2: "Short (5 minutes to 1 Hour)",
-    3: "Moderate (1-8 hours)",
-    4: "Long (8–24 hours)",
-    5: "Extended (More than a day)"
+    1: "Minimal detail (routine, automatic)",
+    2: "Simple, few contextual cues",
+    3: "Moderate richness (some distinct aspects)",
+    4: "Rich (many sensory/contextual elements)",
+    5: "Extremely rich (vivid, complex, multisensory)"
 }
+
 FREQUENCY_DESCRIPTIONS = {
     1: "One-time (Once or extremely rare per life)",
     2: "Rare (Once or a few times a year)",

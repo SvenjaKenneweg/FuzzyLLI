@@ -27,21 +27,21 @@ def train_models(events, events_nl):
     """
     Train various models for event adverbials, embeddings, and random forests.
     """
-    # print("\nGet the event properties using GPT")
-    # get_all_event_properties_gpt(events_nl, DATA_DIR / "event_properties.json")
-    # events_nl_survey = ["You attended a meeting", "You bought a house", "You went camping", "You went to a concert", "You ate breakfast"]
-    # get_all_event_properties_gpt(events_nl_survey, DATA_EVALUATION_SURVEY_PATH / "event_properties.json")
+    print("\nGet the event properties using GPT")
+    get_all_event_properties_gpt(events_nl, DATA_DIR / "event_properties.json")
+    events_nl_survey = ["You attended a meeting", "You bought a house", "You went camping", "You went to a concert", "You ate breakfast"]
+    get_all_event_properties_gpt(events_nl_survey, DATA_EVALUATION_SURVEY_PATH / "event_properties.json")
 
-    print("\nTraining Event Adverbials, Embeddings, and Random Forest...")
-    fit_event_adverbials(events)
-    fit_event_specific_embeddings(events, events_nl)
-    fit_event_specific_random_forest(events, events_nl)
-    fit_event_specific_functions(events, events_nl,powerlaw)
-    fit_event_specific_functions(events, events_nl, exp_decay)
-
-    print("\nTraining Simple Models (Classifier, Regression)...")
-    fit_classifier(events, events_nl)
-    fit_regression(events, events_nl)
+    # print("\nTraining Event Adverbials, Embeddings, and Random Forest...")
+    # fit_event_adverbials(events)
+    # fit_event_specific_embeddings(events, events_nl)
+    # fit_event_specific_random_forest(events, events_nl)
+    # fit_event_specific_functions(events, events_nl,powerlaw)
+    # fit_event_specific_functions(events, events_nl, exp_decay)
+    #
+    # print("\nTraining Simple Models (Classifier, Regression)...")
+    # fit_classifier(events, events_nl)
+    # fit_regression(events, events_nl)
 
 
 def make_predictions(event_nl, event_properties, adverbial, minutes_ago):
@@ -66,19 +66,19 @@ def evaluate_models_seen_events(events, events_nl, generate_new_predictions=Fals
     Evaluate the models by comparing the predicted labels on seen events
     """
     if generate_new_predictions:
-        # print("\nEvaluation Embeddings + Regressor:")
-        # get_predictions_embedding(events, events_nl)
-        #
-        # print("\nEvaluation Random Forest:")
-        # get_predictions_random_forest(events, events_nl)
+        print("\nEvaluation Embeddings + Regressor:")
+        get_predictions_embedding(events, events_nl)
 
-        print("\nEvaluation Power Law and Exponentail Decay:")
+        print("\nEvaluation Random Forest:")
+        get_predictions_random_forest(events, events_nl)
+
+        print("\nEvaluation Power Law and Exponential Decay:")
         get_predictions_functions(events, events_nl, function_to_use=powerlaw)
         get_predictions_functions(events, events_nl, function_to_use=exp_decay)
 
-        # print("\nEvaluation Baseline Models (Classifier, Regression):")
-        # get_predictions_classifier(events, events_nl)
-        # get_predictions_regression(events, events_nl)
+        print("\nEvaluation Baseline Models (Classifier, Regression):")
+        get_predictions_classifier(events, events_nl)
+        get_predictions_regression(events, events_nl)
 
         # print("\n Evaluating GPT:")
         # evaluate_gpt(events, events_nl)
@@ -158,7 +158,7 @@ def main():
     # Run the steps sequentially
     # train_models(events, events_nl) # Trains FuzzyLLI in all variants and the baseline models
     # make_predictions(event_nl, event_properties, adverbial, minutes_ago) #Predicts minutes ago or the event and the best fitting adverbials
-    # evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
+    evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
     evaluate_survey(events, events_nl, generate_new_predictions=True)
     # plot_results(events, events_nl) # Plots FuzzyLLI
 
