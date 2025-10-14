@@ -103,16 +103,19 @@ def plot_all_persons_event_adverbials(
     colours = plt.rcParams["axes.prop_cycle"].by_key()["color"]
     colour_cycle = iter(colours)
 
-    # Overlay each user‑requested event
-    for ev in events_to_plot:
-        params = packed["event_params"].get(ev)
-        if params is None:
-            continue  # skip events without fits
+    sorted_events = sorted(
+        [ev for ev in events_to_plot if packed["event_params"].get(ev) is not None],
+        key=lambda ev: packed["event_params"][ev][0]  # assuming σₑ = first param
+    )
+    # Overlay each user‑requested event in sorted order
+    for ev in sorted_events:
+        params = packed["event_params"][ev]
         y_ev = event_specific_function(x1, *params)
         ax_left.plot(
             x1,
             y_ev,
-            label=f"{ev.replace('_', ' ').title()}\n$\\sigma_e={', '.join(f'{p:.0f}' for p in params)}$",
+            label=f"{ev.replace('_', ' ').title()}",
+            # label=f"{ev.replace('_', ' ').title()}\n$\\sigma_e={', '.join(f'{p:.0f}' for p in params)}$",
             color=next(colour_cycle, None),
         )
 
@@ -138,14 +141,15 @@ def plot_all_persons_event_adverbials(
         ax_right.plot(
             y_norm,
             x_norm,
-            label=f"{adv.title()}\n$\\mu_e={mu:.2f}$, $\\sigma_a={sigma:.2f}$",
+            # label=f"{adv.title()}\n$\\mu_e={mu:.2f}$, $\\sigma_a={sigma:.2f}$",
+            label=f"{adv.title()}",
             color=colours[i % len(colours)],
         )
 
     ax_right.set(
         ylim=Y_LIMS,
-        xlabel="Probability of adverbial",
-        ylabel="Beforeness of event",
+        xlabel="Fuzzy Membership Value of Adverbial",
+        ylabel="Beforeness of Event",
         title="Adverbial specific functions $P_{Adv}$",
     )
     ax_right.grid(True)
