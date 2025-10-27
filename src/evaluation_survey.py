@@ -5,13 +5,7 @@ import pandas as pd
 from scipy.stats import spearmanr, kendalltau, rankdata
 from collections import defaultdict
 
-from src.config import (
-    DATA_EVALUATION_SURVEY_PATH, GPT_VERSION,
-    EVALUATION_SURVEY_RANDOM_FOREST,
-    GPT4_SURVEY_PROMPT_FILE, GPT5_SURVEY_PROMPT_FILE,
-    EVALUATION_SURVEY_FUNCTIONS_FILE,
-    EVALUATION_SURVEY_EMBEDDINGS, VAGUE_ADVERBIALS,
-    EVALUATION_SURVEY_REGRESSION, EVALUATION_SURVEY_CLASSIFIER)
+import src.config as config
 
 from src.train import (
     fit_event_adverbials,
@@ -69,7 +63,7 @@ def time_ago_to_minutes(time_str):
 def get_percentages():
     event_time_answer_counts = defaultdict(lambda: defaultdict(int))
     attention_check_questions = defaultdict(lambda: defaultdict(int))
-    votes_path = os.path.join(DATA_EVALUATION_SURVEY_PATH, "votes")
+    votes_path = os.path.join(config.DATA_EVALUATION_SURVEY_PATH, "votes")
     for filename in os.listdir(votes_path):
         if filename.endswith('.json'):
             file_path = os.path.join(votes_path, filename)
@@ -149,7 +143,7 @@ def run_survey_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn, even
 
     for (event, minutes_ago), answers in survey_data.items():
         if predict_fn in requires_properties:
-            with open(f"{DATA_EVALUATION_SURVEY_PATH}/event_properties.json", "r", encoding="utf-8") as fh:
+            with open(f"{config.DATA_EVALUATION_SURVEY_PATH}/event_properties.json", "r", encoding="utf-8") as fh:
                 event_properties = json.load(fh)
 
             properties = pd.DataFrame([{
@@ -162,7 +156,7 @@ def run_survey_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn, even
             fuzzy_prediction = predict_fn(event, minutes_ago, function_to_use)
         # Normalize ground truth to probabilities
         ground_truth = {k: v / sum(answers.values()) for k, v in answers.items()}
-        for adv in VAGUE_ADVERBIALS:
+        for adv in config.VAGUE_ADVERBIALS:
             if adv not in ground_truth:
                 ground_truth[adv] = 0.0
 
@@ -179,7 +173,7 @@ def evaluate_survey_random_forest(events_to_fit, events_to_fit_nl):
     output = {
         "raw": raw_results
     }
-    with open(EVALUATION_SURVEY_RANDOM_FOREST, "w") as f:
+    with open(config.EVALUATION_SURVEY_RANDOM_FOREST, "w") as f:
         json.dump(output, f, indent=4)
     return
 
@@ -189,7 +183,7 @@ def evaluate_survey_functions(events_to_fit, events_to_fit_nl, function_to_use):
     output = {
         "raw": raw_results
     }
-    with open(f"{EVALUATION_SURVEY_FUNCTIONS_FILE}{function_to_use.__name__}.json", "w") as f:
+    with open(f"{config.EVALUATION_SURVEY_FUNCTIONS_FILE}{function_to_use.__name__}.json", "w") as f:
         json.dump(output, f, indent=4)
     return
 
@@ -198,7 +192,7 @@ def evaluate_survey_embedding(events_to_fit, events_to_fit_nl):
     output = {
         "raw": raw_results,
     }
-    with open(EVALUATION_SURVEY_EMBEDDINGS, "w") as f:
+    with open(config.EVALUATION_SURVEY_EMBEDDINGS, "w") as f:
         json.dump(output, f, indent=4)
     return
 
@@ -207,7 +201,7 @@ def evaluate_survey_classifier(events_to_fit, events_to_fit_nl):
     output = {
         "raw": raw_results
     }
-    with open(EVALUATION_SURVEY_CLASSIFIER, "w") as f:
+    with open(config.EVALUATION_SURVEY_CLASSIFIER, "w") as f:
         json.dump(output, f, indent=4)
     return
 
@@ -216,7 +210,7 @@ def evaluate_survey_regression(events_to_fit, events_to_fit_nl):
     output = {
         "raw": raw_results
     }
-    with open(EVALUATION_SURVEY_REGRESSION, "w") as f:
+    with open(config.EVALUATION_SURVEY_REGRESSION, "w") as f:
         json.dump(output, f, indent=4)
     return
 
@@ -227,7 +221,7 @@ def evaluate_survey_gpt():
 
     for (event, minutes_ago), answers in survey_data.items():
         ground_truth = {k: v / sum(answers.values()) for k, v in answers.items()}
-        for adv in VAGUE_ADVERBIALS:
+        for adv in config.VAGUE_ADVERBIALS:
             if adv not in ground_truth:
                 ground_truth[adv] = 0.0
 
@@ -243,12 +237,12 @@ def evaluate_survey_gpt():
     json_drop = {
         "raw": predictions_data,
         "Instruction": instruction,
-        "GPT-Version": GPT_VERSION
+        "GPT-Version": config.GPT_VERSION
     }
-    if "gpt-4" in GPT_VERSION:
-        save_file = GPT4_SURVEY_PROMPT_FILE
+    if "gpt-4" in config.GPT_VERSION:
+        save_file = config.GPT4_SURVEY_PROMPT_FILE
     else:
-        save_file = GPT5_SURVEY_PROMPT_FILE
+        save_file = config.GPT5_SURVEY_PROMPT_FILE
     with open(save_file, "w") as f:
         json.dump(json_drop, f, indent=4)
     return

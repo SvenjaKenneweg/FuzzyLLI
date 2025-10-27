@@ -66,6 +66,8 @@ IMPORTANCE_DESCRIPTIONS = {
     5: "Very Important (Life-defining or deeply personal)"
 }
 
+properties_to_use = ["Frequency", "Richness", "Importance"]
+
 # ========================
 # Fitting Functions
 # ========================
@@ -85,9 +87,20 @@ def inverse_event_specific_function(y, std):
     clipped_y = max(-1, min(1, 2 * y - 1))
     return math.sqrt(2) * std * erfinv(clipped_y)
 
-def powerlaw(vars, a, b, c, d):
-    Richness, Frequency, Importance = vars
-    return a * (Richness ** b) * (Frequency ** c) * (Importance ** d)
+# def powerlaw(vars, a, b, c, d):
+#     Richness, Frequency, Importance = vars
+#     return a * (Richness ** b) * (Frequency ** c) * (Importance ** d)
+def powerlaw(vars, *params):
+    # First parameter is the scaling factor 'a'
+    a = params[0]
+    exponents = params[1:]
+
+    # Multiply all (variable ** corresponding exponent)
+    result = a
+    for var, exp in zip(vars, exponents):
+        result *= (var ** exp)
+    return result
+
 def exp_decay(vars, a, b, c, d):
     Richness, Frequency, Importance = vars
     return a * np.exp(b * Richness + c * Importance - d * Frequency)

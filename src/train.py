@@ -15,8 +15,8 @@ from sklearn.linear_model import Ridge
 from sklearn.ensemble import RandomForestRegressor
 from sentence_transformers import SentenceTransformer
 
-from src.config import RESULTS_FILE_PATH, DATA_DIR, event_specific_function, adverbial_specific_function, powerlaw, exp_decay
-
+from src.config import event_specific_function, adverbial_specific_function
+import src.config as config
 
 # ========================
 # Parameters for the fitting
@@ -124,7 +124,7 @@ def optimize_leastSquares(
 # Persistence helpers
 # ---------------------------------------------------------------------------
 
-def _load_packed(path: Path = RESULTS_FILE_PATH / "event_adverbials") -> Dict[str, dict]:
+def _load_packed(path: Path = config.RESULTS_FILE_PATH / "event_adverbials") -> Dict[str, dict]:
     path = path.with_suffix('.json')
     with path.open("r", encoding="utf-8") as fh:
         return json.load(fh)
@@ -198,7 +198,7 @@ def fit_event_adverbials(events_to_fit_naming: List[str]) -> dict:
         return
 
     for event_name in events_to_fit_naming:
-        file_path = f"{DATA_DIR}/{event_name}/cleanedData_minutes.json"
+        file_path = f"{config.DATA_DIR}/{event_name}/cleanedData_minutes.json"
         with open(file_path, "r", encoding="utf-8") as fh:
             values_vagueAdverbial = json.load(fh)
 
@@ -230,7 +230,7 @@ def fit_event_adverbials(events_to_fit_naming: List[str]) -> dict:
 
     # Persist results (both raw & labelled)
     save_optimized_params(
-        RESULTS_FILE_PATH/"event_adverbials",
+        config.RESULTS_FILE_PATH/"event_adverbials",
         optimized,
         events_to_fit_naming,
         event_specific_function,
@@ -259,7 +259,7 @@ def fit_event_specific_embeddings(events_to_fit, events_to_fit_nl, *args):
 
     ridge = Ridge(alpha=1.0)
     ridge.fit(X, y_log)
-    joblib.dump(ridge, RESULTS_FILE_PATH / 'event_embeddings_ridge.pkl')
+    joblib.dump(ridge, config.RESULTS_FILE_PATH / 'event_embeddings_ridge.pkl')
     return ridge
 
 
@@ -272,7 +272,7 @@ def fit_event_specific_random_forest(events_to_fit, events_to_fit_nl, *args):
         values.append(packed["event_params"][event])
     y = np.array(np.concatenate(values))
 
-    with open(f"{DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
+    with open(f"{config.DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
         event_properties = json.load(fh)
     for event in events_to_fit_nl:
         properties.append({
@@ -284,7 +284,7 @@ def fit_event_specific_random_forest(events_to_fit, events_to_fit_nl, *args):
 
     model = RandomForestRegressor(n_estimators=8, max_depth=5, random_state=42)
     model.fit(X, y)
-    joblib.dump(model, RESULTS_FILE_PATH / 'event_random_forest.pkl')
+    joblib.dump(model, config.RESULTS_FILE_PATH / 'event_random_forest.pkl')
 
 
 def fit_event_specific_functions(events_to_fit, events_to_fit_nl, function_to_fit, *args):
@@ -296,15 +296,21 @@ def fit_event_specific_functions(events_to_fit, events_to_fit_nl, function_to_fi
         values.append(packed["event_params"][event])
     y = np.array(np.concatenate(values))
 
-    with open(f"{DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
+    with open(f"{config.DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
         event_properties = json.load(fh)
     for event in events_to_fit_nl:
-        properties.append({
-            'Frequency': event_properties[event.replace("Tom", "A friend")]["Frequency"],
-            'Richness': event_properties[event.replace("Tom", "A friend")]["Richness"],
-            'Importance': event_properties[event.replace("Tom", "A friend")]["Importance"]
-        })
-    X = pd.DataFrame(properties)
+        prop_dict = event_properties[event.replace("Tom", "A friend")]
+        properties.append({prop: prop_dict[prop] for prop in config.properties_to_use})
 
-    p, _ = curve_fit(function_to_fit, (X.Richness, X.Frequency, X.Importance), y, p0=[1000, 1, -1, 1], maxfev=20000)
-    joblib.dump({"params": dict(zip("abcd", p))}, f"{RESULTS_FILE_PATH}/{function_to_fit.__name__}.pkl")
+    X = pd.DataFrame(properties)
+    X_tuple = tuple(X[prop].values for prop in config.properties_to_use)
+
+    # Fit curve with initial guess depending on number of parameters
+    p0 = [1.0] * (len(config.properties_to_use) + 1)  # one extra param for intercept
+    p0[0] = 1000
+    p, _ = curve_fit(function_to_fit, X_tuple, y, p0=p0, maxfev=20000)
+
+    # Save parameters with generic labels
+    param_labels = "abcdefghijklmnopqrstuvwxyz"[:len(p)]
+    joblib.dump({"params": dict(zip(param_labels, p))},
+                f"{config.RESULTS_FILE_PATH}/{function_to_fit.__name__}.pkl")

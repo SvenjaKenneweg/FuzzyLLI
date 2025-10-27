@@ -12,18 +12,7 @@ from collections import Counter
 import pandas as pd
 from sentence_transformers import SentenceTransformer
 
-from src.config import (event_specific_function,
-                        inverse_event_specific_function,
-                        adverbial_specific_function,
-                        gauss_inverse,
-                        powerlaw, exp_decay,
-                        GPT_VERSION,
-                        RESULTS_FILE_PATH,
-                        VAGUE_ADVERBIALS,
-                        EMBEDDING_RIDGE_FILE,
-                        RANDOM_FOREST_FILE,
-                        EMBEDDING_MODEL,
-                        RICHNESS_DESCRIPTIONS, FREQUENCY_DESCRIPTIONS, IMPORTANCE_DESCRIPTIONS, powerlaw)
+import src.config as config
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -35,7 +24,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # Persistence helpers
 # ---------------------------------------------------------------------------
 
-def _load_packed(path: Path = RESULTS_FILE_PATH / "event_adverbials") -> Dict[str, dict]:
+def _load_packed(path: Path = config.RESULTS_FILE_PATH / "event_adverbials") -> Dict[str, dict]:
     path = path.with_suffix('.json')
     with path.open("r", encoding="utf-8") as fh:
         return json.load(fh)
@@ -43,19 +32,19 @@ def _load_packed(path: Path = RESULTS_FILE_PATH / "event_adverbials") -> Dict[st
 def _safe_round(value):
     return round(value) if math.isfinite(value) else value
 
-def get_all_event_properties_gpt(events_nl, file_path, model_engine=GPT_VERSION):
+def get_all_event_properties_gpt(events_nl, file_path, model_engine=config.GPT_VERSION):
     def format_scale(scale_dict):
         return "\n".join([f"{k} – {v}" for k, v in scale_dict.items()])
 
     instruction = f"""You are an assistant that evaluates events based on three dimensions: richness, frequency, and importance.
     - Richness → How vivid, detailed, and contextually rich the event is.  
-      Scale: {format_scale(RICHNESS_DESCRIPTIONS)}
+      Scale: {format_scale(config.RICHNESS_DESCRIPTIONS)}
 
     - Frequency → How often the event typically occurs.  
-      Scale: {format_scale(FREQUENCY_DESCRIPTIONS)}
+      Scale: {format_scale(config.FREQUENCY_DESCRIPTIONS)}
 
     - Importance → How important or meaningful the event is to the individual.  
-      Scale: {format_scale(IMPORTANCE_DESCRIPTIONS)}
+      Scale: {format_scale(config.IMPORTANCE_DESCRIPTIONS)}
 
     Instructions:
     - Read the event description carefully.
@@ -93,11 +82,11 @@ def get_all_event_properties_gpt(events_nl, file_path, model_engine=GPT_VERSION)
 
             results[event_clean] = {
                 "Richness": richness,
-                "Richness_desc": RICHNESS_DESCRIPTIONS.get(richness),
+                "Richness_desc": config.RICHNESS_DESCRIPTIONS.get(richness),
                 "Frequency": frequency,
-                "Frequency_desc": FREQUENCY_DESCRIPTIONS.get(frequency),
+                "Frequency_desc": config.FREQUENCY_DESCRIPTIONS.get(frequency),
                 "Importance": importance,
-                "Importance_desc": IMPORTANCE_DESCRIPTIONS.get(importance)
+                "Importance_desc": config.IMPORTANCE_DESCRIPTIONS.get(importance)
             }
         else:
             print(f"Could not parse response for event: {event_nl}")
@@ -113,7 +102,7 @@ def get_all_event_properties_gpt(events_nl, file_path, model_engine=GPT_VERSION)
 
         print(event_nl)
         print(int(richness_match.group(1)))
-        print(RICHNESS_DESCRIPTIONS.get(int(richness_match.group(1))))
+        print(config.RICHNESS_DESCRIPTIONS.get(int(richness_match.group(1))))
         print("")
     # # Save to JSON
     # with open(file_path, "w", encoding="utf-8") as f:
@@ -128,15 +117,15 @@ def predict_time_frame_embedding(event, adverbial, min_prob=0.6, max_prob=1.0):
     adverbial_mean = params["adverbial_means"][adverbial]
     adverbial_std = params["adverbial_stds"][adverbial]
 
-    embedding_model = SentenceTransformer(EMBEDDING_MODEL)
-    ridge_model = load(RESULTS_FILE_PATH / EMBEDDING_RIDGE_FILE)
+    config.EMBEDDING_MODEL = SentenceTransformer(config.EMBEDDING_MODEL)
+    ridge_model = load(config.RESULTS_FILE_PATH / config.EMBEDDING_RIDGE_FILE)
 
-    vecc = embedding_model.encode(event)
+    vecc = config.EMBEDDING_MODEL.encode(event)
     log_pred = ridge_model.predict(vecc.reshape(1, -1))[0]
     event_std = int(max(0, np.expm1(log_pred)))
 
-    upper_raw = inverse_event_specific_function(gauss_inverse(max_prob, adverbial_mean, adverbial_std), event_std)
-    lower_raw = inverse_event_specific_function(gauss_inverse(min_prob, adverbial_mean, adverbial_std), event_std)
+    upper_raw = config.inverse_event_specific_function(config.gauss_inverse(max_prob, adverbial_mean, adverbial_std), event_std)
+    lower_raw = config.inverse_event_specific_function(config.gauss_inverse(min_prob, adverbial_mean, adverbial_std), event_std)
 
     upper = max(0, _safe_round(upper_raw))
     lower = _safe_round(lower_raw)
@@ -147,19 +136,19 @@ def predict_time_frame_embedding(event, adverbial, min_prob=0.6, max_prob=1.0):
 def predict_adverbial_embedding(event_nl, minutes_ago, *args):
     params = _load_packed()
     os.environ["TOKENIZERS_PARALLELISM"] = "false" # to avoid warning
-    embedding_model = SentenceTransformer(EMBEDDING_MODEL)
-    ridge_model = load(RESULTS_FILE_PATH / EMBEDDING_RIDGE_FILE)
+    config.EMBEDDING_MODEL = SentenceTransformer(config.EMBEDDING_MODEL)
+    ridge_model = load(config.RESULTS_FILE_PATH / config.EMBEDDING_RIDGE_FILE)
 
-    vecc = embedding_model.encode(event_nl)
+    vecc = config.EMBEDDING_MODEL.encode(event_nl)
     log_pred = ridge_model.predict(vecc.reshape(1, -1))[0]
     event_std = int(max(0, np.expm1(log_pred)))
 
     adverbial_probs = {}
-    for adverbial in VAGUE_ADVERBIALS:
+    for adverbial in config.VAGUE_ADVERBIALS:
         adverbial_mean = params["adverbial_means"][adverbial]
         adverbial_std = params["adverbial_stds"][adverbial]
 
-        prob_adverbial = adverbial_specific_function(event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
+        prob_adverbial = config.adverbial_specific_function(config.event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
         adverbial_probs[adverbial] = prob_adverbial
 
     return adverbial_probs
@@ -169,11 +158,11 @@ def predict_time_frame_random_forest(properties, adverbial, min_prob=0.6, max_pr
     adverbial_mean = params["adverbial_means"][adverbial]
     adverbial_std = params["adverbial_stds"][adverbial]
 
-    random_forest = load(RESULTS_FILE_PATH / RANDOM_FOREST_FILE)
+    random_forest = load(config.RESULTS_FILE_PATH / config.RANDOM_FOREST_FILE)
     event_std = random_forest.predict(properties)[0]
 
-    upper_raw = inverse_event_specific_function(gauss_inverse(max_prob, adverbial_mean, adverbial_std), event_std)
-    lower_raw = inverse_event_specific_function(gauss_inverse(min_prob, adverbial_mean, adverbial_std), event_std)
+    upper_raw = config.inverse_event_specific_function(config.gauss_inverse(max_prob, adverbial_mean, adverbial_std), event_std)
+    lower_raw = config.inverse_event_specific_function(config.gauss_inverse(min_prob, adverbial_mean, adverbial_std), event_std)
 
     upper = max(0, _safe_round(upper_raw))
     lower = _safe_round(lower_raw)
@@ -184,15 +173,15 @@ def predict_time_frame_random_forest(properties, adverbial, min_prob=0.6, max_pr
 def predict_adverbial_random_forest(properties, minutes_ago, *args):
     params = _load_packed()
 
-    random_forest = load(RESULTS_FILE_PATH / RANDOM_FOREST_FILE)
+    random_forest = load(config.RESULTS_FILE_PATH / config.RANDOM_FOREST_FILE)
     event_std = random_forest.predict(properties)[0]
 
     adverbial_probs = {}
-    for adverbial in VAGUE_ADVERBIALS:
+    for adverbial in config.VAGUE_ADVERBIALS:
         adverbial_mean = params["adverbial_means"][adverbial]
         adverbial_std = params["adverbial_stds"][adverbial]
 
-        prob_adverbial = adverbial_specific_function(event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
+        prob_adverbial = config.adverbial_specific_function(config.event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
         adverbial_probs[adverbial] = prob_adverbial
 
     return adverbial_probs
@@ -201,16 +190,17 @@ def predict_adverbial_random_forest(properties, minutes_ago, *args):
 def predict_adverbial_functions(properties, minutes_ago, function_to_predict, *args):
     params = _load_packed()
 
-    model = load( f"{RESULTS_FILE_PATH}/{function_to_predict.__name__}.pkl")
-    a, b, c, d = model["params"].values()
-    event_std = function_to_predict((properties["Richness"].values, properties["Frequency"].values, properties["Importance"].values), a, b, c, d)
+    model = load( f"{config.RESULTS_FILE_PATH}/{function_to_predict.__name__}.pkl")
+    function_params = list(model["params"].values())
+    property_values = [properties[prop].values for prop in properties.keys()]
+    event_std = function_to_predict(property_values, *function_params)
 
     adverbial_probs = {}
-    for adverbial in VAGUE_ADVERBIALS:
+    for adverbial in config.VAGUE_ADVERBIALS:
         adverbial_mean = params["adverbial_means"][adverbial]
         adverbial_std = params["adverbial_stds"][adverbial]
 
-        prob_adverbial = adverbial_specific_function(event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
+        prob_adverbial = config.adverbial_specific_function(config.event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
         adverbial_probs[adverbial] = prob_adverbial[0]
     return adverbial_probs
 

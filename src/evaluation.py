@@ -37,13 +37,8 @@ from src.simple_models_predictions import (
     predict_adverbial_classifier,
     predict_adverbial_regression
 )
-from src.config import (VAGUE_ADVERBIALS,
-                        DATA_DIR,
-                        GPT_VERSION,
-                        EVALUATION_FILE_PATH,
-                        GPT4_PROMPT_FILE, GPT5_PROMPT_FILE, EVALUATION_EMBEDDING_FILE,
-                        EVALUATION_REGRESSION_FILE, EVALUATION_CLASSIFIER_FILE,
-                        EVALUATION_RANDOM_FOREST_FILE, powerlaw, exp_decay, EVALUATION_FUNCTIONS_FILE)
+
+import src.config as config
 
 
 # ---------------------------------------------------------------------------
@@ -57,7 +52,7 @@ def adjust_richness_votes(votes: List[int]) -> List[int]:
     ]
 
 def get_cleaned_data(event: str):
-    with open(DATA_DIR / event / "cleanedData_minutes.json", "r", encoding="utf-8") as f:
+    with open(config.DATA_DIR / event / "cleanedData_minutes.json", "r", encoding="utf-8") as f:
         return json.load(f)
 
 def calculate_error(predicted: float, true: float) -> float:
@@ -89,7 +84,7 @@ def run_evaluation_and_save_pred(events, fit_models_fn, predict_fn, plot_not_fit
 
         # --- Step 1: Gather all possible numeric keys ---
         overall_targets = {adv: {k: float(np.median(v)) for k, v in cleaned_data[adv].items()} for adv in
-                           VAGUE_ADVERBIALS}
+                           config.VAGUE_ADVERBIALS}
         all_keys = sorted({int(k) for adv in overall_targets.values() for k in adv.keys()})
 
         # --- Step 2: Function to get value for a given key, using nearest if missing ---
@@ -109,7 +104,7 @@ def run_evaluation_and_save_pred(events, fit_models_fn, predict_fn, plot_not_fit
         # --- Collect predictions vs truth for metrics ---
         for minutes_ago, adverbial_values in gt_adverbials.items():
             if predict_fn in requires_properties:
-                with open(f"{DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
+                with open(f"{config.DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
                     event_properties = json.load(fh)
 
                 properties = pd.DataFrame([{
@@ -189,7 +184,10 @@ def calculate_metrics(file_path):
 
     # Loop through all .json files containing the predictions
     for json_file in file_path.glob("*.json"):
-        print(f"\nFile: {json_file.name}")
+        # print(f"\nFile: {json_file.name}")
+        if json_file.name != "functions_powerlaw.json":
+            continue
+        print(config.properties_to_use)
         with open(json_file, "r", encoding="utf-8") as f:
             data = json.load(f)["raw"]
 
@@ -225,11 +223,11 @@ def calculate_metrics(file_path):
             acc1, p1, r1 = top1_on_ranks(rank_pred, rank_gt)
 
             results.append({
-                "KendallTauB": float(tau) if not math.isnan(tau) else 0.0,
-                "NDCG": float(ndcg),
-                "Top1_Accuracy": acc1,
-                "Top1_Precision": p1,
-                "Top1_Recall": r1,
+                "KendallTauB": round(float(tau), 3) if not math.isnan(tau) else 0.0,
+                "NDCG": round(float(ndcg), 3),
+                "Top1_Accuracy": round(acc1, 3),
+                "Top1_Precision": round(p1, 3),
+                "Top1_Recall": round(r1, 3),
             })
 
         df = pd.DataFrame(results)
@@ -256,7 +254,7 @@ def gpt_chat_answer(model_engine, instructions, prompt):
     return completion.choices[0].message.content.strip()
 
 
-def predict_gpt(event_nl, minutes_ago, model_engine=GPT_VERSION):
+def predict_gpt(event_nl, minutes_ago, model_engine=config.GPT_VERSION):
     instructions = """
     You are to choose the most appropriate adverbial(s) from the following options: 
     just, recently, some time ago, long time ago.
@@ -289,7 +287,7 @@ def get_predictions_embedding(events, events_nl):
     output = {
         "raw": raw_results,
     }
-    with open(EVALUATION_EMBEDDING_FILE, "w") as f:
+    with open(config.EVALUATION_EMBEDDING_FILE, "w") as f:
         json.dump(output, f, indent=4)
     return
 
@@ -298,7 +296,7 @@ def get_predictions_random_forest(events, events_nl):
     output = {
         "raw": raw_results,
     }
-    with open(EVALUATION_RANDOM_FOREST_FILE, "w") as f:
+    with open(config.EVALUATION_RANDOM_FOREST_FILE, "w") as f:
         json.dump(output, f, indent=4)
     return
 
@@ -307,7 +305,7 @@ def get_predictions_functions(events, events_nl, function_to_use):
     output = {
         "raw": raw_results,
     }
-    with open(f"{EVALUATION_FUNCTIONS_FILE}{function_to_use.__name__}.json", "w") as f:
+    with open(f"{config.EVALUATION_FUNCTIONS_FILE}{function_to_use.__name__}.json", "w") as f:
         json.dump(output, f, indent=4)
     return
 
@@ -316,7 +314,7 @@ def get_predictions_classifier(events, events_nl):
     output = {
         "raw": raw_results
     }
-    with open(EVALUATION_CLASSIFIER_FILE, "w") as f:
+    with open(config.EVALUATION_CLASSIFIER_FILE, "w") as f:
         json.dump(output, f, indent=4)
     return
 
@@ -325,7 +323,7 @@ def get_predictions_regression(events, events_nl):
     output = {
         "raw": raw_results
     }
-    with open(EVALUATION_REGRESSION_FILE, "w") as f:
+    with open(config.EVALUATION_REGRESSION_FILE, "w") as f:
         json.dump(output, f, indent=4)
     return
 
@@ -337,7 +335,7 @@ def evaluate_gpt(events, events_nl):
         cleaned_data = get_cleaned_data(event)
 
         # --- Step 1: Gather all possible numeric keys ---
-        overall_targets = {adv: {k: float(np.median(v)) for k, v in cleaned_data[adv].items()} for adv in VAGUE_ADVERBIALS}
+        overall_targets = {adv: {k: float(np.median(v)) for k, v in cleaned_data[adv].items()} for adv in config.VAGUE_ADVERBIALS}
         all_keys = sorted({int(k) for adv in overall_targets.values() for k in adv.keys()})
 
         # --- Step 2: Function to get value for a given key, using nearest if missing ---
@@ -369,12 +367,12 @@ def evaluate_gpt(events, events_nl):
     json_drop = {
         "raw": predictions_data,
         "Instruction": instruction,
-        "GPT-Version": GPT_VERSION
+        "GPT-Version": config.GPT_VERSION
     }
-    if "gpt-4" in GPT_VERSION:
-        save_file = GPT4_PROMPT_FILE
+    if "gpt-4" in config.GPT_VERSION:
+        save_file = config.GPT4_PROMPT_FILE
     else:
-        save_file = GPT5_PROMPT_FILE
+        save_file = config.GPT5_PROMPT_FILE
     with open(save_file, "w") as f:
         json.dump(json_drop, f, indent=4)
     return

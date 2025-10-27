@@ -17,29 +17,22 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from src.config import (VAGUE_ADVERBIALS,
-                        PLOT_FILE_PATH,
-                        RESULTS_JSON,
-                        DATA_DIR,
-                        event_specific_function,
-                        adverbial_specific_function)
 
-from src.predictions import (
-    predict_adverbial_embedding,
-    predict_adverbial_random_forest
-)
+import src.config as config
+from src.predictions import predict_adverbial_random_forest
+
 
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-PLOT_FILE_PATH.mkdir(parents=True, exist_ok=True)
+config.PLOT_FILE_PATH.mkdir(parents=True, exist_ok=True)
 Y_LIMS = (0.3, 1.02)  # <- fixed y‑axis for both sub‑plots
 
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
-def _load_packed(path: Path = RESULTS_JSON) -> Dict[str, dict]:
+def _load_packed(path: Path = config.RESULTS_JSON) -> Dict[str, dict]:
     with path.open("r", encoding="utf-8") as fh:
         return json.load(fh)
 
@@ -93,7 +86,7 @@ def plot_all_persons_event_adverbials(
     main_event = _select_main_event(packed, events_to_plot)
 
     # Use x‑axis sized to the main event's data
-    json_path = DATA_DIR / main_event / "cleanedData_minutes.json"
+    json_path = config.DATA_DIR / main_event / "cleanedData_minutes.json"
     with json_path.open("r", encoding="utf-8") as fh:
         values_vague_adverbial = json.load(fh)
     x1 = _initial_x_axis(values_vague_adverbial)
@@ -110,7 +103,7 @@ def plot_all_persons_event_adverbials(
     # Overlay each user‑requested event in sorted order
     for ev in sorted_events:
         params = packed["event_params"][ev]
-        y_ev = event_specific_function(x1, *params)
+        y_ev = config.event_specific_function(x1, *params)
         ax_left.plot(
             x1,
             y_ev,
@@ -131,13 +124,13 @@ def plot_all_persons_event_adverbials(
 
     # Right plot: adverbial curves for *main_event* only
     main_params = packed["event_params"][main_event]
-    y_relation = event_specific_function(x1, *main_params)
+    y_relation = config.event_specific_function(x1, *main_params)
 
-    for i, adv in enumerate(VAGUE_ADVERBIALS):
+    for i, adv in enumerate(config.VAGUE_ADVERBIALS):
         mu = packed["adverbial_means"][adv]
         sigma = packed["adverbial_stds"][adv]
         x_norm = np.linspace(y_relation.min(), y_relation.max(), 1_000)
-        y_norm = adverbial_specific_function(x_norm, mu, sigma)
+        y_norm = config.adverbial_specific_function(x_norm, mu, sigma)
         ax_right.plot(
             y_norm,
             x_norm,
@@ -157,11 +150,11 @@ def plot_all_persons_event_adverbials(
 
     plt.tight_layout(rect=[0, 0, 1, 0.99])
 
-    outfile = PLOT_FILE_PATH / "highestStd_allAdverbials.png"
+    outfile = config.PLOT_FILE_PATH / "highestStd_allAdverbials.png"
     fig.savefig(outfile, dpi=300)
 
 def plot_single_events(event_name, event_name_nl, predict_fn):
-    with open(DATA_DIR / event_name / "cleanedData_minutes.json", "r", encoding="utf-8") as f:
+    with open(config.DATA_DIR / event_name / "cleanedData_minutes.json", "r", encoding="utf-8") as f:
         cleaned_data = json.load(f)
 
     x_limit_max = None
@@ -185,7 +178,7 @@ def plot_single_events(event_name, event_name_nl, predict_fn):
         predictions = []
         for minutes_ago in times:
             if predict_fn == predict_adverbial_random_forest:
-                file_path = f"{DATA_DIR}/event_properties.json"
+                file_path = f"{config.DATA_DIR}/event_properties.json"
                 with open(file_path, "r", encoding="utf-8") as fh:
                     event_properties = json.load(fh)
 
@@ -215,7 +208,7 @@ def plot_single_events(event_name, event_name_nl, predict_fn):
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
-    outfile = PLOT_FILE_PATH / event_name / "small_time_ago.png"
+    outfile = config.PLOT_FILE_PATH / event_name / "small_time_ago.png"
     outfile.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(outfile, dpi=300)
 
@@ -233,7 +226,7 @@ def plot_single_events(event_name, event_name_nl, predict_fn):
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
-    outfile = PLOT_FILE_PATH / event_name / "big_time_ago.png"
+    outfile = config.PLOT_FILE_PATH / event_name / "big_time_ago.png"
     outfile.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(outfile, dpi=300)
     return

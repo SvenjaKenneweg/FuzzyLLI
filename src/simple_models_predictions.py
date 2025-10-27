@@ -5,14 +5,7 @@ import json
 from imblearn.over_sampling import SMOTE
 from xgboost import XGBRegressor
 
-from src.config import (VAGUE_ADVERBIALS,
-                        RESULTS_SIMPLE_FILE_PATH,
-                        GRADIENT_BOOSTING_FILE,
-                        DATA_DIR,
-                        LABEL_ENCODER_FILE,
-                        DATA_EVALUATION_SURVEY_PATH,
-                        XGB_REGRESSOR_FILE,
-                        ONE_HOT_ENCODER_FILE, EVALUATION_FILE_PATH)
+import src.config as config
 
 
 
@@ -29,11 +22,11 @@ def predict_adverbial_classifier(event_nl, minutes_ago, event_properties=None, *
     else:
         # Get the previously saved event properties
         event_to_find = event_nl.replace("Tom", "A friend").replace("You", "I")
-        file_path = f"{DATA_DIR}/event_properties.json"
+        file_path = f"{config.DATA_DIR}/event_properties.json"
         with open(file_path, "r", encoding="utf-8") as fh:
             properties = json.load(fh)
         if event_to_find not in properties:
-            file_path = f"{DATA_EVALUATION_SURVEY_PATH}/event_properties.json"
+            file_path = f"{config.DATA_EVALUATION_SURVEY_PATH}/event_properties.json"
             with open(file_path, "r", encoding="utf-8") as fh:
                 properties = json.load(fh)
         frequency = properties[event_to_find]["Frequency"]
@@ -44,8 +37,8 @@ def predict_adverbial_classifier(event_nl, minutes_ago, event_properties=None, *
         [[frequency, richness, importance, np.log1p(minutes_ago)]],
         columns=["frequency", "richness", "importance", "log_minutes_ago"])
 
-    model = joblib.load(RESULTS_SIMPLE_FILE_PATH / GRADIENT_BOOSTING_FILE)
-    le = joblib.load(RESULTS_SIMPLE_FILE_PATH / LABEL_ENCODER_FILE)
+    model = joblib.load(config.RESULTS_SIMPLE_FILE_PATH / config.GRADIENT_BOOSTING_FILE)
+    le = joblib.load(config.RESULTS_SIMPLE_FILE_PATH / config.LABEL_ENCODER_FILE)
 
     # Get class probabilities
     probas = model.predict_proba(x_input)[0]  # shape: (num_classes,)
@@ -63,25 +56,25 @@ def predict_adverbial_regression(event_nl, minutes_ago, event_properties=None, *
     else:
         # Get the previously saved event properties
         event_to_find = event_nl.replace("Tom", "A friend").replace("You", "I")
-        file_path = f"{DATA_DIR}/event_properties.json"
+        file_path = f"{config.DATA_DIR}/event_properties.json"
         with open(file_path, "r", encoding="utf-8") as fh:
             properties = json.load(fh)
         if event_to_find not in properties:
-            file_path = f"{DATA_EVALUATION_SURVEY_PATH}/event_properties.json"
+            file_path = f"{config.DATA_EVALUATION_SURVEY_PATH}/event_properties.json"
             with open(file_path, "r", encoding="utf-8") as fh:
                 properties = json.load(fh)
         frequency = properties[event_to_find]["Frequency"]
         richness = properties[event_to_find]["Richness"]
         importance = properties[event_to_find]["Importance"]
 
-    rf_model = joblib.load(RESULTS_SIMPLE_FILE_PATH / XGB_REGRESSOR_FILE)
-    ohe = joblib.load(RESULTS_SIMPLE_FILE_PATH / ONE_HOT_ENCODER_FILE)
+    rf_model = joblib.load(config.RESULTS_SIMPLE_FILE_PATH / config.XGB_REGRESSOR_FILE)
+    ohe = joblib.load(config.RESULTS_SIMPLE_FILE_PATH / config.ONE_HOT_ENCODER_FILE)
 
     results = {}
     adverbial_cols = ohe.get_feature_names_out(['adverbial'])
     numeric_cols = ["frequency", "richness", "importance", "minutes_ago"]
 
-    for adv in VAGUE_ADVERBIALS:
+    for adv in config.VAGUE_ADVERBIALS:
         # One-hot encode the adverbial
         adverbial_encoded = ohe.transform(pd.DataFrame([[adv]], columns=['adverbial']))
         # Build DataFrame with numeric columns first, then onehot columns, exactly like during training

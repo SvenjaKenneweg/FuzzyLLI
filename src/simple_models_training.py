@@ -8,8 +8,7 @@ from xgboost import XGBRegressor
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestRegressor
 
-from src.config import DATA_DIR,RESULTS_SIMPLE_FILE_PATH, DATA_EVALUATION_SURVEY_PATH
-
+import src.config as config
 
 # ---------------------------------------------------------------------------
 # Persistence helpers
@@ -18,9 +17,9 @@ from src.config import DATA_DIR,RESULTS_SIMPLE_FILE_PATH, DATA_EVALUATION_SURVEY
 def load_data(events, events_nl, classification = True) -> pd.DataFrame:
     records = []
     for event, event_nl in zip(events, events_nl):
-        with open(f"{DATA_DIR}/{event}/cleanedData_minutes.json", "r") as f:
+        with open(f"{config.DATA_DIR}/{event}/cleanedData_minutes.json", "r") as f:
             adverbial_data = json.load(f)
-        with open(f"{DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
+        with open(f"{config.DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
             properties_list = json.load(fh)
 
         event_to_search = event_nl.replace("Tom", "A friend").replace("You", "I")
@@ -66,14 +65,14 @@ def fit_classifier(events, events_nl, *args):
 
     le = LabelEncoder()
     y_encoded = le.fit_transform(y)
-    joblib.dump(le, RESULTS_SIMPLE_FILE_PATH / 'label_encoder.pkl')
+    joblib.dump(le, config.RESULTS_SIMPLE_FILE_PATH / 'label_encoder.pkl')
 
     smote = SMOTE(random_state=42)
     X_train_resampled, y_train_resampled = smote.fit_resample(X, y_encoded)
 
     model = GradientBoostingClassifier(n_estimators=100, random_state=42)
     model.fit(X_train_resampled, y_train_resampled)
-    joblib.dump(model, RESULTS_SIMPLE_FILE_PATH / 'gradient_boosting_classifier.pkl')
+    joblib.dump(model, config.RESULTS_SIMPLE_FILE_PATH / 'gradient_boosting_classifier.pkl')
 
     return model
 
@@ -92,5 +91,5 @@ def fit_regression(events, events_nl, *args):
 
     model = XGBRegressor(objective="reg:squarederror", random_state=42)
     model.fit(X, y)
-    joblib.dump(model, RESULTS_SIMPLE_FILE_PATH / f"XGBRegressor.pkl")
-    joblib.dump(ohe, RESULTS_SIMPLE_FILE_PATH / "onehotencoder.pkl")
+    joblib.dump(model, config.RESULTS_SIMPLE_FILE_PATH / f"XGBRegressor.pkl")
+    joblib.dump(ohe, config.RESULTS_SIMPLE_FILE_PATH / "onehotencoder.pkl")
