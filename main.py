@@ -22,7 +22,7 @@ import pandas as pd
 # Open a file in write mode
 log_file = open('output.log', 'w')
 # Redirect print statements to the file
-sys.stdout = log_file
+# sys.stdout = log_file
 
 
 def train_models(events, events_nl):
@@ -37,8 +37,8 @@ def train_models(events, events_nl):
     # print("\nTraining Event Adverbials, Embeddings, and Random Forest...")
     # fit_event_adverbials(events)
     # fit_event_specific_embeddings(events, events_nl)
-    # fit_event_specific_random_forest(events, events_nl)
-    fit_event_specific_functions(events, events_nl,config.powerlaw)
+    fit_event_specific_random_forest(events, events_nl)
+    # fit_event_specific_functions(events, events_nl,config.powerlaw)
     # fit_event_specific_functions(events, events_nl, config.exp_decay)
     #
     # print("\nTraining Simple Models (Classifier, Regression)...")
@@ -158,18 +158,19 @@ def main():
     minutes_ago = 120
 
     # Run the steps sequentially
-    # train_models(events, events_nl) # Trains FuzzyLLI in all variants and the baseline models
+    train_models(events, events_nl) # Trains FuzzyLLI in all variants and the baseline models
     # make_predictions(event_nl, event_properties, adverbial, minutes_ago) #Predicts minutes ago or the event and the best fitting adverbials
     # evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
     # evaluate_survey(events, events_nl, generate_new_predictions=True)
     # plot_results(events, events_nl) # Plots FuzzyLLI
 
-    all_props = ["Frequency", "Richness", "Importance"]
-    for r in range(1, len(all_props) + 1):
-        for combo in combinations(all_props, r):
-            config.properties_to_use = list(combo)
-            evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
-            evaluate_survey(events, events_nl, generate_new_predictions=True)
+    # config.properties_to_use = ["Richness", "Frequency"]
+    # train_models(events, events_nl)
+    # for r in range(1, len(all_props) + 1):
+    #     for combo in combinations(all_props, r):
+    #         config.properties_to_use = list(combo)
+    #         evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
+    #         evaluate_survey(events, events_nl, generate_new_predictions=True)
 
 if __name__ == '__main__':
     main()

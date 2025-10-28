@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import inspect
 import json
+import shap
 import pickle
 import joblib
 import statistics
@@ -10,9 +11,11 @@ from typing import Dict, List
 
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from scipy.optimize import least_squares, curve_fit
 from sklearn.linear_model import Ridge
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.inspection import permutation_importance, PartialDependenceDisplay
 from sentence_transformers import SentenceTransformer
 
 from src.config import event_specific_function, adverbial_specific_function
@@ -263,7 +266,7 @@ def fit_event_specific_embeddings(events_to_fit, events_to_fit_nl, *args):
     return ridge
 
 
-def fit_event_specific_random_forest(events_to_fit, events_to_fit_nl, *args):
+def fit_event_specific_random_forest(events_to_fit, events_to_fit_nl, inspect_properties=False, *args):
     packed = _load_packed()
     values = []
     properties = []  # To store properties per event
@@ -284,6 +287,27 @@ def fit_event_specific_random_forest(events_to_fit, events_to_fit_nl, *args):
 
     model = RandomForestRegressor(n_estimators=8, max_depth=5, random_state=42)
     model.fit(X, y)
+
+    if inspect_properties:
+        importances = model.feature_importances_
+        print("Feature Importances:")
+        for name, value in zip(X.columns, importances):
+            print(f"{name}: {value:.4f}")
+        result = permutation_importance(model, X, y, n_repeats=30, random_state=42)
+        print("\nPermutation Feature Importance:")
+        for name, value in zip(X.columns, result.importances_mean):
+            print(f"{name}: {value:.4f}")
+
+        explainer = shap.TreeExplainer(model)
+        shap_values = explainer.shap_values(X)
+        shap.summary_plot(shap_values, X, plot_size=(12, 6))
+        shap.dependence_plot("Richness", shap_values, X)
+        shap.dependence_plot("Richness", shap_values, X, interaction_index="Frequency")
+
+        PartialDependenceDisplay.from_estimator(model, X, ['Frequency', 'Richness', 'Importance'])
+        plt.tight_layout()
+        plt.show()
+
     joblib.dump(model, config.RESULTS_FILE_PATH / 'event_random_forest.pkl')
 
 
@@ -310,6 +334,7 @@ def fit_event_specific_functions(events_to_fit, events_to_fit_nl, function_to_fi
     p0[0] = 1000
     p, _ = curve_fit(function_to_fit, X_tuple, y, p0=p0, maxfev=20000)
 
+    print(p)
     # Save parameters with generic labels
     param_labels = "abcdefghijklmnopqrstuvwxyz"[:len(p)]
     joblib.dump({"params": dict(zip(param_labels, p))},
