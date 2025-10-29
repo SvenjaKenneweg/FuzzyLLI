@@ -81,15 +81,13 @@ def event_specific_function(temporal_distance, std):
     return 1/2 * (erf(temporal_distance / (math.sqrt(2) * std))+1)
 
 def gauss_inverse(y, mean, std):
-    return mean + std * np.sqrt(-2 * np.log(y))
+    val = std * np.sqrt(-2 * np.log(y))
+    return mean - val, mean + val
 
 def inverse_event_specific_function(y, std):
     clipped_y = max(-1, min(1, 2 * y - 1))
     return math.sqrt(2) * std * erfinv(clipped_y)
 
-# def powerlaw(vars, a, b, c, d):
-#     Richness, Frequency, Importance = vars
-#     return a * (Richness ** b) * (Frequency ** c) * (Importance ** d)
 def powerlaw(vars, *params):
     # First parameter is the scaling factor 'a'
     a = params[0]

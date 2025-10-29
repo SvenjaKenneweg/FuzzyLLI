@@ -112,7 +112,7 @@ def get_all_event_properties_gpt(events_nl, file_path, model_engine=config.GPT_V
 # Public API
 # ---------------------------------------------------------------------------
 
-def predict_time_frame_embedding(event, adverbial, min_prob=0.6, max_prob=1.0):
+def predict_time_frame_embedding(event, adverbial, min_prob=0.6):
     params = _load_packed()
     adverbial_mean = params["adverbial_means"][adverbial]
     adverbial_std = params["adverbial_stds"][adverbial]
@@ -124,8 +124,9 @@ def predict_time_frame_embedding(event, adverbial, min_prob=0.6, max_prob=1.0):
     log_pred = ridge_model.predict(vecc.reshape(1, -1))[0]
     event_std = int(max(0, np.expm1(log_pred)))
 
-    upper_raw = config.inverse_event_specific_function(config.gauss_inverse(max_prob, adverbial_mean, adverbial_std), event_std)
-    lower_raw = config.inverse_event_specific_function(config.gauss_inverse(min_prob, adverbial_mean, adverbial_std), event_std)
+    lower_adverbial, higher_adverbial = config.gauss_inverse(min_prob, adverbial_mean, adverbial_std)
+    upper_raw = config.inverse_event_specific_function(higher_adverbial, event_std)
+    lower_raw = config.inverse_event_specific_function(lower_adverbial, event_std)
 
     upper = max(0, _safe_round(upper_raw))
     lower = _safe_round(lower_raw)
@@ -153,7 +154,7 @@ def predict_adverbial_embedding(event_nl, minutes_ago, *args):
 
     return adverbial_probs
 
-def predict_time_frame_random_forest(properties, adverbial, min_prob=0.6, max_prob=1.0):
+def predict_time_frame_random_forest(properties, adverbial, min_prob=0.6):
     params = _load_packed()
     adverbial_mean = params["adverbial_means"][adverbial]
     adverbial_std = params["adverbial_stds"][adverbial]
@@ -161,8 +162,9 @@ def predict_time_frame_random_forest(properties, adverbial, min_prob=0.6, max_pr
     random_forest = load(config.RESULTS_FILE_PATH / config.RANDOM_FOREST_FILE)
     event_std = random_forest.predict(properties)[0]
 
-    upper_raw = config.inverse_event_specific_function(config.gauss_inverse(max_prob, adverbial_mean, adverbial_std), event_std)
-    lower_raw = config.inverse_event_specific_function(config.gauss_inverse(min_prob, adverbial_mean, adverbial_std), event_std)
+    lower_adverbial, higher_adverbial = config.gauss_inverse(min_prob, adverbial_mean, adverbial_std)
+    upper_raw = config.inverse_event_specific_function(higher_adverbial, event_std)
+    lower_raw = config.inverse_event_specific_function(lower_adverbial, event_std)
 
     upper = max(0, _safe_round(upper_raw))
     lower = _safe_round(lower_raw)
