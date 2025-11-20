@@ -145,12 +145,8 @@ def run_survey_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn, even
         if predict_fn in requires_properties:
             with open(f"{config.DATA_EVALUATION_SURVEY_PATH}/event_properties.json", "r", encoding="utf-8") as fh:
                 event_properties = json.load(fh)
-
-            properties = pd.DataFrame([{
-                'Frequency': event_properties[event.replace("You", "I")]["Frequency"],
-                'Richness': event_properties[event.replace("You", "I")]["Richness"],
-                'Importance': event_properties[event.replace("You", "I")]["Importance"]
-            }])
+            prop_dict = event_properties[event.replace("Tom", "A friend").replace("You", "I")]
+            properties = [{prop: prop_dict[prop] for prop in config.properties_to_use}]
             fuzzy_prediction = predict_fn(properties, minutes_ago, function_to_use)
         else:
             fuzzy_prediction = predict_fn(event, minutes_ago, function_to_use)

@@ -107,11 +107,8 @@ def run_evaluation_and_save_pred(events, fit_models_fn, predict_fn, plot_not_fit
                 with open(f"{config.DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
                     event_properties = json.load(fh)
 
-                properties = pd.DataFrame([{
-                    'Frequency': event_properties[events_nl[i].replace("Tom", "A friend")]["Frequency"],
-                    'Richness': event_properties[events_nl[i].replace("Tom", "A friend")]["Richness"],
-                    'Importance': event_properties[events_nl[i].replace("Tom", "A friend")]["Importance"]
-                }])
+                prop_dict = event_properties[events_nl[i].replace("Tom", "A friend")]
+                properties = [{prop: prop_dict[prop] for prop in config.properties_to_use}]
                 predictions = predict_fn(properties, int(minutes_ago), function_to_use)
             else:
                 input_data = events_nl[i] if events_nl else event
@@ -185,7 +182,7 @@ def calculate_metrics(file_path):
     # Loop through all .json files containing the predictions
     for json_file in file_path.glob("*.json"):
         # print(f"\nFile: {json_file.name}")
-        if json_file.name != "functions_powerlaw.json":
+        if json_file.name != "random_forest.json":
             continue
         print(config.properties_to_use)
         with open(json_file, "r", encoding="utf-8") as f:

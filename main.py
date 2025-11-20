@@ -22,7 +22,7 @@ import pandas as pd
 # Open a file in write mode
 log_file = open('output.log', 'w')
 # Redirect print statements to the file
-# sys.stdout = log_file
+sys.stdout = log_file
 
 
 def train_models(events, events_nl):
@@ -35,7 +35,7 @@ def train_models(events, events_nl):
     # get_all_event_properties_gpt(events_nl_survey, config.DATA_EVALUATION_SURVEY_PATH / "event_properties.json")
 
     # print("\nTraining Event Adverbials, Embeddings, and Random Forest...")
-    # fit_event_adverbials(events)
+    fit_event_adverbials(events)
     # fit_event_specific_embeddings(events, events_nl)
     fit_event_specific_random_forest(events, events_nl)
     # fit_event_specific_functions(events, events_nl,config.powerlaw)
@@ -72,10 +72,10 @@ def evaluate_models_seen_events(events, events_nl, generate_new_predictions=Fals
         # get_predictions_embedding(events, events_nl)
         #
         # print("\nEvaluation Random Forest:")
-        # get_predictions_random_forest(events, events_nl)
+        get_predictions_random_forest(events, events_nl)
 
-        print("\nEvaluation Power Law and Exponential Decay:")
-        get_predictions_functions(events, events_nl, function_to_use=config.powerlaw)
+        # print("\nEvaluation Power Law and Exponential Decay:")
+        # get_predictions_functions(events, events_nl, function_to_use=config.powerlaw)
         # get_predictions_functions(events, events_nl, function_to_use=config.exp_decay)
         #
         # print("\nEvaluation Baseline Models (Classifier, Regression):")
@@ -97,13 +97,13 @@ def evaluate_survey(events_to_fit, events_to_fit_nl, generate_new_predictions=Fa
     """
     if generate_new_predictions:
         # print("\nEvaluating Random Forest on the unseen_events data:")
-        # evaluate_survey_random_forest(events_to_fit, events_to_fit_nl)
+        evaluate_survey_random_forest(events_to_fit, events_to_fit_nl)
         #
         # print("\nEvaluating Embeddings + Regressor on the unseen_events data:")
         # evaluate_survey_embedding(events_to_fit, events_to_fit_nl)
         #
         # print("\nEvaluation Power Law and Exponential Decay on the unseen survey data:")
-        evaluate_survey_functions(events_to_fit, events_to_fit_nl, config.powerlaw)
+        # evaluate_survey_functions(events_to_fit, events_to_fit_nl, config.powerlaw)
         # evaluate_survey_functions(events_to_fit, events_to_fit_nl, config.exp_decay)
         #
         # print("\nEvaluating Classifier and Regression Model on the unseen_events data:")
@@ -158,19 +158,19 @@ def main():
     minutes_ago = 120
 
     # Run the steps sequentially
-    train_models(events, events_nl) # Trains FuzzyLLI in all variants and the baseline models
+    # train_models(events, events_nl) # Trains FuzzyLLI in all variants and the baseline models
     # make_predictions(event_nl, event_properties, adverbial, minutes_ago) #Predicts minutes ago or the event and the best fitting adverbials
     # evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
     # evaluate_survey(events, events_nl, generate_new_predictions=True)
     # plot_results(events, events_nl) # Plots FuzzyLLI
 
-    # config.properties_to_use = ["Richness", "Frequency"]
-    # train_models(events, events_nl)
-    # for r in range(1, len(all_props) + 1):
-    #     for combo in combinations(all_props, r):
-    #         config.properties_to_use = list(combo)
-    #         evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
-    #         evaluate_survey(events, events_nl, generate_new_predictions=True)
+    all_props = ["Richness", "Frequency", "Importance"]
+    train_models(events, events_nl)
+    for r in range(1, len(all_props) + 1):
+        for combo in combinations(all_props, r):
+            config.properties_to_use = list(combo)
+            # evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
+            evaluate_survey(events, events_nl, generate_new_predictions=True)
 
 if __name__ == '__main__':
     main()

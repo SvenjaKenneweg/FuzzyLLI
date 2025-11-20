@@ -277,12 +277,9 @@ def fit_event_specific_random_forest(events_to_fit, events_to_fit_nl, inspect_pr
 
     with open(f"{config.DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
         event_properties = json.load(fh)
-    for event in events_to_fit_nl:
-        properties.append({
-            'Frequency': event_properties[event.replace("Tom", "A friend")]["Frequency"],
-            'Richness': event_properties[event.replace("Tom", "A friend")]["Richness"],
-            'Importance': event_properties[event.replace("Tom", "A friend")]["Importance"]
-        })
+    for event_nl in events_to_fit_nl:
+        prop_dict = event_properties[event_nl.replace("Tom", "A friend")]
+        properties.append({prop: prop_dict[prop] for prop in config.properties_to_use})
     X = pd.DataFrame(properties)
 
     model = RandomForestRegressor(n_estimators=8, max_depth=5, random_state=42)

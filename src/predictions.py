@@ -176,7 +176,7 @@ def predict_adverbial_random_forest(properties, minutes_ago, *args):
     params = _load_packed()
 
     random_forest = load(config.RESULTS_FILE_PATH / config.RANDOM_FOREST_FILE)
-    event_std = random_forest.predict(properties)[0]
+    event_std = random_forest.predict(pd.DataFrame(properties))[0]
 
     adverbial_probs = {}
     for adverbial in config.VAGUE_ADVERBIALS:
