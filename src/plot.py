@@ -231,3 +231,33 @@ def plot_single_events(event_name, event_name_nl, predict_fn):
     plt.savefig(outfile, dpi=300)
     return
 
+def plot_events_adverbials(events, adverbial):
+    medians_per_event = []
+    for event_name in events:
+        with open(config.DATA_DIR / event_name / "cleanedData_minutes.json", "r", encoding="utf-8") as f:
+            cleaned_data = json.load(f)[adverbial]
+        medians = {key: float(np.median(values)) for key, values in cleaned_data.items()}
+        medians_per_event.append({
+            "event": event_name,
+            "medians": medians
+        })
+
+    plt.figure(figsize=(10, 6))
+
+    for event in medians_per_event:
+        event_name = event['event']
+        medians_dict = event['medians']
+
+        # Convert keys to int and sort by minutes
+        minutes = sorted(int(k) for k in medians_dict.keys())
+        values = [medians_dict[str(m)] for m in minutes]
+
+        plt.plot(minutes, values, marker='o', label=event_name)
+
+    plt.xlabel('Minutes ago')
+    plt.ylabel('Membership value for the adverbial ' + str(adverbial))
+    # plt.title('Median Membership Value Over Time per Event')
+    plt.legend()
+    plt.grid(False)
+    plt.tight_layout()
+    plt.show()

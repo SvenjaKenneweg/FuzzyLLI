@@ -3,7 +3,7 @@ from itertools import combinations
 from contextlib import redirect_stdout
 
 from src.train import (fit_event_adverbials, fit_event_specific_embeddings, fit_event_specific_random_forest, fit_event_specific_functions)
-from src.plot import plot_all_persons_event_adverbials, plot_single_events
+from src.plot import plot_all_persons_event_adverbials, plot_single_events, plot_events_adverbials
 from src.predictions import (predict_time_frame_embedding, predict_adverbial_embedding, predict_adverbial_functions,
                              predict_time_frame_random_forest, predict_adverbial_random_forest, get_all_event_properties_gpt)
 from src.evaluation import (get_predictions_classifier, get_predictions_regression,
@@ -22,7 +22,7 @@ import pandas as pd
 # Open a file in write mode
 log_file = open('output.log', 'w')
 # Redirect print statements to the file
-sys.stdout = log_file
+# sys.stdout = log_file
 
 
 def train_models(events, events_nl):
@@ -118,16 +118,18 @@ def evaluate_survey(events_to_fit, events_to_fit_nl, generate_new_predictions=Fa
     calculate_metrics(config.EVALUATION_SURVEY_FILE_PATH)
 
 
-def plot_results(events, events_nl):
+def plot_results(events, events_nl, adverbial):
     """
     Plot the results for event adverbials.
     """
-    print("Plotting Event Adverbials...")
-    plot_all_persons_event_adverbials(events)
+    # print("Plotting Event Adverbials...")
+    # plot_all_persons_event_adverbials(events)
 
     # for event_name, event_name_nl in zip(events, events_nl):
     #     print("Plotting single Event")
     #     plot_single_events(event_name, event_name_nl, predict_adverbial_random_forest)
+
+    plot_events_adverbials(events, adverbial)
 
 
 def main():
@@ -138,7 +140,7 @@ def main():
         "tom_chatting_friend", "own_wedding_celebration", "own_wallet_theft"
     ]
 
-    # Events in Natural Language Format used for GPT to predict the event properties.
+    # Events in Natural Language Format
     events_nl = [
         "Tom had his wedding celebration", "I spent a year abroad", "I had my birthday", "I went on vacation",
         "I paid rent", "I took a shower", "Tom watched a film", "Tom ate risotto",
@@ -162,15 +164,22 @@ def main():
     # make_predictions(event_nl, event_properties, adverbial, minutes_ago) #Predicts minutes ago or the event and the best fitting adverbials
     # evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
     # evaluate_survey(events, events_nl, generate_new_predictions=True)
-    # plot_results(events, events_nl) # Plots FuzzyLLI
 
-    all_props = ["Richness", "Frequency", "Importance"]
-    train_models(events, events_nl)
-    for r in range(1, len(all_props) + 1):
-        for combo in combinations(all_props, r):
-            config.properties_to_use = list(combo)
-            # evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
-            evaluate_survey(events, events_nl, generate_new_predictions=True)
+    events = [
+        "own_shower", "own_vacation"
+    ]
+    events_nl = [
+        "I took a shower", "I had my wedding celebration"
+    ]
+    plot_results(events, events_nl, "long time ago") # Plots FuzzyLLI
+
+    # all_props = ["Richness", "Frequency", "Importance"]
+    # train_models(events, events_nl)
+    # for r in range(1, len(all_props) + 1):
+    #     for combo in combinations(all_props, r):
+    #         config.properties_to_use = list(combo)
+    #         # evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
+    #         evaluate_survey(events, events_nl, generate_new_predictions=True)
 
 if __name__ == '__main__':
     main()
