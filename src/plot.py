@@ -117,7 +117,7 @@ def plot_all_persons_event_adverbials(
         ylim = Y_LIMS,
         xlabel="Time units ago in minutes",
         ylabel="Beforeness of event",
-        title="Event specific functions $P_{Ev}$",
+        title="Event specific functions $P_{e}$",
     )
     ax_left.grid(True)
     ax_left.legend(loc="lower right")
@@ -143,7 +143,7 @@ def plot_all_persons_event_adverbials(
         ylim=Y_LIMS,
         xlabel="Fuzzy Membership Value of Adverbial",
         ylabel="Beforeness of Event",
-        title="Adverbial specific functions $P_{Adv}$",
+        title="Adverbial specific functions $mu_a$",
     )
     ax_right.grid(True)
     ax_right.legend(loc="best")

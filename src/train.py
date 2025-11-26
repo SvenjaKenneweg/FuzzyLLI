@@ -331,7 +331,8 @@ def fit_event_specific_functions(events_to_fit, events_to_fit_nl, function_to_fi
     p0[0] = 1000
     p, _ = curve_fit(function_to_fit, X_tuple, y, p0=p0, maxfev=20000)
 
-    print(p)
+    # print(config.properties_to_use)
+    # print(p)
     # Save parameters with generic labels
     param_labels = "abcdefghijklmnopqrstuvwxyz"[:len(p)]
     joblib.dump({"params": dict(zip(param_labels, p))},

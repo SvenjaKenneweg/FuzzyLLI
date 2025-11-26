@@ -66,7 +66,7 @@ IMPORTANCE_DESCRIPTIONS = {
     5: "Very Important (Life-defining or deeply personal)"
 }
 
-properties_to_use = ["Frequency", "Richness", "Importance"]
+properties_to_use = ["Richness", "Frequency", "Importance"]
 
 # ========================
 # Fitting Functions

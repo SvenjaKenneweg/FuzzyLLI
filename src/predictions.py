@@ -117,10 +117,10 @@ def predict_time_frame_embedding(event, adverbial, min_prob=0.6):
     adverbial_mean = params["adverbial_means"][adverbial]
     adverbial_std = params["adverbial_stds"][adverbial]
 
-    config.EMBEDDING_MODEL = SentenceTransformer(config.EMBEDDING_MODEL)
+    embedding_model = SentenceTransformer(config.EMBEDDING_MODEL)
     ridge_model = load(config.RESULTS_FILE_PATH / config.EMBEDDING_RIDGE_FILE)
 
-    vecc = config.EMBEDDING_MODEL.encode(event)
+    vecc = embedding_model.encode(event)
     log_pred = ridge_model.predict(vecc.reshape(1, -1))[0]
     event_std = int(max(0, np.expm1(log_pred)))
 
@@ -137,10 +137,10 @@ def predict_time_frame_embedding(event, adverbial, min_prob=0.6):
 def predict_adverbial_embedding(event_nl, minutes_ago, *args):
     params = _load_packed()
     os.environ["TOKENIZERS_PARALLELISM"] = "false" # to avoid warning
-    config.EMBEDDING_MODEL = SentenceTransformer(config.EMBEDDING_MODEL)
+    embedding_model = SentenceTransformer(config.EMBEDDING_MODEL)
     ridge_model = load(config.RESULTS_FILE_PATH / config.EMBEDDING_RIDGE_FILE)
 
-    vecc = config.EMBEDDING_MODEL.encode(event_nl)
+    vecc = embedding_model.encode(event_nl)
     log_pred = ridge_model.predict(vecc.reshape(1, -1))[0]
     event_std = int(max(0, np.expm1(log_pred)))
 
@@ -160,7 +160,7 @@ def predict_time_frame_random_forest(properties, adverbial, min_prob=0.6):
     adverbial_std = params["adverbial_stds"][adverbial]
 
     random_forest = load(config.RESULTS_FILE_PATH / config.RANDOM_FOREST_FILE)
-    event_std = random_forest.predict(properties)[0]
+    event_std = random_forest.predict(pd.DataFrame(properties))[0]
 
     lower_adverbial, higher_adverbial = config.gauss_inverse(min_prob, adverbial_mean, adverbial_std)
     upper_raw = config.inverse_event_specific_function(higher_adverbial, event_std)
@@ -176,6 +176,7 @@ def predict_adverbial_random_forest(properties, minutes_ago, *args):
     params = _load_packed()
 
     random_forest = load(config.RESULTS_FILE_PATH / config.RANDOM_FOREST_FILE)
+    # print(properties)
     event_std = random_forest.predict(pd.DataFrame(properties))[0]
 
     adverbial_probs = {}
@@ -194,7 +195,10 @@ def predict_adverbial_functions(properties, minutes_ago, function_to_predict, *a
 
     model = load( f"{config.RESULTS_FILE_PATH}/{function_to_predict.__name__}.pkl")
     function_params = list(model["params"].values())
-    property_values = [properties[prop].values for prop in properties.keys()]
+    property_values = list(properties[0].values())
+    # print(properties)
+    # print(config.properties_to_use)
+    # print(property_values)
     event_std = function_to_predict(property_values, *function_params)
 
     adverbial_probs = {}
@@ -203,7 +207,7 @@ def predict_adverbial_functions(properties, minutes_ago, function_to_predict, *a
         adverbial_std = params["adverbial_stds"][adverbial]
 
         prob_adverbial = config.adverbial_specific_function(config.event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
-        adverbial_probs[adverbial] = prob_adverbial[0]
+        adverbial_probs[adverbial] = prob_adverbial
     return adverbial_probs
 
 

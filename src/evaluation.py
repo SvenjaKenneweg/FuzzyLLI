@@ -181,10 +181,10 @@ def calculate_metrics(file_path):
 
     # Loop through all .json files containing the predictions
     for json_file in file_path.glob("*.json"):
-        # print(f"\nFile: {json_file.name}")
-        if json_file.name != "random_forest.json":
-            continue
-        print(config.properties_to_use)
+        print(f"\nFile: {json_file.name}")
+        # if json_file.name != "functions_powerlaw.json":
+        #     continue
+        # print(config.properties_to_use)
         with open(json_file, "r", encoding="utf-8") as f:
             data = json.load(f)["raw"]
 
