@@ -107,7 +107,8 @@ def plot_all_persons_event_adverbials(
         ax_left.plot(
             x1,
             y_ev,
-            label=f"{ev.replace('_', ' ').title()}",
+            # label=f"{ev.title()}",
+            label=f"{ev.replace('tom', 'Friend').replace('_', ' ').title()}",
             # label=f"{ev.replace('_', ' ').title()}\n$\\sigma_e={', '.join(f'{p:.0f}' for p in params)}$",
             color=next(colour_cycle, None),
         )
@@ -143,7 +144,7 @@ def plot_all_persons_event_adverbials(
         ylim=Y_LIMS,
         xlabel="Fuzzy Membership Value of Adverbial",
         ylabel="Beforeness of Event",
-        title="Adverbial specific functions $mu_a$",
+        title="Adverbial specific functions $\mu_a$",
     )
     ax_right.grid(True)
     ax_right.legend(loc="best")

@@ -154,10 +154,10 @@ def main():
     event_properties = [{'Richness': 5, 'Frequency': 1, 'Importance': 5}]
     # adverbial = "just"
     minutes_ago = 120
-    # fit_event_adverbials(events)
+    plot_all_persons_event_adverbials(events)
     # fit_event_specific_random_forest(events, events_nl)
-    low, high = predict_time_frame_random_forest(event_properties, "long time ago", min_prob=0.9)
-    print((low+high)/2)
+    # low, high = predict_time_frame_random_forest(event_properties, "long time ago", min_prob=0.9)
+    # print((low+high)/2)
 
     # Run the steps sequentially
     # train_models(events, events_nl) # Trains FuzzyLLI in all variants and the baseline models
