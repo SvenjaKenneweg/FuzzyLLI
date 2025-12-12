@@ -1,13 +1,25 @@
 # FuzzyLLI – A fuzzy probabilistic model of vague temporal adverbials
 
-FuzzyLLI blends ML and cognitive modeling to predict temporal adverbials (e.g., *just*, *recently*, *long time ago*) and event recency. It trains event-specific embeddings, random forests, power/exponential functions, and baseline classifiers/regressors, and it uses GPT to derive event properties (Richness, Frequency, Importance).
+This repository accompanies the paper **“A Fuzzy Probabilistic Model of Human Interpretation of Vague Temporal Adverbials”**, 
+which investigates how people interpret expressions such as *just*, *recently*, *some time ago*, and *a long time ago* in 
+relation to different types of events.
+
+The paper introduces **FuzzyLLI**, a compositional fuzzy–probabilistic framework that combines fuzzy semantics for vague temporal adverbials 
+with probabilistic models of event-dependent temporal uncertainty grounded in cognitive memory theory. 
+By integrating intrinsic event properties such as richness, frequency, and importance, 
+the model captures how perceived temporal distance depends not only on elapsed time but also on how events are experienced and remembered.
+
+Check out the paper [here (Paper currently under review)](PATH_OR_URL_TO_PAPER) if you are interested in the details.
+
+This repository provides code, data, and evaluation resources to reproduce the experiments, analyze the model’s behavior, 
+and extend the approach to new events or temporal expressions.
 
 ## Repository layout
 - `main.py` — CLI entrypoint (full pipeline + subcommands).
-- `src/train.py` — training routines.
-- `src/predictions.py` — inference + GPT property extraction.
-- `src/evaluation.py`, `src/evaluation_survey.py` — metrics and evaluation drivers.
-- `src/plot.py` — visualisations.
+- `src/train.py` — GPT property extraction + training (core FuzzyLLI and the 3 configurations).
+- `src/predictions.py` — Inference.
+- `src/evaluation_test_dataset.py`, `src/evaluation_training_dataset.py` — Evaluation of training (leave-one-out) and test dataset.
+- `src/plot.py` — Visualisations.
 - `src/config.py` — paths, model settings, and function choices.
 
 ## Setup
@@ -16,8 +28,8 @@ FuzzyLLI blends ML and cognitive modeling to predict temporal adverbials (e.g., 
 3) Set OpenAI credentials for property extraction (e.g., `export OPENAI_API_KEY=...`). GPT versions are configurable in `src/config.py`.
 
 ## Data expectations
-- Training data under `data/with_event_properties`.
-- Test data under `data/evaluation_survey`.
+- Training data under `dataset/training`.
+- Test data under `datasets/test`.
 - Model fitting parameters and evaluation metrics are written to `results/...` (see constants in `src/config.py`).
 
 ## Usage (CLI)
