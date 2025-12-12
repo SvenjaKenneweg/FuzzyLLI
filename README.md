@@ -33,8 +33,8 @@ If you want to train/eval/plot other events change the DEFAULT_EVENTS and DEFAUL
   python3 main.py train
   ```
 - Evaluate:
-  - Training dataset (via leave-one-out): `python3 main.py evaluate --scope seen --generate-new-predictions`
-  - Test dataset: `python3 main.py evaluate --scope survey --generate-new-predictions`
+  - Training dataset (via leave-one-out): `python3 main.py evaluate --scope training --generate-new-predictions`
+  - Test dataset: `python3 main.py evaluate --scope test --generate-new-predictions`
 - Plot fitted functions:
   The used configuration for plotting is Random Forest. 
 Change the configuration when calling `plot_results(...)` in the main.py. 

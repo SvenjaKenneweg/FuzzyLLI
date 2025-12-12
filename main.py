@@ -119,17 +119,17 @@ def evaluate_survey(events_to_fit, events_to_fit_nl, generate_new_predictions=Fa
     Evaluate the models by comparing the predicted adverbials for new events with the unseen_events results
     """
     if generate_new_predictions:
-        print("\nEvaluating Random Forest on the unseen_events data:")
+        print("\nEvaluating Random Forest on the test dataset:")
         evaluate_survey_random_forest(events_to_fit, events_to_fit_nl)
 
-        print("\nEvaluating Embeddings + Regressor on the unseen_events data:")
+        print("\nEvaluating Embeddings + Regressor on the test dataset:")
         evaluate_survey_embedding(events_to_fit, events_to_fit_nl)
 
-        print("\nEvaluation Power Law on the unseen survey data:")
+        print("\nEvaluation Power Law on the test dataset:")
         evaluate_survey_functions(events_to_fit, events_to_fit_nl, config.powerlaw)
         # evaluate_survey_functions(events_to_fit, events_to_fit_nl, config.exp_decay)
 
-        # print("\nEvaluating Classifier and Regression Model on the unseen_events data:")
+        # print("\nEvaluating Classifier and Regression Model on the test dataset:")
         # evaluate_survey_classifier(events_to_fit, events_to_fit_nl)
         # evaluate_survey_regression(events_to_fit, events_to_fit_nl)
 
@@ -137,7 +137,7 @@ def evaluate_survey(events_to_fit, events_to_fit_nl, generate_new_predictions=Fa
         # evaluate_survey_gpt()
 
     # Calculate only the metrics
-    print("\nCalculating the Evaluation metrics from the saved prediction files for the survey data...")
+    print("\nCalculating the Evaluation metrics from the saved prediction files for the test dataset...")
     calculate_metrics(config.EVALUATION_SURVEY_FILE_PATH)
 
 
@@ -214,8 +214,8 @@ def build_parser():
     evaluate_parser = subparsers.add_parser("evaluate", help="Evaluate models on seen or unseen events.")
     evaluate_parser.add_argument(
         "--scope",
-        choices=["seen", "survey", "properties"],
-        default="seen",
+        choices=["training", "test"],
+        default="test",
         help="Which evaluation to run.",
     )
     evaluate_parser.add_argument(
@@ -225,12 +225,10 @@ def build_parser():
     )
 
     def _evaluate_cmd(args):
-        if args.scope == "seen":
+        if args.scope == "training":
             evaluate_models_seen_events(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=args.generate_new_predictions)
-        elif args.scope == "survey":
+        elif args.scope == "test":
             evaluate_survey(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=args.generate_new_predictions)
-        elif args.scope == "properties":
-            evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
 
     evaluate_parser.set_defaults(func=_evaluate_cmd)
 
