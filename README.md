@@ -41,11 +41,13 @@ Change the configuration when calling `plot_results(...)` in the main.py.
   ```
   python3 main.py plot --adverbial "long time ago"
   ```
-- Predict for a custom event:
+- Exemplary Prediction: 
+The most probable interval where the event has taken place (give the adverbial) and all adverbial membership values are 
+predicted for each configuration of FuzzyLLI.
   ```
   python3 main.py predict \
     --event-nl "I was at the hospital" \
-    --adverbial "just" \
+    --adverbial "some time ago" \
     --minutes-ago 120 \
     --properties '{"Richness":5,"Frequency":1,"Importance":5}'
   ```
