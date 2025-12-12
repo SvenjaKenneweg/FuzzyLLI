@@ -19,47 +19,42 @@ import src.config as config
 import sys
 import pandas as pd
 
-# Open a file in write mode
-log_file = open('output.log', 'w')
-# Redirect print statements to the file
-# sys.stdout = log_file
-
 
 def train_models(events, events_nl):
     """
     Train various models for event adverbials, embeddings, and random forests.
     """
-    # print("\nGet the event properties using GPT")
-    # get_all_event_properties_gpt(events_nl, config.DATA_DIR / "event_properties.json")
-    # events_nl_survey = ["You attended a meeting", "You bought a house", "You went camping", "You went to a concert", "You ate breakfast"]
-    # get_all_event_properties_gpt(events_nl_survey, config.DATA_EVALUATION_SURVEY_PATH / "event_properties.json")
+    print("\nGet the event properties using GPT")
+    get_all_event_properties_gpt(events_nl, config.DATA_DIR / "event_properties.json")
+    events_nl_survey = ["You attended a meeting", "You bought a house", "You went camping", "You went to a concert", "You ate breakfast"]
+    get_all_event_properties_gpt(events_nl_survey, config.DATA_EVALUATION_SURVEY_PATH / "event_properties.json")
 
     # print("\nTraining Event Adverbials, Embeddings, and Random Forest...")
     fit_event_adverbials(events)
-    # fit_event_specific_embeddings(events, events_nl)
-    # fit_event_specific_random_forest(events, events_nl)
+    fit_event_specific_embeddings(events, events_nl)
+    fit_event_specific_random_forest(events, events_nl)
     fit_event_specific_functions(events, events_nl,config.powerlaw)
-    # fit_event_specific_functions(events, events_nl, config.exp_decay)
-    #
-    # print("\nTraining Simple Models (Classifier, Regression)...")
-    # fit_classifier(events, events_nl)
-    # fit_regression(events, events_nl)
+    fit_event_specific_functions(events, events_nl, config.exp_decay)
+
+    print("\nTraining Simple Models (Classifier, Regression)...")
+    fit_classifier(events, events_nl)
+    fit_regression(events, events_nl)
 
 
 def make_predictions(event_nl, event_properties, adverbial, minutes_ago):
     """
     Make predictions using different models.
     """
-    # print("\nPredictions using Classifiers and Regression:")
-    # print(predict_adverbial_classifier(event_nl, minutes_ago, event_properties))
-    # print(predict_adverbial_regression(event_nl, minutes_ago, event_properties))
+    print("\nPredictions using Classifiers and Regression:")
+    print(predict_adverbial_classifier(event_nl, minutes_ago, event_properties))
+    print(predict_adverbial_regression(event_nl, minutes_ago, event_properties))
 
     print("\nPredictions using FuzzyLLI Configurations:")
-    # print(predict_time_frame_embedding(event_nl, adverbial))
-    # print(predict_adverbial_embedding(event_nl, minutes_ago))
-    # print(predict_time_frame_random_forest(event_properties, adverbial))
+    print(predict_time_frame_embedding(event_nl, adverbial))
+    print(predict_adverbial_embedding(event_nl, minutes_ago))
+    print(predict_time_frame_random_forest(event_properties, adverbial))
     print(predict_adverbial_random_forest(event_properties, minutes_ago))
-    # print(predict_adverbial_functions(event_properties, minutes_ago, config.powerlaw))
+    print(predict_adverbial_functions(event_properties, minutes_ago, config.powerlaw))
     # print(predict_adverbial_functions(event_properties, minutes_ago, config.exp_decay))
 
 
@@ -68,19 +63,19 @@ def evaluate_models_seen_events(events, events_nl, generate_new_predictions=Fals
     Evaluate the models by comparing the predicted labels on seen events
     """
     if generate_new_predictions:
-        # print("\nEvaluation Embeddings + Regressor:")
-        # get_predictions_embedding(events, events_nl)
-        #
-        # print("\nEvaluation Random Forest:")
-        # get_predictions_random_forest(events, events_nl)
+        print("\nEvaluation Embeddings + Regressor:")
+        get_predictions_embedding(events, events_nl)
 
-        # print("\nEvaluation Power Law and Exponential Decay:")
+        print("\nEvaluation Random Forest:")
+        get_predictions_random_forest(events, events_nl)
+
+        print("\nEvaluation Power Law:")
         get_predictions_functions(events, events_nl, function_to_use=config.powerlaw)
         # get_predictions_functions(events, events_nl, function_to_use=config.exp_decay)
-        #
-        # print("\nEvaluation Baseline Models (Classifier, Regression):")
-        # get_predictions_classifier(events, events_nl)
-        # get_predictions_regression(events, events_nl)
+
+        print("\nEvaluation Baseline Models (Classifier, Regression):")
+        get_predictions_classifier(events, events_nl)
+        get_predictions_regression(events, events_nl)
 
         # print("\n Evaluating GPT:")
         # evaluate_gpt(events, events_nl)
@@ -96,19 +91,19 @@ def evaluate_survey(events_to_fit, events_to_fit_nl, generate_new_predictions=Fa
     Evaluate the models by comparing the predicted adverbials for new events with the unseen_events results
     """
     if generate_new_predictions:
-        # print("\nEvaluating Random Forest on the unseen_events data:")
-        # evaluate_survey_random_forest(events_to_fit, events_to_fit_nl)
-        #
-        # print("\nEvaluating Embeddings + Regressor on the unseen_events data:")
-        # evaluate_survey_embedding(events_to_fit, events_to_fit_nl)
+        print("\nEvaluating Random Forest on the unseen_events data:")
+        evaluate_survey_random_forest(events_to_fit, events_to_fit_nl)
 
-        print("\nEvaluation Power Law and Exponential Decay on the unseen survey data:")
+        print("\nEvaluating Embeddings + Regressor on the unseen_events data:")
+        evaluate_survey_embedding(events_to_fit, events_to_fit_nl)
+
+        print("\nEvaluation Power Law on the unseen survey data:")
         evaluate_survey_functions(events_to_fit, events_to_fit_nl, config.powerlaw)
         # evaluate_survey_functions(events_to_fit, events_to_fit_nl, config.exp_decay)
-        #
-        # print("\nEvaluating Classifier and Regression Model on the unseen_events data:")
-        # evaluate_survey_classifier(events_to_fit, events_to_fit_nl)
-        # evaluate_survey_regression(events_to_fit, events_to_fit_nl)
+
+        print("\nEvaluating Classifier and Regression Model on the unseen_events data:")
+        evaluate_survey_classifier(events_to_fit, events_to_fit_nl)
+        evaluate_survey_regression(events_to_fit, events_to_fit_nl)
 
         # print("\nEvaluating GPT on the unseen events data:")
         # evaluate_survey_gpt()
@@ -117,19 +112,33 @@ def evaluate_survey(events_to_fit, events_to_fit_nl, generate_new_predictions=Fa
     print("\nCalculating the Evaluation metrics from the saved prediction files for the survey data...")
     calculate_metrics(config.EVALUATION_SURVEY_FILE_PATH)
 
+def evaluate_event_properties(events, events_nl): #
+    """
+    Evaluate all possible combinations of event properties by running the other two evaluations on each combination-
+    At this timepoint this is done for every configuration. Comment parts in the other function out to
+    evaluate only a specific configuration
+    """
+    # Evaluate all combinations of event properties
+    all_props = ["Richness", "Frequency", "Importance"]
+    train_models(events, events_nl)
+    for r in range(1, len(all_props) + 1):
+        for combo in combinations(all_props, r):
+            config.properties_to_use = list(combo)
+            evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
+            evaluate_survey(events, events_nl, generate_new_predictions=True)
 
-def plot_results(events, events_nl, adverbial):
+
+def plot_results(events, events_nl, adverbial, predict_function):
     """
     Plot the results for event adverbials.
     """
+    print("Plotting results are saved under results/plots/...")
     print("Plotting Event Adverbials...")
     plot_all_persons_event_adverbials(events)
-
-    # for event_name, event_name_nl in zip(events, events_nl):
-    #     print("Plotting single Event")
-    #     plot_single_events(event_name, event_name_nl, predict_adverbial_random_forest)
-
-    # plot_events_adverbials(events, adverbial)
+    for event_name, event_name_nl in zip(events, events_nl):
+        print("Plotting single Event: ", event_name)
+        plot_single_events(event_name, event_name_nl, predict_function)
+    plot_events_adverbials(events, adverbial)
 
 
 def main():
@@ -148,42 +157,20 @@ def main():
         "Tom chatted with a friend", "I had my wedding celebration", "I had my wallet stolen"
     ]
 
-
-    # # Test event for making the predictions
-    # event_nl = "I was at the hospital"
-    event_properties = [{'Richness': 5, 'Frequency': 1, 'Importance': 5}]
-    # adverbial = "just"
-    minutes_ago = 120
-    plot_all_persons_event_adverbials(events)
-    # fit_event_specific_random_forest(events, events_nl)
-    # low, high = predict_time_frame_random_forest(event_properties, "long time ago", min_prob=0.9)
-    # print((low+high)/2)
-
     # Run the steps sequentially
-    # train_models(events, events_nl) # Trains FuzzyLLI in all variants and the baseline models
-    # make_predictions(event_nl, event_properties, adverbial, minutes_ago) #Predicts minutes ago or the event and the best fitting adverbials
-    # evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
-    # evaluate_survey(events, events_nl, generate_new_predictions=True)
+    train_models(events, events_nl) # Trains FuzzyLLI in all variants and the baseline models
+    evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
+    evaluate_survey(events, events_nl, generate_new_predictions=True)
+    evaluate_event_properties(events, events_nl)
+    plot_results(events, events_nl, "long time ago", predict_adverbial_random_forest) # Plots FuzzyLLI
 
-    # events = [
-    #     "own_shower", "own_vacation"
-    # ]
-    # events_nl = [
-    #     "I took a shower", "I had my wedding celebration"
-    # ]
-    # plot_results(events, events_nl, "long time ago") # Plots FuzzyLLI
-
-    # # Evaluate all combinations of event properties
-    # all_props = ["Richness", "Frequency", "Importance"]
-    # train_models(events, events_nl)
-    # for r in range(1, len(all_props) + 1):
-    #     for combo in combinations(all_props, r):
-    #         config.properties_to_use = list(combo)
-    #         evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
-    #         # evaluate_survey(events, events_nl, generate_new_predictions=True)
+    # Test event for making the predictions
+    event_properties = [{'Richness': 5, 'Frequency': 1, 'Importance': 5}]
+    event_nl = "I was at the hospital"
+    adverbial = "just"
+    minutes_ago = 120
+    make_predictions(event_nl, event_properties, adverbial,
+                     minutes_ago)  # Predicts minutes ago or the event and the best fitting adverbials
 
 if __name__ == '__main__':
     main()
-
-# Close the log file at the end
-log_file.close()
