@@ -14,6 +14,7 @@ import json
 from pathlib import Path
 from typing import Callable, Dict, List
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import numpy as np
 import pandas as pd
 
@@ -153,6 +154,7 @@ def plot_all_persons_event_adverbials(
 
     outfile = config.PLOT_FILE_PATH / "highestStd_allAdverbials.png"
     fig.savefig(outfile, dpi=300)
+    plt.close()
 
 def plot_single_events(event_name, event_name_nl, predict_fn):
     with open(config.DATA_DIR / event_name / "cleanedData_minutes.json", "r", encoding="utf-8") as f:
@@ -203,15 +205,21 @@ def plot_single_events(event_name, event_name_nl, predict_fn):
 
     plt.xlim(left=0, right=x_limit_max)
     plt.xlabel('Time ago in minutes')
-    plt.ylabel('Median Value')
+    plt.ylabel('Membership Value')
     plt.title(f'{event_name} with {predict_fn.__name__}')
     plt.ylim(0, 1)
     plt.grid(True)
-    plt.legend()
+    handles, labels = plt.gca().get_legend_handles_labels()
+    style_handles = [
+        Line2D([0], [0], color='black', linestyle='-', label='Median membership (human)'),
+        Line2D([0], [0], color='black', linestyle='--', label='Model prediction'),
+    ]
+    plt.legend(handles + style_handles, labels + [h.get_label() for h in style_handles])
     plt.tight_layout()
     outfile = config.PLOT_FILE_PATH / event_name / "small_time_ago.png"
     outfile.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(outfile, dpi=300)
+    plt.close()
 
     # --- Plot 2: After x_limit ---
     plt.figure(figsize=(8, 5))
@@ -221,15 +229,21 @@ def plot_single_events(event_name, event_name_nl, predict_fn):
 
     plt.xlim(left=x_limit_min, right=max(max(t) for t, _, _ in results.values()))
     plt.xlabel('Time ago in minutes')
-    plt.ylabel('Median Value')
+    plt.ylabel('Membership Value')
     plt.title(f'{event_name} with {predict_fn.__name__}')
     plt.ylim(0, 1)
     plt.grid(True)
-    plt.legend()
+    handles, labels = plt.gca().get_legend_handles_labels()
+    style_handles = [
+        Line2D([0], [0], color='black', linestyle='-', label='Median membership (human)'),
+        Line2D([0], [0], color='black', linestyle='--', label='Model prediction'),
+    ]
+    plt.legend(handles + style_handles, labels + [h.get_label() for h in style_handles])
     plt.tight_layout()
     outfile = config.PLOT_FILE_PATH / event_name / "big_time_ago.png"
     outfile.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(outfile, dpi=300)
+    plt.close()
     return
 
 def plot_events_adverbials(events, adverbial):

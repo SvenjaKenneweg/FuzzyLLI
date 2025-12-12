@@ -156,10 +156,10 @@ def plot_results(events, events_nl, adverbial, predict_function):
           "The used FuzzyLLI configuration for the plotting is Random Forest")
     print("\nPlotting the FuzzyLLI Overview Diagram (Left each event, right the adverbials")
     plot_all_persons_event_adverbials(events)
+    print("\nPlotting the course of single events after fitting")
     for event_name, event_name_nl in zip(events, events_nl):
-        print("\nPlotting the course of the event after fitting: ", event_name)
         plot_single_events(event_name, event_name_nl, predict_function)
-    print("Plot only the median membership values of the given adverbial for the given events")
+    print("\nPlot only the median membership values of the given adverbial for the given events")
     plot_events_adverbials(events, adverbial)
 
 

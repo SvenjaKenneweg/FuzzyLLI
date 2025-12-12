@@ -32,6 +32,31 @@ def _load_packed(path: Path = config.RESULTS_FILE_PATH / "event_adverbials") -> 
 def _safe_round(value):
     return round(value) if math.isfinite(value) else value
 
+def _properties_dataframe(properties):
+    """
+    Normalize properties input to a DataFrame with columns ordered as config.properties_to_use.
+    Accepts dict, list of dicts, or DataFrame. Raises if required columns missing.
+    """
+    if isinstance(properties, pd.DataFrame):
+        df = properties.copy()
+    elif isinstance(properties, dict):
+        df = pd.DataFrame([properties])
+    else:
+        df = pd.DataFrame(properties)
+
+    # Normalize column casing to expected names
+    expected = {col.lower(): col for col in config.properties_to_use}
+    for col in list(df.columns):
+        col_lower = str(col).lower()
+        if col_lower in expected and col != expected[col_lower]:
+            df = df.rename(columns={col: expected[col_lower]})
+
+    missing = [col for col in config.properties_to_use if col not in df.columns]
+    if missing:
+        raise ValueError(f"Missing required property columns: {', '.join(missing)}")
+
+    return df[config.properties_to_use]
+
 def get_all_event_properties_gpt(events_nl, file_path, model_engine=config.GPT_VERSION):
     def format_scale(scale_dict):
         return "\n".join([f"{k} – {v}" for k, v in scale_dict.items()])
@@ -155,7 +180,8 @@ def predict_time_frame_random_forest(properties, adverbial, min_prob=0.6):
     adverbial_std = params["adverbial_stds"][adverbial]
 
     random_forest = load(config.RESULTS_FILE_PATH / config.RANDOM_FOREST_FILE)
-    event_std = random_forest.predict(pd.DataFrame(properties))[0]
+    properties_df = _properties_dataframe(properties)
+    event_std = random_forest.predict(properties_df)[0]
 
     lower_adverbial, higher_adverbial = config.gauss_inverse(min_prob, adverbial_mean, adverbial_std)
     upper_raw = config.inverse_event_specific_function(higher_adverbial, event_std)
@@ -171,8 +197,8 @@ def predict_adverbial_random_forest(properties, minutes_ago, *args):
     params = _load_packed()
 
     random_forest = load(config.RESULTS_FILE_PATH / config.RANDOM_FOREST_FILE)
-    # print(properties)
-    event_std = random_forest.predict(pd.DataFrame(properties))[0]
+    properties_df = _properties_dataframe(properties)
+    event_std = random_forest.predict(properties_df)[0]
 
     adverbial_probs = {}
     for adverbial in config.VAGUE_ADVERBIALS:
@@ -190,10 +216,8 @@ def predict_adverbial_functions(properties, minutes_ago, function_to_predict, *a
 
     model = load( f"{config.RESULTS_FILE_PATH}/{function_to_predict.__name__}.pkl")
     function_params = list(model["params"].values())
-    property_values = list(properties[0].values())
-    # print(properties)
-    # print(config.properties_to_use)
-    # print(property_values)
+    properties_df = _properties_dataframe(properties)
+    property_values = [properties_df.iloc[0][prop] for prop in config.properties_to_use]
     event_std = function_to_predict(property_values, *function_params)
 
     adverbial_probs = {}
@@ -204,6 +228,4 @@ def predict_adverbial_functions(properties, minutes_ago, function_to_predict, *a
         prob_adverbial = config.adverbial_specific_function(config.event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
         adverbial_probs[adverbial] = prob_adverbial
     return adverbial_probs
-
-
 
