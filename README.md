@@ -39,7 +39,7 @@ and extend the approach to new events or temporal expressions.
 
 ## Data + outputs
 - Input data: `datasets/training/<event>/cleanedData_minutes.json` and `datasets/test/...`.
-- GPT-derived properties: `datasets/training/event_properties.json`, `datasets/training/event_properties.json`.
+- GPT-derived properties: `datasets/training/event_properties.json`, `datasets/test/event_properties.json`.
 - Fits: `results/fits/`.
 - Evaluations: `results/evaluation/training_dataset/`, `results/evaluation/test_dataset/`.
 - Plots: `results/plots/`.
