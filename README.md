@@ -1,106 +1,67 @@
-# FuzzyLLI – A fuzzy probabilistic model of human interpretation of vague temporal adverbials
+# FuzzyLLI – A fuzzy probabilistic model of vague temporal adverbials
 
+FuzzyLLI blends ML and cognitive modeling to predict temporal adverbials (e.g., *just*, *recently*, *long time ago*) and event recency. It trains event-specific embeddings, random forests, power/exponential functions, and baseline classifiers/regressors, and it uses GPT to derive event properties (Richness, Frequency, Importance).
 
-This repository implements **FuzzyLLI**, a hybrid ML + cognitive modeling framework that predicts:
+## Highlights
+- Predict adverbials for events and minutes-ago from adverbials.
+- Train/evaluate on seen events and unseen survey-style events; optional property ablations.
+- Plot fitted event/adverbial membership functions.
+- GPT-based extraction of event properties for downstream models.
 
-- **Temporal adverbials** (e.g., *just*, *recently*, *long ago*) from events  
-- **Event recency** (minutes ago) from adverbials  
-- **Event properties** (Richness, Frequency, Importance) using GPT  
+## Repository layout
+- `main.py` — CLI entrypoint (full pipeline + subcommands).
+- `src/train.py` — training routines.
+- `src/predictions.py` — inference + GPT property extraction.
+- `src/evaluation.py`, `src/evaluation_survey.py` — metrics and evaluation drivers.
+- `src/plot.py` — visualisations.
+- `src/config.py` — paths, model settings, and function choices.
 
-FuzzyLLI integrates:
+## Setup
+1) Python 3.9+ recommended. Create and activate a virtual environment.
+2) Install dependencies: `pip install -r requirements.txt`.
+3) Set OpenAI credentials for property extraction (e.g., `export OPENAI_API_KEY=...`). GPT versions are configurable in `src/config.py`.
 
-- Event-specific embeddings  
-- Random forests  
-- Power-law & exponential decay functions  
-- Classifier + regression baselines  
-- GPT-based feature extraction  
-- Rich evaluation + visualization tools
+## Data expectations
+- Experimental event data under `data/with_event_properties/<event>/cleanedData_minutes.json`.
+- Survey/unseen data under `data/evaluation_survey`.
+- Model artifacts and metrics are written to `results/...` (see constants in `src/config.py`).
 
-This repository accompanies the paper:
-
-📄 *[A fuzzy probabilistic model of human interpretation of vague temporal adverbials]*  
-🔗 *[Under Review]*
-
-The entry point is: `src/main.py`.
-
----
-
-## What `src/main.py` does
-
-Running `src/main.py` executes a full pipeline:
-
-1. **Fetch event properties via GPT**
-   - Writes event properties to JSON files (one for training events, one for survey events).
-
-2. **Train models**
-   - Event adverbial models
-   - Event-specific embedding models
-   - Event-specific random forests
-   - Function-based models (power law + exp decay)
-   - Baseline classifier and regression
-
-3. **Evaluate**
-   - On “seen” experimental events
-   - On “unseen” survey-style events
-   - Optionally across **all combinations of event properties** (Richness/Frequency/Importance)
-
-4. **Plot results**
-   - Generates plots under `results/plots/...`
-
-5. **Run a demo prediction**
-   - Predict adverbials and/or timeframe for a test event.
-
----
-
-## Project structure (high level)
-
-The main script orchestrates functionality from these modules:
-
-- `src/train.py`
-  - `fit_event_adverbials`
-  - `fit_event_specific_embeddings`
-  - `fit_event_specific_random_forest`
-  - `fit_event_specific_functions`
-
-- `src/predictions.py`
-  - `predict_time_frame_embedding`
-  - `predict_adverbial_embedding`
-  - `predict_time_frame_random_forest`
-  - `predict_adverbial_random_forest`
-  - `predict_adverbial_functions`
-  - `get_all_event_properties_gpt`
-
-- `src/evaluation.py`
-  - `get_predictions_*` (writes predictions to disk)
-  - `calculate_metrics` (computes evaluation metrics from saved predictions)
-
-- `src/evaluation_survey.py`
-  - `evaluate_survey_*` (unseen-event evaluation)
-
-- `src/plot.py`
-  - `plot_all_persons_event_adverbials`
-  - `plot_single_events`
-  - `plot_events_adverbials`
-
-- `src/config.py`
-  - Paths (data, evaluation outputs)
-  - Model settings (e.g., which event properties to use)
-  - Function choices (`powerlaw`, `exp_decay`)
-
----
-
-## Requirements
-
-Install dependencies with `pip install -r requirements.txt`.
+## Usage (CLI)
+- Full pipeline (train → eval seen → eval survey → property ablations → plots → demo prediction):
+  ```
+  python3 main.py
+  ```
+- Train only:
+  ```
+  python3 main.py train
+  ```
+- Evaluate:
+  - Seen events: `python3 main.py evaluate --scope seen --generate-new-predictions`
+  - Survey/unseen: `python3 main.py evaluate --scope survey --generate-new-predictions`
+  - Property ablations: `python3 main.py evaluate --scope properties`
+- Plot fitted functions:
+  ```
+  python3 main.py plot --adverbial "long time ago"
+  ```
+- Predict for a custom event (properties can be a JSON object or a list of objects):
+  ```
+  python3 main.py predict \
+    --event-nl "I was at the hospital" \
+    --adverbial "just" \
+    --minutes-ago 120 \
+    --properties '{"Richness":5,"Frequency":1,"Importance":5}'
+  ```
 
 ## Configuration
+- Edit defaults, paths, and function choices in `src/config.py`.
+- Default events and the demo prediction live in `main.py`; the CLI uses these when you omit arguments.
 
-Configurations are saved in `src/config.py`.
+## Outputs
+- Fits: `results/fits/` (plus `results/fits/simple_models/`).
+- Evaluation metrics/predictions: `results/evaluation/seen_events/` and `results/evaluation/unseen_events/`.
+- Plots: `results/plots/` (e.g., `highestStd_allAdverbials.png`).
+- GPT prompts/properties: `data/with_event_properties/event_properties.json` and `data/evaluation_survey/event_properties.json`.
 
-## Running
-
-### Run the full pipeline
-From the repository root:
-
-```bash
-python -m src.main
+## Notes
+- Training and evaluation will generate/overwrite files under `results/` and may call GPT (cost + latency).
+- Some functionality depends on scikit-learn/xgboost; ensure system libraries meet their requirements.
