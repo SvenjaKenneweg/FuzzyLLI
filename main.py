@@ -88,7 +88,7 @@ def make_predictions(event_nl, event_properties, adverbial, minutes_ago):
 
 def evaluate_models_seen_events(events, events_nl, generate_new_predictions=False):
     """
-    Evaluate the models by comparing the predicted labels on seen events
+    Evaluate the models by comparing the predicted labels on training dataset (leave-one-out)
     """
     if generate_new_predictions:
         print("\nEvaluation Embeddings + Regressor:")
@@ -109,14 +109,14 @@ def evaluate_models_seen_events(events, events_nl, generate_new_predictions=Fals
         # evaluate_gpt(events, events_nl)
 
     # Calculate only the metrics
-    print("\nCalculating the Evaluation metrics from the saved prediction files for the experimental data...")
+    print("\nCalculating the Evaluation metrics from the saved prediction files for the training data...")
     calculate_metrics(config.EVALUATION_FILE_PATH)
 
 
 
 def evaluate_survey(events_to_fit, events_to_fit_nl, generate_new_predictions=False):
     """
-    Evaluate the models by comparing the predicted adverbials for new events with the unseen_events results
+    Evaluate the models by comparing the predicted adverbials for new events with the results of the test dataset
     """
     if generate_new_predictions:
         print("\nEvaluating Random Forest on the test dataset:")
@@ -133,7 +133,7 @@ def evaluate_survey(events_to_fit, events_to_fit_nl, generate_new_predictions=Fa
         # evaluate_survey_classifier(events_to_fit, events_to_fit_nl)
         # evaluate_survey_regression(events_to_fit, events_to_fit_nl)
 
-        # print("\nEvaluating GPT on the unseen events data:")
+        # print("\nEvaluating GPT on the test dataset:")
         # evaluate_survey_gpt()
 
     # Calculate only the metrics
@@ -211,7 +211,7 @@ def build_parser():
     train_parser.set_defaults(func=lambda args: train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL))
 
     # Evaluate
-    evaluate_parser = subparsers.add_parser("evaluate", help="Evaluate models on seen or unseen events.")
+    evaluate_parser = subparsers.add_parser("evaluate", help="Evaluate models on training (leave-one-out) or test dataset.")
     evaluate_parser.add_argument(
         "--scope",
         choices=["training", "test"],
