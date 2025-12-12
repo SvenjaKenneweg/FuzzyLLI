@@ -18,7 +18,7 @@ from src.predictions import (
     predict_adverbial_random_forest,
     predict_adverbial_functions
 )
-from src.evaluation import predict_gpt
+from src.evaluation_training_dataset import predict_gpt
 from src.simple_models_training import fit_classifier, fit_regression
 from src.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
 
@@ -63,7 +63,7 @@ def time_ago_to_minutes(time_str):
 def get_percentages():
     event_time_answer_counts = defaultdict(lambda: defaultdict(int))
     attention_check_questions = defaultdict(lambda: defaultdict(int))
-    votes_path = os.path.join(config.DATA_EVALUATION_SURVEY_PATH, "votes")
+    votes_path = os.path.join(config.DATASET_TEST_PATH, "votes")
     for filename in os.listdir(votes_path):
         if filename.endswith('.json'):
             file_path = os.path.join(votes_path, filename)
@@ -135,15 +135,15 @@ def compare_fuzzy_ranks(fuzzy_prediction: dict, ground_truth: dict):
         'kendall': kendall_corr
     }
 
-def run_survey_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn, events_to_fit_nl=None, function_to_use=None):
+def run_test_dataset_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn, events_to_fit_nl=None, function_to_use=None):
     fit_event_adverbials(events_to_fit)
     fit_fn(events_to_fit, events_to_fit_nl, function_to_use)
-    survey_data = get_percentages()
+    test_data = get_percentages()
     raw_results = []
 
-    for (event, minutes_ago), answers in survey_data.items():
+    for (event, minutes_ago), answers in test_data.items():
         if predict_fn in requires_properties:
-            with open(f"{config.DATA_EVALUATION_SURVEY_PATH}/event_properties.json", "r", encoding="utf-8") as fh:
+            with open(f"{config.DATASET_TEST_PATH}/event_properties.json", "r", encoding="utf-8") as fh:
                 event_properties = json.load(fh)
             prop_dict = event_properties[event.replace("Tom", "A friend").replace("You", "I")]
             properties = [{prop: prop_dict[prop] for prop in config.properties_to_use}]
@@ -164,58 +164,58 @@ def run_survey_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn, even
         })
     return raw_results
 
-def evaluate_survey_random_forest(events_to_fit, events_to_fit_nl):
-    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_event_specific_random_forest, predict_adverbial_random_forest, events_to_fit_nl = events_to_fit_nl)
+def evaluate_test_data_random_forest(events_to_fit, events_to_fit_nl):
+    raw_results = run_test_dataset_evaluation_and_save_preds(events_to_fit, fit_event_specific_random_forest, predict_adverbial_random_forest, events_to_fit_nl = events_to_fit_nl)
     output = {
         "raw": raw_results
     }
-    with open(config.EVALUATION_SURVEY_RANDOM_FOREST, "w") as f:
+    with open(config.EVALUATION_TEST_DATASET_RANDOM_FOREST, "w") as f:
         json.dump(output, f, indent=4)
     return
 
 
-def evaluate_survey_functions(events_to_fit, events_to_fit_nl, function_to_use):
-    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_event_specific_functions, predict_adverbial_functions, events_to_fit_nl=events_to_fit_nl, function_to_use=function_to_use)
+def evaluate_test_data_functions(events_to_fit, events_to_fit_nl, function_to_use):
+    raw_results = run_test_dataset_evaluation_and_save_preds(events_to_fit, fit_event_specific_functions, predict_adverbial_functions, events_to_fit_nl=events_to_fit_nl, function_to_use=function_to_use)
     output = {
         "raw": raw_results
     }
-    with open(f"{config.EVALUATION_SURVEY_FUNCTIONS_FILE}{function_to_use.__name__}.json", "w") as f:
+    with open(f"{config.EVALUATION_TEST_DATASET_FUNCTIONS_FILE}{function_to_use.__name__}.json", "w") as f:
         json.dump(output, f, indent=4)
     return
 
-def evaluate_survey_embedding(events_to_fit, events_to_fit_nl):
-    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_event_specific_embeddings, predict_adverbial_embedding, events_to_fit_nl = events_to_fit_nl)
+def evaluate_test_data_embedding(events_to_fit, events_to_fit_nl):
+    raw_results = run_test_dataset_evaluation_and_save_preds(events_to_fit, fit_event_specific_embeddings, predict_adverbial_embedding, events_to_fit_nl = events_to_fit_nl)
     output = {
         "raw": raw_results,
     }
-    with open(config.EVALUATION_SURVEY_EMBEDDINGS, "w") as f:
+    with open(config.EVALUATION_TEST_DATSET_EMBEDDINGS, "w") as f:
         json.dump(output, f, indent=4)
     return
 
-def evaluate_survey_classifier(events_to_fit, events_to_fit_nl):
-    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_classifier, predict_adverbial_classifier, events_to_fit_nl = events_to_fit_nl)
+def evaluate_test_data_classifier(events_to_fit, events_to_fit_nl):
+    raw_results = run_test_dataset_evaluation_and_save_preds(events_to_fit, fit_classifier, predict_adverbial_classifier, events_to_fit_nl = events_to_fit_nl)
     output = {
         "raw": raw_results
     }
-    with open(config.EVALUATION_SURVEY_CLASSIFIER, "w") as f:
+    with open(config.EVALUATION_TEST_DATASET_CLASSIFIER, "w") as f:
         json.dump(output, f, indent=4)
     return
 
-def evaluate_survey_regression(events_to_fit, events_to_fit_nl):
-    raw_results = run_survey_evaluation_and_save_preds(events_to_fit, fit_regression, predict_adverbial_regression, events_to_fit_nl = events_to_fit_nl)
+def evaluate_test_data_regression(events_to_fit, events_to_fit_nl):
+    raw_results = run_test_dataset_evaluation_and_save_preds(events_to_fit, fit_regression, predict_adverbial_regression, events_to_fit_nl = events_to_fit_nl)
     output = {
         "raw": raw_results
     }
-    with open(config.EVALUATION_SURVEY_REGRESSION, "w") as f:
+    with open(config.EVALUATION_TEST_DATASET_REGRESSION, "w") as f:
         json.dump(output, f, indent=4)
     return
 
 
-def evaluate_survey_gpt():
+def evaluate_test_data_gpt():
     predictions_data = []
-    survey_data = get_percentages()
+    test_data = get_percentages()
 
-    for (event, minutes_ago), answers in survey_data.items():
+    for (event, minutes_ago), answers in test_data.items():
         ground_truth = {k: v / sum(answers.values()) for k, v in answers.items()}
         for adv in config.VAGUE_ADVERBIALS:
             if adv not in ground_truth:
@@ -236,9 +236,9 @@ def evaluate_survey_gpt():
         "GPT-Version": config.GPT_VERSION
     }
     if "gpt-4" in config.GPT_VERSION:
-        save_file = config.GPT4_SURVEY_PROMPT_FILE
+        save_file = config.GPT4_TEST_DATASET_PROMPT_FILE
     else:
-        save_file = config.GPT5_SURVEY_PROMPT_FILE
+        save_file = config.GPT5_TEST_DATASET_PROMPT_FILE
     with open(save_file, "w") as f:
         json.dump(json_drop, f, indent=4)
     return

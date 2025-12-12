@@ -86,7 +86,7 @@ def plot_all_persons_event_adverbials(
     packed = _load_packed()
     main_event = _select_main_event(packed, events_to_plot)
 
-    # Use x‑axis sized to the main event's data
+    # Use x‑axis sized to the main event's datasets
     json_path = config.DATA_DIR / main_event / "cleanedData_minutes.json"
     with json_path.open("r", encoding="utf-8") as fh:
         values_vague_adverbial = json.load(fh)
@@ -152,7 +152,7 @@ def plot_all_persons_event_adverbials(
 
     plt.tight_layout(rect=[0, 0, 1, 0.99])
 
-    outfile = config.PLOT_FILE_PATH / "highestStd_allAdverbials.png"
+    outfile = config.PLOT_FILE_PATH / "fuzzylli.png"
     fig.savefig(outfile, dpi=300)
     plt.close()
 

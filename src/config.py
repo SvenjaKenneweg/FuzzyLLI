@@ -7,13 +7,13 @@ from scipy.special import erf, erfinv
 # File paths
 RESULTS_FILE_PATH = Path("results/fits/")
 PLOT_FILE_PATH = Path("results/plots")
-EVALUATION_FILE_PATH = Path("results/evaluation/seen_events/")
-EVALUATION_SURVEY_FILE_PATH = Path("results/evaluation/unseen_events/")
-DATA_EVALUATION_SURVEY_PATH =  Path("data/evaluation_survey")
-DATA_DIR = Path("data/with_event_properties")
-RESULTS_JSON = RESULTS_FILE_PATH / "event_adverbials.json"
-EMBEDDING_RIDGE_FILE = 'event_embeddings_ridge.pkl'
-RANDOM_FOREST_FILE = 'event_random_forest.pkl'
+EVALUATION_FILE_PATH = Path("results/evaluation/training_dataset/")
+EVALUATION_TEST_DATASET_FILE_PATH = Path("results/evaluation/test_dataset/")
+DATASET_TEST_PATH =  Path("datasets/test")
+DATA_DIR = Path("datasets/training")
+RESULTS_JSON = RESULTS_FILE_PATH / "fuzzylli.json"
+EMBEDDING_RIDGE_FILE = 'configuration_word_embeddings.pkl'
+RANDOM_FOREST_FILE = 'configuration_random_forest.pkl'
 EMBEDDING_MODEL = 'paraphrase-MiniLM-L6-v2'
 RESULTS_SIMPLE_FILE_PATH = Path("results/fits/simple_models/")
 GRADIENT_BOOSTING_FILE = 'gradient_boosting_classifier.pkl'
@@ -31,13 +31,13 @@ GPT5_PROMPT_FILE = EVALUATION_FILE_PATH / 'GPT5_Prompts.json'
 
 GPT_VERSION = "gpt-4.1-2025-04-14"
 
-EVALUATION_SURVEY_RANDOM_FOREST = EVALUATION_SURVEY_FILE_PATH / 'random_forest.json'
-EVALUATION_SURVEY_FUNCTIONS_FILE = EVALUATION_SURVEY_FILE_PATH / 'functions_'
-GPT4_SURVEY_PROMPT_FILE = EVALUATION_SURVEY_FILE_PATH / 'GPT4_Prompts.json'
-GPT5_SURVEY_PROMPT_FILE = EVALUATION_SURVEY_FILE_PATH / 'GPT5_Prompts.json'
-EVALUATION_SURVEY_EMBEDDINGS = EVALUATION_SURVEY_FILE_PATH / 'embeddings_regression.json'
-EVALUATION_SURVEY_CLASSIFIER = EVALUATION_SURVEY_FILE_PATH / 'classifier.json'
-EVALUATION_SURVEY_REGRESSION = EVALUATION_SURVEY_FILE_PATH / 'regression.json'
+EVALUATION_TEST_DATASET_RANDOM_FOREST = EVALUATION_TEST_DATASET_FILE_PATH / 'random_forest.json'
+EVALUATION_TEST_DATASET_FUNCTIONS_FILE = EVALUATION_TEST_DATASET_FILE_PATH / 'functions_'
+GPT4_TEST_DATASET_PROMPT_FILE = EVALUATION_TEST_DATASET_FILE_PATH / 'GPT4_Prompts.json'
+GPT5_TEST_DATASET_PROMPT_FILE = EVALUATION_TEST_DATASET_FILE_PATH / 'GPT5_Prompts.json'
+EVALUATION_TEST_DATSET_EMBEDDINGS = EVALUATION_TEST_DATASET_FILE_PATH / 'embeddings_regression.json'
+EVALUATION_TEST_DATASET_CLASSIFIER = EVALUATION_TEST_DATASET_FILE_PATH / 'classifier.json'
+EVALUATION_TEST_DATASET_REGRESSION = EVALUATION_TEST_DATASET_FILE_PATH / 'regression.json'
 
 # List of vague adverbials
 VAGUE_ADVERBIALS: List[str] = ["recently", "just", "some time ago", "long time ago"]

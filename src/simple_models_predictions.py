@@ -57,7 +57,7 @@ def predict_adverbial_classifier(event_nl, minutes_ago, event_properties=None, *
         with open(file_path, "r", encoding="utf-8") as fh:
             properties = json.load(fh)
         if event_to_find not in properties:
-            file_path = f"{config.DATA_EVALUATION_SURVEY_PATH}/event_properties.json"
+            file_path = f"{config.DATASET_TEST_PATH}/event_properties.json"
             with open(file_path, "r", encoding="utf-8") as fh:
                 properties = json.load(fh)
         frequency = properties[event_to_find]["Frequency"]
@@ -93,7 +93,7 @@ def predict_adverbial_regression(event_nl, minutes_ago, event_properties=None, *
         with open(file_path, "r", encoding="utf-8") as fh:
             properties = json.load(fh)
         if event_to_find not in properties:
-            file_path = f"{config.DATA_EVALUATION_SURVEY_PATH}/event_properties.json"
+            file_path = f"{config.DATASET_TEST_PATH}/event_properties.json"
             with open(file_path, "r", encoding="utf-8") as fh:
                 properties = json.load(fh)
         frequency = properties[event_to_find]["Frequency"]

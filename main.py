@@ -7,12 +7,12 @@ from src.train import (fit_event_adverbials, fit_event_specific_embeddings, fit_
 from src.plot import plot_all_persons_event_adverbials, plot_single_events, plot_events_adverbials
 from src.predictions import (predict_time_frame_embedding, predict_adverbial_embedding, predict_adverbial_functions,
                              predict_time_frame_random_forest, predict_adverbial_random_forest, get_all_event_properties_gpt)
-from src.evaluation import (get_predictions_classifier, get_predictions_regression,
-                            get_predictions_embedding, get_predictions_random_forest,
-                            get_predictions_functions,
-                            evaluate_gpt, calculate_metrics)
-from src.evaluation_survey import (evaluate_survey_random_forest, evaluate_survey_functions,
-                                   evaluate_survey_embedding, evaluate_survey_gpt, evaluate_survey_regression, evaluate_survey_classifier)
+from src.evaluation_training_dataset import (get_predictions_classifier, get_predictions_regression,
+                                             get_predictions_embedding, get_predictions_random_forest,
+                                             get_predictions_functions,
+                                             evaluate_gpt, calculate_metrics)
+from src.evaluation_test_dataset import (evaluate_test_data_random_forest, evaluate_test_data_functions,
+                                         evaluate_test_data_embedding, evaluate_test_data_gpt, evaluate_test_data_regression, evaluate_test_data_classifier)
 from src.simple_models_training import fit_classifier, fit_regression
 from src.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
 import src.config as config
@@ -43,30 +43,22 @@ def train_models(events, events_nl):
     """
     Train various models for event adverbials, embeddings, and random forests.
     """
-    print("\nGet the event properties using GPT (saved in under data/.../event_properties.json)")
+    print("\nGet the event properties using GPT (saved in under datasets/.../event_properties.json)")
     get_all_event_properties_gpt(events_nl, config.DATA_DIR / "event_properties.json")
     events_nl_survey = ["You attended a meeting", "You bought a house", "You went camping", "You went to a concert", "You ate breakfast"]
-    get_all_event_properties_gpt(events_nl_survey, config.DATA_EVALUATION_SURVEY_PATH / "event_properties.json")
+    get_all_event_properties_gpt(events_nl_survey, config.DATASET_TEST_PATH / "event_properties.json")
 
     print("\nTraining FuzzyLLI in all three configurations (Power Law, Random Forest, Word Embeddings)...")
     fit_event_adverbials(events)
     fit_event_specific_embeddings(events, events_nl)
     fit_event_specific_random_forest(events, events_nl)
     fit_event_specific_functions(events, events_nl,config.powerlaw)
-    # fit_event_specific_functions(events, events_nl, config.exp_decay)
-
-    # print("\nTraining Simple Models (Classifier, Regression)...")
-    # fit_classifier(events, events_nl)
-    # fit_regression(events, events_nl)
 
 
 def make_predictions(event_nl, event_properties, adverbial, minutes_ago):
     """
     Make predictions using different models.
     """
-    # print(predict_adverbial_functions(event_properties, minutes_ago, config.exp_decay))
-    # print(predict_adverbial_classifier(event_nl, minutes_ago, event_properties))
-    # print(predict_adverbial_regression(event_nl, minutes_ago, event_properties))
     print("\nPredict the interval where the event (threshold = 0.6) has taken place and the adverbials"
           " memberships using Word Embeddings:")
     tf_emb = predict_time_frame_embedding(event_nl, adverbial)
@@ -86,7 +78,7 @@ def make_predictions(event_nl, event_properties, adverbial, minutes_ago):
     print(f"Properties: {event_properties} | Minutes ago: {minutes_ago} -> Adverbial memberships: {adv_func}")
 
 
-def evaluate_models_seen_events(events, events_nl, generate_new_predictions=False):
+def evaluate_models_training_dataset(events, events_nl, generate_new_predictions=False):
     """
     Evaluate the models by comparing the predicted labels on training dataset (leave-one-out)
     """
@@ -99,46 +91,30 @@ def evaluate_models_seen_events(events, events_nl, generate_new_predictions=Fals
 
         print("\nEvaluation Power Law:")
         get_predictions_functions(events, events_nl, function_to_use=config.powerlaw)
-        # get_predictions_functions(events, events_nl, function_to_use=config.exp_decay)
-
-        # print("\nEvaluation Baseline Models (Classifier, Regression):")
-        # get_predictions_classifier(events, events_nl)
-        # get_predictions_regression(events, events_nl)
-
-        # print("\n Evaluating GPT:")
-        # evaluate_gpt(events, events_nl)
 
     # Calculate only the metrics
-    print("\nCalculating the Evaluation metrics from the saved prediction files for the training data...")
+    print("\nCalculating the Evaluation metrics from the saved prediction files for the training datasets...")
     calculate_metrics(config.EVALUATION_FILE_PATH)
 
 
 
-def evaluate_survey(events_to_fit, events_to_fit_nl, generate_new_predictions=False):
+def evaluate_models_test_dataset(events_to_fit, events_to_fit_nl, generate_new_predictions=False):
     """
     Evaluate the models by comparing the predicted adverbials for new events with the results of the test dataset
     """
     if generate_new_predictions:
         print("\nEvaluating Random Forest on the test dataset:")
-        evaluate_survey_random_forest(events_to_fit, events_to_fit_nl)
+        evaluate_test_data_random_forest(events_to_fit, events_to_fit_nl)
 
         print("\nEvaluating Embeddings + Regressor on the test dataset:")
-        evaluate_survey_embedding(events_to_fit, events_to_fit_nl)
+        evaluate_test_data_embedding(events_to_fit, events_to_fit_nl)
 
         print("\nEvaluation Power Law on the test dataset:")
-        evaluate_survey_functions(events_to_fit, events_to_fit_nl, config.powerlaw)
-        # evaluate_survey_functions(events_to_fit, events_to_fit_nl, config.exp_decay)
-
-        # print("\nEvaluating Classifier and Regression Model on the test dataset:")
-        # evaluate_survey_classifier(events_to_fit, events_to_fit_nl)
-        # evaluate_survey_regression(events_to_fit, events_to_fit_nl)
-
-        # print("\nEvaluating GPT on the test dataset:")
-        # evaluate_survey_gpt()
+        evaluate_test_data_functions(events_to_fit, events_to_fit_nl, config.powerlaw)
 
     # Calculate only the metrics
     print("\nCalculating the Evaluation metrics from the saved prediction files for the test dataset...")
-    calculate_metrics(config.EVALUATION_SURVEY_FILE_PATH)
+    calculate_metrics(config.EVALUATION_TEST_DATASET_FILE_PATH)
 
 
 def evaluate_event_properties(events, events_nl): #
@@ -153,8 +129,8 @@ def evaluate_event_properties(events, events_nl): #
     for r in range(1, len(all_props) + 1):
         for combo in combinations(all_props, r):
             config.properties_to_use = list(combo)
-            evaluate_models_seen_events(events, events_nl, generate_new_predictions=True)
-            evaluate_survey(events, events_nl, generate_new_predictions=True)
+            evaluate_models_training_dataset(events, events_nl, generate_new_predictions=True)
+            evaluate_models_test_dataset(events, events_nl, generate_new_predictions=True)
 
 
 def plot_results(events, events_nl, adverbial, predict_function):
@@ -195,8 +171,8 @@ def run_full_pipeline():
     Preserve the previous default: train, evaluate, plot, and run a demo prediction.
     """
     train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
-    evaluate_models_seen_events(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
-    evaluate_survey(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
+    evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
+    evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
     # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
     plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_adverbial_random_forest)  # Plots FuzzyLLI
     make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
@@ -226,9 +202,9 @@ def build_parser():
 
     def _evaluate_cmd(args):
         if args.scope == "training":
-            evaluate_models_seen_events(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=args.generate_new_predictions)
+            evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=args.generate_new_predictions)
         elif args.scope == "test":
-            evaluate_survey(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=args.generate_new_predictions)
+            evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=args.generate_new_predictions)
 
     evaluate_parser.set_defaults(func=_evaluate_cmd)
 

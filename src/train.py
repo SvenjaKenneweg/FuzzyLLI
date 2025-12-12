@@ -262,7 +262,7 @@ def fit_event_specific_embeddings(events_to_fit, events_to_fit_nl, *args):
 
     ridge = Ridge(alpha=1.0)
     ridge.fit(X, y_log)
-    joblib.dump(ridge, config.RESULTS_FILE_PATH / 'event_embeddings_ridge.pkl')
+    joblib.dump(ridge, config.RESULTS_FILE_PATH / 'configuration_word_embeddings.pkl')
     return ridge
 
 
@@ -305,7 +305,7 @@ def fit_event_specific_random_forest(events_to_fit, events_to_fit_nl, inspect_pr
         plt.tight_layout()
         plt.show()
 
-    joblib.dump(model, config.RESULTS_FILE_PATH / 'event_random_forest.pkl')
+    joblib.dump(model, config.RESULTS_FILE_PATH / 'configuration_random_forest.pkl')
 
 
 def fit_event_specific_functions(events_to_fit, events_to_fit_nl, function_to_fit, *args):

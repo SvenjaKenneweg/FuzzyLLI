@@ -45,7 +45,7 @@ import src.config as config
 # Utility Functions
 # ---------------------------------------------------------------------------
 def adjust_richness_votes(votes: List[int]) -> List[int]:
-    """Correct for late addition of 'Hours' in unseen_events options."""
+    """Correct for late addition of 'Hours' in test_dataset options."""
     return [
         1 if v == 6 else (v + 1 if v != 0 else v)
         for v in votes
