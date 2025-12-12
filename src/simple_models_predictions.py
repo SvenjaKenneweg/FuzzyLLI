@@ -10,15 +10,46 @@ import src.config as config
 
 
 # ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def _normalize_event_properties(event_properties):
+    """
+    Accept DataFrame, dict, or list of dicts and return a DataFrame with
+    Frequency/Richness/Importance columns. Returns None if input is None.
+    """
+    if event_properties is None:
+        return None
+    if isinstance(event_properties, pd.DataFrame):
+        return event_properties
+    if isinstance(event_properties, dict):
+        event_properties = [event_properties]
+    if isinstance(event_properties, list):
+        normalized = []
+        for item in event_properties:
+            if not isinstance(item, dict):
+                raise ValueError("Each event_properties item must be a dict.")
+            normalized.append({
+                "Frequency": item.get("Frequency", item.get("frequency")),
+                "Richness": item.get("Richness", item.get("richness")),
+                "Importance": item.get("Importance", item.get("importance")),
+            })
+        return pd.DataFrame(normalized)
+    raise ValueError("event_properties must be a DataFrame, dict, list of dicts, or None.")
+
+
+# ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
 
 def predict_adverbial_classifier(event_nl, minutes_ago, event_properties=None, *args):
-    if event_properties is not None and not event_properties.empty:
-        values_dict = event_properties.iloc[0].to_dict()
-        frequency = values_dict["Frequency"]
-        richness = values_dict["Richness"]
-        importance = values_dict["Importance"]
+    event_properties_df = _normalize_event_properties(event_properties)
+
+    if event_properties_df is not None and not event_properties_df.empty:
+        values_dict = event_properties_df.iloc[0].to_dict()
+        frequency = values_dict.get("Frequency", values_dict.get("frequency"))
+        richness = values_dict.get("Richness", values_dict.get("richness"))
+        importance = values_dict.get("Importance", values_dict.get("importance"))
     else:
         # Get the previously saved event properties
         event_to_find = event_nl.replace("Tom", "A friend").replace("You", "I")
@@ -48,11 +79,13 @@ def predict_adverbial_classifier(event_nl, minutes_ago, event_properties=None, *
 
 
 def predict_adverbial_regression(event_nl, minutes_ago, event_properties=None, *args):
-    if event_properties is not None and not event_properties.empty:
-        values_dict = event_properties.iloc[0].to_dict()
-        frequency = values_dict["Frequency"]
-        richness = values_dict["Richness"]
-        importance = values_dict["Importance"]
+    event_properties_df = _normalize_event_properties(event_properties)
+
+    if event_properties_df is not None and not event_properties_df.empty:
+        values_dict = event_properties_df.iloc[0].to_dict()
+        frequency = values_dict.get("Frequency", values_dict.get("frequency"))
+        richness = values_dict.get("Richness", values_dict.get("richness"))
+        importance = values_dict.get("Importance", values_dict.get("importance"))
     else:
         # Get the previously saved event properties
         event_to_find = event_nl.replace("Tom", "A friend").replace("You", "I")

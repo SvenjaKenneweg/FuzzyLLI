@@ -64,17 +64,18 @@ def make_predictions(event_nl, event_properties, adverbial, minutes_ago):
     """
     Make predictions using different models.
     """
-    print("\nPredictions using Classifiers and Regression:")
-    print(predict_adverbial_classifier(event_nl, minutes_ago, event_properties))
-    print(predict_adverbial_regression(event_nl, minutes_ago, event_properties))
-
-    print("\nPredictions using FuzzyLLI Configurations:")
+    # Not used in the paper
+    # print(predict_adverbial_functions(event_properties, minutes_ago, config.exp_decay))
+    # print(predict_adverbial_classifier(event_nl, minutes_ago, event_properties))
+    # print(predict_adverbial_regression(event_nl, minutes_ago, event_properties))
+    print("\nPredict the interval where the event (threshold = 0.6) has taken place and the adverbials memberships using Word Embeddings:")
     print(predict_time_frame_embedding(event_nl, adverbial))
     print(predict_adverbial_embedding(event_nl, minutes_ago))
+    print("\nPredict the interval where the event (threshold = 0.6) has taken place and the adverbials memberships using Random Forest:")
     print(predict_time_frame_random_forest(event_properties, adverbial))
     print(predict_adverbial_random_forest(event_properties, minutes_ago))
+    print("\nPredict the adverbials memberships using PowerLaw:")
     print(predict_adverbial_functions(event_properties, minutes_ago, config.powerlaw))
-    # print(predict_adverbial_functions(event_properties, minutes_ago, config.exp_decay))
 
 
 def evaluate_models_seen_events(events, events_nl, generate_new_predictions=False):
