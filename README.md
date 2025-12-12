@@ -2,12 +2,6 @@
 
 FuzzyLLI blends ML and cognitive modeling to predict temporal adverbials (e.g., *just*, *recently*, *long time ago*) and event recency. It trains event-specific embeddings, random forests, power/exponential functions, and baseline classifiers/regressors, and it uses GPT to derive event properties (Richness, Frequency, Importance).
 
-## Highlights
-- Predict adverbials for events and minutes-ago from adverbials.
-- Train/evaluate on seen events and unseen survey-style events; optional property ablations.
-- Plot fitted event/adverbial membership functions.
-- GPT-based extraction of event properties for downstream models.
-
 ## Repository layout
 - `main.py` — CLI entrypoint (full pipeline + subcommands).
 - `src/train.py` — training routines.
@@ -22,12 +16,12 @@ FuzzyLLI blends ML and cognitive modeling to predict temporal adverbials (e.g., 
 3) Set OpenAI credentials for property extraction (e.g., `export OPENAI_API_KEY=...`). GPT versions are configurable in `src/config.py`.
 
 ## Data expectations
-- Experimental event data under `data/with_event_properties/<event>/cleanedData_minutes.json`.
-- Survey/unseen data under `data/evaluation_survey`.
-- Model artifacts and metrics are written to `results/...` (see constants in `src/config.py`).
+- Training data under `data/with_event_properties`.
+- Test data under `data/evaluation_survey`.
+- Model fitting parameters and evaluation metrics are written to `results/...` (see constants in `src/config.py`).
 
 ## Usage (CLI)
-- Full pipeline (train → eval seen → eval survey → property ablations → plots → demo prediction):
+- Full pipeline (train → eval training → eval test → property ablations → plots → demo prediction):
   ```
   python3 main.py
   ```
@@ -36,14 +30,14 @@ FuzzyLLI blends ML and cognitive modeling to predict temporal adverbials (e.g., 
   python3 main.py train
   ```
 - Evaluate:
-  - Seen events: `python3 main.py evaluate --scope seen --generate-new-predictions`
-  - Survey/unseen: `python3 main.py evaluate --scope survey --generate-new-predictions`
+  - Training events (via leave-one-out): `python3 main.py evaluate --scope seen --generate-new-predictions`
+  - Test: `python3 main.py evaluate --scope survey --generate-new-predictions`
   - Property ablations: `python3 main.py evaluate --scope properties`
 - Plot fitted functions:
   ```
   python3 main.py plot --adverbial "long time ago"
   ```
-- Predict for a custom event (properties can be a JSON object or a list of objects):
+- Predict for a custom event:
   ```
   python3 main.py predict \
     --event-nl "I was at the hospital" \
@@ -57,10 +51,10 @@ FuzzyLLI blends ML and cognitive modeling to predict temporal adverbials (e.g., 
 - Default events and the demo prediction live in `main.py`; the CLI uses these when you omit arguments.
 
 ## Outputs
-- Fits: `results/fits/` (plus `results/fits/simple_models/`).
-- Evaluation metrics/predictions: `results/evaluation/seen_events/` and `results/evaluation/unseen_events/`.
-- Plots: `results/plots/` (e.g., `highestStd_allAdverbials.png`).
-- GPT prompts/properties: `data/with_event_properties/event_properties.json` and `data/evaluation_survey/event_properties.json`.
+- Fits: `results/fits/`.
+- Evaluation metrics/predictions: `results/evaluation/`.
+- Plots: `results/plots/`.
+- GPT predicted properties: `data/with_event_properties/event_properties.json` and `data/evaluation_survey/event_properties.json`.
 
 ## Notes
 - Training and evaluation will generate/overwrite files under `results/` and may call GPT (cost + latency).
