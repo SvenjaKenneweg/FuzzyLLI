@@ -21,19 +21,23 @@ FuzzyLLI blends ML and cognitive modeling to predict temporal adverbials (e.g., 
 - Model fitting parameters and evaluation metrics are written to `results/...` (see constants in `src/config.py`).
 
 ## Usage (CLI)
-- Full pipeline (train → eval training → eval test → property ablations → plots → demo prediction):
+Here all configurations of FuzzyLLI are used for training and evaluation. 
+If you want to use only a specific configuration comment out the others in the main.py
+If you want to train/eval/plot other events change the DEFAULT_EVENTS and DEFAULT_EVENTS_NL in the main.py
+- Full pipeline (train → eval training dataset → eval test dataset → plots → demo prediction):
   ```
   python3 main.py
   ```
-- Train only:
+- Train only (The Event Properties (GPT-4) are determined at the beginning of the training function):
   ```
   python3 main.py train
   ```
 - Evaluate:
-  - Training events (via leave-one-out): `python3 main.py evaluate --scope seen --generate-new-predictions`
-  - Test: `python3 main.py evaluate --scope survey --generate-new-predictions`
-  - Property ablations: `python3 main.py evaluate --scope properties`
+  - Training dataset (via leave-one-out): `python3 main.py evaluate --scope seen --generate-new-predictions`
+  - Test dataset: `python3 main.py evaluate --scope survey --generate-new-predictions`
 - Plot fitted functions:
+  The used configuration for plotting is Random Forest. 
+Change the configuration when calling `plot_results(...)` in the main.py. 
   ```
   python3 main.py plot --adverbial "long time ago"
   ```

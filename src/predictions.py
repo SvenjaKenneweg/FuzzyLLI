@@ -99,11 +99,6 @@ def get_all_event_properties_gpt(events_nl, file_path, model_engine=config.GPT_V
                 "Importance_desc": None,
                 "raw_response": content
             }
-
-        print(event_nl)
-        print(int(richness_match.group(1)))
-        print(config.RICHNESS_DESCRIPTIONS.get(int(richness_match.group(1))))
-        print("")
     # # Save to JSON
     # with open(file_path, "w", encoding="utf-8") as f:
     #     json.dump(results, f, indent=4, ensure_ascii=False)

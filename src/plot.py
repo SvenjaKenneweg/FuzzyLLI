@@ -257,7 +257,6 @@ def plot_events_adverbials(events, adverbial):
 
     plt.xlabel('Minutes ago')
     plt.ylabel('Membership value for the adverbial ' + str(adverbial))
-    # plt.title('Median Membership Value Over Time per Event')
     plt.legend()
     plt.grid(False)
     plt.tight_layout()
