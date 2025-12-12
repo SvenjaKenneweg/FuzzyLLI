@@ -11,8 +11,23 @@ the model captures how perceived temporal distance depends not only on elapsed t
 
 Check out the paper [here (Paper currently under review)](PATH_OR_URL_TO_PAPER) if you are interested in the details.
 
-This repository provides code, data, and evaluation resources to reproduce the experiments, analyze the model’s behavior, 
+This repository provides code, data, and evaluation resources to reproduce the experiments, analyze the model’s behavior, making predictions 
 and extend the approach to new events or temporal expressions.
+
+## Quick start
+- Python 3.8+ recommended. Create and activate a virtual environment.
+- Install deps: `pip install -r requirements.txt`
+- Set OpenAI credentials for property extraction: `export OPENAI_API_KEY=...` (model version in `src/config.py`)
+- Run the full pipeline: `python3 main.py`
+
+## What you can do
+- Train all FuzzyLLI variants and get the event property predictions via gpt
+- Evaluate on the training (via leave-one-out) and test dataset
+- Plot fitted event/adverbial probabilities/membership functions.
+- Make predictions for:
+  - event + happening time -> membership values of the vague adverbials
+  - adverbial + event type -> time interval where the event most probable has taken place
+
 
 ## Repository layout
 - `main.py` — CLI entrypoint (full pipeline + subcommands).
@@ -22,41 +37,40 @@ and extend the approach to new events or temporal expressions.
 - `src/plot.py` — Visualisations.
 - `src/config.py` — paths, model settings, and function choices.
 
-## Setup
-1) Python 3.9+ recommended. Create and activate a virtual environment.
-2) Install dependencies: `pip install -r requirements.txt`.
-3) Set OpenAI credentials for property extraction (e.g., `export OPENAI_API_KEY=...`). GPT versions are configurable in `src/config.py`.
+## Data + outputs
+- Input data: `datasets/training/<event>/cleanedData_minutes.json` and `datasets/test/...`.
+- GPT-derived properties: `datasets/training/event_properties.json`, `datasets/training/event_properties.json`.
+- Fits: `results/fits/`.
+- Evaluations: `results/evaluation/training_dataset/`, `results/evaluation/test_dataset/`.
+- Plots: `results/plots/`.
 
-## Data expectations
-- Training data under `dataset/training`.
-- Test data under `datasets/test`.
-- Model fitting parameters and evaluation metrics are written to `results/...` (see constants in `src/config.py`).
-
-## Usage (CLI)
+## CLI usage
 Here all configurations of FuzzyLLI are used for training and evaluation. 
-If you want to use only a specific configuration comment out the others in the main.py
+If you want to use only a specific configuration comment out the others in the `main.py`. 
 If you want to train/eval/plot other events change the DEFAULT_EVENTS and DEFAULT_EVENTS_NL in the main.py
-- Full pipeline (train → eval training dataset → eval test dataset → plots → demo prediction):
-  ```
+
+- Full pipeline (train →  eval training dataset → eval test dataset → plots → demo prediction):
+  ```bash
   python3 main.py
   ```
+
 - Train only (The Event Properties (GPT-4) are determined at the beginning of the training function):
-  ```
+  ```bash
   python3 main.py train
   ```
-- Evaluate:
+
+- Evaluate (regenerate predictions with `--generate-new-predictions`):
   - Training dataset (via leave-one-out): `python3 main.py evaluate --scope training --generate-new-predictions`
   - Test dataset: `python3 main.py evaluate --scope test --generate-new-predictions`
-- Plot fitted functions:
-  The used configuration for plotting is Random Forest. 
-Change the configuration when calling `plot_results(...)` in the main.py. 
-  ```
+
+- Plot (Random Forest configuration of FuzzyLLI by default):
+  ```bash
   python3 main.py plot --adverbial "long time ago"
   ```
-- Exemplary Prediction: 
-The most probable interval where the event has taken place (give the adverbial) and all adverbial membership values are 
-predicted for each configuration of FuzzyLLI.
-  ```
+
+- Exemplary Prediction: The most probable interval where the event has taken place (give the adverbial) and all adverbial 
+membership values are predicted for each configuration of FuzzyLLI. 
+  ```bash
   python3 main.py predict \
     --event-nl "I was at the hospital" \
     --adverbial "some time ago" \
@@ -64,16 +78,10 @@ predicted for each configuration of FuzzyLLI.
     --properties '{"Richness":5,"Frequency":1,"Importance":5}'
   ```
 
-## Configuration
-- Edit defaults, paths, and function choices in `src/config.py`.
-- Default events and the demo prediction live in `main.py`; the CLI uses these when you omit arguments.
-
-## Outputs
-- Fits: `results/fits/`.
-- Evaluation metrics/predictions: `results/evaluation/`.
-- Plots: `results/plots/`.
-- GPT predicted properties: `data/with_event_properties/event_properties.json` and `data/evaluation_survey/event_properties.json`.
+## Configuration tips
+- Adjust paths, model choices, and GPT model in `src/config.py`.
+- Change default events/demo inputs in `main.py`.
+- To limit training/eval to specific configurations, comment out the calls inside `main.py`.
 
 ## Notes
-- Training and evaluation will generate/overwrite files under `results/` and may call GPT (cost + latency).
-- Some functionality depends on scikit-learn/xgboost; ensure system libraries meet their requirements.
+- Training may call GPT (incurs cost/latency).
