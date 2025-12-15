@@ -106,10 +106,10 @@
                 "long time ago": 0.18790698113471957
             },
             "GT": {
-                "some time ago": 0.52,
-                "recently": 0.4,
-                "just": 0.02,
-                "long time ago": 0.06
+                "some time ago": 0.51,
+                "recently": 0.23,
+                "just": 0.01,
+                "long time ago": 0.25
             }
         },
         {
@@ -622,6 +622,726 @@
                 "recently": 0.5714285714285714,
                 "just": 0.02040816326530612,
                 "long time ago": 0.02040816326530612
+            }
+        },
+        {
+            "Event": "You had a dental checkup",
+            "Minutes ago": 1440,
+            "Prediction": {
+                "recently": 0.8759567134770427,
+                "just": 0.6960555262778928,
+                "some time ago": 0.41221003989145494,
+                "long time ago": 0.13891364677649326
+            },
+            "GT": {
+                "recently": 0.62,
+                "some time ago": 0.16,
+                "just": 0.16,
+                "long time ago": 0.06
+            }
+        },
+        {
+            "Event": "You had a dental checkup",
+            "Minutes ago": 120,
+            "Prediction": {
+                "recently": 0.7772129400056762,
+                "just": 0.821857017255651,
+                "some time ago": 0.40503568189012235,
+                "long time ago": 0.13534731023895752
+            },
+            "GT": {
+                "recently": 0.5510204081632653,
+                "just": 0.3673469387755102,
+                "long time ago": 0.02040816326530612,
+                "some time ago": 0.061224489795918366
+            }
+        },
+        {
+            "Event": "You took a long-haul flight",
+            "Minutes ago": 240,
+            "Prediction": {
+                "recently": 0.772684344910172,
+                "just": 0.8266848323238793,
+                "some time ago": 0.40473631370344054,
+                "long time ago": 0.13519940244751347
+            },
+            "GT": {
+                "recently": 0.44,
+                "some time ago": 0.12,
+                "just": 0.4,
+                "long time ago": 0.04
+            }
+        },
+        {
+            "Event": "You visited a museum",
+            "Minutes ago": 1576800,
+            "Prediction": {
+                "recently": 3.639241898354504e-287,
+                "just": 0.0,
+                "some time ago": 0.5200801700787181,
+                "long time ago": 0.8939628990659386
+            },
+            "GT": {
+                "long time ago": 0.7959183673469388,
+                "some time ago": 0.20408163265306123,
+                "recently": 0.0,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You prepared dinner",
+            "Minutes ago": 20160,
+            "Prediction": {
+                "recently": 2.970092843998276e-67,
+                "just": 5.520240777476733e-102,
+                "some time ago": 0.99273831601145,
+                "long time ago": 0.7357754249909619
+            },
+            "GT": {
+                "some time ago": 0.52,
+                "long time ago": 0.14,
+                "recently": 0.34,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You prepared dinner",
+            "Minutes ago": 4320,
+            "Prediction": {
+                "recently": 0.002584676230669292,
+                "just": 4.2281327838088784e-07,
+                "some time ago": 0.5672698385611773,
+                "long time ago": 0.2270568459623207
+            },
+            "GT": {
+                "recently": 0.58,
+                "some time ago": 0.3,
+                "long time ago": 0.12,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You took a long-haul flight",
+            "Minutes ago": 2628000,
+            "Prediction": {
+                "recently": 4.0348602388308725e-287,
+                "just": 0.0,
+                "some time ago": 0.5201937087948526,
+                "long time ago": 0.894043223564353
+            },
+            "GT": {
+                "long time ago": 0.84,
+                "some time ago": 0.16,
+                "recently": 0.0,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You prepared dinner",
+            "Minutes ago": 5,
+            "Prediction": {
+                "recently": 0.7700612778631429,
+                "just": 0.8294484287912248,
+                "some time ago": 0.40456371402838726,
+                "long time ago": 0.13511415963823278
+            },
+            "GT": {
+                "just": 0.94,
+                "some time ago": 0.02,
+                "recently": 0.04,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "You did laundry",
+            "Minutes ago": 5,
+            "Prediction": {
+                "recently": 0.7700612778631429,
+                "just": 0.8294484287912248,
+                "some time ago": 0.40456371402838726,
+                "long time ago": 0.13511415963823278
+            },
+            "GT": {
+                "just": 0.9583333333333334,
+                "some time ago": 0.020833333333333332,
+                "recently": 0.020833333333333332,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "You had a job interview",
+            "Minutes ago": 30,
+            "Prediction": {
+                "recently": 0.7683850359873231,
+                "just": 0.8312019772429712,
+                "some time ago": 0.40445371510080236,
+                "long time ago": 0.13505984638021268
+            },
+            "GT": {
+                "just": 0.6,
+                "recently": 0.36,
+                "long time ago": 0.02,
+                "some time ago": 0.02
+            }
+        },
+        {
+            "Event": "You prepared dinner",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 7.40191367955386e-18,
+                "just": 2.7049869988092594e-30,
+                "some time ago": 0.782710288035827,
+                "long time ago": 0.3970176230029408
+            },
+            "GT": {
+                "some time ago": 0.46,
+                "long time ago": 0.08,
+                "recently": 0.46,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You did laundry",
+            "Minutes ago": 20160,
+            "Prediction": {
+                "recently": 2.970092843998276e-67,
+                "just": 5.520240777476733e-102,
+                "some time ago": 0.99273831601145,
+                "long time ago": 0.7357754249909619
+            },
+            "GT": {
+                "some time ago": 0.42857142857142855,
+                "long time ago": 0.20408163265306123,
+                "recently": 0.3673469387755102,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You visited a museum",
+            "Minutes ago": 525600,
+            "Prediction": {
+                "recently": 1.0594993466240942e-168,
+                "just": 7.051139761583989e-244,
+                "some time ago": 0.8491189090484572,
+                "long time ago": 0.9955229468945234
+            },
+            "GT": {
+                "long time ago": 0.5510204081632653,
+                "some time ago": 0.4489795918367347,
+                "recently": 0.0,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You did laundry",
+            "Minutes ago": 240,
+            "Prediction": {
+                "recently": 0.8848000359189191,
+                "just": 0.6824317210183909,
+                "some time ago": 0.4129441688254786,
+                "long time ago": 0.13928093886142487
+            },
+            "GT": {
+                "recently": 0.4489795918367347,
+                "some time ago": 0.1836734693877551,
+                "just": 0.3469387755102041,
+                "long time ago": 0.02040816326530612
+            }
+        },
+        {
+            "Event": "You had a job interview",
+            "Minutes ago": 1440,
+            "Prediction": {
+                "recently": 0.815252312730709,
+                "just": 0.7783372334661379,
+                "some time ago": 0.40763105294322605,
+                "long time ago": 0.13663263478399734
+            },
+            "GT": {
+                "recently": 0.5918367346938775,
+                "some time ago": 0.1836734693877551,
+                "just": 0.1836734693877551,
+                "long time ago": 0.04081632653061224
+            }
+        },
+        {
+            "Event": "You visited a museum",
+            "Minutes ago": 240,
+            "Prediction": {
+                "recently": 0.7763598257166572,
+                "just": 0.8227720112796721,
+                "some time ago": 0.4049791490093378,
+                "long time ago": 0.13531937368993535
+            },
+            "GT": {
+                "recently": 0.44,
+                "some time ago": 0.12,
+                "just": 0.4,
+                "long time ago": 0.04
+            }
+        },
+        {
+            "Event": "You prepared dinner",
+            "Minutes ago": 240,
+            "Prediction": {
+                "recently": 0.8848000359189191,
+                "just": 0.6824317210183909,
+                "some time ago": 0.4129441688254786,
+                "long time ago": 0.13928093886142487
+            },
+            "GT": {
+                "recently": 0.46938775510204084,
+                "some time ago": 0.22448979591836735,
+                "just": 0.2857142857142857,
+                "long time ago": 0.02040816326530612
+            }
+        },
+        {
+            "Event": "You visited a museum",
+            "Minutes ago": 5,
+            "Prediction": {
+                "recently": 0.7675435471800849,
+                "just": 0.8320786168237314,
+                "some time ago": 0.40439858104411674,
+                "long time ago": 0.13503262697093465
+            },
+            "GT": {
+                "just": 0.9387755102040817,
+                "long time ago": 0.02040816326530612,
+                "recently": 0.04081632653061224,
+                "some time ago": 0.0
+            }
+        },
+        {
+            "Event": "You took a long-haul flight",
+            "Minutes ago": 525600,
+            "Prediction": {
+                "recently": 6.707191193331124e-76,
+                "just": 3.0680523150062464e-114,
+                "some time ago": 0.9989126957831415,
+                "long time ago": 0.7773661278177231
+            },
+            "GT": {
+                "long time ago": 0.58,
+                "some time ago": 0.42,
+                "recently": 0.0,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You had a job interview",
+            "Minutes ago": 43800,
+            "Prediction": {
+                "recently": 0.14556908143322456,
+                "just": 0.0010496099394154458,
+                "some time ago": 0.5074101732804641,
+                "long time ago": 0.1903786847625729
+            },
+            "GT": {
+                "some time ago": 0.44,
+                "long time ago": 0.32,
+                "recently": 0.24,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You visited a museum",
+            "Minutes ago": 43800,
+            "Prediction": {
+                "recently": 0.08395379383969033,
+                "just": 0.000327010215420594,
+                "some time ago": 0.5178723493736185,
+                "long time ago": 0.19653287575181788
+            },
+            "GT": {
+                "some time ago": 0.46938775510204084,
+                "long time ago": 0.22448979591836735,
+                "recently": 0.30612244897959184,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You visited a museum",
+            "Minutes ago": 0.08333333333333333,
+            "Prediction": {
+                "recently": 0.7673581012445254,
+                "just": 0.8322714811790962,
+                "some time ago": 0.4043864383889233,
+                "long time ago": 0.1350266325323866
+            },
+            "GT": {
+                "just": 0.9591836734693877,
+                "long time ago": 0.02040816326530612,
+                "recently": 0.02040816326530612,
+                "some time ago": 0.0
+            }
+        },
+        {
+            "Event": "You had a dental checkup",
+            "Minutes ago": 131400,
+            "Prediction": {
+                "recently": 1.7664030222607018e-66,
+                "just": 6.949173280300661e-101,
+                "some time ago": 0.9918926043513567,
+                "long time ago": 0.7318356818785191
+            },
+            "GT": {
+                "some time ago": 0.64,
+                "long time ago": 0.16,
+                "recently": 0.2,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You had a dental checkup",
+            "Minutes ago": 15,
+            "Prediction": {
+                "recently": 0.7685935880977007,
+                "just": 0.830984335852894,
+                "some time ago": 0.4044673882520044,
+                "long time ago": 0.1350665971267865
+            },
+            "GT": {
+                "just": 0.74,
+                "recently": 0.24,
+                "some time ago": 0.02,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "You took a long-haul flight",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 0.9483494399275785,
+                "just": 0.5648465476195671,
+                "some time ago": 0.41920380453128114,
+                "long time ago": 0.1424305998464956
+            },
+            "GT": {
+                "some time ago": 0.26,
+                "long time ago": 0.18,
+                "recently": 0.54,
+                "just": 0.02
+            }
+        },
+        {
+            "Event": "You had a job interview",
+            "Minutes ago": 240,
+            "Prediction": {
+                "recently": 0.7755604262026008,
+                "just": 0.823627066227822,
+                "some time ago": 0.40492623377346887,
+                "long time ago": 0.1352932271931198
+            },
+            "GT": {
+                "recently": 0.4489795918367347,
+                "some time ago": 0.12244897959183673,
+                "just": 0.3673469387755102,
+                "long time ago": 0.061224489795918366
+            }
+        },
+        {
+            "Event": "You prepared dinner",
+            "Minutes ago": 1440,
+            "Prediction": {
+                "recently": 0.799139497487324,
+                "just": 0.0860846960167279,
+                "some time ago": 0.4568266551378738,
+                "long time ago": 0.16204991564806642
+            },
+            "GT": {
+                "recently": 0.6530612244897959,
+                "some time ago": 0.24489795918367346,
+                "long time ago": 0.08163265306122448,
+                "just": 0.02040816326530612
+            }
+        },
+        {
+            "Event": "You took a long-haul flight",
+            "Minutes ago": 30,
+            "Prediction": {
+                "recently": 0.7680229651055932,
+                "just": 0.8315794717716016,
+                "some time ago": 0.4044299853088617,
+                "long time ago": 0.13504813079916353
+            },
+            "GT": {
+                "just": 0.62,
+                "recently": 0.34,
+                "long time ago": 0.02,
+                "some time ago": 0.02
+            }
+        },
+        {
+            "Event": "You had a job interview",
+            "Minutes ago": 1576800,
+            "Prediction": {
+                "recently": 9.582852267689745e-287,
+                "just": 0.0,
+                "some time ago": 0.5211459819811893,
+                "long time ago": 0.8947157762905223
+            },
+            "GT": {
+                "long time ago": 0.7551020408163265,
+                "some time ago": 0.24489795918367346,
+                "recently": 0.0,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You had a job interview",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 0.9942232094781783,
+                "just": 0.41853883014108767,
+                "some time ago": 0.4273343761756566,
+                "long time ago": 0.1465698134499982
+            },
+            "GT": {
+                "some time ago": 0.28,
+                "long time ago": 0.18,
+                "recently": 0.54,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You took a long-haul flight",
+            "Minutes ago": 1440,
+            "Prediction": {
+                "recently": 0.7987927436892358,
+                "just": 0.7978384394542115,
+                "some time ago": 0.40648874666637697,
+                "long time ago": 0.13606625030574462
+            },
+            "GT": {
+                "recently": 0.6,
+                "some time ago": 0.16,
+                "just": 0.18,
+                "long time ago": 0.06
+            }
+        },
+        {
+            "Event": "You took a long-haul flight",
+            "Minutes ago": 5256000,
+            "Prediction": {
+                "recently": 2.37966898224087e-287,
+                "just": 0.0,
+                "some time ago": 0.5196129357298158,
+                "long time ago": 0.8936320414043168
+            },
+            "GT": {
+                "long time ago": 0.98,
+                "some time ago": 0.02,
+                "recently": 0.0,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You visited a museum",
+            "Minutes ago": 1440,
+            "Prediction": {
+                "recently": 0.8197560429273699,
+                "just": 0.7728129298489029,
+                "some time ago": 0.40794953034413745,
+                "long time ago": 0.13679073248709983
+            },
+            "GT": {
+                "recently": 0.6,
+                "some time ago": 0.16,
+                "just": 0.18,
+                "long time ago": 0.06
+            }
+        },
+        {
+            "Event": "You had a job interview",
+            "Minutes ago": 15768000,
+            "Prediction": {
+                "recently": 2.3796689779590804e-287,
+                "just": 0.0,
+                "some time ago": 0.5196129357278375,
+                "long time ago": 0.893632041402915
+            },
+            "GT": {
+                "long time ago": 1.0,
+                "recently": 0.0,
+                "just": 0.0,
+                "some time ago": 0.0
+            }
+        },
+        {
+            "Event": "You did laundry",
+            "Minutes ago": 43800,
+            "Prediction": {
+                "recently": 3.884901230102304e-206,
+                "just": 1.2844899047821238e-295,
+                "some time ago": 0.7436217812855658,
+                "long time ago": 0.9948234025286069
+            },
+            "GT": {
+                "some time ago": 0.58,
+                "long time ago": 0.26,
+                "recently": 0.16,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You had a dental checkup",
+            "Minutes ago": 1051200,
+            "Prediction": {
+                "recently": 2.3801288876835666e-287,
+                "just": 0.0,
+                "some time ago": 0.5196131482156995,
+                "long time ago": 0.8936321919817364
+            },
+            "GT": {
+                "long time ago": 0.673469387755102,
+                "some time ago": 0.32653061224489793,
+                "recently": 0.0,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You had a dental checkup",
+            "Minutes ago": 43800,
+            "Prediction": {
+                "recently": 8.707013391166535e-08,
+                "just": 1.1868250325808075e-14,
+                "some time ago": 0.6587750410846204,
+                "long time ago": 0.2908200206683372
+            },
+            "GT": {
+                "some time ago": 0.42,
+                "long time ago": 0.2,
+                "recently": 0.38,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You did laundry",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 7.40191367955386e-18,
+                "just": 2.7049869988092594e-30,
+                "some time ago": 0.782710288035827,
+                "long time ago": 0.3970176230029408
+            },
+            "GT": {
+                "some time ago": 0.46938775510204084,
+                "long time ago": 0.08163265306122448,
+                "recently": 0.4489795918367347,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You visited a museum",
+            "Minutes ago": 10080,
+            "Prediction": {
+                "recently": 0.9989003696272987,
+                "just": 0.38071215483001747,
+                "some time ago": 0.42961072878477136,
+                "long time ago": 0.14773850848411413
+            },
+            "GT": {
+                "some time ago": 0.25,
+                "long time ago": 0.1875,
+                "recently": 0.5416666666666666,
+                "just": 0.020833333333333332
+            }
+        },
+        {
+            "Event": "You had a dental checkup",
+            "Minutes ago": 4320,
+            "Prediction": {
+                "recently": 0.9960877792734032,
+                "just": 0.40646812851795927,
+                "some time ago": 0.4280497486078346,
+                "long time ago": 0.14693662581358116
+            },
+            "GT": {
+                "recently": 0.7142857142857143,
+                "long time ago": 0.061224489795918366,
+                "some time ago": 0.22448979591836735,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You did laundry",
+            "Minutes ago": 4320,
+            "Prediction": {
+                "recently": 0.002584676230669292,
+                "just": 4.2281327838088784e-07,
+                "some time ago": 0.5672698385611773,
+                "long time ago": 0.2270568459623207
+            },
+            "GT": {
+                "recently": 0.5510204081632653,
+                "some time ago": 0.3673469387755102,
+                "long time ago": 0.08163265306122448,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You had a job interview",
+            "Minutes ago": 525600,
+            "Prediction": {
+                "recently": 1.8150106223693742e-149,
+                "just": 3.3401673820647274e-217,
+                "some time ago": 0.8989002661632689,
+                "long time ago": 0.9793415070689231
+            },
+            "GT": {
+                "some time ago": 0.4,
+                "long time ago": 0.6,
+                "recently": 0.0,
+                "just": 0.0
+            }
+        },
+        {
+            "Event": "You did laundry",
+            "Minutes ago": 60,
+            "Prediction": {
+                "recently": 0.7992244505800578,
+                "just": 0.797340366406635,
+                "some time ago": 0.4065183035781176,
+                "long time ago": 0.13608089205409352
+            },
+            "GT": {
+                "recently": 0.58,
+                "just": 0.38,
+                "some time ago": 0.04,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "You prepared dinner",
+            "Minutes ago": 60,
+            "Prediction": {
+                "recently": 0.7992244505800578,
+                "just": 0.797340366406635,
+                "some time ago": 0.4065183035781176,
+                "long time ago": 0.13608089205409352
+            },
+            "GT": {
+                "recently": 0.6,
+                "some time ago": 0.06,
+                "just": 0.34,
+                "long time ago": 0.0
+            }
+        },
+        {
+            "Event": "You had a job interview",
+            "Minutes ago": 131400,
+            "Prediction": {
+                "recently": 3.673187142288748e-12,
+                "just": 1.425759885909622e-21,
+                "some time ago": 0.720800724574832,
+                "long time ago": 0.3405375381315227
+            },
+            "GT": {
+                "some time ago": 0.64,
+                "long time ago": 0.3,
+                "recently": 0.06,
+                "just": 0.0
             }
         }
     ]

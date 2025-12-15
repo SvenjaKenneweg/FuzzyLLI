@@ -63,51 +63,53 @@ def time_ago_to_minutes(time_str):
 def get_percentages():
     event_time_answer_counts = defaultdict(lambda: defaultdict(int))
     attention_check_questions = defaultdict(lambda: defaultdict(int))
-    votes_path = os.path.join(config.DATASET_TEST_PATH, "votes")
-    for filename in os.listdir(votes_path):
-        if filename.endswith('.json'):
-            file_path = os.path.join(votes_path, filename)
-            with open(file_path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                answers = data.get('answers', {})
-                for key_str, answer in answers.items():
-                    try:
-                        key_data = json.loads(key_str)
-                        question = key_data.get('question', '').strip()
+    votes_path_1 = os.path.join(config.DATASET_TEST_PATH, "survey_1")
+    votes_path_2 = os.path.join(config.DATASET_TEST_PATH, "survey_2")
+    for votes_path in [votes_path_1, votes_path_2]:
+        for filename in os.listdir(votes_path):
+            if filename.endswith('.json'):
+                file_path = os.path.join(votes_path, filename)
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    answers = data.get('answers', {})
+                    for key_str, answer in answers.items():
+                        try:
+                            key_data = json.loads(key_str)
+                            question = key_data.get('question', '').strip()
 
-                        # Handle attention check separately
-                        if "attention check" in question.lower():
-                            attention_check_questions[question][answer] += 1
-                            continue
+                            # Handle attention check separately
+                            if "attention check" in question.lower():
+                                attention_check_questions[question][answer] += 1
+                                continue
 
-                        # Try to parse event and time
-                        match = pattern.match(question)
-                        if match:
-                            event = match.group(1).strip()
-                            time_ago = time_ago_to_minutes(match.group(2).strip().replace("ago", "").strip())
-                            if time_ago is None:
-                                print(f"Could not convert time to minutes: '{time_ago}' in question: '{question}'")
-                            else:
+                            # Try to parse event and time
+                            match = pattern.match(question)
+                            if match:
+                                event = match.group(1).strip()
+                                time_ago = time_ago_to_minutes(match.group(2).strip().replace("ago", "").strip())
+                                if time_ago is None:
+                                    print(f"Could not convert time to minutes: '{time_ago}' in question: '{question}'")
+                                else:
+                                    if "some" in answer:
+                                        event_time_answer_counts[(event, time_ago)]["some time ago"] += 1
+                                    elif "long" in answer:
+                                        event_time_answer_counts[(event, time_ago)]["long time ago"] += 1
+                                    else:
+                                        event_time_answer_counts[(event, time_ago)][answer] += 1
+                            elif "half a year ago" in question:
+                                event = "You bought a house"
+                                time_ago = 262800
                                 if "some" in answer:
                                     event_time_answer_counts[(event, time_ago)]["some time ago"] += 1
                                 elif "long" in answer:
                                     event_time_answer_counts[(event, time_ago)]["long time ago"] += 1
                                 else:
                                     event_time_answer_counts[(event, time_ago)][answer] += 1
-                        elif "half a year ago" in question:
-                            event = "You bought a house"
-                            time_ago = 262800
-                            if "some" in answer:
-                                event_time_answer_counts[(event, time_ago)]["some time ago"] += 1
-                            elif "long" in answer:
-                                event_time_answer_counts[(event, time_ago)]["long time ago"] += 1
                             else:
-                                event_time_answer_counts[(event, time_ago)][answer] += 1
-                        else:
-                            print(f"Could not parse this question: '{question}'")
+                                print(f"Could not parse this question: '{question}'")
 
-                    except json.JSONDecodeError:
-                        print(f"Invalid JSON key in file {filename}: {key_str}")
+                        except json.JSONDecodeError:
+                            print(f"Invalid JSON key in file {filename}: {key_str}")
     return event_time_answer_counts
 
 
@@ -143,8 +145,11 @@ def run_test_dataset_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn
 
     for (event, minutes_ago), answers in test_data.items():
         if predict_fn in requires_properties:
-            with open(f"{config.DATASET_TEST_PATH}/event_properties.json", "r", encoding="utf-8") as fh:
-                event_properties = json.load(fh)
+            event_properties = {}
+            with open(f"{config.DATASET_TEST_PATH}/event_properties_1.json", "r", encoding="utf-8") as fh:
+                event_properties.update(json.load(fh))
+            with open(f"{config.DATASET_TEST_PATH}/event_properties_2.json", "r", encoding="utf-8") as fh:
+                event_properties.update(json.load(fh))
             prop_dict = event_properties[event.replace("Tom", "A friend").replace("You", "I")]
             properties = [{prop: prop_dict[prop] for prop in config.properties_to_use}]
             fuzzy_prediction = predict_fn(properties, minutes_ago, function_to_use)

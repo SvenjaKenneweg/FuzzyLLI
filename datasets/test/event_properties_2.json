@@ -1,50 +1,50 @@
 {
     "I had a job interview": {
-        "Richness": 3,
-        "Richness_desc": "Moderate richness (some distinct aspects)",
+        "Richness": 2,
+        "Richness_desc": "Simple, few contextual cues",
         "Frequency": 2,
         "Frequency_desc": "Rare (Once or a few times a year)",
         "Importance": 4,
         "Importance_desc": "Important (Emotionally or practically significant)"
     },
     "I had a dental checkup": {
-        "Richness": 2,
-        "Richness_desc": "Simple, few contextual cues",
-        "Frequency": 3,
-        "Frequency_desc": "Occasional (Monthly or semi-regular)",
-        "Importance": 3,
-        "Importance_desc": "Moderately Important (Some meaning)"
+        "Richness": 1,
+        "Richness_desc": "Minimal detail (routine, automatic)",
+        "Frequency": 2,
+        "Frequency_desc": "Rare (Once or a few times a year)",
+        "Importance": 1,
+        "Importance_desc": "Not Important (Trivial or forgettable)"
     },
     "I took a long-haul flight": {
-        "Richness": 4,
-        "Richness_desc": "Rich (many sensory/contextual elements)",
+        "Richness": 3,
+        "Richness_desc": "Moderate richness (some distinct aspects)",
         "Frequency": 2,
         "Frequency_desc": "Rare (Once or a few times a year)",
         "Importance": 3,
         "Importance_desc": "Moderately Important (Some meaning)"
     },
     "I prepared dinner": {
-        "Richness": 3,
-        "Richness_desc": "Moderate richness (some distinct aspects)",
+        "Richness": 1,
+        "Richness_desc": "Minimal detail (routine, automatic)",
         "Frequency": 4,
         "Frequency_desc": "Frequent (Weekly)",
-        "Importance": 3,
-        "Importance_desc": "Moderately Important (Some meaning)"
+        "Importance": 1,
+        "Importance_desc": "Not Important (Trivial or forgettable)"
     },
     "I visited a museum": {
         "Richness": 3,
         "Richness_desc": "Moderate richness (some distinct aspects)",
-        "Frequency": 2,
-        "Frequency_desc": "Rare (Once or a few times a year)",
-        "Importance": 3,
-        "Importance_desc": "Moderately Important (Some meaning)"
-    },
-    "I did laundry": {
-        "Richness": 2,
-        "Richness_desc": "Simple, few contextual cues",
-        "Frequency": 4,
-        "Frequency_desc": "Frequent (Weekly)",
+        "Frequency": 3,
+        "Frequency_desc": "Occasional (Monthly or semi-regular)",
         "Importance": 2,
         "Importance_desc": "Slightly Important (Minor relevance or enjoyment)"
+    },
+    "I did laundry": {
+        "Richness": 1,
+        "Richness_desc": "Minimal detail (routine, automatic)",
+        "Frequency": 4,
+        "Frequency_desc": "Frequent (Weekly)",
+        "Importance": 1,
+        "Importance_desc": "Not Important (Trivial or forgettable)"
     }
 }
