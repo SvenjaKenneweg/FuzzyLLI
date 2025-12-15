@@ -109,11 +109,11 @@ def evaluate_models_test_dataset(events_to_fit, events_to_fit_nl, generate_new_p
         print("\nEvaluating Random Forest on the test dataset:")
         evaluate_test_data_random_forest(events_to_fit, events_to_fit_nl)
 
-        # print("\nEvaluating Embeddings + Regressor on the test dataset:")
-        # evaluate_test_data_embedding(events_to_fit, events_to_fit_nl)
-        #
-        # print("\nEvaluation Power Law on the test dataset:")
-        # evaluate_test_data_functions(events_to_fit, events_to_fit_nl, config.powerlaw)
+        print("\nEvaluating Embeddings + Regressor on the test dataset:")
+        evaluate_test_data_embedding(events_to_fit, events_to_fit_nl)
+
+        print("\nEvaluation Power Law on the test dataset:")
+        evaluate_test_data_functions(events_to_fit, events_to_fit_nl, config.powerlaw)
 
     # Calculate only the metrics
     print("\nCalculating the Evaluation metrics from the saved prediction files for the test dataset...")
