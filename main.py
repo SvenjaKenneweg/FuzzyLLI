@@ -44,11 +44,11 @@ def train_models(events, events_nl):
     Train various models for event adverbials, embeddings, and random forests.
     """
     print("\nGet the event properties using GPT for the training dataset (saved under datasets/training/event_properties.json)")
-    # get_all_event_properties_gpt(events_nl, config.DATA_DIR / "event_properties.json")
-    print("\nGet the event properties using GPT for the training dataset (saved under datasets/test/event_properties_1/2.json)")
+    get_all_event_properties_gpt(events_nl, config.DATA_DIR / "event_properties.json")
+    print("\nGet the event properties using GPT for the test dataset (saved under datasets/test/event_properties_1/2.json)")
     events_nl_test_1 = ["You attended a meeting", "You bought a house", "You went camping", "You went to a concert", "You ate breakfast"]
     events_nl_test_2 = ["You had a job interview", "You had a dental checkup", "You took a long-haul flight", "You prepared dinner", "You visited a museum", "You did laundry"]
-    # get_all_event_properties_gpt(events_nl_test_1, config.DATASET_TEST_PATH / "event_properties_1.json")
+    get_all_event_properties_gpt(events_nl_test_1, config.DATASET_TEST_PATH / "event_properties_1.json")
     get_all_event_properties_gpt(events_nl_test_2, config.DATASET_TEST_PATH / "event_properties_2.json")
 
     # print("\nTraining FuzzyLLI in all three configurations (Power Law, Random Forest, Word Embeddings)...")
