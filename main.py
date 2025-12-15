@@ -43,16 +43,19 @@ def train_models(events, events_nl):
     """
     Train various models for event adverbials, embeddings, and random forests.
     """
-    print("\nGet the event properties using GPT (saved in under datasets/.../event_properties.json)")
-    get_all_event_properties_gpt(events_nl, config.DATA_DIR / "event_properties.json")
-    events_nl_survey = ["You attended a meeting", "You bought a house", "You went camping", "You went to a concert", "You ate breakfast"]
-    get_all_event_properties_gpt(events_nl_survey, config.DATASET_TEST_PATH / "event_properties.json")
+    print("\nGet the event properties using GPT for the training dataset (saved under datasets/training/event_properties.json)")
+    # get_all_event_properties_gpt(events_nl, config.DATA_DIR / "event_properties.json")
+    print("\nGet the event properties using GPT for the training dataset (saved under datasets/test/event_properties_1/2.json)")
+    events_nl_test_1 = ["You attended a meeting", "You bought a house", "You went camping", "You went to a concert", "You ate breakfast"]
+    events_nl_test_2 = ["You had a job interview", "You had a dental checkup", "You took a long-haul flight", "You prepared dinner", "You visited a museum", "You did laundry"]
+    # get_all_event_properties_gpt(events_nl_test_1, config.DATASET_TEST_PATH / "event_properties_1.json")
+    get_all_event_properties_gpt(events_nl_test_2, config.DATASET_TEST_PATH / "event_properties_2.json")
 
-    print("\nTraining FuzzyLLI in all three configurations (Power Law, Random Forest, Word Embeddings)...")
-    fit_event_adverbials(events)
-    fit_event_specific_embeddings(events, events_nl)
-    fit_event_specific_random_forest(events, events_nl)
-    fit_event_specific_functions(events, events_nl,config.powerlaw)
+    # print("\nTraining FuzzyLLI in all three configurations (Power Law, Random Forest, Word Embeddings)...")
+    # fit_event_adverbials(events)
+    # fit_event_specific_embeddings(events, events_nl)
+    # fit_event_specific_random_forest(events, events_nl)
+    # fit_event_specific_functions(events, events_nl,config.powerlaw)
 
 
 def make_predictions(event_nl, event_properties, adverbial, minutes_ago):
@@ -171,11 +174,11 @@ def run_full_pipeline():
     Preserve the previous default: train, evaluate, plot, and run a demo prediction.
     """
     train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
-    evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
-    evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
-    # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
-    plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_adverbial_random_forest)  # Plots FuzzyLLI
-    make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
+    # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
+    # evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
+    # # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
+    # plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_adverbial_random_forest)  # Plots FuzzyLLI
+    # make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
 
 
 def build_parser():
