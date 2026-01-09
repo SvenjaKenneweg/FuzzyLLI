@@ -156,122 +156,90 @@ def plot_all_persons_event_adverbials(
     fig.savefig(outfile, dpi=300)
     plt.close()
 
-def plot_single_events(event_name, event_name_nl, predict_fn):
-    with open(config.DATA_DIR / event_name / "cleanedData_minutes.json", "r", encoding="utf-8") as f:
-        cleaned_data = json.load(f)
+# def plot_events_adverbials(events, adverbial):
+#     medians_per_event = []
+#     for event_name in events:
+#         with open(config.DATA_DIR / event_name / "cleanedData_minutes.json", "r", encoding="utf-8") as f:
+#             cleaned_data = json.load(f)[adverbial]
+#         medians = {key: float(np.median(values)) for key, values in cleaned_data.items()}
+#         medians_per_event.append({
+#             "event": event_name,
+#             "medians": medians
+#         })
+#
+#     plt.figure(figsize=(10, 6))
+#
+#     for event in medians_per_event:
+#         event_name = event['event']
+#         medians_dict = event['medians']
+#
+#         # Convert keys to int and sort by minutes
+#         minutes = sorted(int(k) for k in medians_dict.keys())
+#         values = [medians_dict[str(m)] for m in minutes]
+#
+#         plt.plot(minutes, values, marker='o', label=event_name)
+#
+#     plt.xlabel('Minutes ago')
+#     plt.ylabel('Membership value (median) for the adverbial ' + str(adverbial))
+#     plt.legend()
+#     plt.grid(False)
+#     plt.tight_layout()
+#     plt.show()
 
-    x_limit_max = None
-    x_limit_min = None
-    results = {}
 
-    # --- Collect everything once ---
-    for adverbial, time_series in cleaned_data.items():
-        times, medians = zip(*[
-            (int(t), np.median(v)) for t, v in time_series.items()
-        ])
-        sorted_indices = np.argsort(times)
-        times = np.array(times)[sorted_indices]
-        medians = np.array(medians)[sorted_indices]
-
-        if adverbial == "recently":
-            x_limit_max = times[-1]
-        elif "some" in adverbial:
-            x_limit_min = times[0]
-
-        predictions = []
-        for minutes_ago in times:
-            if predict_fn == predict_adverbial_random_forest:
-                file_path = f"{config.DATA_DIR}/event_properties.json"
-                with open(file_path, "r", encoding="utf-8") as fh:
-                    event_properties = json.load(fh)
-
-                properties = pd.DataFrame([{
-                    'Frequency': event_properties[event_name_nl.replace("Tom", "A friend").replace("You", "I")]["Frequency"],
-                    'Richness': event_properties[event_name_nl.replace("Tom", "A friend").replace("You", "I")]["Richness"],
-                    'Importance': event_properties[event_name_nl.replace("Tom", "A friend").replace("You", "I")]["Importance"]
-                }])
-                prob_adverbial = predict_fn(properties, int(minutes_ago))
-                predictions.append(prob_adverbial[adverbial])
-        results[adverbial] = (times, medians, predictions)
-
-    if x_limit_max is None or x_limit_min is None:
-        raise ValueError("x_limit was not set – check that 'recently' is in cleaned_data")
-
-    # --- Plot 1: Until x_limit ---
-    plt.figure(figsize=(8, 5))
-    for adverbial, (times, medians, predictions) in results.items():
-        line, = plt.plot(times, medians, marker='o', label=adverbial)
-        plt.plot(times, predictions, linestyle='--', color=line.get_color())
-
-    plt.xlim(left=0, right=x_limit_max)
-    plt.xlabel('Time ago in minutes')
-    plt.ylabel('Membership Value')
-    plt.title(f'{event_name} with {predict_fn.__name__}')
-    plt.ylim(0, 1)
-    plt.grid(True)
-    handles, labels = plt.gca().get_legend_handles_labels()
-    style_handles = [
-        Line2D([0], [0], color='black', linestyle='-', label='Median membership (human)'),
-        Line2D([0], [0], color='black', linestyle='--', label='Model prediction'),
-    ]
-    plt.legend(handles + style_handles, labels + [h.get_label() for h in style_handles])
-    plt.tight_layout()
-    outfile = config.PLOT_FILE_PATH / event_name / "small_time_ago.png"
-    outfile.parent.mkdir(parents=True, exist_ok=True)
-    plt.savefig(outfile, dpi=300)
-    plt.close()
-
-    # --- Plot 2: After x_limit ---
-    plt.figure(figsize=(8, 5))
-    for adverbial, (times, medians, predictions) in results.items():
-        line, = plt.plot(times, medians, marker='o', label=adverbial)
-        plt.plot(times, predictions, linestyle='--', color=line.get_color())
-
-    plt.xlim(left=x_limit_min, right=max(max(t) for t, _, _ in results.values()))
-    plt.xlabel('Time ago in minutes')
-    plt.ylabel('Membership Value')
-    plt.title(f'{event_name} with {predict_fn.__name__}')
-    plt.ylim(0, 1)
-    plt.grid(True)
-    handles, labels = plt.gca().get_legend_handles_labels()
-    style_handles = [
-        Line2D([0], [0], color='black', linestyle='-', label='Median membership (human)'),
-        Line2D([0], [0], color='black', linestyle='--', label='Model prediction'),
-    ]
-    plt.legend(handles + style_handles, labels + [h.get_label() for h in style_handles])
-    plt.tight_layout()
-    outfile = config.PLOT_FILE_PATH / event_name / "big_time_ago.png"
-    outfile.parent.mkdir(parents=True, exist_ok=True)
-    plt.savefig(outfile, dpi=300)
-    plt.close()
-    return
-
-def plot_events_adverbials(events, adverbial):
-    medians_per_event = []
-    for event_name in events:
-        with open(config.DATA_DIR / event_name / "cleanedData_minutes.json", "r", encoding="utf-8") as f:
-            cleaned_data = json.load(f)[adverbial]
-        medians = {key: float(np.median(values)) for key, values in cleaned_data.items()}
-        medians_per_event.append({
-            "event": event_name,
-            "medians": medians
-        })
+def plot_events_adverbials_fitted(events, events_nl, adverbial, predict_fn=None):
+    if len(events) != len(events_nl):
+        raise ValueError("The lengths of events and event_name_nl must be the same.")
 
     plt.figure(figsize=(10, 6))
 
-    for event in medians_per_event:
-        event_name = event['event']
-        medians_dict = event['medians']
+    # Iterate over both `events` and `event_name_nl` simultaneously
+    for event_name, event_name_nl in zip(events, events_nl):
+        with open(config.DATA_DIR / event_name / "cleanedData_minutes.json", "r", encoding="utf-8") as f:
+            cleaned_data = json.load(f)[adverbial]
 
+        # Calculate medians for this event
+        real_data_values = {key: float(np.median(values)) for key, values in cleaned_data.items()}
         # Convert keys to int and sort by minutes
-        minutes = sorted(int(k) for k in medians_dict.keys())
-        values = [medians_dict[str(m)] for m in minutes]
+        minutes = sorted(int(k) for k in real_data_values.keys())
+        values = [real_data_values[str(m)] for m in minutes]
 
-        plt.plot(minutes, values, marker='o', label=event_name)
+        if predict_fn == predict_adverbial_random_forest:
+            file_path = f"{config.DATA_DIR}/event_properties.json"
+            with open(file_path, "r", encoding="utf-8") as fh:
+                event_properties = json.load(fh)
 
+            properties = pd.DataFrame([{
+                'Frequency': event_properties[event_name_nl.replace("Tom", "A friend").replace("You", "I")][
+                    "Frequency"],
+                'Richness': event_properties[event_name_nl.replace("Tom", "A friend").replace("You", "I")][
+                    "Richness"],
+                'Importance': event_properties[event_name_nl.replace("Tom", "A friend").replace("You", "I")][
+                    "Importance"]
+            }])
+
+            # Generate prediction for a denser range of minutes
+            max_time = max(minutes)
+            dense_minutes = np.arange(0, max_time + 10, max_time/100)  # More granular minute values
+
+            # Predict for the denser time range
+            predicted_values = []
+            for minute in dense_minutes:
+                prob_adverbial = predict_fn(properties, int(minute))
+                predicted_values.append(prob_adverbial[adverbial])
+
+            # Plot the real and predicted data
+            real_line = plt.plot(minutes, values, marker='o', label=f'{event_name} (real)', linestyle='-')
+            real_color = real_line[0].get_color()  # Get the color of the real line
+            plt.plot(dense_minutes, predicted_values, label=f'{event_name} (predicted)', linestyle='--', color=real_color)
+        if not predict_fn:
+            plt.plot(minutes, values, marker='o', label=f'{event_name}', linestyle='-')
+
+    plt.ylim(0, 1)
     plt.xlabel('Minutes ago')
-    plt.ylabel('Membership value for the adverbial ' + str(adverbial))
+    plt.ylabel(f'Membership value (median) for the adverbial {adverbial}')
     plt.legend()
-    plt.grid(False)
+    plt.grid(True)
     plt.tight_layout()
     plt.show()
+    return
