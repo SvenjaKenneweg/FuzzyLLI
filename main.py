@@ -146,7 +146,7 @@ def evaluate_event_properties(events, events_nl): #
             evaluate_models_test_dataset(events, events_nl, generate_new_predictions=True)
 
 
-def plot_results(events, events_nl, adverbial, predict_function=None):
+def plot_results(events, events_nl, adverbial, predict_functions=None):
     """
     Plot the results for event adverbials.
     """
@@ -154,7 +154,7 @@ def plot_results(events, events_nl, adverbial, predict_function=None):
     #       "The used FuzzyLLI configuration for the plotting is Random Forest")
     # print("\nPlotting the FuzzyLLI Overview Diagram (Left each event, right the adverbials")
     # plot_all_persons_event_adverbials(events)
-    plot_events_adverbials_fitted(events, events_nl, adverbial, predict_function)
+    plot_events_adverbials_fitted(events, events_nl, adverbial, predict_functions)
 
 
 def _parse_event_properties(raw: str):
@@ -185,11 +185,12 @@ def run_full_pipeline():
     # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
     # plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_function=predict_adverbial_random_forest)  # Plots FuzzyLLI
 
-    evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False, calculate_MAE=True)
+    # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False, calculate_MAE=True)
     # ["own_rent_payment", "tom_eating_risotto", "own_vacation", "own_birthday"],
     # ["I paid rent", "Tom ate risotto", "I went on vacation", "I had my birthday"]
-    # plot_results(["own_rent_payment", "tom_eating_risotto", "own_vacation", "own_birthday"],
-    #              ["I paid rent", "Tom ate risotto", "I went on vacation", "I had my birthday"], "long time ago")#, predict_function=predict_adverbial_random_forest)
+    predict_functions = [predict_adverbial_random_forest, predict_adverbial_functions, predict_adverbial_embedding]
+    plot_results(["own_birthday"],
+                 ["I had my birthday"], "just", predict_functions=predict_functions)
     # make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
 
 

@@ -211,7 +211,7 @@ def predict_adverbial_random_forest(properties, minutes_ago, *args):
     return adverbial_probs
 
 
-def predict_adverbial_functions(properties, minutes_ago, function_to_predict, *args):
+def predict_adverbial_functions(properties, minutes_ago, function_to_predict=config.powerlaw, *args):
     params = _load_packed()
 
     model = load( f"{config.RESULTS_FILE_PATH}/{function_to_predict.__name__}.pkl")
