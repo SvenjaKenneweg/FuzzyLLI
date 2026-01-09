@@ -19,8 +19,6 @@ from sklearn.metrics import (
     hamming_loss, jaccard_score
 )
 
-from src.plot import plot_single_events
-
 from src.predictions import (
     predict_adverbial_embedding,
     predict_adverbial_random_forest,
@@ -68,7 +66,76 @@ requires_properties = {
 # Evaluation Functions
 # ---------------------------------------------------------------------------
 
-def run_evaluation_and_save_pred(events, fit_models_fn, predict_fn, plot_not_fitted_event=False, events_nl=None, function_to_use=None):
+# Calculation of the Mean Absolute Error for the given predict_fn against the median values for a specific time ago, adverbial, event
+import numpy as np
+
+import numpy as np
+
+
+def run_MAE_evaluation(events, fit_models_fn, predict_fn, events_nl=None, function_to_use=None):
+    fit_event_adverbials(events)
+    fit_models_fn(events, events_nl, function_to_use)
+
+    all_errors = []
+    # New dictionaries to track errors for granularity
+    errors_per_event = {i: [] for i in range(len(events))}
+    errors_per_adverbial = {adv: [] for adv in config.VAGUE_ADVERBIALS}
+
+    for i, event in enumerate(events):
+        cleaned_data = get_cleaned_data(event)
+
+        # --- Step 1: Gather targets ---
+        human_medians = {
+            adv: {k: float(np.median(v)) for k, v in cleaned_data[adv].items()}
+            for adv in config.VAGUE_ADVERBIALS if adv in cleaned_data
+        }
+
+        for adverbial, times in human_medians.items():
+            for minutes_ago, target_value in times.items():
+                # --- Step 2: Generate Prediction ---
+                if predict_fn in requires_properties:
+                    with open(f"{config.DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
+                        event_properties = json.load(fh)
+
+                    prop_dict = event_properties[events_nl[i].replace("Tom", "A friend")]
+                    properties = [{prop: prop_dict[prop] for prop in config.properties_to_use}]
+                    prediction = predict_fn(properties, int(minutes_ago), function_to_use)
+                else:
+                    input_data = events_nl[i] if events_nl else event
+                    prediction = predict_fn(input_data, int(minutes_ago))
+
+                # --- Step 3: Calculate Absolute Error ---
+                error = abs(prediction[adverbial] - target_value)
+
+                # Store error in all trackers
+                all_errors.append(error)
+                errors_per_event[i].append(error)
+                errors_per_adverbial[adverbial].append(error)
+
+    # --- Step 4: Final MAE Calculations ---
+    # Global MAE
+    mae = np.mean(all_errors) if all_errors else 0.0
+
+    # Per Event MAE
+    mae_per_event = {
+        i: np.mean(errs) if errs else 0.0
+        for i, errs in errors_per_event.items()
+    }
+
+    # Per Adverbial MAE
+    mae_per_adverbial = {
+        adv: np.mean(errs) if errs else 0.0
+        for adv, errs in errors_per_adverbial.items()
+    }
+    print(f"\nFinal MAE: {mae:.4f}, used configuration: {predict_fn.__name__}")
+    return {
+        "overall_mae": mae,
+        "mae_per_event": mae_per_event,
+        "mae_per_adverbial": mae_per_adverbial
+    }
+
+
+def run_leave_one_out_evaluation_and_save_pred(events, fit_models_fn, predict_fn, events_nl=None, function_to_use=None):
     raw_results = []
 
     for i, event in enumerate(events):
@@ -78,9 +145,6 @@ def run_evaluation_and_save_pred(events, fit_models_fn, predict_fn, plot_not_fit
         fit_models_fn(other_events, other_events_nl, function_to_use)
 
         cleaned_data = get_cleaned_data(event)
-
-        if plot_not_fitted_event:
-            plot_single_events(event, events_nl[i], predict_fn)
 
         # --- Step 1: Gather all possible numeric keys ---
         overall_targets = {adv: {k: float(np.median(v)) for k, v in cleaned_data[adv].items()} for adv in
@@ -280,7 +344,7 @@ def predict_gpt(event_nl, minutes_ago, model_engine=config.GPT_VERSION):
 # Model-specific Evaluators
 # ---------------------------------------------------------------------------
 def get_predictions_embedding(events, events_nl):
-    raw_results = run_evaluation_and_save_pred(events, fit_event_specific_embeddings, predict_adverbial_embedding, events_nl=events_nl)
+    raw_results = run_leave_one_out_evaluation_and_save_pred(events, fit_event_specific_embeddings, predict_adverbial_embedding, events_nl=events_nl)
     output = {
         "raw": raw_results,
     }
@@ -289,7 +353,7 @@ def get_predictions_embedding(events, events_nl):
     return
 
 def get_predictions_random_forest(events, events_nl):
-    raw_results = run_evaluation_and_save_pred(events, fit_event_specific_random_forest, predict_adverbial_random_forest, events_nl=events_nl, plot_not_fitted_event=False)
+    raw_results = run_leave_one_out_evaluation_and_save_pred(events, fit_event_specific_random_forest, predict_adverbial_random_forest, events_nl=events_nl)
     output = {
         "raw": raw_results,
     }
@@ -298,7 +362,7 @@ def get_predictions_random_forest(events, events_nl):
     return
 
 def get_predictions_functions(events, events_nl, function_to_use):
-    raw_results = run_evaluation_and_save_pred(events, fit_event_specific_functions, predict_adverbial_functions, events_nl=events_nl, plot_not_fitted_event=False, function_to_use=function_to_use)
+    raw_results = run_leave_one_out_evaluation_and_save_pred(events, fit_event_specific_functions, predict_adverbial_functions, events_nl=events_nl, function_to_use=function_to_use)
     output = {
         "raw": raw_results,
     }
@@ -307,7 +371,7 @@ def get_predictions_functions(events, events_nl, function_to_use):
     return
 
 def get_predictions_classifier(events, events_nl):
-    raw_results = run_evaluation_and_save_pred(events, fit_classifier, predict_adverbial_classifier, events_nl=events_nl)
+    raw_results = run_leave_one_out_evaluation_and_save_pred(events, fit_classifier, predict_adverbial_classifier, events_nl=events_nl)
     output = {
         "raw": raw_results
     }
@@ -316,7 +380,7 @@ def get_predictions_classifier(events, events_nl):
     return
 
 def get_predictions_regression(events, events_nl):
-    raw_results = run_evaluation_and_save_pred(events, fit_regression, predict_adverbial_regression, events_nl=events_nl)
+    raw_results = run_leave_one_out_evaluation_and_save_pred(events, fit_regression, predict_adverbial_regression, events_nl=events_nl)
     output = {
         "raw": raw_results
     }

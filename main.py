@@ -4,12 +4,12 @@ import json
 from itertools import combinations
 
 from src.train import (fit_event_adverbials, fit_event_specific_embeddings, fit_event_specific_random_forest, fit_event_specific_functions)
-from src.plot import plot_all_persons_event_adverbials, plot_single_events, plot_events_adverbials
+from src.plot import plot_all_persons_event_adverbials, plot_events_adverbials_fitted
 from src.predictions import (predict_time_frame_embedding, predict_adverbial_embedding, predict_adverbial_functions,
                              predict_time_frame_random_forest, predict_adverbial_random_forest, get_all_event_properties_gpt)
 from src.evaluation_training_dataset import (get_predictions_classifier, get_predictions_regression,
                                              get_predictions_embedding, get_predictions_random_forest,
-                                             get_predictions_functions,
+                                             get_predictions_functions, run_MAE_evaluation,
                                              evaluate_gpt, calculate_metrics)
 from src.evaluation_test_dataset import (evaluate_test_data_random_forest, evaluate_test_data_functions,
                                          evaluate_test_data_embedding, evaluate_test_data_gpt, evaluate_test_data_regression, evaluate_test_data_classifier)
@@ -39,17 +39,18 @@ DEFAULT_ADVERBIAL = "just"
 DEFAULT_MINUTES_AGO = 120
 
 
-def train_models(events, events_nl):
+def train_models(events, events_nl, get_event_properties_gpt=False):
     """
     Train various models for event adverbials, embeddings, and random forests.
     """
-    print("\nGet the event properties using GPT for the training dataset (saved under datasets/training/event_properties.json)")
-    get_all_event_properties_gpt(events_nl, config.DATA_DIR / "event_properties.json")
-    print("\nGet the event properties using GPT for the test dataset (saved under datasets/test/event_properties_1/2.json)")
-    events_nl_test_1 = ["You attended a meeting", "You bought a house", "You went camping", "You went to a concert", "You ate breakfast"]
-    events_nl_test_2 = ["You had a job interview", "You had a dental checkup", "You took a long-haul flight", "You prepared dinner", "You visited a museum", "You did laundry"]
-    get_all_event_properties_gpt(events_nl_test_1, config.DATASET_TEST_PATH / "event_properties_1.json")
-    get_all_event_properties_gpt(events_nl_test_2, config.DATASET_TEST_PATH / "event_properties_2.json")
+    if get_event_properties_gpt:
+        print("\nGet the event properties using GPT for the training dataset (saved under datasets/training/event_properties.json)")
+        get_all_event_properties_gpt(events_nl, config.DATA_DIR / "event_properties.json")
+        print("\nGet the event properties using GPT for the test dataset (saved under datasets/test/event_properties_1/2.json)")
+        events_nl_test_1 = ["You attended a meeting", "You bought a house", "You went camping", "You went to a concert", "You ate breakfast"]
+        events_nl_test_2 = ["You had a job interview", "You had a dental checkup", "You took a long-haul flight", "You prepared dinner", "You visited a museum", "You did laundry"]
+        get_all_event_properties_gpt(events_nl_test_1, config.DATASET_TEST_PATH / "event_properties_1.json")
+        get_all_event_properties_gpt(events_nl_test_2, config.DATASET_TEST_PATH / "event_properties_2.json")
 
     print("\nTraining FuzzyLLI in all three configurations (Power Law, Random Forest, Word Embeddings)...")
     fit_event_adverbials(events)
@@ -81,10 +82,19 @@ def make_predictions(event_nl, event_properties, adverbial, minutes_ago):
     print(f"Properties: {event_properties} | Minutes ago: {minutes_ago} -> Adverbial memberships: {adv_func}")
 
 
-def evaluate_models_training_dataset(events, events_nl, generate_new_predictions=False):
+def evaluate_models_training_dataset(events, events_nl, generate_new_predictions=False, calculate_MAE = False):
     """
     Evaluate the models by comparing the predicted labels on training dataset (leave-one-out)
     """
+    if calculate_MAE:
+        print("\nCalculating MAE:")
+        # print(run_MAE_evaluation(events, fit_event_specific_embeddings, predict_adverbial_embedding,
+        #                    events_nl=events_nl))
+        print(run_MAE_evaluation(events, fit_event_specific_random_forest, predict_adverbial_random_forest,
+                           events_nl=events_nl))
+        # print(run_MAE_evaluation(events, fit_event_specific_functions, predict_adverbial_functions, events_nl=events_nl,
+        #                    function_to_use=config.powerlaw))
+
     if generate_new_predictions:
         print("\nEvaluation Embeddings + Regressor:")
         get_predictions_embedding(events, events_nl)
@@ -136,19 +146,15 @@ def evaluate_event_properties(events, events_nl): #
             evaluate_models_test_dataset(events, events_nl, generate_new_predictions=True)
 
 
-def plot_results(events, events_nl, adverbial, predict_function):
+def plot_results(events, events_nl, adverbial, predict_function=None):
     """
     Plot the results for event adverbials.
     """
-    print("Plotting results are saved under results/plots/... . "
-          "The used FuzzyLLI configuration for the plotting is Random Forest")
-    print("\nPlotting the FuzzyLLI Overview Diagram (Left each event, right the adverbials")
-    plot_all_persons_event_adverbials(events)
-    print("\nPlotting the course of single events after fitting")
-    for event_name, event_name_nl in zip(events, events_nl):
-        plot_single_events(event_name, event_name_nl, predict_function)
-    print("\nPlot only the median membership values of the given adverbial for the given events")
-    plot_events_adverbials(events, adverbial)
+    # print("Plotting results are saved under results/plots/... . "
+    #       "The used FuzzyLLI configuration for the plotting is Random Forest")
+    # print("\nPlotting the FuzzyLLI Overview Diagram (Left each event, right the adverbials")
+    # plot_all_persons_event_adverbials(events)
+    plot_events_adverbials_fitted(events, events_nl, adverbial, predict_function)
 
 
 def _parse_event_properties(raw: str):
@@ -175,9 +181,15 @@ def run_full_pipeline():
     """
     # train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
     # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
-    evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
-    # # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
-    # plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_adverbial_random_forest)  # Plots FuzzyLLI
+    # evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
+    # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
+    # plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_function=predict_adverbial_random_forest)  # Plots FuzzyLLI
+
+    evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False, calculate_MAE=True)
+    # ["own_rent_payment", "tom_eating_risotto", "own_vacation", "own_birthday"],
+    # ["I paid rent", "Tom ate risotto", "I went on vacation", "I had my birthday"]
+    # plot_results(["own_rent_payment", "tom_eating_risotto", "own_vacation", "own_birthday"],
+    #              ["I paid rent", "Tom ate risotto", "I went on vacation", "I had my birthday"], "long time ago")#, predict_function=predict_adverbial_random_forest)
     # make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
 
 
@@ -219,7 +231,7 @@ def build_parser():
         help="Adverbial to highlight when plotting event adverbials.",
     )
     plot_parser.set_defaults(func=lambda args: plot_results(
-        DEFAULT_EVENTS, DEFAULT_EVENTS_NL, args.adverbial, predict_adverbial_random_forest)
+        DEFAULT_EVENTS, DEFAULT_EVENTS_NL, args.adverbial, predict_function=predict_adverbial_random_forest)
     )
 
     # Predict
