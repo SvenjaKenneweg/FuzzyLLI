@@ -177,10 +177,11 @@ def plot_events_adverbials_fitted(events, events_nl, adverbial, predict_function
         real_data_values = {key: float(np.mean(values)) for key, values in cleaned_data.items()}
         # Convert keys to int and sort by minutes
         minutes = sorted(int(k) for k in real_data_values.keys())
+        print(minutes)
         values = [real_data_values[str(m)] for m in minutes]
 
-        label = event_name_nl.replace("Tom", "A friend").replace("You", "I")
-        real_line = plt.plot(minutes, values, marker='o', label=f'Mean Values for {label}', linestyle='-', color='red')
+        label = event_name.replace('tom', 'Friend').replace('_', ' ').title()
+        real_line = plt.plot(minutes, values, marker='o', label=f'Mean Values for "{label}"', linestyle='-')#, color='orange')
         if predict_functions:
             line_styles = ['--', ':', '-.']
             # Generate prediction for a denser range of minutes

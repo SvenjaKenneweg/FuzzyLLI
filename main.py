@@ -9,7 +9,7 @@ from src.predictions import (predict_time_frame_embedding, predict_adverbial_emb
                              predict_time_frame_random_forest, predict_adverbial_random_forest, get_all_event_properties_gpt)
 from src.evaluation_training_dataset import (get_predictions_classifier, get_predictions_regression,
                                              get_predictions_embedding, get_predictions_random_forest,
-                                             get_predictions_functions, run_MAE_evaluation,
+                                             get_predictions_functions, run_MAE_MdSE_evaluation,
                                              evaluate_gpt, calculate_metrics)
 from src.evaluation_test_dataset import (evaluate_test_data_random_forest, evaluate_test_data_functions,
                                          evaluate_test_data_embedding, evaluate_test_data_gpt, evaluate_test_data_regression, evaluate_test_data_classifier)
@@ -88,11 +88,11 @@ def evaluate_models_training_dataset(events, events_nl, generate_new_predictions
     """
     if calculate_MAE:
         print("\nCalculating MAE:")
-        # print(run_MAE_evaluation(events, fit_event_specific_embeddings, predict_adverbial_embedding,
+        print(run_MAE_MdSE_evaluation(events, fit_event_specific_embeddings, predict_adverbial_embedding,
+                                      events_nl=events_nl))
+        # print(run_MAE_MdSE_evaluation(events, fit_event_specific_random_forest, predict_adverbial_random_forest,
         #                    events_nl=events_nl))
-        print(run_MAE_evaluation(events, fit_event_specific_random_forest, predict_adverbial_random_forest,
-                           events_nl=events_nl))
-        # print(run_MAE_evaluation(events, fit_event_specific_functions, predict_adverbial_functions, events_nl=events_nl,
+        # print(run_MAE_MdSE_evaluation(events, fit_event_specific_functions, predict_adverbial_functions, events_nl=events_nl,
         #                    function_to_use=config.powerlaw))
 
     if generate_new_predictions:
@@ -181,16 +181,17 @@ def run_full_pipeline():
     """
     # train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
     # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
-    # evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
+    # evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
     # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
     # plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_function=predict_adverbial_random_forest)  # Plots FuzzyLLI
 
-    # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False, calculate_MAE=True)
+    evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False, calculate_MAE=True)
     # ["own_rent_payment", "tom_eating_risotto", "own_vacation", "own_birthday"],
     # ["I paid rent", "Tom ate risotto", "I went on vacation", "I had my birthday"]
-    predict_functions = [predict_adverbial_random_forest, predict_adverbial_functions, predict_adverbial_embedding]
-    plot_results(["own_birthday"],
-                 ["I had my birthday"], "just", predict_functions=predict_functions)
+    # predict_functions = [] #predict_adverbial_random_forest, predict_adverbial_functions, predict_adverbial_embedding]
+    # plot_results(["own_rent_payment"],
+    #              ["I went on vacation"],
+    #              "just", predict_functions=predict_functions)
     # make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
 
 

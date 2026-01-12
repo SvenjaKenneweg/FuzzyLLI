@@ -72,14 +72,19 @@ import numpy as np
 import numpy as np
 
 
-def run_MAE_evaluation(events, fit_models_fn, predict_fn, events_nl=None, function_to_use=None):
+def run_MAE_MdSE_evaluation(events, fit_models_fn, predict_fn, events_nl=None, function_to_use=None):
     fit_event_adverbials(events)
     fit_models_fn(events, events_nl, function_to_use)
 
-    all_errors = []
-    # New dictionaries to track errors for granularity
-    errors_per_event = {i: [] for i in range(len(events))}
-    errors_per_adverbial = {adv: [] for adv in config.VAGUE_ADVERBIALS}
+    all_abs_errors = []
+    all_sq_errors = []
+
+    # Error tracking per granularity
+    errors_per_event_abs = {i: [] for i in range(len(events))}
+    errors_per_event_sq = {i: [] for i in range(len(events))}
+
+    errors_per_adverbial_abs = {adv: [] for adv in config.VAGUE_ADVERBIALS}
+    errors_per_adverbial_sq = {adv: [] for adv in config.VAGUE_ADVERBIALS}
 
     for i, event in enumerate(events):
         cleaned_data = get_cleaned_data(event)
@@ -104,34 +109,60 @@ def run_MAE_evaluation(events, fit_models_fn, predict_fn, events_nl=None, functi
                     input_data = events_nl[i] if events_nl else event
                     prediction = predict_fn(input_data, int(minutes_ago))
 
-                # --- Step 3: Calculate Absolute Error ---
-                error = abs(prediction[adverbial] - target_value)
+                # --- Step 3: Calculate Errors ---
+                diff = prediction[adverbial] - target_value
+                abs_error = abs(diff)
+                sq_error = diff ** 2
 
-                # Store error in all trackers
-                all_errors.append(error)
-                errors_per_event[i].append(error)
-                errors_per_adverbial[adverbial].append(error)
+                # Store errors
+                all_abs_errors.append(abs_error)
+                all_sq_errors.append(sq_error)
 
-    # --- Step 4: Final MAE Calculations ---
-    # Global MAE
-    mae = np.mean(all_errors) if all_errors else 0.0
+                errors_per_event_abs[i].append(abs_error)
+                errors_per_event_sq[i].append(sq_error)
 
-    # Per Event MAE
+                errors_per_adverbial_abs[adverbial].append(abs_error)
+                errors_per_adverbial_sq[adverbial].append(sq_error)
+
+        # --- Step 4: Final Metrics ---
+
+        # Global
+    mae = np.mean(all_abs_errors) if all_abs_errors else 0.0
+    medse = np.median(all_sq_errors) if all_sq_errors else 0.0
+
+    # Per Event
     mae_per_event = {
         i: np.mean(errs) if errs else 0.0
-        for i, errs in errors_per_event.items()
+        for i, errs in errors_per_event_abs.items()
+    }
+    medse_per_event = {
+        i: np.median(errs) if errs else 0.0
+        for i, errs in errors_per_event_sq.items()
     }
 
-    # Per Adverbial MAE
+    # Per Adverbial
     mae_per_adverbial = {
         adv: np.mean(errs) if errs else 0.0
-        for adv, errs in errors_per_adverbial.items()
+        for adv, errs in errors_per_adverbial_abs.items()
     }
-    print(f"\nFinal MAE: {mae:.4f}, used configuration: {predict_fn.__name__}")
+    medse_per_adverbial = {
+        adv: np.median(errs) if errs else 0.0
+        for adv, errs in errors_per_adverbial_sq.items()
+    }
+
+    print(
+        f"\nFinal MAE: {mae:.4f}, "
+        f"Final MedSE: {medse:.4f}, "
+        f"used configuration: {predict_fn.__name__}"
+    )
+
     return {
         "overall_mae": mae,
+        "overall_medse": medse,
         "mae_per_event": mae_per_event,
-        "mae_per_adverbial": mae_per_adverbial
+        "medse_per_event": medse_per_event,
+        "mae_per_adverbial": mae_per_adverbial,
+        "medse_per_adverbial": medse_per_adverbial,
     }
 
 
