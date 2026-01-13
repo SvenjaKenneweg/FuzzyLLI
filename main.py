@@ -87,13 +87,13 @@ def evaluate_models_training_dataset(events, events_nl, generate_new_predictions
     Evaluate the models by comparing the predicted labels on training dataset (leave-one-out)
     """
     if calculate_MAE:
-        print("\nCalculating MAE:")
+        print("\nCalculating MAE and MdSE:")
         print(run_MAE_MdSE_evaluation(events, fit_event_specific_embeddings, predict_adverbial_embedding,
                                       events_nl=events_nl))
-        # print(run_MAE_MdSE_evaluation(events, fit_event_specific_random_forest, predict_adverbial_random_forest,
-        #                    events_nl=events_nl))
-        # print(run_MAE_MdSE_evaluation(events, fit_event_specific_functions, predict_adverbial_functions, events_nl=events_nl,
-        #                    function_to_use=config.powerlaw))
+        print(run_MAE_MdSE_evaluation(events, fit_event_specific_random_forest, predict_adverbial_random_forest,
+                           events_nl=events_nl))
+        print(run_MAE_MdSE_evaluation(events, fit_event_specific_functions, predict_adverbial_functions, events_nl=events_nl,
+                           function_to_use=config.powerlaw))
 
     if generate_new_predictions:
         print("\nEvaluation Embeddings + Regressor:")
@@ -116,14 +116,14 @@ def evaluate_models_test_dataset(events_to_fit, events_to_fit_nl, generate_new_p
     Evaluate the models by comparing the predicted adverbials for new events with the results of the test dataset
     """
     if generate_new_predictions:
-        print("\nEvaluating Random Forest on the test dataset:")
+        # print("\nEvaluating Random Forest on the test dataset:")
         evaluate_test_data_random_forest(events_to_fit, events_to_fit_nl)
+        #
+        # print("\nEvaluating Embeddings + Regressor on the test dataset:")
+        # evaluate_test_data_embedding(events_to_fit, events_to_fit_nl)
 
-        print("\nEvaluating Embeddings + Regressor on the test dataset:")
-        evaluate_test_data_embedding(events_to_fit, events_to_fit_nl)
-
-        print("\nEvaluation Power Law on the test dataset:")
-        evaluate_test_data_functions(events_to_fit, events_to_fit_nl, config.powerlaw)
+        # print("\nEvaluating Power Law on the test dataset:")
+        # evaluate_test_data_functions(events_to_fit, events_to_fit_nl, config.powerlaw)
 
     # Calculate only the metrics
     print("\nCalculating the Evaluation metrics from the saved prediction files for the test dataset...")
@@ -142,7 +142,7 @@ def evaluate_event_properties(events, events_nl): #
     for r in range(1, len(all_props) + 1):
         for combo in combinations(all_props, r):
             config.properties_to_use = list(combo)
-            evaluate_models_training_dataset(events, events_nl, generate_new_predictions=True)
+            # evaluate_models_training_dataset(events, events_nl, generate_new_predictions=True)
             evaluate_models_test_dataset(events, events_nl, generate_new_predictions=True)
 
 
@@ -150,10 +150,10 @@ def plot_results(events, events_nl, adverbial, predict_functions=None):
     """
     Plot the results for event adverbials.
     """
-    # print("Plotting results are saved under results/plots/... . "
-    #       "The used FuzzyLLI configuration for the plotting is Random Forest")
-    # print("\nPlotting the FuzzyLLI Overview Diagram (Left each event, right the adverbials")
-    # plot_all_persons_event_adverbials(events)
+    print("Plotting results are saved under results/plots/... . "
+          "The used FuzzyLLI configuration for the plotting is Random Forest")
+    print("\nPlotting the FuzzyLLI Overview Diagram (Left each event, right the adverbials")
+    plot_all_persons_event_adverbials(events)
     plot_events_adverbials_fitted(events, events_nl, adverbial, predict_functions)
 
 
@@ -181,11 +181,11 @@ def run_full_pipeline():
     """
     # train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
     # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
-    # evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
-    # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
+    # evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
+    evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
     # plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_function=predict_adverbial_random_forest)  # Plots FuzzyLLI
 
-    evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False, calculate_MAE=True)
+    # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False, calculate_MAE=True)
     # ["own_rent_payment", "tom_eating_risotto", "own_vacation", "own_birthday"],
     # ["I paid rent", "Tom ate risotto", "I went on vacation", "I had my birthday"]
     # predict_functions = [] #predict_adverbial_random_forest, predict_adverbial_functions, predict_adverbial_embedding]

@@ -276,10 +276,10 @@ def calculate_metrics(file_path):
 
     # Loop through all .json files containing the predictions
     for json_file in file_path.glob("*.json"):
-        print(f"\nFile: {json_file.name}")
-        # if json_file.name != "functions_powerlaw.json":
-        #     continue
-        # print(config.properties_to_use)
+        if json_file.name != "random_forest.json":
+            continue
+        print(config.properties_to_use)
+        # print(f"\nFile: {json_file.name}")
         with open(json_file, "r", encoding="utf-8") as f:
             data = json.load(f)["raw"]
 
@@ -315,16 +315,16 @@ def calculate_metrics(file_path):
             acc1, p1, r1 = top1_on_ranks(rank_pred, rank_gt)
 
             results.append({
-                "KendallTauB": round(float(tau), 3) if not math.isnan(tau) else 0.0,
-                "NDCG": round(float(ndcg), 3),
-                "Top1_Accuracy": round(acc1, 3),
-                "Top1_Precision": round(p1, 3),
-                "Top1_Recall": round(r1, 3),
+                "KendallTauB": float(tau) if not math.isnan(tau) else 0.0,
+                "NDCG": float(ndcg),
+                "Top1_Accuracy": acc1,
+                "Top1_Precision": p1,
+                "Top1_Recall": r1,
             })
 
         df = pd.DataFrame(results)
         overall = df.mean(numeric_only=True).to_frame(name="Overall").T
-        print(overall)
+        print(overall.round(3))
     return
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))

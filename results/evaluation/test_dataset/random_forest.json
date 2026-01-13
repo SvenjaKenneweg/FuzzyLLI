@@ -106,10 +106,10 @@
                 "long time ago": 0.18790698113471957
             },
             "GT": {
-                "some time ago": 0.51,
-                "recently": 0.23,
-                "just": 0.01,
-                "long time ago": 0.25
+                "some time ago": 0.52,
+                "recently": 0.4,
+                "just": 0.02,
+                "long time ago": 0.06
             }
         },
         {
@@ -1070,6 +1070,22 @@
                 "recently": 0.34,
                 "long time ago": 0.02,
                 "some time ago": 0.02
+            }
+        },
+        {
+            "Event": "You took a long-haul flight",
+            "Minutes ago": 262800,
+            "Prediction": {
+                "recently": 1.7332421961524485e-20,
+                "just": 2.959520677155023e-34,
+                "some time ago": 0.8065078854998978,
+                "long time ago": 0.42103688907090225
+            },
+            "GT": {
+                "long time ago": 0.44,
+                "some time ago": 0.5,
+                "recently": 0.06,
+                "just": 0.0
             }
         },
         {
