@@ -97,7 +97,7 @@ def get_percentages():
                                     else:
                                         event_time_answer_counts[(event, time_ago)][answer] += 1
                             elif "half a year ago" in question:
-                                event = "You bought a house"
+                                event = question.replace("half a year ago.", "").strip()
                                 time_ago = 262800
                                 if "some" in answer:
                                     event_time_answer_counts[(event, time_ago)]["some time ago"] += 1
@@ -141,6 +141,8 @@ def run_test_dataset_evaluation_and_save_preds(events_to_fit, fit_fn, predict_fn
     fit_event_adverbials(events_to_fit)
     fit_fn(events_to_fit, events_to_fit_nl, function_to_use)
     test_data = get_percentages()
+    print(len(test_data))
+    return
     raw_results = []
 
     for (event, minutes_ago), answers in test_data.items():
