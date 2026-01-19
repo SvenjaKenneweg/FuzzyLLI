@@ -257,29 +257,42 @@ def calculate_metrics(file_path):
         # empty / unsupported
         return {}, False
 
-    def top1_on_ranks(rank_pred, rank_gt):
-        # labels = sorted(set(rank_pred.keys()) | set(rank_gt.keys()))
+    def topk_on_ranks(rank_pred, rank_gt, k=2):
+        def get_topk(rank_dict, k):
+            # Get k smallest distinct ranks
+            uniq_ranks = sorted(set(rank_dict.values()))
+            kth_rank = uniq_ranks[min(k - 1, len(uniq_ranks) - 1)]
+            return {l for l, r in rank_dict.items() if r <= kth_rank}
 
-        min_pred = min(rank_pred[l] for l in rank_pred)
-        pred_top = {l for l in rank_pred if rank_pred[l] == min_pred}
-        min_gt = min(rank_gt[l] for l in rank_gt)
-        gt_best = {l for l in rank_gt if rank_gt[l] == min_gt}
-        inter = pred_top & gt_best
+        # --- Top-1 ---
+        pred_top1 = get_topk(rank_pred, 1)
+        gt_top1 = get_topk(rank_gt, 1)
+        inter1 = pred_top1 & gt_top1
 
-        # Accuracy@1: any correct among the predicted top-rank set?
-        acc1 = 1.0 if len(inter) > 0 else 0.0
-        # Precision@1: fraction of predicted top-rank items that are correct
-        p1 = (len(inter) / len(pred_top)) if len(pred_top) > 0 else 0.0
-        # Recall@1: fraction of GT-best items recovered at predicted top rank
-        r1 = (len(inter) / len(gt_best)) if len(gt_best) > 0 else 0.0
-        return acc1, p1, r1
+        acc1 = 1.0 if inter1 else 0.0
+        p1 = len(inter1) / len(pred_top1) if pred_top1 else 0.0
+        r1 = len(inter1) / len(gt_top1) if gt_top1 else 0.0
+
+        # --- Top-2 ---
+        pred_top2 = get_topk(rank_pred, 2)
+        gt_top2 = get_topk(rank_gt, 2)
+        inter2 = pred_top2 & gt_top2
+
+        acc2 = 1.0 if inter2 else 0.0
+        p2 = len(inter2) / len(pred_top2) if pred_top2 else 0.0
+        r2 = len(inter2) / len(gt_top2) if gt_top2 else 0.0
+
+        return {
+            "top1": (acc1, p1, r1),
+            "top2": (acc2, p2, r2),
+        }
 
     # Loop through all .json files containing the predictions
     for json_file in file_path.glob("*.json"):
-        if json_file.name != "random_forest.json":
-            continue
-        print(config.properties_to_use)
-        # print(f"\nFile: {json_file.name}")
+        # if json_file.name != "random_forest.json":
+        #     continue
+        # print(config.properties_to_use)
+        print(f"\nFile: {json_file.name}")
         with open(json_file, "r", encoding="utf-8") as f:
             data = json.load(f)["raw"]
 
@@ -311,15 +324,22 @@ def calculate_metrics(file_path):
                 tau = 0.0
                 ndcg = 0.0
 
-            # ---- Top-1 on ranks ----
-            acc1, p1, r1 = top1_on_ranks(rank_pred, rank_gt)
+            # ---- Top-k on ranks ----
+            topk = topk_on_ranks(rank_pred, rank_gt)
 
             results.append({
                 "KendallTauB": float(tau) if not math.isnan(tau) else 0.0,
                 "NDCG": float(ndcg),
-                "Top1_Accuracy": acc1,
-                "Top1_Precision": p1,
-                "Top1_Recall": r1,
+
+                # Top-1
+                "Acc_1": topk["top1"][0],
+                "Prec_1": topk["top1"][1],
+                "Rec_1": topk["top1"][2],
+
+                # Top-2
+                "Acc_2": topk["top2"][0],
+                "Prec_2": topk["top2"][1],
+                "Rec_2": topk["top2"][2],
             })
 
         df = pd.DataFrame(results)

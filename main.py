@@ -116,14 +116,14 @@ def evaluate_models_test_dataset(events_to_fit, events_to_fit_nl, generate_new_p
     Evaluate the models by comparing the predicted adverbials for new events with the results of the test dataset
     """
     if generate_new_predictions:
-        # print("\nEvaluating Random Forest on the test dataset:")
+        print("\nEvaluating Random Forest on the test dataset:")
         evaluate_test_data_random_forest(events_to_fit, events_to_fit_nl)
-        #
-        # print("\nEvaluating Embeddings + Regressor on the test dataset:")
-        # evaluate_test_data_embedding(events_to_fit, events_to_fit_nl)
 
-        # print("\nEvaluating Power Law on the test dataset:")
-        # evaluate_test_data_functions(events_to_fit, events_to_fit_nl, config.powerlaw)
+        print("\nEvaluating Embeddings + Regressor on the test dataset:")
+        evaluate_test_data_embedding(events_to_fit, events_to_fit_nl)
+
+        print("\nEvaluating Power Law on the test dataset:")
+        evaluate_test_data_functions(events_to_fit, events_to_fit_nl, config.powerlaw)
 
     # Calculate only the metrics
     print("\nCalculating the Evaluation metrics from the saved prediction files for the test dataset...")
@@ -181,11 +181,10 @@ def run_full_pipeline():
     """
     # train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
     # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
-    # evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
-    evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
+    evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
+    # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
     # plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_function=predict_adverbial_random_forest)  # Plots FuzzyLLI
 
-    # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False, calculate_MAE=True)
     # ["own_rent_payment", "tom_eating_risotto", "own_vacation", "own_birthday"],
     # ["I paid rent", "Tom ate risotto", "I went on vacation", "I had my birthday"]
     # predict_functions = [] #predict_adverbial_random_forest, predict_adverbial_functions, predict_adverbial_embedding]
