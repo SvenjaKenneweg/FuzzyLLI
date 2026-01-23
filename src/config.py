@@ -11,7 +11,6 @@ EVALUATION_FILE_PATH = Path("results/evaluation/training_dataset/")
 EVALUATION_TEST_DATASET_FILE_PATH = Path("results/evaluation/test_dataset/")
 DATASET_TEST_PATH =  Path("datasets/test")
 DATA_DIR = Path("datasets/training")
-RESULTS_JSON = RESULTS_FILE_PATH / "fuzzylli.json"
 EMBEDDING_RIDGE_FILE = 'configuration_word_embeddings.pkl'
 RANDOM_FOREST_FILE = 'configuration_random_forest.pkl'
 EMBEDDING_MODEL = 'paraphrase-MiniLM-L6-v2'

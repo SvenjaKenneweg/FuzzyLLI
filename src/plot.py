@@ -38,15 +38,13 @@ Y_LIMS = (0.3, 1.02)  # <- fixed y‑axis for both sub‑plots
 # Helpers
 # ---------------------------------------------------------------------------
 
-def _load_packed(path: Path = config.RESULTS_JSON) -> Dict[str, dict]:
+def _load_packed(path: Path = config.RESULTS_FILE_PATH/"event_adverbials.json") -> Dict[str, dict]:
     with path.open("r", encoding="utf-8") as fh:
         return json.load(fh)
-
 
 def _initial_x_axis(values_vague_adverbial: dict) -> np.ndarray:
     max_minutes = max(map(int, values_vague_adverbial["long time ago"].keys()))
     return np.linspace(-(max_minutes / 2), max_minutes * 1.6, 400_000)
-
 
 def _select_main_event(packed: Dict[str, dict], candidates: List[str]) -> str:
     """Return the candidate event with the largest σ (first/maximum param).
@@ -71,6 +69,33 @@ def _select_main_event(packed: Dict[str, dict], candidates: List[str]) -> str:
     if best_event is None:
         raise ValueError("None of the provided events have fitted parameters.")
     return best_event
+
+
+def normalize_event_label(ev: str) -> str:
+    noun_to_action = {
+        "shower": "Taking a Shower",
+        "rent_payment": "Paying Rent",
+        "birthday": "Birthday",
+        "vacation": "Going on Vacation",
+        "year_abroad": "Year Abroad",
+        "wedding_celebration": "Celebrating Marriage",
+        "winebottle_storage": "Storing Wine Bottle",
+        "chatting_friend": "Chatting with Friend",
+        "reading_book": "Reading Book",
+    }
+
+    # Determine person
+    person = "$1^{st}$ p" if ev.startswith("own_") else "$3^{rd}$ p"
+
+    # Remove any prefix like 'own_' or name prefix
+    parts = ev.split("_")
+    core = "_".join(parts[1:]) if parts[0] == "own" else "_".join(parts[1:])
+
+    # Check if mapped to action
+    core_lower = core.lower()
+    label = noun_to_action.get(core_lower, " ".join(core.split("_")).title())
+
+    return f"{label} ({person})"
 
 # ---------------------------------------------------------------------------
 # Public API
@@ -108,14 +133,13 @@ def plot_all_persons_event_adverbials(
     )
     # Overlay each user‑requested event in sorted order
     for ev in sorted_events:
+        event_label = normalize_event_label(ev)
         params = packed["event_params"][ev]
         y_ev = config.event_specific_function(x1, *params)
         ax_left.plot(
             x1,
             y_ev,
-            # label=f"{ev.title()}",
-            label=f"{ev.replace('tom', 'Friend').replace('_', ' ').title()}",
-            # label=f"{ev.replace('_', ' ').title()}\n$\\sigma_e={', '.join(f'{p:.0f}' for p in params)}$",
+            label=event_label,
             color=next(colour_cycle, None),
         )
 
@@ -124,7 +148,7 @@ def plot_all_persons_event_adverbials(
         ylim = Y_LIMS,
         xlabel="Time units ago in minutes",
         ylabel="Beforeness of event",
-        title="Event specific functions $P_{e}$",
+        title="Event specific functions $\Phi_e$",
     )
     ax_left.grid(True)
     ax_left.legend(loc="lower right")
@@ -177,15 +201,15 @@ def plot_events_adverbials_fitted(events, events_nl, adverbial, predict_function
         real_data_values = {key: float(np.mean(values)) for key, values in cleaned_data.items()}
         # Convert keys to int and sort by minutes
         minutes = sorted(int(k) for k in real_data_values.keys())
-        print(minutes)
+        time_unit = minutes #sorted(int(k)/43800 for k in real_data_values.keys())
         values = [real_data_values[str(m)] for m in minutes]
 
-        label = event_name.replace('tom', 'Friend').replace('_', ' ').title()
-        real_line = plt.plot(minutes, values, marker='o', label=f'Mean Values for "{label}"', linestyle='-')#, color='orange')
+        event_label = normalize_event_label(event_name)
+        real_line = plt.plot(time_unit, values, marker='o', label=f'Event: {event_label}; Adverbial: {adverbial}', linestyle='-', color='#d62728')
         if predict_functions:
             line_styles = ['--', ':', '-.']
-            # Generate prediction for a denser range of minutes
-            max_time = max(minutes)
+            # Generate prediction for a denser range of time_unit
+            max_time = max(time_unit)
             dense_minutes = np.arange(0, max_time + 10, max_time / 50)
 
             for i, predict_fn in enumerate(predict_functions):
@@ -216,8 +240,8 @@ def plot_events_adverbials_fitted(events, events_nl, adverbial, predict_function
                 plt.plot(dense_minutes, predicted_values, label=f'Fit: {label}', linestyle=line_styles[i % len(line_styles)], color=real_color)
 
     plt.ylim(0, 1)
-    plt.xlabel('Minutes ago')
-    plt.ylabel(f'Membership value for the adverbial {adverbial}')
+    plt.xlabel('Time Units ago in Minutes')
+    plt.ylabel(f'Membership Value')
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
