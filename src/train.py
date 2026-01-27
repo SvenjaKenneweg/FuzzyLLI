@@ -27,18 +27,16 @@ import src.config as config
 
 # Initial guesses for vague adverbials' mean values
 adverbials_initial_means: Dict[str, float] = {
-    "recently": 0.7,
-    "just": 0.5,
-    "some time ago": 0.8,
-    "long time ago": 0.95,
+    "close to": 0.5,
+    "moderately far": 0.7,
+    "far away": 0.9,
 }
 
 # Standard deviation initial guesses for adverbials
 adverbials_initial_stds: Dict[str, float] = {
-    "recently": 0.05,
-    "just": 0.05,
-    "some time ago": 0.3,
-    "long time ago": 0.2,
+    "close to": 0.05,
+    "moderately far": 0.1,
+    "far away": 0.02,
 }
 
 # Bounds for the fitting (lower, upper)
@@ -200,12 +198,12 @@ def fit_event_adverbials(events_to_fit_naming: List[str]) -> dict:
     if events_to_fit_naming is None:
         return
 
-    for event_name in events_to_fit_naming:
-        file_path = f"{config.DATA_DIR}/{event_name}/cleanedData_minutes.json"
+    for survey_name in events_to_fit_naming:
+        file_path = f"{config.DATASET_SPATIAL_PATH}/{survey_name}.json"
         with open(file_path, "r", encoding="utf-8") as fh:
             values_vagueAdverbial = json.load(fh)
 
-        max_time_ago = max(map(int, values_vagueAdverbial["long time ago"].keys()))
+        max_time_ago = max(map(float, values_vagueAdverbial["far away"].keys()))
         initial_std_relation.append(max_time_ago / 5)
 
         # Re‑order vague adverbials to match *vagueAdverbials_naming_initialguessmeans*
@@ -213,7 +211,7 @@ def fit_event_adverbials(events_to_fit_naming: List[str]) -> dict:
             adv: values_vagueAdverbial[adv]
             for adv in adverbials_initial_means.keys()
         }
-        all_event_values[event_name] = values_vagueAdverbial
+        all_event_values[survey_name] = values_vagueAdverbial
 
     # Build initial parameter vector
     num_event_params = len(inspect.signature(event_specific_function).parameters) - 1

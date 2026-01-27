@@ -10,6 +10,7 @@ PLOT_FILE_PATH = Path("results/plots")
 EVALUATION_FILE_PATH = Path("results/evaluation/training_dataset/")
 EVALUATION_TEST_DATASET_FILE_PATH = Path("results/evaluation/test_dataset/")
 DATASET_TEST_PATH =  Path("datasets/test")
+DATASET_SPATIAL_PATH = Path("datasets/spatial")
 DATA_DIR = Path("datasets/training")
 EMBEDDING_RIDGE_FILE = 'configuration_word_embeddings.pkl'
 RANDOM_FOREST_FILE = 'configuration_random_forest.pkl'
@@ -39,7 +40,7 @@ EVALUATION_TEST_DATASET_CLASSIFIER = EVALUATION_TEST_DATASET_FILE_PATH / 'classi
 EVALUATION_TEST_DATASET_REGRESSION = EVALUATION_TEST_DATASET_FILE_PATH / 'regression.json'
 
 # List of vague adverbials
-VAGUE_ADVERBIALS: List[str] = ["recently", "just", "some time ago", "long time ago"]
+VAGUE_ADVERBIALS: List[str] = ["close to", "moderately far", "far away"] #["recently", "just", "some time ago", "long time ago"]
 
 # Define the description mappings for each dimension
 RICHNESS_DESCRIPTIONS = {

@@ -43,8 +43,8 @@ def _load_packed(path: Path = config.RESULTS_FILE_PATH/"event_adverbials.json") 
         return json.load(fh)
 
 def _initial_x_axis(values_vague_adverbial: dict) -> np.ndarray:
-    max_minutes = max(map(int, values_vague_adverbial["long time ago"].keys()))
-    return np.linspace(-(max_minutes / 2), max_minutes * 1.6, 400_000)
+    # max_minutes = max(map(float, values_vague_adverbial["far away"].keys()))
+    return np.linspace(-2, 10, 400_000)
 
 def _select_main_event(packed: Dict[str, dict], candidates: List[str]) -> str:
     """Return the candidate event with the largest σ (first/maximum param).
@@ -117,8 +117,8 @@ def plot_all_persons_event_adverbials(
     main_event = _select_main_event(packed, events_to_plot)
 
     # Use x‑axis sized to the main event's datasets
-    json_path = config.DATA_DIR / main_event / "cleanedData_minutes.json"
-    with json_path.open("r", encoding="utf-8") as fh:
+    json_path = f"{config.DATASET_SPATIAL_PATH}/{main_event}.json"
+    with open(json_path, "r", encoding="utf-8") as fh:
         values_vague_adverbial = json.load(fh)
     x1 = _initial_x_axis(values_vague_adverbial)
 
@@ -133,7 +133,7 @@ def plot_all_persons_event_adverbials(
     )
     # Overlay each user‑requested event in sorted order
     for ev in sorted_events:
-        event_label = normalize_event_label(ev)
+        event_label = ev #normalize_event_label(ev)
         params = packed["event_params"][ev]
         y_ev = config.event_specific_function(x1, *params)
         ax_left.plot(
