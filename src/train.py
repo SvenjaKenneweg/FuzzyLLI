@@ -34,13 +34,13 @@ adverbials_initial_means: Dict[str, float] = {
 
 # Standard deviation initial guesses for adverbials
 adverbials_initial_stds: Dict[str, float] = {
-    "close to": 0.05,
+    "close to": 0.1,
     "moderately far": 0.1,
-    "far away": 0.02,
+    "far away": 0.1,
 }
 
 # Bounds for the fitting (lower, upper)
-fitting_bounds_events = ([1e-6], [np.inf])
+fitting_bounds_events = ([10], [500])
 fitting_bounds_adverbials_mean = ([0.45], [1.0])
 fitting_bounds_adverbials_std = ([1e-6], [0.5])
 
@@ -204,7 +204,7 @@ def fit_event_adverbials(events_to_fit_naming: List[str]) -> dict:
             values_vagueAdverbial = json.load(fh)
 
         max_time_ago = max(map(float, values_vagueAdverbial["far away"].keys()))
-        initial_std_relation.append(max_time_ago / 5)
+        initial_std_relation.append(max_time_ago)
 
         # Re‑order vague adverbials to match *vagueAdverbials_naming_initialguessmeans*
         values_vagueAdverbial = {
