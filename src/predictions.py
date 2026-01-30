@@ -132,6 +132,22 @@ def get_all_event_properties_gpt(events_nl, file_path, model_engine=config.GPT_V
 # Public API
 # ---------------------------------------------------------------------------
 
+
+def predict_adverbial_fuzzylli(event, minutes_ago, *args):
+    params = _load_packed()
+
+    event_std = params["event_params"][event][0]
+
+    adverbial_probs = {}
+    for adverbial in config.VAGUE_ADVERBIALS:
+        adverbial_mean = params["adverbial_means"][adverbial]
+        adverbial_std = params["adverbial_stds"][adverbial]
+
+        prob_adverbial = config.adverbial_specific_function(config.event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
+        adverbial_probs[adverbial] = prob_adverbial
+
+    return adverbial_probs
+
 def predict_time_frame_embedding(event, adverbial, min_prob=0.6):
     params = _load_packed()
     adverbial_mean = params["adverbial_means"][adverbial]

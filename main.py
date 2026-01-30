@@ -58,24 +58,24 @@ def evaluate_models_training_dataset(events, events_nl, generate_new_predictions
     calculate_metrics(config.EVALUATION_FILE_PATH)
 
 
-def plot_results(events, adverbial, predict_functions=None):
+def plot_results(events, adverbial):
     """
     Plot the results for event adverbials.
     """
     print("Plotting results are saved under results/plots/... . "
           "The used FuzzyLLI configuration for the plotting is Random Forest")
     print("\nPlotting the FuzzyLLI Overview Diagram (Left each event, right the adverbials")
-    plot_all_persons_event_adverbials(events)
-    # plot_events_adverbials_fitted(events, events_nl, adverbial, predict_functions)
+    # plot_all_persons_event_adverbials(events)
+    plot_events_adverbials_fitted("0", "far away")
 
 
 def run_full_pipeline():
     """
     Preserve the previous default: train, evaluate, plot, and run a demo prediction.
     """
-    train_models(DEFAULT_SPATIAL_SURVEY)  # Trains FuzzyLLI
+    # train_models(DEFAULT_SPATIAL_SURVEY)  # Trains FuzzyLLI
     # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
-    plot_results(DEFAULT_SPATIAL_SURVEY, "long time ago", predict_functions=None)  # Plots FuzzyLLI
+    plot_results(DEFAULT_SPATIAL_SURVEY, "close to")  # Plots FuzzyLLI
 
 
 if __name__ == '__main__':

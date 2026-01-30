@@ -20,7 +20,7 @@ import pandas as pd
 
 
 import src.config as config
-from src.predictions import predict_adverbial_random_forest, predict_adverbial_functions, predict_adverbial_embedding
+from src.predictions import predict_adverbial_random_forest, predict_adverbial_functions, predict_adverbial_embedding, predict_adverbial_fuzzylli
 
 
 # ---------------------------------------------------------------------------
@@ -186,61 +186,37 @@ def plot_all_persons_event_adverbials(
     plt.close()
 
 
-def plot_events_adverbials_fitted(events, events_nl, adverbial, predict_functions=None):
-    if len(events) != len(events_nl):
-        raise ValueError("The lengths of events and event_name_nl must be the same.")
-
+def plot_events_adverbials_fitted(event_name, adverbial):
     plt.figure(figsize=(10, 6))
 
     # Iterate over both `events` and `event_name_nl` simultaneously
-    for event_name, event_name_nl in zip(events, events_nl):
-        with open(config.DATA_DIR / event_name / "cleanedData_minutes.json", "r", encoding="utf-8") as f:
-            cleaned_data = json.load(f)[adverbial]
+    with open(f"{config.DATASET_SPATIAL_PATH}/{event_name}.json", "r", encoding="utf-8") as f:
+        cleaned_data = json.load(f)[adverbial]
 
-        # Calculate medians for this event
-        real_data_values = {key: float(np.mean(values)) for key, values in cleaned_data.items()}
-        # Convert keys to int and sort by minutes
-        minutes = sorted(int(k) for k in real_data_values.keys())
-        time_unit = minutes #sorted(int(k)/43800 for k in real_data_values.keys())
-        values = [real_data_values[str(m)] for m in minutes]
+    # Calculate medians for this event
+    real_data_values = {key: float(np.median(values)) for key, values in cleaned_data.items()}
+    # Convert keys to int and sort by minutes
+    minutes = sorted(float(k) for k in real_data_values.keys())
+    time_unit = minutes #sorted(int(k)/43800 for k in real_data_values.keys())
+    values = [real_data_values[str(m)] for m in minutes]
 
-        event_label = normalize_event_label(event_name)
-        real_line = plt.plot(time_unit, values, marker='o', label=f'Event: {event_label}; Adverbial: {adverbial}', linestyle='-', color='#d62728')
-        if predict_functions:
-            line_styles = ['--', ':', '-.']
-            # Generate prediction for a denser range of time_unit
-            max_time = max(time_unit)
-            dense_minutes = np.arange(0, max_time + 10, max_time / 50)
+    event_label = event_name
+    plt.plot(time_unit, values, marker='o', label=f'Survey: {event_label}; Adverbial: {adverbial}')
 
-            for i, predict_fn in enumerate(predict_functions):
-                predicted_values = []
-                if predict_fn in requires_properties:
-                    with open(f"{config.DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
-                        event_properties = json.load(fh)
+    # Generate prediction for a denser range of time_unit
+    max_time = max(time_unit)
+    dense_minutes = np.arange(0, max_time + 10, max_time / 50)
 
-                    prop_dict = event_properties[event_name_nl.replace("Tom", "A friend").replace("You", "I")]
-                    properties = [{prop: prop_dict[prop] for prop in config.properties_to_use}]
+    predicted_values = []
+    for minute in dense_minutes:
+        prob_adverbial = predict_adverbial_fuzzylli(event_name, int(minute))
+        predicted_values.append(prob_adverbial[adverbial])
 
-                    for minute in dense_minutes:
-                        prob_adverbial = predict_fn(properties, int(minute))
-                        predicted_values.append(prob_adverbial[adverbial])
-                else:
-                    for minute in dense_minutes:
-                        prob_adverbial = predict_fn(event_name_nl, int(minute))
-                        predicted_values.append(prob_adverbial[adverbial])
+    # Plot the predicted data
+    plt.plot(dense_minutes, predicted_values, label=f'Fit')
 
-                # Plot the predicted data
-                real_color = real_line[0].get_color()  # Get the color of the real line
-                if "random" in predict_fn.__name__:
-                    label = "Random Forest"
-                elif "embedding" in predict_fn.__name__:
-                    label = "Word Embeddings"
-                else:
-                    label = "Power Law"
-                plt.plot(dense_minutes, predicted_values, label=f'Fit: {label}', linestyle=line_styles[i % len(line_styles)], color=real_color)
-
-    plt.ylim(0, 1)
-    plt.xlabel('Time Units ago in Minutes')
+    plt.ylim(0, 1.1)
+    plt.xlabel('Distance in Pixel')
     plt.ylabel(f'Membership Value')
     plt.legend()
     plt.grid(True)
