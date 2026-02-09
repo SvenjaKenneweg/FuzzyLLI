@@ -179,19 +179,17 @@ def run_full_pipeline():
     """
     Preserve the previous default: train, evaluate, plot, and run a demo prediction.
     """
-    # train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
-    # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
-    # evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
-    # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
-    # plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_functions=None)  # Plots FuzzyLLI
+    train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
+    evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
+    evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
+    evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
+    plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_functions=None)  # Plots FuzzyLLI
 
-    # ["own_rent_payment", "tom_eating_risotto", "own_vacation", "own_birthday"], ["own_birthday", "own_wedding_celebration"]
-    # ["I paid rent", "Tom ate risotto", "I went on vacation", "I had my birthday"] ["I had my birthday", "I had my wedding celebration"]
     predict_functions = [predict_adverbial_random_forest, predict_adverbial_functions, predict_adverbial_embedding]
     plot_results(["own_birthday"],
                  ["I had my birthday"],
                  "just", predict_functions=predict_functions)
-    # make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
+    make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
 
 
 def build_parser():
