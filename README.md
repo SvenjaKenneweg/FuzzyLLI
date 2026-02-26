@@ -14,11 +14,16 @@ Check out the paper [here (Paper currently under review)](PATH_OR_URL_TO_PAPER) 
 This repository provides code, data, and evaluation resources to reproduce the experiments, analyze the model’s behavior, making predictions 
 and extend the approach to new events or temporal expressions.
 
-## Quick start
-- Python 3.8+ recommended. Create and activate a virtual environment.
-- Install deps: `pip install -r requirements.txt`
+
+## Quick start (uv)
+
+- Python 3.10 recommended
+- Install [`uv`](https://github.com/astral-sh/uv)
+- Create/sync the environment from `pyproject.toml` / `uv.lock`:
+  ```bash
+  uv sync
 - Set OpenAI credentials for property extraction: `export OPENAI_API_KEY=...` (model version in `src/config.py`)
-- Run the full pipeline: `python3 main.py`
+- Run the full pipeline: `uv run python -m fuzzylli.main`
 
 ## What you can do
 - Train all FuzzyLLI variants and get the event property predictions via gpt
@@ -38,8 +43,8 @@ and extend the approach to new events or temporal expressions.
 - `src/config.py` — paths, model settings, and function choices.
 
 ## Data + outputs
-- Input data: `datasets/training/<event>/cleanedData_minutes.json` and `datasets/test/...`.
-- GPT-derived properties: `datasets/training/event_properties.json`, `datasets/test/event_properties.json`.
+- Input data: `fuzzylli/datasets/training/<event>/cleanedData_minutes.json` and `fuzzylli/datasets/test/...`.
+- GPT-derived properties: `fuzzylli/datasets/training/event_properties.json`, `fuzzylli/datasets/test/event_properties.json`.
 - Fits: `results/fits/`.
 - Evaluations: `results/evaluation/training_dataset/`, `results/evaluation/test_dataset/`.
 - Plots: `results/plots/`.
@@ -47,31 +52,31 @@ and extend the approach to new events or temporal expressions.
 ## CLI usage
 Here all configurations of FuzzyLLI are used for training and evaluation. 
 If you want to use only a specific configuration comment out the others in the `main.py`. 
-If you want to train/eval/plot other events change the DEFAULT_EVENTS and DEFAULT_EVENTS_NL in the main.py
+If you want to train/eval/plot other events change the DEFAULT_EVENTS and DEFAULT_EVENTS_NL in the `fuzzylli/main.py`
 
 - Full pipeline (train →  eval training dataset → eval test dataset → plots → demo prediction):
   ```bash
-  python3 main.py
+  uv run python -m fuzzylli.main
   ```
 
 - Train only (The Event Properties (GPT-4) are determined at the beginning of the training function):
   ```bash
-  python3 main.py train
+  uv run python -m fuzzylli.main train
   ```
 
 - Evaluate (regenerate predictions with `--generate-new-predictions`):
-  - Training dataset (via leave-one-out): `python3 main.py evaluate --scope training --generate-new-predictions`
-  - Test dataset: `python3 main.py evaluate --scope test --generate-new-predictions`
+  - Training dataset (via leave-one-out): `uv run python -m fuzzylli.main evaluate --scope training --generate-new-predictions`
+  - Test dataset: `uv run python -m fuzzylli.main evaluate --scope test --generate-new-predictions`
 
 - Plot (Random Forest configuration of FuzzyLLI by default):
   ```bash
-  python3 main.py plot --adverbial "long time ago"
+  uv run python -m fuzzylli.main plot --adverbial "long time ago"
   ```
 
 - Exemplary Prediction: The most probable interval where the event has taken place (give the adverbial) and all adverbial 
 membership values are predicted for each configuration of FuzzyLLI. 
   ```bash
-  python3 main.py predict \
+  uv run python -m fuzzylli.main predict \
     --event-nl "I was at the hospital" \
     --adverbial "some time ago" \
     --minutes-ago 120 \
@@ -79,9 +84,9 @@ membership values are predicted for each configuration of FuzzyLLI.
   ```
 
 ## Configuration tips
-- Adjust paths, model choices, and GPT model in `src/config.py`.
-- Change default events/demo inputs in `main.py`.
-- To limit training/eval to specific configurations, comment out the calls inside `main.py`.
+- Adjust paths, model choices, and GPT model in `fuzzylli/src/config.py`.
+- Change default events/demo inputs in `fuzzylli/main.py`.
+- To limit training/eval to specific configurations, comment out the calls inside `fuzzylli/main.py`.
 
 ## Notes
 - Training may call GPT (incurs cost/latency).
