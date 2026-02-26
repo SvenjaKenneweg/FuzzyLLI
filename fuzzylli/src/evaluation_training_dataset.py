@@ -19,24 +19,24 @@ from sklearn.metrics import (
     hamming_loss, jaccard_score
 )
 
-from src.predictions import (
+from .predictions import (
     predict_adverbial_embedding,
     predict_adverbial_random_forest,
     predict_adverbial_functions
 )
-from src.train import (
+from .train import (
     fit_event_adverbials,
     fit_event_specific_embeddings,
     fit_event_specific_random_forest,
     fit_event_specific_functions
 )
-from src.simple_models_training import fit_classifier, fit_regression
-from src.simple_models_predictions import (
+from .simple_models_training import fit_classifier, fit_regression
+from .simple_models_predictions import (
     predict_adverbial_classifier,
     predict_adverbial_regression
 )
 
-import src.config as config
+from . import config
 
 
 # ---------------------------------------------------------------------------

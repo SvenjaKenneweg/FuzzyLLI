@@ -660,10 +660,10 @@
             "Event": "You took a long-haul flight",
             "Minutes ago": 240,
             "Prediction": {
-                "recently": 0.7731072180920527,
-                "just": 0.8262370611099084,
-                "some time ago": 0.4047641933334311,
-                "long time ago": 0.13521317378079595
+                "recently": 0.7731072264410657,
+                "just": 0.8262370522631558,
+                "some time ago": 0.4047641938840239,
+                "long time ago": 0.13521317405277128
             },
             "GT": {
                 "recently": 0.44,
@@ -724,10 +724,10 @@
             "Event": "You took a long-haul flight",
             "Minutes ago": 2628000,
             "Prediction": {
-                "recently": 2.832687421569361e-287,
+                "recently": 2.832676246101713e-287,
                 "just": 0.0,
-                "some time ago": 0.5198045714485865,
-                "long time ago": 0.89376780199622
+                "some time ago": 0.5198045671096525,
+                "long time ago": 0.8937677989233257
             },
             "GT": {
                 "long time ago": 0.84,
@@ -916,10 +916,10 @@
             "Event": "You took a long-haul flight",
             "Minutes ago": 525600,
             "Prediction": {
-                "recently": 1.5744170724743783e-86,
-                "just": 3.028222548402091e-129,
-                "some time ago": 0.9992469749019266,
-                "long time ago": 0.822707565625509
+                "recently": 1.5736475651931099e-86,
+                "just": 3.026137422807552e-129,
+                "some time ago": 0.9992469108103702,
+                "long time ago": 0.8227084099862666
             },
             "GT": {
                 "long time ago": 0.58,
@@ -1012,10 +1012,10 @@
             "Event": "You took a long-haul flight",
             "Minutes ago": 10080,
             "Prediction": {
-                "recently": 0.9577970001098329,
-                "just": 0.5426619257200019,
-                "some time ago": 0.4203934040287853,
-                "long time ago": 0.14303280692637707
+                "recently": 0.957797177919674,
+                "just": 0.5426614890491632,
+                "some time ago": 0.420393427535653,
+                "long time ago": 0.1430328188376936
             },
             "GT": {
                 "some time ago": 0.26,
@@ -1060,10 +1060,10 @@
             "Event": "You took a long-haul flight",
             "Minutes ago": 30,
             "Prediction": {
-                "recently": 0.7680761302272092,
-                "just": 0.8315240702182107,
-                "some time ago": 0.4044334690354114,
-                "long time ago": 0.1350498507133119
+                "recently": 0.7680761312771165,
+                "just": 0.8315240691240421,
+                "some time ago": 0.4044334691042104,
+                "long time ago": 0.1350498507472781
             },
             "GT": {
                 "just": 0.62,
@@ -1076,10 +1076,10 @@
             "Event": "You took a long-haul flight",
             "Minutes ago": 262800,
             "Prediction": {
-                "recently": 7.518052623469653e-24,
-                "just": 2.8285198726638194e-39,
-                "some time ago": 0.8335562027563103,
-                "long time ago": 0.45028305567518473
+                "recently": 7.516864242635446e-24,
+                "just": 2.827855321853736e-39,
+                "some time ago": 0.8335567204502424,
+                "long time ago": 0.4502836377163993
             },
             "GT": {
                 "long time ago": 0.44,
@@ -1124,10 +1124,10 @@
             "Event": "You took a long-haul flight",
             "Minutes ago": 1440,
             "Prediction": {
-                "recently": 0.8012368934325582,
-                "just": 0.7950091935713988,
-                "some time ago": 0.40665635945697814,
-                "long time ago": 0.13614929082083999
+                "recently": 0.8012369416094209,
+                "just": 0.7950091375792747,
+                "some time ago": 0.4066563627674021,
+                "long time ago": 0.13614929246115015
             },
             "GT": {
                 "recently": 0.6,

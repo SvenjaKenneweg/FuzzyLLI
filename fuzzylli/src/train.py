@@ -18,8 +18,8 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.inspection import permutation_importance, PartialDependenceDisplay
 from sentence_transformers import SentenceTransformer
 
-from src.config import event_specific_function, adverbial_specific_function
-import src.config as config
+from .config import event_specific_function, adverbial_specific_function
+from . import config
 
 # ========================
 # Parameters for the fitting

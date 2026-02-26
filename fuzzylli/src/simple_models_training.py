@@ -8,7 +8,7 @@ from xgboost import XGBRegressor
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestRegressor
 
-import src.config as config
+from . import config
 
 # ---------------------------------------------------------------------------
 # Persistence helpers

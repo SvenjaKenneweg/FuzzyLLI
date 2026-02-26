@@ -3,14 +3,15 @@ from typing import List
 import numpy as np
 import math
 from scipy.special import erf, erfinv
+from importlib.resources import files
 
 # File paths
 RESULTS_FILE_PATH = Path("results/fits/")
 PLOT_FILE_PATH = Path("results/plots")
 EVALUATION_FILE_PATH = Path("results/evaluation/training_dataset/")
 EVALUATION_TEST_DATASET_FILE_PATH = Path("results/evaluation/test_dataset/")
-DATASET_TEST_PATH =  Path("datasets/test")
-DATA_DIR = Path("datasets/training")
+DATASET_TEST_PATH = files("fuzzylli").joinpath("datasets", "test")
+DATA_DIR = files("fuzzylli").joinpath("datasets", "training")
 EMBEDDING_RIDGE_FILE = 'configuration_word_embeddings.pkl'
 RANDOM_FOREST_FILE = 'configuration_random_forest.pkl'
 EMBEDDING_MODEL = 'paraphrase-MiniLM-L6-v2'

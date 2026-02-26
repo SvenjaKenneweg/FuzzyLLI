@@ -5,7 +5,7 @@ import json
 from imblearn.over_sampling import SMOTE
 from xgboost import XGBRegressor
 
-import src.config as config
+from . import config
 
 
 

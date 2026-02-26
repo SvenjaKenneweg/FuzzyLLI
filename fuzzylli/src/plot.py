@@ -19,8 +19,8 @@ import numpy as np
 import pandas as pd
 
 
-import src.config as config
-from src.predictions import predict_adverbial_random_forest, predict_adverbial_functions, predict_adverbial_embedding
+from .predictions import predict_adverbial_random_forest, predict_adverbial_functions, predict_adverbial_embedding
+from . import config
 
 
 # ---------------------------------------------------------------------------
@@ -245,5 +245,7 @@ def plot_events_adverbials_fitted(events, events_nl, adverbial, predict_function
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
-    plt.show()
+    outfile = config.PLOT_FILE_PATH / "fitted_curve.png"
+    plt.savefig(outfile, dpi=300)
+    plt.close()
     return

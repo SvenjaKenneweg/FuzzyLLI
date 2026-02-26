@@ -3,19 +3,19 @@ import argparse
 import json
 from itertools import combinations
 
-from src.train import (fit_event_adverbials, fit_event_specific_embeddings, fit_event_specific_random_forest, fit_event_specific_functions)
-from src.plot import plot_all_persons_event_adverbials, plot_events_adverbials_fitted
-from src.predictions import (predict_time_frame_embedding, predict_adverbial_embedding, predict_adverbial_functions,
+from .src.train import (fit_event_adverbials, fit_event_specific_embeddings, fit_event_specific_random_forest, fit_event_specific_functions)
+from .src.plot import plot_all_persons_event_adverbials, plot_events_adverbials_fitted
+from .src.predictions import (predict_time_frame_embedding, predict_adverbial_embedding, predict_adverbial_functions,
                              predict_time_frame_random_forest, predict_adverbial_random_forest, get_all_event_properties_gpt)
-from src.evaluation_training_dataset import (get_predictions_classifier, get_predictions_regression,
+from .src.evaluation_training_dataset import (get_predictions_classifier, get_predictions_regression,
                                              get_predictions_embedding, get_predictions_random_forest,
                                              get_predictions_functions, run_MAE_MdSE_evaluation,
                                              evaluate_gpt, calculate_metrics)
-from src.evaluation_test_dataset import (evaluate_test_data_random_forest, evaluate_test_data_functions,
+from .src.evaluation_test_dataset import (evaluate_test_data_random_forest, evaluate_test_data_functions,
                                          evaluate_test_data_embedding, evaluate_test_data_gpt, evaluate_test_data_regression, evaluate_test_data_classifier)
-from src.simple_models_training import fit_classifier, fit_regression
-from src.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
-import src.config as config
+from .src.simple_models_training import fit_classifier, fit_regression
+from .src.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
+from .src import config
 
 
 DEFAULT_EVENTS = [
@@ -150,10 +150,8 @@ def plot_results(events, events_nl, adverbial, predict_functions=None):
     """
     Plot the results for event adverbials.
     """
-    print("Plotting results are saved under results/plots/... . "
-          "The used FuzzyLLI configuration for the plotting is Random Forest")
-    print("\nPlotting the FuzzyLLI Overview Diagram (Left each event, right the adverbials")
-    # plot_all_persons_event_adverbials(events)
+    print("Plotting results are saved under results/plots/... . ")
+    plot_all_persons_event_adverbials(events)
     plot_events_adverbials_fitted(events, events_nl, adverbial, predict_functions)
 
 
@@ -179,16 +177,15 @@ def run_full_pipeline():
     """
     Preserve the previous default: train, evaluate, plot, and run a demo prediction.
     """
-    train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
-    evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
-    evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
-    evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
-    plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_functions=None)  # Plots FuzzyLLI
-
-    predict_functions = [predict_adverbial_random_forest, predict_adverbial_functions, predict_adverbial_embedding]
-    plot_results(["own_birthday"],
-                 ["I had my birthday"],
-                 "just", predict_functions=predict_functions)
+    # train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
+    # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
+    # evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
+    # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
+    # plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_functions=None)
+    # predict_functions = [predict_adverbial_random_forest, predict_adverbial_functions]
+    # plot_results(["own_birthday"],
+    #              ["I had my birthday"],
+    #              "just", predict_functions=predict_functions)
     make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
 
 
