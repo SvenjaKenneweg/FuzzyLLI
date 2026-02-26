@@ -177,11 +177,11 @@ def run_full_pipeline():
     """
     Preserve the previous default: train, evaluate, plot, and run a demo prediction.
     """
-    # train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
-    # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
-    # evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
-    # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
-    # plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_functions=None)
+    train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
+    evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
+    evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
+    evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
+    plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_functions=None)
     # predict_functions = [predict_adverbial_random_forest, predict_adverbial_functions]
     # plot_results(["own_birthday"],
     #              ["I had my birthday"],
@@ -227,7 +227,7 @@ def build_parser():
         help="Adverbial to highlight when plotting event adverbials.",
     )
     plot_parser.set_defaults(func=lambda args: plot_results(
-        DEFAULT_EVENTS, DEFAULT_EVENTS_NL, args.adverbial, predict_function=predict_adverbial_random_forest)
+        DEFAULT_EVENTS, DEFAULT_EVENTS_NL, args.adverbial, predict_functions=[predict_adverbial_random_forest])
     )
 
     # Predict

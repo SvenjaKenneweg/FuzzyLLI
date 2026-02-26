@@ -59,7 +59,7 @@ If you want to train/eval/plot other events change the DEFAULT_EVENTS and DEFAUL
   uv run python -m fuzzylli.main
   ```
 
-- Train only (The Event Properties (GPT-4) are determined at the beginning of the training function):
+- Train only (The Event Properties (GPT-4) are not determined new to avoid cost):
   ```bash
   uv run python -m fuzzylli.main train
   ```
