@@ -61,6 +61,34 @@ upper, lower = predict_time_frame_random_forest(event_properties, adverbial="jus
 print(upper, lower)
 ```
 
+These are the semantic meanings of each event property: 
+### Richness
+| Score | Description |
+|------:|-------------|
+| 1 | Minimal detail (routine, automatic) |
+| 2 | Simple, few contextual cues |
+| 3 | Moderate richness (some distinct aspects) |
+| 4 | Rich (many sensory/contextual elements) |
+| 5 | Extremely rich (vivid, complex, multisensory) |
+
+### Frequency
+| Score | Description |
+|------:|-------------|
+| 1 | One-time (Once or extremely rare per life) |
+| 2 | Rare (Once or a few times a year) |
+| 3 | Occasional (Monthly or semi-regular) |
+| 4 | Frequent (Weekly) |
+| 5 | Very Frequent (Daily or more) |
+
+### Importance
+| Score | Description |
+|------:|-------------|
+| 1 | Not Important (Trivial or forgettable) |
+| 2 | Slightly Important (Minor relevance or enjoyment) |
+| 3 | Moderately Important (Some meaning) |
+| 4 | Important (Emotionally or practically significant) |
+| 5 | Very Important (Life-defining or deeply personal) |
+
 ---
 
 ## Research Pipeline (train, eval, plot)
