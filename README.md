@@ -35,7 +35,7 @@ uv pip install -e .
 uv pip install . # for non-editable install
 ```
 
-### 3) Install with research dependencies (training/eval/plots)
+### 2) Install with research dependencies (training/eval/plots)
 To run the full pipeline you need the `dev` extras
 ```bash
 uv pip install -e ".[dev]"
