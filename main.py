@@ -1,21 +1,21 @@
-# src/main.py
+# main.py
 import argparse
 import json
 from itertools import combinations
 
-from .src.train import (fit_event_adverbials, fit_event_specific_embeddings, fit_event_specific_random_forest, fit_event_specific_functions)
-from .src.plot import plot_all_persons_event_adverbials, plot_events_adverbials_fitted
-from .src.predictions import (predict_time_frame_embedding, predict_adverbial_embedding, predict_adverbial_functions,
+from scripts.train import (fit_event_adverbials, fit_event_specific_embeddings, fit_event_specific_random_forest, fit_event_specific_functions)
+from scripts.plot import plot_all_persons_event_adverbials, plot_events_adverbials_fitted
+from scripts.predictions import (predict_time_frame_embedding, predict_adverbial_embedding, predict_adverbial_functions,
                              predict_time_frame_random_forest, predict_adverbial_random_forest, get_all_event_properties_gpt)
-from .src.evaluation_training_dataset import (get_predictions_classifier, get_predictions_regression,
+from scripts.evaluation_training_dataset import (get_predictions_classifier, get_predictions_regression,
                                              get_predictions_embedding, get_predictions_random_forest,
                                              get_predictions_functions, run_MAE_MdSE_evaluation,
                                              evaluate_gpt, calculate_metrics)
-from .src.evaluation_test_dataset import (evaluate_test_data_random_forest, evaluate_test_data_functions,
+from scripts.evaluation_test_dataset import (evaluate_test_data_random_forest, evaluate_test_data_functions,
                                          evaluate_test_data_embedding, evaluate_test_data_gpt, evaluate_test_data_regression, evaluate_test_data_classifier)
-from .src.simple_models_training import fit_classifier, fit_regression
-from .src.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
-from .src import config
+from scripts.simple_models_training import fit_classifier, fit_regression
+from scripts.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
+from scripts import config
 
 
 DEFAULT_EVENTS = [
