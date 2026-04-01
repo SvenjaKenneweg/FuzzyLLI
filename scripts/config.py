@@ -92,6 +92,10 @@ def gauss_inverse(y, mean, std):
     val = std * np.sqrt(-2 * np.log(y))
     return mean - val, mean + val
 
+def normalized_gaussian(temporal_distance, mu, sigma):
+    sigma = max(float(sigma), 1e-12)
+    return np.exp(-0.5 * ((temporal_distance - mu) / sigma) ** 2)
+
 def inverse_event_specific_function(y, std):
     clipped_y = max(-1, min(1, 2 * y - 1))
     return math.sqrt(2) * std * erfinv(clipped_y)

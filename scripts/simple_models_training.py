@@ -35,6 +35,7 @@ def load_data(events, events_nl, classification = True) -> pd.DataFrame:
                 minutes_ago = int(minutes_str)
                 if vote_median > 0.49 and classification:
                     records.append({
+                        "event": event,
                         "adverbial": adverbial,
                         "frequency": frequency,
                         "richness": richness,
@@ -43,6 +44,7 @@ def load_data(events, events_nl, classification = True) -> pd.DataFrame:
                     })
                 else:
                     records.append({
+                        "event": event,
                         "adverbial": adverbial,
                         "frequency": frequency,
                         "richness": richness,
@@ -93,3 +95,82 @@ def fit_regression(events, events_nl, *args):
     model.fit(X, y)
     joblib.dump(model, config.RESULTS_SIMPLE_FILE_PATH / f"XGBRegressor.pkl")
     joblib.dump(ohe, config.RESULTS_SIMPLE_FILE_PATH / "onehotencoder.pkl")
+
+
+def fit_non_factorized_gauss(events, events_nl, *args):
+    df = load_data(events, events_nl, classification=False)
+
+    fit_rows = []
+    fitted_groups = []
+
+    for (event, adverbial), g in df.groupby(["event", "adverbial"], sort=False):
+        g = g.sort_values("minutes_ago").copy()
+
+        x = g["minutes_ago"].to_numpy(dtype=float)
+        y = g["vote"].to_numpy(dtype=float)
+
+        # Sensible initialization:
+        # mu starts near the weighted center of mass of the votes,
+        # sigma starts from the weighted spread.
+        if np.sum(y) > 0:
+            w = np.clip(y, 1e-8, None)
+            mu0 = float(np.average(x, weights=w))
+            sigma0 = float(np.sqrt(np.average((x - mu0) ** 2, weights=w)))
+            sigma0 = max(sigma0, 1.0)
+        else:
+            mu0 = float(np.median(x))
+            sigma0 = max(float(np.std(x)), 1.0)
+
+        fit_success = True
+
+        try:
+            # Fit only mu and sigma; peak is fixed to 1
+            popt, _ = curve_fit(
+                config.normalized_gaussian,
+                x,
+                y,
+                p0=(mu0, sigma0),
+                bounds=([x.min(), 1e-6], [x.max(), np.inf]),
+                maxfev=50000,
+            )
+            mu_hat, sigma_hat = map(float, popt)
+        except Exception:
+            fit_success = False
+            mu_hat, sigma_hat = mu0, sigma0
+
+        y_hat = config.normalized_gaussian(x, mu_hat, sigma_hat)
+        y_hat = np.clip(y_hat, 0.0, 1.0)
+
+        g["fit_vote"] = y_hat
+        g["fit_residual"] = g["vote"] - g["fit_vote"]
+        fitted_groups.append(g)
+
+        errors = y - y_hat
+        mae = float(np.mean(np.abs(errors)))
+        mdse = float(np.median(errors ** 2))
+
+        fit_rows.append(
+            {
+                "event": event,
+                "adverbial": adverbial,
+                "mu_minutes_ago": mu_hat,
+                "sigma_minutes": sigma_hat,
+                "n_points": len(g),
+                "mae": mae,
+                "mdse": mdse,
+                "fit_success": fit_success,
+            }
+        )
+
+    params_df = pd.DataFrame(fit_rows)
+    fitted_df = pd.concat(fitted_groups, ignore_index=True)
+
+    avg_metrics = {
+        "mean_mae_over_fits": float(params_df["mae"].mean()) if not params_df.empty else np.nan,
+        "mean_mdse_over_fits": float(params_df["mdse"].mean()) if not params_df.empty else np.nan,
+        "n_fitted_functions": int(len(params_df)),
+    }
+
+    print(avg_metrics)
+
+    return avg_metrics

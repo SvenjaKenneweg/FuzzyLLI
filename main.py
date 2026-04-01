@@ -13,7 +13,7 @@ from scripts.evaluation_training_dataset import (get_predictions_classifier, get
                                              evaluate_gpt, calculate_metrics)
 from scripts.evaluation_test_dataset import (evaluate_test_data_random_forest, evaluate_test_data_functions,
                                          evaluate_test_data_embedding, evaluate_test_data_gpt, evaluate_test_data_regression, evaluate_test_data_classifier)
-from scripts.simple_models_training import fit_classifier, fit_regression
+from scripts.simple_models_training import fit_classifier, fit_regression, fit_non_factorized_gauss
 from scripts.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
 from scripts import config
 
@@ -252,15 +252,16 @@ def build_parser():
 
 
 def main(argv=None):
-    parser = build_parser()
-    args = parser.parse_args(argv)
-
-    # No sub-command provided -> run the full pipeline (previous default behaviour)
-    if not getattr(args, "command", None):
-        run_full_pipeline()
-        return
-
-    args.func(args)
+    fit_non_factorized_gauss(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
+    # parser = build_parser()
+    # args = parser.parse_args(argv)
+    #
+    # # No sub-command provided -> run the full pipeline (previous default behaviour)
+    # if not getattr(args, "command", None):
+    #     run_full_pipeline()
+    #     return
+    #
+    # args.func(args)
 
 if __name__ == '__main__':
     main()
