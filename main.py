@@ -177,16 +177,17 @@ def run_full_pipeline():
     """
     Preserve the previous default: train, evaluate, plot, and run a demo prediction.
     """
+    # fit_non_factorized_gauss(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
     train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
-    evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
-    evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
-    evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
-    plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_functions=None)
+    # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
+    evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
+    # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
+    # plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_functions=None)
     # predict_functions = [predict_adverbial_random_forest, predict_adverbial_functions]
     # plot_results(["own_birthday"],
     #              ["I had my birthday"],
     #              "just", predict_functions=predict_functions)
-    make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
+    # make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
 
 
 def build_parser():
@@ -252,16 +253,15 @@ def build_parser():
 
 
 def main(argv=None):
-    fit_non_factorized_gauss(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
-    # parser = build_parser()
-    # args = parser.parse_args(argv)
-    #
-    # # No sub-command provided -> run the full pipeline (previous default behaviour)
-    # if not getattr(args, "command", None):
-    #     run_full_pipeline()
-    #     return
-    #
-    # args.func(args)
+    parser = build_parser()
+    args = parser.parse_args(argv)
+
+    # No sub-command provided -> run the full pipeline (previous default behaviour)
+    if not getattr(args, "command", None):
+        run_full_pipeline()
+        return
+
+    args.func(args)
 
 if __name__ == '__main__':
     main()
