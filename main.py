@@ -179,15 +179,15 @@ def run_full_pipeline():
     """
     # fit_non_factorized_gauss(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
     train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
-    # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
-    evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
-    # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
-    # plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_functions=None)
-    # predict_functions = [predict_adverbial_random_forest, predict_adverbial_functions]
-    # plot_results(["own_birthday"],
-    #              ["I had my birthday"],
-    #              "just", predict_functions=predict_functions)
-    # make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
+    evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
+    evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
+    evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
+    plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_functions=None)
+    predict_functions = [predict_adverbial_random_forest, predict_adverbial_functions]
+    plot_results(["own_birthday"],
+                 ["I had my birthday"],
+                 "just", predict_functions=predict_functions)
+    make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
 
 
 def build_parser():
