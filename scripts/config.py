@@ -43,6 +43,7 @@ LABEL_ENCODER_FILE = "label_encoder.pkl"
 ONE_HOT_ENCODER_FILE = "onehotencoder.pkl"
 XGB_REGRESSOR_FILE = "XGBRegressor.pkl"
 MOC_FILE = "moc.pt"
+DNN_FILE = "dnn.pt"
 
 
 
