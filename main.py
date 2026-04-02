@@ -15,6 +15,7 @@ from scripts.evaluation_test_dataset import (evaluate_test_data_random_forest, e
                                          evaluate_test_data_embedding, evaluate_test_data_gpt, evaluate_test_data_regression, evaluate_test_data_classifier)
 from scripts.simple_models_training import fit_classifier, fit_regression, fit_non_factorized_gauss
 from scripts.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
+from scripts.neural_models_moc_predictions import TemporalPredictor
 from scripts import config
 
 
@@ -178,16 +179,26 @@ def run_full_pipeline():
     Preserve the previous default: train, evaluate, plot, and run a demo prediction.
     """
     # fit_non_factorized_gauss(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
-    train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
-    evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
-    evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
-    evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
-    plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_functions=None)
-    predict_functions = [predict_adverbial_random_forest, predict_adverbial_functions]
-    plot_results(["own_birthday"],
-                 ["I had my birthday"],
-                 "just", predict_functions=predict_functions)
-    make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
+    # train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
+    # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
+    # evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
+    # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
+    # plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_functions=None)
+    # predict_functions = [predict_adverbial_random_forest, predict_adverbial_functions]
+    # plot_results(["own_birthday"],
+    #              ["I had my birthday"],
+    #              "just", predict_functions=predict_functions)
+    # make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
+
+    predictor = TemporalPredictor()
+    result = predictor.predict(
+        event="went to concert",
+        time_minutes=60,
+        time_hours=0,
+        time_days=0,
+    )
+    best = max(result, key=result.get)
+    print(json.dumps({"prediction": result, "best_label": best}, indent=2))
 
 
 def build_parser():
