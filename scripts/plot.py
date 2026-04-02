@@ -235,6 +235,10 @@ def plot_events_adverbials_fitted(events, events_nl, adverbial, predict_function
                     label = "Random Forest"
                 elif "embedding" in predict_fn.__name__:
                     label = "Word Embeddings"
+                elif "moc" in predict_fn.__name__:
+                    label = "MOC"
+                elif "dnn" in predict_fn.__name__:
+                    label = "DNN"
                 else:
                     label = "Power Law"
                 plt.plot(dense_minutes, predicted_values, label=f'Fit: {label}', linestyle=line_styles[i % len(line_styles)], color=real_color)
