@@ -148,13 +148,13 @@ def evaluate_event_properties(events, events_nl): #
             evaluate_models_test_dataset(events, events_nl, generate_new_predictions=True)
 
 
-def plot_results(events, events_nl, adverbial, predict_functions=None):
+def plot_results(events, events_nl, adverbials, predict_functions=None):
     """
     Plot the results for event adverbials.
     """
     print("Plotting results are saved under results/plots/... . ")
-    plot_all_persons_event_adverbials(events)
-    plot_events_adverbials_fitted(events, events_nl, adverbial, predict_functions)
+    # plot_all_persons_event_adverbials(events)
+    plot_events_adverbials_fitted(events, events_nl, adverbials, predict_functions)
 
 
 def _parse_event_properties(raw: str):
@@ -184,17 +184,12 @@ def run_full_pipeline():
     # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
     # evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
     # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
-    # plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_functions=None)
-    # predict_functions = [predict_adverbial_random_forest, predict_adverbial_functions]
-    # plot_results(["own_birthday"],
-    #              ["I had my birthday"],
-    #              "just", predict_functions=predict_functions)
     # make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
 
-    predict_functions = [predict_adverbial_dnn, predict_adverbial_moc]
-    plot_results(["own_birthday"],
-                 ["I had my birthday"],
-                 "just", predict_functions=predict_functions)
+    predict_functions = [predict_adverbial_random_forest, predict_adverbial_embedding]
+    plot_results([],
+                 ["You attended a meeting"],
+                 ["just", "recently"], predict_functions=predict_functions)
 
     # predictor = MOCTemporalPredictor()
     # result = predictor.predict(
@@ -252,7 +247,7 @@ def build_parser():
         help="Adverbial to highlight when plotting event adverbials.",
     )
     plot_parser.set_defaults(func=lambda args: plot_results(
-        DEFAULT_EVENTS, DEFAULT_EVENTS_NL, args.adverbial, predict_functions=[predict_adverbial_random_forest])
+        DEFAULT_EVENTS, DEFAULT_EVENTS_NL, [args.adverbial], predict_functions=[predict_adverbial_random_forest])
     )
 
     # Predict
