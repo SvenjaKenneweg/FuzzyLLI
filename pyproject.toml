@@ -16,6 +16,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+embeddings = [
+  "sentence-transformers==3.2.1",
+  "torch>=2.1",
+]
 dev = [
   "imbalanced-learn==0.12.4",
   "matplotlib==3.7.4",

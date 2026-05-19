@@ -12,7 +12,8 @@ Check out the paper [here (Paper currently under review)](PATH_OR_URL_TO_PAPER) 
 
 This repository provides: 
 
-- an installable Python package (`fuzzylli`) for random-forest based predictions (time interval or adverbial)
+- an installable Python package (`fuzzylli`) for random-forest and word-embedding based predictions
+  (time interval or adverbial)
 - research scripts to reproduce training, evaluation, and plots
 
 ---
@@ -59,6 +60,31 @@ print(adverbial_memberships)
 # Interval (minutes ago) where an event with these properties most likely occurred
 upper, lower = predict_time_frame_random_forest(event_properties, adverbial="just", min_prob=0.6)
 print(upper, lower)
+```
+
+## KGQA Usage: Word Embeddings
+The KGQA helper resolves an input event mention to a clean event type with sentence-embedding similarity, then uses that
+clean type label for the FuzzyLLI word-embedding interval prediction. This avoids keyword/string-rule mappings such as
+checking whether `"bath"` occurs in the input.
+
+Install the embedding dependencies:
+
+```bash
+uv pip install -e ".[embeddings]"
+```
+
+```python
+from fuzzylli import predict_kgqa_interval_embedding
+
+prediction = predict_kgqa_interval_embedding(
+    event="The resident prepared dinner",
+    adverbial="recently",
+    min_prob=0.6,
+)
+
+print(prediction["clean_event_type"])  # e.g. ex:Meal_Preparation
+print(prediction["event_std"])
+print(prediction["interval"])
 ```
 
 These are the semantic meanings of each event property: 

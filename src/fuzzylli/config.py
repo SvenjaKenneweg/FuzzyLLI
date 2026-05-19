@@ -5,6 +5,9 @@ from scipy.special import erf, erfinv
 import numpy as np
 
 RANDOM_FOREST_FILE = "configuration_random_forest.pkl"
+EMBEDDING_RIDGE_FILE = "configuration_word_embeddings.pkl"
+EMBEDDING_MODEL = "paraphrase-MiniLM-L6-v2"
+KGQA_EVENT_TYPES_FILE = "kgqa_event_types.json"
 VAGUE_ADVERBIALS = ["just", "recently", "some time ago", "long time ago"]  # set your real list
 
 def properties_dataframe(properties):
