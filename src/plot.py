@@ -44,7 +44,7 @@ def _load_packed(path: Path = config.RESULTS_FILE_PATH/"event_adverbials.json") 
 
 def _initial_x_axis(values_vague_adverbial: dict) -> np.ndarray:
     # max_minutes = max(map(float, values_vague_adverbial["far away"].keys()))
-    return np.linspace(-20, 5000, 400_000)
+    return np.linspace(-500, 2000, 400_000)
 
 def _select_main_event(packed: Dict[str, dict], candidates: List[str]) -> str:
     """Return the candidate event with the largest σ (first/maximum param).
@@ -146,7 +146,7 @@ def plot_all_persons_event_adverbials(
     # Left‑axis styling
     ax_left.set(
         ylim = Y_LIMS,
-        xlabel="Distance in Pixel",
+        xlabel="Distance in Points",
         ylabel="Distanceness of objects",
         title="Object specific functions $\Phi_o$",
     )

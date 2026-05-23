@@ -19,7 +19,7 @@ import src.config as config
 
 
 DEFAULT_SPATIAL_SURVEY = [
-    "0", "1", "2"
+    "big", "small"
 ]
 
 def train_models(spatial_surveys):
