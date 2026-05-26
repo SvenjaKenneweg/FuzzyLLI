@@ -186,40 +186,65 @@ def plot_all_persons_event_adverbials(
     plt.close()
 
 
-def plot_events_adverbials_fitted(event_name, adverbial):
-    plt.figure(figsize=(10, 6))
+def plot_events_adverbials_fitted(event_names, adverbial):
+    fig, ax = plt.subplots(figsize=(10, 6))
+    event_handles = []
 
-    # Iterate over both `events` and `event_name_nl` simultaneously
-    with open(f"{config.DATASET_SPATIAL_PATH}/{event_name}.json", "r", encoding="utf-8") as f:
-        cleaned_data = json.load(f)[adverbial]
+    for event_name in event_names:
+        with open(f"{config.DATASET_SPATIAL_PATH}/{event_name}.json", "r", encoding="utf-8") as f:
+            cleaned_data = json.load(f)[adverbial]
 
-    # Calculate medians for this event
-    real_data_values = {key: float(np.median(values)) for key, values in cleaned_data.items()}
-    # Convert keys to int and sort by minutes
-    minutes = sorted(float(k) for k in real_data_values.keys())
-    time_unit = minutes #sorted(int(k)/43800 for k in real_data_values.keys())
-    values = [real_data_values[str(m)] for m in minutes]
+        # Calculate medians for this event
+        real_data_values = {key: float(np.mean(values)) for key, values in cleaned_data.items()}
+        sorted_data = sorted((float(key), value) for key, value in real_data_values.items())
+        time_unit = [minute for minute, _ in sorted_data]
+        values = [value for _, value in sorted_data]
 
-    event_label = event_name
-    plt.plot(time_unit, values, marker='o', label=f'Survey: {event_label}; Adverbial: {adverbial}')
+        prediction_line, = ax.plot(time_unit, values, marker='o')
+        event_handles.append(Line2D([0], [0], color=prediction_line.get_color(), label=event_name))
 
-    # Generate prediction for a denser range of time_unit
-    max_time = max(time_unit)
-    dense_minutes = np.arange(0, max_time + 10, max_time / 50)
+        # Generate prediction for a denser range of time_unit
+        max_time = max(time_unit)
+        dense_minutes = np.arange(0, max_time + 10, max_time / 50)
 
-    predicted_values = []
-    for minute in dense_minutes:
-        prob_adverbial = predict_adverbial_fuzzylli(event_name, int(minute))
-        predicted_values.append(prob_adverbial[adverbial])
+        predicted_values = []
+        for minute in dense_minutes:
+            prob_adverbial = predict_adverbial_fuzzylli(event_name, int(minute))
+            predicted_values.append(prob_adverbial[adverbial])
 
-    # Plot the predicted data
-    plt.plot(dense_minutes, predicted_values, label=f'Fit')
+        # Plot the predicted data
+        ax.plot(dense_minutes, predicted_values, linestyle='--', color=prediction_line.get_color())
 
-    plt.ylim(0, 1.1)
-    plt.xlabel('Distance in Pixel')
-    plt.ylabel(f'Membership Value')
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-    plt.show()
+    style_handles = [
+        Line2D([0], [0], color="black", marker='o', linestyle='-', label="Mean survey ratings"),
+        Line2D([0], [0], color="black", linestyle='--', label="Fitted curve"),
+    ]
+
+    ax.set(
+        ylim=(0, 1.1),
+        xlabel='Distance in Points',
+        ylabel='Membership Value'
+    )
+    ax.grid(True)
+    fig.tight_layout()
+
+    style_legend = ax.legend(handles=style_handles, title="Curve type", loc="upper right")
+    ax.add_artist(style_legend)
+
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    style_bbox = style_legend.get_window_extent(renderer).transformed(ax.transAxes.inverted())
+    object_type_y = style_bbox.y0 - 0.03
+    ax.legend(
+        handles=event_handles,
+        title="Object type",
+        loc="upper left",
+        bbox_to_anchor=(style_bbox.x0, object_type_y),
+        borderaxespad=0.0,
+    )
+
+    adverbial_filename = adverbial.replace(" ", "_")
+    outfile = config.PLOT_FILE_PATH / f"fitted_curves_{adverbial_filename}.png"
+    fig.savefig(outfile, dpi=300)
+    plt.close(fig)
     return
