@@ -50,7 +50,7 @@ def adjust_richness_votes(votes: List[int]) -> List[int]:
     ]
 
 def get_cleaned_data(event: str):
-    with open(config.DATA_DIR / event / "cleanedData_minutes.json", "r", encoding="utf-8") as f:
+    with open(config.DATASET_SPATIAL_PATH / f"{event}.json", "r", encoding="utf-8") as f:
         return json.load(f)
 
 def calculate_error(predicted: float, true: float) -> float:
@@ -67,14 +67,10 @@ requires_properties = {
 # ---------------------------------------------------------------------------
 
 # Calculation of the Mean Absolute Error for the given predict_fn against the median values for a specific time ago, adverbial, event
-import numpy as np
-
-import numpy as np
-
-
 def run_MAE_MdSE_evaluation(events, fit_models_fn, predict_fn, events_nl=None, function_to_use=None):
     fit_event_adverbials(events)
-    fit_models_fn(events, events_nl, function_to_use)
+    if fit_models_fn:
+        fit_models_fn(events, events_nl, function_to_use)
 
     all_abs_errors = []
     all_sq_errors = []
@@ -98,16 +94,7 @@ def run_MAE_MdSE_evaluation(events, fit_models_fn, predict_fn, events_nl=None, f
         for adverbial, times in human_medians.items():
             for minutes_ago, target_value in times.items():
                 # --- Step 2: Generate Prediction ---
-                if predict_fn in requires_properties:
-                    with open(f"{config.DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
-                        event_properties = json.load(fh)
-
-                    prop_dict = event_properties[events_nl[i].replace("Tom", "A friend")]
-                    properties = [{prop: prop_dict[prop] for prop in config.properties_to_use}]
-                    prediction = predict_fn(properties, int(minutes_ago), function_to_use)
-                else:
-                    input_data = events_nl[i] if events_nl else event
-                    prediction = predict_fn(input_data, int(minutes_ago))
+                prediction = predict_fn(event, int(minutes_ago))
 
                 # --- Step 3: Calculate Errors ---
                 diff = prediction[adverbial] - target_value
@@ -124,9 +111,8 @@ def run_MAE_MdSE_evaluation(events, fit_models_fn, predict_fn, events_nl=None, f
                 errors_per_adverbial_abs[adverbial].append(abs_error)
                 errors_per_adverbial_sq[adverbial].append(sq_error)
 
-        # --- Step 4: Final Metrics ---
-
-        # Global
+    # --- Step 4: Final Metrics ---
+    # Global
     mae = np.mean(all_abs_errors) if all_abs_errors else 0.0
     medse = np.median(all_sq_errors) if all_sq_errors else 0.0
 
