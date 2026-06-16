@@ -146,9 +146,9 @@ def plot_all_persons_event_adverbials(
     # Left‑axis styling
     ax_left.set(
         ylim = Y_LIMS,
-        xlabel="Time units ago in minutes",
-        ylabel="Beforeness of event",
-        title="Event specific functions $\Phi_e$",
+        xlabel="Elapsed Time in Minutes",
+        ylabel="Beforeness of Event",
+        title="Event-Specific Functions $\Phi_e$",
     )
     ax_left.grid(True)
     ax_left.legend(loc="lower right")
@@ -174,7 +174,7 @@ def plot_all_persons_event_adverbials(
         ylim=Y_LIMS,
         xlabel="Fuzzy Membership Value of Adverbial",
         ylabel="Beforeness of Event",
-        title="Adverbial specific functions $\mu_a$",
+        title="Adverbial-Specific Functions $\mu_a$",
     )
     ax_right.grid(True)
     ax_right.legend(loc="best")
@@ -191,21 +191,23 @@ def plot_events_adverbials_fitted(events, events_nl, adverbial, predict_function
         raise ValueError("The lengths of events and event_name_nl must be the same.")
 
     plt.figure(figsize=(10, 6))
+    ax = plt.gca()
 
     # Iterate over both `events` and `event_name_nl` simultaneously
     for event_name, event_name_nl in zip(events, events_nl):
         with open(config.DATA_DIR / event_name / "cleanedData_minutes.json", "r", encoding="utf-8") as f:
             cleaned_data = json.load(f)[adverbial]
 
-        # Calculate medians for this event
-        real_data_values = {key: float(np.mean(values)) for key, values in cleaned_data.items()}
+        # Calculate medians/means for this event
+        # real_data_values = {key: float(np.mean(values)) for key, values in cleaned_data.items()}
+        real_data_values = {key: float(np.median(values)) for key, values in cleaned_data.items()}
         # Convert keys to int and sort by minutes
         minutes = sorted(int(k) for k in real_data_values.keys())
-        time_unit = minutes #sorted(int(k)/43800 for k in real_data_values.keys())
+        time_unit = minutes #sorted(int(k)/1440 for k in real_data_values.keys()) #sorted(int(k)/43800 for k in real_data_values.keys())
         values = [real_data_values[str(m)] for m in minutes]
 
         event_label = normalize_event_label(event_name)
-        real_line = plt.plot(time_unit, values, marker='o', label=f'Event: {event_label}; Adverbial: {adverbial}', linestyle='-', color='#d62728')
+        real_line = ax.plot(time_unit, values, marker='o', label=f'Event: {event_label}; Adverbial: {adverbial}', linestyle='-')#, color='#d62728')
         if predict_functions:
             line_styles = ['--', ':', '-.']
             # Generate prediction for a denser range of time_unit
@@ -237,15 +239,29 @@ def plot_events_adverbials_fitted(events, events_nl, adverbial, predict_function
                     label = "Word Embeddings"
                 else:
                     label = "Power Law"
-                plt.plot(dense_minutes, predicted_values, label=f'Fit: {label}', linestyle=line_styles[i % len(line_styles)], color=real_color)
+                ax.plot(dense_minutes, predicted_values, label=f'Fitted Curve for {event_label}; Adverbial: {adverbial}', linestyle=line_styles[i % len(line_styles)], color=real_color)
 
-    plt.ylim(0, 1)
-    plt.xlabel('Time Units ago in Minutes')
-    plt.ylabel(f'Membership Value')
-    plt.legend()
-    plt.grid(True)
+    ax.set_ylim(0, 1)
+    plt.xlabel('Elapsed Time in Minutes')
+    # ax.set_xlabel('Elapsed Time in Days')
+    ax.set_ylabel(f'Membership Value')
+
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.annotate(
+        "",
+        xy=(1.02, 0),
+        xytext=(0, 0),
+        xycoords=("axes fraction", "data"),
+        textcoords=("axes fraction", "data"),
+        arrowprops=dict(arrowstyle="->", linewidth=1.5, color="black"),
+        clip_on=False,
+    )
+
+    ax.legend()
+    ax.grid(True)
     plt.tight_layout()
     outfile = config.PLOT_FILE_PATH / "fitted_curve.png"
-    plt.savefig(outfile, dpi=300)
+    plt.savefig(outfile, dpi=300, bbox_inches="tight")
     plt.close()
     return
