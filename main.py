@@ -1,21 +1,14 @@
-# src/main.py
+# main.py
 import argparse
 import json
 from itertools import combinations
 
-from src.train import (fit_event_adverbials, fit_event_specific_embeddings, fit_event_specific_random_forest, fit_event_specific_functions)
-from src.plot import plot_all_persons_event_adverbials, plot_events_adverbials_fitted
-from src.predictions import (predict_time_frame_embedding, predict_adverbial_embedding, predict_adverbial_functions, predict_adverbial_fuzzylli,
-                             predict_distance_fuzzylli, predict_time_frame_random_forest, predict_adverbial_random_forest, get_all_event_properties_gpt)
-from src.evaluation_training_dataset import (get_predictions_classifier, get_predictions_regression,
-                                             get_predictions_embedding, get_predictions_random_forest,
-                                             get_predictions_functions, run_MAE_MdSE_evaluation,
-                                             evaluate_gpt, calculate_metrics)
-from src.evaluation_test_dataset import (evaluate_test_data_random_forest, evaluate_test_data_functions,
-                                         evaluate_test_data_embedding, evaluate_test_data_gpt, evaluate_test_data_regression, evaluate_test_data_classifier)
-from src.simple_models_training import fit_classifier, fit_regression
-from src.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
-import src.config as config
+
+from scripts.train import fit_event_adverbials
+from scripts.plot import plot_all_persons_event_adverbials, plot_events_adverbials_fitted
+from scripts.predictions import predict_adverbial_fuzzylli, predict_distance_fuzzylli
+from scripts.evaluation_training_dataset import run_MAE_MdSE_evaluation
+from scripts import config
 
 
 DEFAULT_SPATIAL_SURVEY = [
@@ -24,12 +17,22 @@ DEFAULT_SPATIAL_SURVEY = [
 
 def train_models(spatial_surveys):
     """
-    Train various models for event adverbials, embeddings, and random forests.
+    Train the base FuzzyLLI model.
     """
     print("\nTraining FuzzyLLI for the spatial surveys")
     fit_event_adverbials(spatial_surveys)
-    print(predict_adverbial_fuzzylli("Small", 20))
-    print(predict_distance_fuzzylli("Small", "moderately far"))
+
+
+def predict(object_type, adverbial=None, distance=None):
+    """
+    Make predictions with the base FuzzyLLI (without variants) for an adverbial or distance
+    """
+    if adverbial is None and distance is None:
+        raise ValueError("Provide either 'adverbial' or 'distance'.")
+    if distance is not None:
+        print(f"Adverbials membership values for {object_type} and {distance} are: ",predict_adverbial_fuzzylli(object_type, distance))
+    if adverbial is not None:
+        print(f"Distance for {object_type} and {adverbial} is:", predict_distance_fuzzylli(object_type, adverbial))
 
 
 def evaluate_models_training_dataset(spatial_surveys):
@@ -40,24 +43,65 @@ def evaluate_models_training_dataset(spatial_surveys):
     print(run_MAE_MdSE_evaluation(spatial_surveys, None, predict_adverbial_fuzzylli))
 
 
-def plot_results(events, adverbial):
+def plot_results(objects, adverbial):
     """
     Plot the results for event adverbials.
     """
-    print("Plotting results are saved under results/plots/... . "
-          "The used FuzzyLLI configuration for the plotting is Random Forest")
-    print("\nPlotting the FuzzyLLI Overview Diagram (Left each event, right the adverbials")
-    # plot_all_persons_event_adverbials(events)
-    plot_events_adverbials_fitted(["Big", "Small"], "far away")
+    print("Plotting results are saved under results/plots/... . ")
+    print("Plotting the FuzzyLLI Overview Diagram (Left each event, right the adverbials)")
+    plot_all_persons_event_adverbials(objects)
+    plot_events_adverbials_fitted(objects, adverbial)
 
 
 def run_full_pipeline():
     """
     Preserve the previous default: train, evaluate, plot, and run a demo prediction.
     """
-    # train_models(DEFAULT_SPATIAL_SURVEY)  # Trains FuzzyLLI
-    # evaluate_models_training_dataset(DEFAULT_SPATIAL_SURVEY) # Calculates MAE and MdSE
+    train_models(DEFAULT_SPATIAL_SURVEY)  # Trains FuzzyLLI
+    evaluate_models_training_dataset(DEFAULT_SPATIAL_SURVEY) # Calculates MAE and MdSE
     plot_results(DEFAULT_SPATIAL_SURVEY, "close to")  # Plots FuzzyLLI
+    predict("Small", adverbial="close to", distance=20)
+
+
+def build_parser():
+    parser = argparse.ArgumentParser(description="FuzzyLLI command line interface.")
+    subparsers = parser.add_subparsers(dest="command")
+
+    # Train
+    train_parser = subparsers.add_parser("train", help="Train all models on the default events.")
+    train_parser.set_defaults(func=lambda args: train_models(DEFAULT_SPATIAL_SURVEY))
+
+    # Evaluate
+    evaluate_parser = subparsers.add_parser("evaluate", help="Calculate the MAE and MdSE")
+
+    # Plot
+    plot_parser = subparsers.add_parser("plot", help="Plot fitted functions and adverbials.")
+    plot_parser.add_argument(
+        "--adverbial",
+        default="close to",
+        help="Adverbial to highlight when plotting event adverbials.",
+    )
+    plot_parser.set_defaults(func=lambda args: plot_results(
+        DEFAULT_SPATIAL_SURVEY, args.adverbial)
+    )
+
+    # Predict
+    predict_parser = subparsers.add_parser("predict", help="Make predictions for a given object type.")
+    predict_parser.add_argument("--object", default="Small", help="Object Type.")
+    predict_parser.add_argument("--adverbial", default="close to", help="Adverbial used for spatial distance prediction.")
+    predict_parser.add_argument("--distance", type=int, default=20, help="Distance ago to evaluate.")
+    predict_parser.set_defaults(func=lambda args: predict(args.object, args.adverbial, args.distance))
+    return parser
+
+
+def main(argv=None):
+    parser = build_parser()
+    args = parser.parse_args(argv)
+
+    # No sub-command provided -> run the full pipeline (previous default behaviour)
+    if not getattr(args, "command", None):
+        run_full_pipeline()
+        return
 
 
 if __name__ == '__main__':
