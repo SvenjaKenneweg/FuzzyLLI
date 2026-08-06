@@ -1,13 +1,13 @@
 # FuzzyLLI – A fuzzy probabilistic model of vague temporal adverbials
 
+> **Note:** In this branch FuzzyLLI is not used for vague temporal adverbials but for vague spatial expressions *close to*, *moderately far*, *far away*.
+For this the training dataset has changed including now spatial distances, two object types *Small* and *Big* and membership values for the three expressions.
+
 This repository accompanies the paper **“A Fuzzy Probabilistic Model of Human Interpretation of Vague Temporal Adverbials”**, 
 which investigates how people interpret expressions such as *just*, *recently*, *some time ago*, and *a long time ago* in 
 relation to different types of events.
 
 The paper introduces **FuzzyLLI**, a compositional fuzzy–probabilistic framework that combines fuzzy semantics for vague temporal adverbials with probabilistic models of event-dependent temporal uncertainty grounded in cognitive memory theory. 
-
-In this branch FuzzyLLI is not used for vague temporal adverbials but for vague spatial expressions *close to*, *moderately far*, *far away*.
-For this the training dataset has changed including now spatial distances, two object types *Small* and *Big* and membership values for the three expressions.
 
 This repository provides: 
 
@@ -41,7 +41,7 @@ uv pip install -e ".[dev]"
 ```
 ---
 
-## Quick Start: Package Usage (Predictions with Random Forest)
+## Quick Start: Package Usage (Predictions using the base FuzzyLLI)
 The package loads fitted artifacts bundled under `src/fuzzylli/resources/` (no training required).
 ```python
 from fuzzylli import (
