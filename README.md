@@ -10,6 +10,8 @@ the model captures how perceived temporal distance depends not only on elapsed t
 
 Check out the paper [here (Paper currently under review)](PATH_OR_URL_TO_PAPER) if you are interested in the details.
 
+> **Note:** Additionally to the paper, you can train a non factorized gaussian distribution using one function for every event type x adverbial and you can use an already trained Deep Neural Network Classifier and Monotonic Ordinal Classifier for predictions.
+
 This repository provides: 
 
 - an installable Python package (`fuzzylli`) for random-forest based predictions (time interval or adverbial)
