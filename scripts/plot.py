@@ -65,7 +65,7 @@ def _select_main_event(packed: Dict[str, dict], candidates: List[str]) -> str:
 # Public API
 # ---------------------------------------------------------------------------
 
-def plot_all_persons_event_adverbials(
+def plot_spatial_fuzzylli(
     events_to_plot: List[str]
 ) -> None:
     """Plot one figure: main event = highest σ among *events_to_plot*.
@@ -150,7 +150,7 @@ def plot_all_persons_event_adverbials(
     plt.close()
 
 
-def plot_events_adverbials_fitted(event_names, adverbial):
+def plot_objects_adverbials_fitted(event_names, adverbial):
     fig, ax = plt.subplots(figsize=(10, 6))
     event_handles = []
 

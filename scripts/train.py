@@ -181,7 +181,7 @@ def save_optimized_params(
 # ---------------------------------------------------------------------------
 
 # Fit the whole FuzzyLLI (event specific and adverbial specific function)
-def fit_event_adverbials(events_to_fit_naming: List[str]) -> dict:
+def fit_object_adverbials(events_to_fit_naming: List[str]) -> dict:
     """Fit all specified events & return labelled parameter dictionary."""
     initial_std_relation: List[float] = []
     all_event_values: Dict[str, dict] = {}
