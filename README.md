@@ -1,5 +1,7 @@
 # FuzzyLLI – A fuzzy probabilistic model of vague temporal adverbials
 
+> **Note:** wThis branch extends FuzzyLLI with word-embedding-based event representations and predictions, including semantic event-type resolution for knowledge-graph question answering (KGQA).
+
 This repository accompanies the paper **“A Fuzzy Probabilistic Model of Human Interpretation of Vague Temporal Adverbials”**, 
 which investigates how people interpret expressions such as *just*, *recently*, *some time ago*, and *a long time ago* in 
 relation to different types of events.
