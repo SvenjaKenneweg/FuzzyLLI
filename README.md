@@ -5,15 +5,14 @@ which investigates how people interpret expressions such as *just*, *recently*, 
 relation to different types of events.
 
 The paper introduces **FuzzyLLI**, a compositional fuzzy–probabilistic framework that combines fuzzy semantics for vague temporal adverbials with probabilistic models of event-dependent temporal uncertainty grounded in cognitive memory theory. 
-By integrating intrinsic event properties such as richness, frequency, and importance, 
-the model captures how perceived temporal distance depends not only on elapsed time but also on how events are experienced and remembered.
 
-Check out the paper [here (Paper currently under review)](PATH_OR_URL_TO_PAPER) if you are interested in the details.
+In this branch FuzzyLLI is not used for vague temporal adverbials but for vague spatial expressions *close to*, *moderately far*, *far away*.
+For this the training dataset has changed including now spatial distances, two object types *Small* and *Big* and membership values for the three expressions.
 
 This repository provides: 
 
-- an installable Python package (`fuzzylli`) for random-forest based predictions (time interval or adverbial)
-- research scripts to reproduce training, evaluation, and plots
+- an installable Python package (`fuzzylli`) for predictions (distance or adverbial)
+- research scripts to reproduce training and plots
 
 ---
 
@@ -46,22 +45,20 @@ uv pip install -e ".[dev]"
 The package loads fitted artifacts bundled under `src/fuzzylli/resources/` (no training required).
 ```python
 from fuzzylli import (
-    predict_time_frame_random_forest,
-    predict_adverbial_random_forest,
+    predict_distance_fuzzylli,
+    predict_adverbial_fuzzylli,
 )
 
-event_properties = {"Richness": 5, "Frequency": 1, "Importance": 5}
-
-# Memberships for each vague adverbial given minutes_ago
-adverbial_memberships = predict_adverbial_random_forest(event_properties, minutes_ago=120)
+# Memberships for each vague adverbial given the distance
+adverbial_memberships = predict_adverbial_fuzzylli("Small", 20)
 print(adverbial_memberships)
 
-# Interval (minutes ago) where an event with these properties most likely occurred
-upper, lower = predict_time_frame_random_forest(event_properties, adverbial="just", min_prob=0.6)
+# Interval (distance) where this object most likely would be described as close to
+upper, lower = predict_distance_fuzzylli("Small", "close to")
 print(upper, lower)
 ```
 
-## Research Pipeline (train, eval, plot)
+## Research Pipeline (train, plot)
 It is driven by the repo-root `main.py` and uses code under `scripts/`
 ```bash
 # Full pipeline (default behaviour)
@@ -70,33 +67,27 @@ uv run python main.py
 # Train only
 uv run python main.py train
 
-# Evaluate (regenerate predictions with --generate-new-predictions)
-uv run python main.py evaluate --scope training --generate-new-predictions
-uv run python main.py evaluate --scope test --generate-new-predictions
-
 # Plot (Random Forest configuration by default)
-uv run python main.py plot --adverbial "long time ago"
+uv run python main.py plot --adverbial "close to"
 
 # Example prediction demo
 uv run python main.py predict \
-  --event-nl "I was at the hospital" \
-  --adverbial "some time ago" \
-  --minutes-ago 120 \
-  --properties '{"Richness":5,"Frequency":1,"Importance":5}'
+  --object "Big" \
+  --adverbial "close to" \
+  --distance 20
 ```
 ---
 
 ## Repository layout
 - `src/fuzzylli` — installable package.
-- `scripts/` — training/evaluation/plotting.
+- `scripts/` — training/plotting.
 - `main.py` — CLI entrypoint (full pipeline + subcommands).
-- `datasets/` — training and test datasets
-- `results/` — generated fits/evaluation/plots
+- `datasets/` — training dataset
+- `results/` — generated fits/plots
 
 ---
 
 ## Notes
-- Training may call GPT (incurs cost/latency).
 - If you retrain models and want the installed package to use the new RF/Json artifacts copy the udpated files into `src/fuzzylli/resources` and reinstall:
 ```bash
 uv pip install -e .
