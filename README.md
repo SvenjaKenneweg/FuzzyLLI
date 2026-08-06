@@ -87,6 +87,60 @@ uv run python main.py predict \
 
 ---
 
+## Dataset Structure
+
+```text
+datasets/
+└── spatial/
+    └── free_scneario/
+        ├── Big.json
+        └── Small.json
+```
+
+The dataset contains one JSON file for each object type. Both Objects types where circles and moved farther away from the reference object type (also a circle with a diameter of 100pt). All distances were measured in draw.io. The two object are:
+
+- `Big.json` — membership values for a large object (Diameter: 200pt);
+- `Small.json` — membership values for a small object (Diameter: 20pt).
+
+Both files follow the same nested structure:
+
+```text
+spatial expression → distance → membership-value array
+```
+
+The spatial expressions are:
+
+- `close to`
+- `moderately far`
+- `far away`
+
+The evaluated distances (in pt) are:
+
+```text
+20, 90, 200, 300, 460
+```
+
+Each distance maps to an array of membership values between `0.0` and `1.0`.
+
+```json
+{
+  "close to": {
+    "20": [1.0, 1.0, 0.75],
+    "90": [0.75, 0.5, 0.75]
+  },
+  "moderately far": {
+    "20": [0.0, 0.25, 0.0],
+    "90": [0.25, 0.5, 0.25]
+  },
+  "far away": {
+    "20": [0.0, 0.0, 0.0],
+    "90": [0.0, 0.25, 0.5]
+  }
+}
+```
+
+---
+
 ## Notes
 - If you retrain models and want the installed package to use the new RF/Json artifacts copy the udpated files into `src/fuzzylli/resources` and reinstall:
 ```bash
