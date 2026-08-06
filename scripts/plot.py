@@ -237,9 +237,13 @@ def plot_events_adverbials_fitted(events, events_nl, adverbial, predict_function
                     label = "Random Forest"
                 elif "embedding" in predict_fn.__name__:
                     label = "Word Embeddings"
+                elif "moc" in predict_fn.__name__:
+                    label = "MOC"
+                elif "dnn" in predict_fn.__name__:
+                    label = "DNN"
                 else:
                     label = "Power Law"
-                ax.plot(dense_minutes, predicted_values, label=f'Fitted Curve for {event_label}; Adverbial: {adverbial}', linestyle=line_styles[i % len(line_styles)], color=real_color)
+                ax.plot(dense_minutes, predicted_values, label=f'Fitted Curve using {label}', linestyle=line_styles[i % len(line_styles)], color=real_color)
 
     ax.set_ylim(0, 1)
     plt.xlabel('Elapsed Time in Minutes')
