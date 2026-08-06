@@ -59,6 +59,8 @@ def train_models(events, events_nl, get_event_properties_gpt=False):
     fit_event_specific_embeddings(events, events_nl)
     fit_event_specific_random_forest(events, events_nl)
     fit_event_specific_functions(events, events_nl,config.powerlaw)
+    print("\nFit the Non Factorized Gaussian distribution (one Function for every event type x adverbial")
+    fit_non_factorized_gauss(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
 
 
 def make_predictions(event_nl, event_properties, adverbial, minutes_ago):
@@ -148,13 +150,13 @@ def evaluate_event_properties(events, events_nl): #
             evaluate_models_test_dataset(events, events_nl, generate_new_predictions=True)
 
 
-def plot_results(events, events_nl, adverbials, predict_functions=None):
+def plot_results(events, events_nl, adverbial, predict_functions=None):
     """
     Plot the results for event adverbials.
     """
     print("Plotting results are saved under results/plots/... . ")
-    # plot_all_persons_event_adverbials(events)
-    plot_events_adverbials_fitted(events, events_nl, adverbials, predict_functions)
+    plot_all_persons_event_adverbials(DEFAULT_EVENTS)
+    plot_events_adverbials_fitted(events, events_nl, adverbial, predict_functions)
 
 
 def _parse_event_properties(raw: str):
@@ -179,34 +181,22 @@ def run_full_pipeline():
     """
     Preserve the previous default: train, evaluate, plot, and run a demo prediction.
     """
-    # fit_non_factorized_gauss(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
-    # train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
-    # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
-    # evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
-    # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
-    # make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
+    train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
+    evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
+    evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
+    evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
+    make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
 
-    predict_functions = [predict_adverbial_random_forest, predict_adverbial_embedding]
-    plot_results([],
-                 ["You attended a meeting"],
-                 ["just", "recently"], predict_functions=predict_functions)
+    predict_functions = [predict_adverbial_moc]
+    plot_results(["own_birthday"],
+                 ["I had my birthday"],
+                 "just", predict_functions=predict_functions)
 
-    # predictor = MOCTemporalPredictor()
-    # result = predictor.predict(
-    #     event="went to concert",
-    #     time_minutes=60,
-    #     time_hours=0,
-    #     time_days=0,
-    # )
-    # best = max(result, key=result.get)
-    # print(json.dumps({"prediction": result, "best_label": best}, indent=2))
-    #
-    # event = "went to concert"
-    # result =  predict_adverbial_dnn(event, 60)
-    # print(f"\nPrediction for: {event}")
-    # for k, v in result.items():
-    #     print(f"{k:20s}: {v:.6f}")
-    # print("BEST:", predictor.get_best_adverbial(result))
+    event_nl = "went to concert"
+    result = predict_adverbial_moc(event_nl,60)
+    print(f"\nPrediction with the moc for the event {event_nl} 1 hour ago: {result}")
+    result =  predict_adverbial_dnn(event_nl, 60)
+    print(f"\nPrediction with the dnn for the event {event_nl} 1 hour ago: {result}")
 
 
 def build_parser():

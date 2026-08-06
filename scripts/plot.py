@@ -20,7 +20,6 @@ import pandas as pd
 
 
 from .predictions import predict_adverbial_random_forest, predict_adverbial_functions, predict_adverbial_embedding
-from .evaluation_test_dataset import get_percentages
 from . import config
 
 
@@ -147,9 +146,9 @@ def plot_all_persons_event_adverbials(
     # Left‑axis styling
     ax_left.set(
         ylim = Y_LIMS,
-        xlabel="Time units ago in minutes",
-        ylabel="Beforeness of event",
-        title="Event specific functions $\Phi_e$",
+        xlabel="Elapsed Time in Minutes",
+        ylabel="Beforeness of Event",
+        title="Event-Specific Functions $\Phi_e$",
     )
     ax_left.grid(True)
     ax_left.legend(loc="lower right")
@@ -175,7 +174,7 @@ def plot_all_persons_event_adverbials(
         ylim=Y_LIMS,
         xlabel="Fuzzy Membership Value of Adverbial",
         ylabel="Beforeness of Event",
-        title="Adverbial specific functions $\mu_a$",
+        title="Adverbial-Specific Functions $\mu_a$",
     )
     ax_right.grid(True)
     ax_right.legend(loc="best")
@@ -186,799 +185,87 @@ def plot_all_persons_event_adverbials(
     fig.savefig(outfile, dpi=300)
     plt.close()
 
-def plot_events_adverbials_fitted(events, events_nl, adverbials, predict_functions=None):
-    from matplotlib.lines import Line2D
-    from matplotlib.patches import Patch
+
+def plot_events_adverbials_fitted(events, events_nl, adverbial, predict_functions=None):
+    if len(events) != len(events_nl):
+        raise ValueError("The lengths of events and event_name_nl must be the same.")
 
     plt.figure(figsize=(10, 6))
+    ax = plt.gca()
 
-    if isinstance(adverbials, str):
-        adverbials = [adverbials]
+    # Iterate over both `events` and `event_name_nl` simultaneously
+    for event_name, event_name_nl in zip(events, events_nl):
+        with open(config.DATA_DIR / event_name / "cleanedData_minutes.json", "r", encoding="utf-8") as f:
+            cleaned_data = json.load(f)[adverbial]
 
-    predict_functions = predict_functions or []
-    line_styles = ['--', ':', '-.']
+        # Calculate medians/means for this event
+        # real_data_values = {key: float(np.mean(values)) for key, values in cleaned_data.items()}
+        real_data_values = {key: float(np.median(values)) for key, values in cleaned_data.items()}
+        # Convert keys to int and sort by minutes
+        minutes = sorted(int(k) for k in real_data_values.keys())
+        time_unit = minutes #sorted(int(k)/1440 for k in real_data_values.keys()) #sorted(int(k)/43800 for k in real_data_values.keys())
+        values = [real_data_values[str(m)] for m in minutes]
 
-    # One stable color per adverbial
-    color_cycle = plt.rcParams['axes.prop_cycle'].by_key().get('color', [])
-
-    if not color_cycle:
-        color_cycle = ["C0", "C1", "C2", "C3", "C4"]
-
-    adverbial_colors = {
-        adv: color_cycle[i % len(color_cycle)]
-        for i, adv in enumerate(adverbials)
-    }
-
-    def predict_label(predict_fn):
-        name = predict_fn.__name__.lower()
-        if "random" in name:
-            return "Random Forest"
-        elif "embedding" in name:
-            return "Text Embeddings"
-        elif "moc" in name:
-            return "MOC"
-        elif "dnn" in name:
-            return "DNN"
-        else:
-            return "Power Law"
-
-    def normalize_property_key(event_name_nl):
-        return event_name_nl.replace("Tom", "A friend").replace("You", "I")
-
-    def load_event_properties_for_train():
-        with open(config.DATA_DIR / "event_properties.json", "r", encoding="utf-8") as fh:
-            return json.load(fh)
-
-    def load_event_properties_for_test():
-        event_properties = {}
-
-        with open(f"{config.DATASET_TEST_PATH}/event_properties_1.json", "r", encoding="utf-8") as fh:
-            event_properties.update(json.load(fh))
-
-        with open(f"{config.DATASET_TEST_PATH}/event_properties_2.json", "r", encoding="utf-8") as fh:
-            event_properties.update(json.load(fh))
-
-        return event_properties
-
-    def get_properties(event_name_nl, event_properties):
-        prop_key = normalize_property_key(event_name_nl)
-
-        if prop_key not in event_properties:
-            raise KeyError(
-                f"No properties found for event '{event_name_nl}' "
-                f"using normalized key '{prop_key}'."
-            )
-
-        prop_dict = event_properties[prop_key]
-        return [{prop: prop_dict[prop] for prop in config.properties_to_use}]
-
-    def add_structured_legend():
-        ax = plt.gca()
-
-        adverbial_handles = [
-            Patch(
-                facecolor=adverbial_colors[adv],
-                alpha=0.55,
-                label=adv
-            )
-            for adv in adverbials
-        ]
-
-        element_handles = [
-            Patch(
-                facecolor="gray",
-                alpha=0.35,
-                label="GT Top-1 Adverbial"
-            )
-        ]
-
-        for i, predict_fn in enumerate(predict_functions):
-            element_handles.append(
-                Line2D(
-                    [0],
-                    [0],
-                    color="black",
-                    linestyle=line_styles[i % len(line_styles)],
-                    label=f"Fit: {predict_label(predict_fn)}"
-                )
-            )
-
-        legend1 = ax.legend(
-            handles=adverbial_handles,
-            title="Adverbial color",
-            loc="upper left",
-            bbox_to_anchor=(1.02, 1.0),
-            borderaxespad=0
-        )
-
-        ax.add_artist(legend1)
-
-        ax.legend(
-            handles=element_handles,
-            title="Plot element",
-            loc="upper left",
-            bbox_to_anchor=(1.02, 0.72),
-            borderaxespad=0
-        )
-
-    def plot_one_event(event_name_nl, adverbial_to_minutes_values, event_properties=None):
-        def plot_gt_winner_ribbon(highest_adverbial_by_minute):
-            winner_minutes = sorted(highest_adverbial_by_minute.keys())
-
-            if not winner_minutes:
-                return
-
-            if len(winner_minutes) == 1:
-                minute = winner_minutes[0]
-                spans = [
-                    (
-                        max(0, minute - 1),
-                        minute + 1,
-                        highest_adverbial_by_minute[minute]
-                    )
-                ]
-            else:
-                boundaries = []
-
-                first_width = winner_minutes[1] - winner_minutes[0]
-                boundaries.append(max(0, winner_minutes[0] - first_width / 2))
-
-                for left_minute, right_minute in zip(winner_minutes[:-1], winner_minutes[1:]):
-                    boundaries.append((left_minute + right_minute) / 2)
-
-                last_width = winner_minutes[-1] - winner_minutes[-2]
-                boundaries.append(winner_minutes[-1] + last_width / 2)
-
-                spans = [
-                    (
-                        boundaries[i],
-                        boundaries[i + 1],
-                        highest_adverbial_by_minute[winner_minutes[i]]
-                    )
-                    for i in range(len(winner_minutes))
-                ]
-
-            # Merge neighboring spans with the same winning adverbial
-            merged_spans = []
-
-            for left, right, adverbial in spans:
-                if merged_spans and merged_spans[-1][2] == adverbial:
-                    old_left, _, _ = merged_spans[-1]
-                    merged_spans[-1] = (old_left, right, adverbial)
-                else:
-                    merged_spans.append((left, right, adverbial))
-
-            # Draw a small GT winner ribbon at the bottom of the plot
-            for left, right, adverbial in merged_spans:
-                plt.axvspan(
-                    left,
-                    right,
-                    ymin=0.0,
-                    ymax=0.055,
-                    color=adverbial_colors[adverbial],
-                    alpha=0.35,
-                    linewidth=0,
-                    zorder=0,
-                    label="_nolegend_"
-                )
-
-        # Collect all minutes that appear for any adverbial
-        all_minutes = sorted({
-            int(minute)
-            for minutes_to_values in adverbial_to_minutes_values.values()
-            for minute in minutes_to_values.keys()
-        })
-
-        # Find which adverbial has the highest GT value at each minute
-        highest_adverbial_by_minute = {}
-
-        for minute in all_minutes:
-            candidates = {}
-
-            for adv, minutes_to_values in adverbial_to_minutes_values.items():
-                if minute in minutes_to_values:
-                    candidates[adv] = minutes_to_values[minute]
-
-            if candidates:
-                highest_adverbial_by_minute[minute] = max(
-                    candidates,
-                    key=candidates.get
-                )
-
-        # Highlight GT winner as a bottom ribbon, not as points or a line
-        plot_gt_winner_ribbon(highest_adverbial_by_minute)
-
-        # Plot fitted prediction curves only
-        for adverbial, minutes_to_values in adverbial_to_minutes_values.items():
-            if not minutes_to_values:
-                continue
-
-            minutes = sorted(int(m) for m in minutes_to_values.keys())
-            color = adverbial_colors[adverbial]
-
-            if not predict_functions:
-                continue
-
-            max_time = max(minutes)
-
-            if max_time == 0:
-                dense_minutes = np.array([0])
-            else:
-                dense_minutes = np.linspace(0, max_time, 51)
+        event_label = normalize_event_label(event_name)
+        real_line = ax.plot(time_unit, values, marker='o', label=f'Event: {event_label}; Adverbial: {adverbial}', linestyle='-')#, color='#d62728')
+        if predict_functions:
+            line_styles = ['--', ':', '-.']
+            # Generate prediction for a denser range of time_unit
+            max_time = max(time_unit)
+            dense_minutes = np.arange(0, max_time + 10, max_time / 50)
 
             for i, predict_fn in enumerate(predict_functions):
                 predicted_values = []
-
                 if predict_fn in requires_properties:
-                    if event_properties is None:
-                        raise ValueError(
-                            f"{predict_fn.__name__} requires event properties, "
-                            "but no event_properties were provided."
-                        )
+                    with open(f"{config.DATA_DIR}/event_properties.json", "r", encoding="utf-8") as fh:
+                        event_properties = json.load(fh)
 
-                    properties = get_properties(event_name_nl, event_properties)
+                    prop_dict = event_properties[event_name_nl.replace("Tom", "A friend").replace("You", "I")]
+                    properties = [{prop: prop_dict[prop] for prop in config.properties_to_use}]
 
                     for minute in dense_minutes:
                         prob_adverbial = predict_fn(properties, int(minute))
-                        predicted_values.append(prob_adverbial.get(adverbial, 0.0))
-
+                        predicted_values.append(prob_adverbial[adverbial])
                 else:
                     for minute in dense_minutes:
                         prob_adverbial = predict_fn(event_name_nl, int(minute))
-                        predicted_values.append(prob_adverbial.get(adverbial, 0.0))
+                        predicted_values.append(prob_adverbial[adverbial])
 
-                plt.plot(
-                    dense_minutes,
-                    predicted_values,
-                    label="_nolegend_",
-                    linestyle=line_styles[i % len(line_styles)],
-                    color=color,
-                    zorder=2
-                )
+                # Plot the predicted data
+                real_color = real_line[0].get_color()  # Get the color of the real line
+                if "random" in predict_fn.__name__:
+                    label = "Random Forest"
+                elif "embedding" in predict_fn.__name__:
+                    label = "Word Embeddings"
+                elif "moc" in predict_fn.__name__:
+                    label = "MOC"
+                elif "dnn" in predict_fn.__name__:
+                    label = "DNN"
+                else:
+                    label = "Power Law"
+                ax.plot(dense_minutes, predicted_values, label=f'Fitted Curve using {label}', linestyle=line_styles[i % len(line_styles)], color=real_color)
 
-    if len(events_nl) > len(events):
-        all_data = get_percentages()
-        event_properties = None
+    ax.set_ylim(0, 1)
+    plt.xlabel('Elapsed Time in Minutes')
+    # ax.set_xlabel('Elapsed Time in Days')
+    ax.set_ylabel(f'Membership Value')
 
-        if any(fn in requires_properties for fn in predict_functions):
-            event_properties = load_event_properties_for_test()
-
-        for event_name_nl in events_nl:
-            adverbial_to_minutes_values = {
-                adv: {}
-                for adv in adverbials
-            }
-
-            for (event_name, time), counts in all_data.items():
-                if event_name != event_name_nl:
-                    continue
-
-                total = sum(counts.values())
-
-                for adv in adverbials:
-                    if total == 0:
-                        value = 0.0
-                    else:
-                        value = counts.get(adv, 0) / total
-
-                    adverbial_to_minutes_values[adv][int(time)] = value
-
-            if not any(adverbial_to_minutes_values.values()):
-                print(f"No data found for event: {event_name_nl}")
-                continue
-
-            plot_one_event(
-                event_name_nl=event_name_nl,
-                adverbial_to_minutes_values=adverbial_to_minutes_values,
-                event_properties=event_properties
-            )
-
-    else:
-        event_properties = None
-
-        if any(fn in requires_properties for fn in predict_functions):
-            event_properties = load_event_properties_for_train()
-
-        for event_name, event_name_nl in zip(events, events_nl):
-            with open(
-                config.DATA_DIR / event_name / "cleanedData_minutes.json",
-                "r",
-                encoding="utf-8"
-            ) as f:
-                cleaned_data_all = json.load(f)
-
-            adverbial_to_minutes_values = {}
-
-            for adv in adverbials:
-                if adv not in cleaned_data_all:
-                    print(f"No cleaned data for adverbial '{adv}' in event '{event_name}'")
-                    continue
-
-                cleaned_data = cleaned_data_all[adv]
-
-                adverbial_to_minutes_values[adv] = {
-                    int(key): float(np.mean(values))
-                    for key, values in cleaned_data.items()
-                }
-
-            if not adverbial_to_minutes_values:
-                continue
-
-            plot_one_event(
-                event_name_nl=event_name_nl,
-                adverbial_to_minutes_values=adverbial_to_minutes_values,
-                event_properties=event_properties
-            )
-
-    plt.ylim(0, 1)
-
-    # Log-like scale that still supports x = 0
-    plt.xscale("symlog", linthresh=60)
-    plt.xticks(
-        [0, 60, 1440, 10080, 20160, 43200],
-        ["0", "1h", "1d", "1w", "2w", "1mo"]
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.annotate(
+        "",
+        xy=(1.02, 0),
+        xytext=(0, 0),
+        xycoords=("axes fraction", "data"),
+        textcoords=("axes fraction", "data"),
+        arrowprops=dict(arrowstyle="->", linewidth=1.5, color="black"),
+        clip_on=False,
     )
-    plt.xlim(left=0)
 
-    plt.xlabel("Time ago")
-    plt.ylabel("Membership Value")
-
-    add_structured_legend()
-
-    plt.grid(True, which="both")
+    ax.legend()
+    ax.grid(True)
     plt.tight_layout()
-
     outfile = config.PLOT_FILE_PATH / "fitted_curve.png"
     plt.savefig(outfile, dpi=300, bbox_inches="tight")
     plt.close()
-
-# def plot_events_adverbials_fitted(events, events_nl, adverbials, predict_functions=None):
-#     plt.figure(figsize=(10, 6))
-#
-#     if isinstance(adverbials, str):
-#         adverbials = [adverbials]
-#
-#     predict_functions = predict_functions or []
-#     line_styles = ['--', ':', '-.']
-#
-#     # One stable color per adverbial
-#     color_cycle = plt.rcParams['axes.prop_cycle'].by_key().get('color', [])
-#     adverbial_colors = {
-#         adv: color_cycle[i % len(color_cycle)]
-#         for i, adv in enumerate(adverbials)
-#     }
-#
-#     def predict_label(predict_fn):
-#         name = predict_fn.__name__.lower()
-#         if "random" in name:
-#             return "Random Forest"
-#         elif "embedding" in name:
-#             return "Word Embeddings"
-#         elif "moc" in name:
-#             return "MOC"
-#         elif "dnn" in name:
-#             return "DNN"
-#         else:
-#             return "Power Law"
-#
-#     def normalize_property_key(event_name_nl):
-#         return event_name_nl.replace("Tom", "A friend").replace("You", "I")
-#
-#     def load_event_properties_for_train():
-#         with open(config.DATA_DIR / "event_properties.json", "r", encoding="utf-8") as fh:
-#             return json.load(fh)
-#
-#     def load_event_properties_for_test():
-#         event_properties = {}
-#
-#         with open(f"{config.DATASET_TEST_PATH}/event_properties_1.json", "r", encoding="utf-8") as fh:
-#             event_properties.update(json.load(fh))
-#
-#         with open(f"{config.DATASET_TEST_PATH}/event_properties_2.json", "r", encoding="utf-8") as fh:
-#             event_properties.update(json.load(fh))
-#
-#         return event_properties
-#
-#     def get_properties(event_name_nl, event_properties):
-#         prop_key = normalize_property_key(event_name_nl)
-#
-#         if prop_key not in event_properties:
-#             raise KeyError(
-#                 f"No properties found for event '{event_name_nl}' "
-#                 f"using normalized key '{prop_key}'."
-#             )
-#
-#         prop_dict = event_properties[prop_key]
-#         return [{prop: prop_dict[prop] for prop in config.properties_to_use}]
-#
-#     def plot_one_event(event_name_nl, adverbial_to_minutes_values, event_properties=None):
-#         # Collect all minutes that appear for any adverbial
-#         all_minutes = sorted({
-#             int(minute)
-#             for minutes_to_values in adverbial_to_minutes_values.values()
-#             for minute in minutes_to_values.keys()
-#         })
-#
-#         # Find which adverbial has the highest GT value at each minute
-#         highest_adverbial_by_minute = {}
-#
-#         for minute in all_minutes:
-#             candidates = {}
-#
-#             for adv, minutes_to_values in adverbial_to_minutes_values.items():
-#                 if minute in minutes_to_values:
-#                     candidates[adv] = minutes_to_values[minute]
-#
-#             if candidates:
-#                 highest_adverbial_by_minute[minute] = max(
-#                     candidates,
-#                     key=candidates.get
-#                 )
-#
-#         for adverbial, minutes_to_values in adverbial_to_minutes_values.items():
-#             if not minutes_to_values:
-#                 continue
-#
-#             minutes = sorted(int(m) for m in minutes_to_values.keys())
-#             values = [minutes_to_values[m] for m in minutes]
-#
-#             color = adverbial_colors[adverbial]
-#
-#             # Only highlight GT points where this adverbial is the highest
-#             highlighted_minutes = [
-#                 minute
-#                 for minute in minutes
-#                 if highest_adverbial_by_minute.get(minute) == adverbial
-#             ]
-#
-#             highlighted_values = [
-#                 minutes_to_values[minute]
-#                 for minute in highlighted_minutes
-#             ]
-#
-#             if highlighted_minutes:
-#                 plt.scatter(
-#                     highlighted_minutes,
-#                     highlighted_values,
-#                     label=f'GT highest: {adverbial}',
-#                     color=color,
-#                     s=80,
-#                     marker='o',
-#                     edgecolors='black',
-#                     zorder=5
-#                 )
-#
-#             if not predict_functions:
-#                 continue
-#
-#             max_time = max(minutes)
-#
-#             if max_time == 0:
-#                 dense_minutes = np.array([0])
-#             else:
-#                 dense_minutes = np.linspace(0, max_time, 51)
-#
-#             for i, predict_fn in enumerate(predict_functions):
-#                 predicted_values = []
-#
-#                 if predict_fn in requires_properties:
-#                     if event_properties is None:
-#                         raise ValueError(
-#                             f"{predict_fn.__name__} requires event properties, "
-#                             "but no event_properties were provided."
-#                         )
-#
-#                     properties = get_properties(event_name_nl, event_properties)
-#
-#                     for minute in dense_minutes:
-#                         prob_adverbial = predict_fn(properties, int(minute))
-#                         predicted_values.append(prob_adverbial.get(adverbial, 0.0))
-#
-#                 else:
-#                     for minute in dense_minutes:
-#                         prob_adverbial = predict_fn(event_name_nl, int(minute))
-#                         predicted_values.append(prob_adverbial.get(adverbial, 0.0))
-#
-#                 plt.plot(
-#                     dense_minutes,
-#                     predicted_values,
-#                     label=f'Fit: {predict_label(predict_fn)}; Adverbial: {adverbial}',
-#                     linestyle=line_styles[i % len(line_styles)],
-#                     color=color
-#                 )
-#
-#     if len(events_nl) > len(events):
-#         all_data = get_percentages()
-#         event_properties = None
-#
-#         if any(fn in requires_properties for fn in predict_functions):
-#             event_properties = load_event_properties_for_test()
-#
-#         for event_name_nl in events_nl:
-#             adverbial_to_minutes_values = {
-#                 adv: {}
-#                 for adv in adverbials
-#             }
-#
-#             for (event_name, time), counts in all_data.items():
-#                 if event_name != event_name_nl:
-#                     continue
-#
-#                 total = sum(counts.values())
-#
-#                 for adv in adverbials:
-#                     if total == 0:
-#                         value = 0.0
-#                     else:
-#                         value = counts.get(adv, 0) / total
-#
-#                     adverbial_to_minutes_values[adv][int(time)] = value
-#
-#             if not any(adverbial_to_minutes_values.values()):
-#                 print(f"No data found for event: {event_name_nl}")
-#                 continue
-#
-#             plot_one_event(
-#                 event_name_nl=event_name_nl,
-#                 adverbial_to_minutes_values=adverbial_to_minutes_values,
-#                 event_properties=event_properties
-#             )
-#
-#     else:
-#         event_properties = None
-#
-#         if any(fn in requires_properties for fn in predict_functions):
-#             event_properties = load_event_properties_for_train()
-#
-#         for event_name, event_name_nl in zip(events, events_nl):
-#             with open(
-#                 config.DATA_DIR / event_name / "cleanedData_minutes.json",
-#                 "r",
-#                 encoding="utf-8"
-#             ) as f:
-#                 cleaned_data_all = json.load(f)
-#
-#             adverbial_to_minutes_values = {}
-#
-#             for adv in adverbials:
-#                 if adv not in cleaned_data_all:
-#                     print(f"No cleaned data for adverbial '{adv}' in event '{event_name}'")
-#                     continue
-#
-#                 cleaned_data = cleaned_data_all[adv]
-#
-#                 adverbial_to_minutes_values[adv] = {
-#                     int(key): float(np.mean(values))
-#                     for key, values in cleaned_data.items()
-#                 }
-#
-#             if not adverbial_to_minutes_values:
-#                 continue
-#
-#             plot_one_event(
-#                 event_name_nl=event_name_nl,
-#                 adverbial_to_minutes_values=adverbial_to_minutes_values,
-#                 event_properties=event_properties
-#             )
-#
-#     plt.ylim(0, 1)
-#     plt.xscale("symlog", linthresh=60)
-#     plt.xlim(left=0)
-#
-#     plt.xticks(
-#         [0, 60, 1440, 10080, 20160, 43200],
-#         ["0", "1h", "1d", "1w", "2w", "1mo"]
-#     )
-#
-#     plt.xlabel('Time ago')
-#     plt.ylabel('Membership Value')
-#     plt.legend()
-#     plt.grid(True, which="both")
-#     plt.tight_layout()
-#
-#     outfile = config.PLOT_FILE_PATH / "fitted_curve.png"
-#     plt.savefig(outfile, dpi=300)
-#     plt.close()
-
-
-# def plot_events_adverbials_fitted(events, events_nl, adverbials, predict_functions=None):
-#     plt.figure(figsize=(10, 6))
-#
-#     if isinstance(adverbials, str):
-#         adverbials = [adverbials]
-#
-#     predict_functions = predict_functions or []
-#     line_styles = ['--', ':', '-.']
-#
-#     # One stable color per adverbial
-#     color_cycle = plt.rcParams['axes.prop_cycle'].by_key().get('color', [])
-#     adverbial_colors = {
-#         adv: color_cycle[i % len(color_cycle)]
-#         for i, adv in enumerate(adverbials)
-#     }
-#
-#     def predict_label(predict_fn):
-#         name = predict_fn.__name__.lower()
-#         if "random" in name:
-#             return "Random Forest"
-#         elif "embedding" in name:
-#             return "Word Embeddings"
-#         elif "moc" in name:
-#             return "MOC"
-#         elif "dnn" in name:
-#             return "DNN"
-#         else:
-#             return "Power Law"
-#
-#     def normalize_property_key(event_name_nl):
-#         return event_name_nl.replace("Tom", "A friend").replace("You", "I")
-#
-#     def load_event_properties_for_train():
-#         with open(config.DATA_DIR / "event_properties.json", "r", encoding="utf-8") as fh:
-#             return json.load(fh)
-#
-#     def load_event_properties_for_test():
-#         event_properties = {}
-#
-#         with open(f"{config.DATASET_TEST_PATH}/event_properties_1.json", "r", encoding="utf-8") as fh:
-#             event_properties.update(json.load(fh))
-#
-#         with open(f"{config.DATASET_TEST_PATH}/event_properties_2.json", "r", encoding="utf-8") as fh:
-#             event_properties.update(json.load(fh))
-#
-#         return event_properties
-#
-#     def get_properties(event_name_nl, event_properties):
-#         prop_key = normalize_property_key(event_name_nl)
-#
-#         if prop_key not in event_properties:
-#             raise KeyError(
-#                 f"No properties found for event '{event_name_nl}' "
-#                 f"using normalized key '{prop_key}'."
-#             )
-#
-#         prop_dict = event_properties[prop_key]
-#         return [{prop: prop_dict[prop] for prop in config.properties_to_use}]
-#
-#     def plot_one_event(event_name_nl, adverbial_to_minutes_values, event_properties=None):
-#         for adverbial, minutes_to_values in adverbial_to_minutes_values.items():
-#             if not minutes_to_values:
-#                 continue
-#
-#             minutes = sorted(int(m) for m in minutes_to_values.keys())
-#             values = [minutes_to_values[m] for m in minutes]
-#
-#             color = adverbial_colors[adverbial]
-#
-#             plt.plot(
-#                 minutes,
-#                 values,
-#                 marker='o',
-#                 label=f'Event: {event_name_nl}; Adverbial: {adverbial}',
-#                 linestyle='-',
-#                 color=color
-#             )
-#
-#             if not predict_functions:
-#                 continue
-#
-#             max_time = max(minutes)
-#
-#             if max_time == 0:
-#                 dense_minutes = np.array([0])
-#             else:
-#                 dense_minutes = np.linspace(0, max_time, 51)
-#
-#             for i, predict_fn in enumerate(predict_functions):
-#                 predicted_values = []
-#
-#                 if predict_fn in requires_properties:
-#                     if event_properties is None:
-#                         raise ValueError(
-#                             f"{predict_fn.__name__} requires event properties, "
-#                             "but no event_properties were provided."
-#                         )
-#
-#                     properties = get_properties(event_name_nl, event_properties)
-#
-#                     for minute in dense_minutes:
-#                         prob_adverbial = predict_fn(properties, int(minute))
-#                         predicted_values.append(prob_adverbial.get(adverbial, 0.0))
-#
-#                 else:
-#                     for minute in dense_minutes:
-#                         prob_adverbial = predict_fn(event_name_nl, int(minute))
-#                         predicted_values.append(prob_adverbial.get(adverbial, 0.0))
-#
-#                 plt.plot(
-#                     dense_minutes,
-#                     predicted_values,
-#                     label=f'Fit: {predict_label(predict_fn)}; Adverbial: {adverbial}',
-#                     linestyle=line_styles[i % len(line_styles)],
-#                     color=color
-#                 )
-#
-#     if len(events_nl) > len(events):
-#         all_data = get_percentages()
-#         event_properties = None
-#
-#         if any(fn in requires_properties for fn in predict_functions):
-#             event_properties = load_event_properties_for_test()
-#
-#         for event_name_nl in events_nl:
-#             adverbial_to_minutes_values = {
-#                 adv: {}
-#                 for adv in adverbials
-#             }
-#
-#             for (event_name, time), counts in all_data.items():
-#                 if event_name != event_name_nl:
-#                     continue
-#
-#                 total = sum(counts.values())
-#
-#                 for adv in adverbials:
-#                     if total == 0:
-#                         value = 0.0
-#                     else:
-#                         value = counts.get(adv, 0) / total
-#
-#                     adverbial_to_minutes_values[adv][int(time)] = value
-#
-#             if not any(adverbial_to_minutes_values.values()):
-#                 print(f"No data found for event: {event_name_nl}")
-#                 continue
-#
-#             plot_one_event(
-#                 event_name_nl=event_name_nl,
-#                 adverbial_to_minutes_values=adverbial_to_minutes_values,
-#                 event_properties=event_properties
-#             )
-#
-#     else:
-#         event_properties = None
-#
-#         if any(fn in requires_properties for fn in predict_functions):
-#             event_properties = load_event_properties_for_train()
-#
-#         for event_name, event_name_nl in zip(events, events_nl):
-#             with open(
-#                 config.DATA_DIR / event_name / "cleanedData_minutes.json",
-#                 "r",
-#                 encoding="utf-8"
-#             ) as f:
-#                 cleaned_data_all = json.load(f)
-#
-#             adverbial_to_minutes_values = {}
-#
-#             for adv in adverbials:
-#                 if adv not in cleaned_data_all:
-#                     print(f"No cleaned data for adverbial '{adv}' in event '{event_name}'")
-#                     continue
-#
-#                 cleaned_data = cleaned_data_all[adv]
-#
-#                 adverbial_to_minutes_values[adv] = {
-#                     int(key): float(np.mean(values))
-#                     for key, values in cleaned_data.items()
-#                 }
-#
-#             if not adverbial_to_minutes_values:
-#                 continue
-#
-#             plot_one_event(
-#                 event_name_nl=event_name_nl,
-#                 adverbial_to_minutes_values=adverbial_to_minutes_values,
-#                 event_properties=event_properties
-#             )
-#
-#     plt.ylim(0, 1)
-#     plt.xlabel('Time Units ago in Minutes')
-#     plt.ylabel('Membership Value')
-#     plt.legend()
-#     plt.grid(True)
-#     plt.tight_layout()
-#
-#     outfile = config.PLOT_FILE_PATH / "fitted_curve.png"
-#     plt.savefig(outfile, dpi=300)
-#     plt.close()
+    return
