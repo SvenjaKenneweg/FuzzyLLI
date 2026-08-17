@@ -15,8 +15,6 @@ from scripts.evaluation_test_dataset import (evaluate_test_data_random_forest, e
                                          evaluate_test_data_embedding, evaluate_test_data_gpt, evaluate_test_data_regression, evaluate_test_data_classifier)
 from scripts.simple_models_training import fit_classifier, fit_regression, fit_non_factorized_gauss
 from scripts.simple_models_predictions import predict_adverbial_classifier, predict_adverbial_regression
-from scripts.neural_models_moc_predictions import predict_adverbial_moc
-from scripts.neural_models_dnn_predictions import predict_adverbial_dnn
 from scripts import config
 
 
@@ -197,12 +195,6 @@ def run_full_pipeline():
     #              ["I had my birthday"],
     #              "just", predict_functions=predict_functions)
     # make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
-
-    # event_nl = "went to concert"
-    # result = predict_adverbial_moc(event_nl,60)
-    # print(f"\nPrediction with the moc for the event {event_nl} 1 hour ago: {result}")
-    # result =  predict_adverbial_dnn(event_nl, 60)
-    # print(f"\nPrediction with the dnn for the event {event_nl} 1 hour ago: {result}")
 
 
 def build_parser():
