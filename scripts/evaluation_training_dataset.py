@@ -5,7 +5,7 @@ from typing import List
 import math
 import openai
 import os
-from scipy.stats import kendalltau
+from scipy.stats import kendalltau, wilcoxon
 from openai import OpenAI
 from collections import Counter
 
@@ -67,11 +67,6 @@ requires_properties = {
 # ---------------------------------------------------------------------------
 
 # Calculation of the Mean Absolute Error for the given predict_fn against the median values for a specific time ago, adverbial, event
-import numpy as np
-
-import numpy as np
-
-
 def run_MAE_MdSE_evaluation(events, fit_models_fn, predict_fn, events_nl=None, function_to_use=None):
     fit_event_adverbials(events)
     fit_models_fn(events, events_nl, function_to_use)
@@ -159,10 +154,57 @@ def run_MAE_MdSE_evaluation(events, fit_models_fn, predict_fn, events_nl=None, f
     return {
         "overall_mae": mae,
         "overall_medse": medse,
-        "mae_per_event": mae_per_event,
-        "medse_per_event": medse_per_event,
-        "mae_per_adverbial": mae_per_adverbial,
-        "medse_per_adverbial": medse_per_adverbial,
+        # "mae_per_event": mae_per_event,
+        # "medse_per_event": medse_per_event,
+        # "mae_per_adverbial": mae_per_adverbial,
+        # "medse_per_adverbial": medse_per_adverbial,
+        "all_abs_errors": all_abs_errors,
+        "all_sq_errors": all_sq_errors
+    }
+
+
+def calculate_model_significance(results_m1, results_m2, model_1_name="Modell 1", model_2_name="Modell 2"):
+    """
+    Takes the output dictionaries from two consecutive `run_MAE_MdSE_evaluation` runs
+    and calculates the Wilcoxon significance.
+    """
+    errors_m1 = np.array(results_m1["all_abs_errors"])
+    errors_m2 = np.array(results_m2["all_abs_errors"])
+
+    sq_errors_m1 = np.array(results_m1["all_sq_errors"])
+    sq_errors_m2 = np.array(results_m2["all_sq_errors"])
+
+    assert len(errors_m1) == len(errors_m2), (f"Error: Length of the items is different")
+
+    # Wilcoxon-Test
+    p_val_mae = 1.0
+    p_val_medse = 1.0
+
+    if not np.array_equal(errors_m1, errors_m2):
+        _, p_val_mae = wilcoxon(errors_m1, errors_m2)
+
+    if not np.array_equal(sq_errors_m1, sq_errors_m2):
+        _, p_val_medse = wilcoxon(sq_errors_m1, sq_errors_m2)
+
+    print(f"\n==================================================")
+    print(f" Significance test: {model_1_name} vs. {model_2_name}")
+    print(f"==================================================")
+    print(f"Number of compared items: {len(errors_m1)}")
+    print(f"--------------------------------------------------")
+    print(f"MAE-Significance (Absolute Error):")
+    print(f"  p-Value: {p_val_mae:.6f}")
+    print(f"  Status: {'SIGNIFICANT (p < 0.05)' if p_val_mae < 0.05 else 'Not significant'}")
+    print(f"--------------------------------------------------")
+    print(f"MedSE-Significance (Squared Error):")
+    print(f"  p-Value: {p_val_medse:.6f}")
+    print(f"  Status: {'SIGNIFICANT (p < 0.05)' if p_val_medse < 0.05 else 'Not significant'}")
+    print(f"==================================================\n")
+
+    return {
+        "p_value_mae": p_val_mae,
+        "p_value_medse": p_val_medse,
+        "is_mae_significant": p_val_mae < 0.05,
+        "is_medse_significant": p_val_medse < 0.05
     }
 
 
