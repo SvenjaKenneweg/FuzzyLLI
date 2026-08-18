@@ -8,7 +8,7 @@ from scripts.plot import plot_all_persons_event_adverbials, plot_events_adverbia
 from scripts.predictions import (predict_time_frame_embedding, predict_adverbial_embedding, predict_adverbial_functions,
                              predict_time_frame_random_forest, predict_adverbial_random_forest, get_all_event_properties_gpt)
 from scripts.evaluation_training_dataset import (get_predictions_classifier, get_predictions_regression,
-                                             get_predictions_embedding, get_predictions_random_forest,
+                                             get_predictions_embedding, get_predictions_random_forest,perform_significance_tests,
                                              get_predictions_functions, run_MAE_MdSE_evaluation, calculate_model_significance,
                                              evaluate_gpt, calculate_metrics)
 from scripts.evaluation_test_dataset import (evaluate_test_data_random_forest, evaluate_test_data_functions,
@@ -101,18 +101,16 @@ def evaluate_models_training_dataset(events, events_nl, generate_new_predictions
         calculate_model_significance(result_pl, result_we, model_1_name="Power Law", model_2_name="Word Embeddings")
 
     if generate_new_predictions:
-        print("\nEvaluation Embeddings + Regressor:")
+        print("\nEvaluating Embeddings + Regressor, Random Forest Power Law")
         get_predictions_embedding(events, events_nl)
-
-        print("\nEvaluation Random Forest:")
         get_predictions_random_forest(events, events_nl)
-
-        print("\nEvaluation Power Law:")
         get_predictions_functions(events, events_nl, function_to_use=config.powerlaw)
 
-    # # Calculate only the metrics
-    # print("\nCalculating the Evaluation metrics from the saved prediction files for the training datasets...")
-    # calculate_metrics(config.EVALUATION_FILE_PATH)
+    print("\nCalculating the evaluation metrics from the saved prediction files...")
+    model_results = calculate_metrics(config.EVALUATION_FILE_PATH)
+
+    print("\nPerforming pairwise significance tests...")
+    significance_results = perform_significance_tests(model_results)
 
 
 
@@ -133,7 +131,9 @@ def evaluate_models_test_dataset(events_to_fit, events_to_fit_nl, generate_new_p
 
     # Calculate only the metrics
     print("\nCalculating the Evaluation metrics from the saved prediction files for the test dataset...")
-    calculate_metrics(config.EVALUATION_TEST_DATASET_FILE_PATH)
+    model_results = calculate_metrics(config.EVALUATION_TEST_DATASET_FILE_PATH)
+    print("\nPerforming pairwise significance tests...")
+    significance_results = perform_significance_tests(model_results)
 
 
 def evaluate_event_properties(events, events_nl): #
@@ -186,8 +186,8 @@ def run_full_pipeline():
 
     # fit_non_factorized_gauss(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
     # train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
-    evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False, calculate_MAE=True)
-    # evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=False)
+    # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True, calculate_MAE=False)
+    evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
     # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
     # plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_functions=None)
     # predict_functions = [predict_adverbial_random_forest, predict_adverbial_functions]

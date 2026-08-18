@@ -324,10 +324,10 @@
             "Event": "own_birthday",
             "Minutes ago": 1440.0,
             "Prediction": {
-                "recently": 0.8007091597897866,
-                "just": 0.796365262619498,
-                "some time ago": 0.4182571037614475,
-                "long time ago": 0.1429833469663552
+                "recently": 0.8007091350471817,
+                "just": 0.7963652915250805,
+                "some time ago": 0.4182571021623542,
+                "long time ago": 0.14298334617656994
             },
             "GT": {
                 "recently": 1.0,
@@ -340,10 +340,10 @@
             "Event": "own_birthday",
             "Minutes ago": 2880.0,
             "Prediction": {
-                "recently": 0.8247784278554148,
-                "just": 0.7670871214571151,
-                "some time ago": 0.41984581276385624,
-                "long time ago": 0.143768968339157
+                "recently": 0.8247783804003955,
+                "just": 0.7670871815486914,
+                "some time ago": 0.41984580956052087,
+                "long time ago": 0.1437689667531512
             },
             "GT": {
                 "recently": 1.0,
@@ -356,10 +356,10 @@
             "Event": "own_birthday",
             "Minutes ago": 5760.0,
             "Prediction": {
-                "recently": 0.8695690860867006,
-                "just": 0.7056596358386092,
-                "some time ago": 0.4230308475458589,
-                "long time ago": 0.145349802562615
+                "recently": 0.8695690008577318,
+                "just": 0.7056597626085844,
+                "some time ago": 0.42303084111883565,
+                "long time ago": 0.14534979936481895
             },
             "GT": {
                 "recently": 1.0,
@@ -372,10 +372,10 @@
             "Event": "own_birthday",
             "Minutes ago": 10080.0,
             "Prediction": {
-                "recently": 0.9265284483050009,
-                "just": 0.6094480602967185,
-                "some time ago": 0.42782713855305565,
-                "long time ago": 0.1477450857417222
+                "recently": 0.9265283308775425,
+                "just": 0.6094482886431707,
+                "some time ago": 0.4278271272534137,
+                "long time ago": 0.1477450800777103
             },
             "GT": {
                 "recently": 1.0,
@@ -388,10 +388,10 @@
             "Event": "own_birthday",
             "Minutes ago": 20160.0,
             "Prediction": {
-                "recently": 0.9976471201284546,
-                "just": 0.3918200515469089,
-                "some time ago": 0.43910303691857516,
-                "long time ago": 0.15344669093110144
+                "recently": 0.9976470757046311,
+                "just": 0.39182045535496135,
+                "some time ago": 0.4391030140853075,
+                "long time ago": 0.15344667928478484
             },
             "GT": {
                 "recently": 1.0,
@@ -404,10 +404,10 @@
             "Event": "own_birthday",
             "Minutes ago": 43800.0,
             "Prediction": {
-                "recently": 0.7901857617705632,
-                "just": 0.08046023291744396,
-                "some time ago": 0.465975333579748,
-                "long time ago": 0.1674414159594322
+                "recently": 0.7901865255085567,
+                "just": 0.0804605281480225,
+                "some time ago": 0.4659752829099895,
+                "long time ago": 0.16744138901990047
             },
             "GT": {
                 "recently": 0.5,
@@ -420,10 +420,10 @@
             "Event": "own_birthday",
             "Minutes ago": 87600.0,
             "Prediction": {
-                "recently": 0.1143457286174135,
-                "just": 0.0005695750617634815,
-                "some time ago": 0.5170470108267126,
-                "long time ago": 0.19570002563260397
+                "recently": 0.11434639741867215,
+                "just": 0.0005695822376153362,
+                "some time ago": 0.5170469066223838,
+                "long time ago": 0.19569996564622152
             },
             "GT": {
                 "recently": 0.25,
@@ -436,10 +436,10 @@
             "Event": "own_birthday",
             "Minutes ago": 131400.0,
             "Prediction": {
-                "recently": 0.002399912908181141,
-                "just": 3.0212538102188886e-07,
-                "some time ago": 0.5691620812540137,
-                "long time ago": 0.22697719849318146
+                "recently": 0.00239994785533857,
+                "just": 3.021334355009065e-07,
+                "some time ago": 0.5691619229822052,
+                "long time ago": 0.22697709947191536
             },
             "GT": {
                 "recently": 0.0,
@@ -452,10 +452,10 @@
             "Event": "own_birthday",
             "Minutes ago": 175200.0,
             "Prediction": {
-                "recently": 7.5705150684521265e-06,
-                "just": 1.2655393690402758e-11,
-                "some time ago": 0.6215103316411235,
-                "long time ago": 0.261190811001912
+                "recently": 7.57071917727188e-06,
+                "just": 1.2655971334052912e-11,
+                "some time ago": 0.6215101213910628,
+                "long time ago": 0.26119066742493763
             },
             "GT": {
                 "recently": 0.0,
@@ -468,10 +468,10 @@
             "Event": "own_birthday",
             "Minutes ago": 350400.0,
             "Prediction": {
-                "recently": 1.461681040531069e-23,
-                "just": 2.0123514444968455e-39,
-                "some time ago": 0.8158439547769017,
-                "long time ago": 0.42266138418622645
+                "recently": 1.4618398862752166e-23,
+                "just": 2.0126818290378752e-39,
+                "some time ago": 0.8158436101664963,
+                "long time ago": 0.4226610290061087
             },
             "GT": {
                 "recently": 0.0,
@@ -484,10 +484,10 @@
             "Event": "own_birthday",
             "Minutes ago": 512040.0,
             "Prediction": {
-                "recently": 2.9255358119478203e-49,
-                "just": 1.842135956602425e-77,
-                "some time ago": 0.942332327265293,
-                "long time ago": 0.5891460138121873
+                "recently": 2.9261669055448907e-49,
+                "just": 1.842715856896002e-77,
+                "some time ago": 0.9423320345035039,
+                "long time ago": 0.5891454854713059
             },
             "GT": {
                 "recently": 0.0,

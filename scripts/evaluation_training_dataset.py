@@ -4,8 +4,9 @@ from pathlib import Path
 from typing import List
 import math
 import openai
+import itertools
 import os
-from scipy.stats import kendalltau, wilcoxon
+from scipy.stats import kendalltau, wilcoxon, binomtest
 from openai import OpenAI
 from collections import Counter
 
@@ -259,10 +260,23 @@ def run_leave_one_out_evaluation_and_save_pred(events, fit_models_fn, predict_fn
             })
     return raw_results
 
+
 def calculate_metrics(file_path):
+    """
+    Calculate per-evaluation-point metrics for every saved model prediction file.
+
+    Returns
+    -------
+    dict[str, pd.DataFrame]
+        Mapping:
+            model/file stem -> dataframe containing one row per
+            (Event, Minutes ago) evaluation point.
+    """
+
     def rank_from_scores(scores, descending=True):
         """
         Normalize scores into ranks (1 = best, ties get average rank).
+
         Supports:
           - dict[label -> score]  -> true ranking (rankable=True)
           - list/tuple/set[str]   -> all items become rank 1 (rankable=False)
@@ -270,54 +284,77 @@ def calculate_metrics(file_path):
 
         Returns:
           ranks: dict[label] -> rank (float)
-          rankable: bool     -> True iff input was a dict with actual scores
+          rankable: bool
         """
-        # dict case: compute average (mid) ranks
+
+        # Dict case: compute average/mid ranks
         if isinstance(scores, dict) and len(scores) > 0:
             items = list(scores.items())
             items.sort(key=lambda x: x[1], reverse=descending)
+
             ranks = {}
             i = 0
+
             while i < len(items):
                 j = i
+
                 while j < len(items) and items[j][1] == items[i][1]:
                     j += 1
-                avg_rank = (i + 1 + j) / 2.0  # average of 1-based positions for ties
+
+                # Average of the occupied 1-based ranks
+                avg_rank = (i + 1 + j) / 2.0
+
                 for k in range(i, j):
                     ranks[items[k][0]] = avg_rank
+
                 i = j
+
             return ranks, True
 
-        # list/tuple/set -> all are top-1
+        # list / tuple / set -> all items treated as top-ranked
         if isinstance(scores, (list, tuple, set)) and len(scores) > 0:
             return {str(lbl): 1.0 for lbl in scores}, False
 
-        # single string -> top-1
+        # Single string -> top-ranked item
         if isinstance(scores, str) and scores:
             return {scores: 1.0}, False
 
-        # empty / unsupported
         return {}, False
 
+
     def topk_on_ranks(rank_pred, rank_gt, k=2):
+
         def get_topk(rank_dict, k):
-            # Get k smallest distinct ranks
+            if not rank_dict:
+                return set()
+
             uniq_ranks = sorted(set(rank_dict.values()))
             kth_rank = uniq_ranks[min(k - 1, len(uniq_ranks) - 1)]
-            return {l for l, r in rank_dict.items() if r <= kth_rank}
 
-        # --- Top-1 ---
+            return {
+                label
+                for label, rank in rank_dict.items()
+                if rank <= kth_rank
+            }
+
+        # ----------------
+        # Top-1
+        # ----------------
         pred_top1 = get_topk(rank_pred, 1)
         gt_top1 = get_topk(rank_gt, 1)
+
         inter1 = pred_top1 & gt_top1
 
         acc1 = 1.0 if inter1 else 0.0
         p1 = len(inter1) / len(pred_top1) if pred_top1 else 0.0
         r1 = len(inter1) / len(gt_top1) if gt_top1 else 0.0
 
-        # --- Top-2 ---
+        # ----------------
+        # Top-2
+        # ----------------
         pred_top2 = get_topk(rank_pred, 2)
         gt_top2 = get_topk(rank_gt, 2)
+
         inter2 = pred_top2 & gt_top2
 
         acc2 = 1.0 if inter2 else 0.0
@@ -329,49 +366,115 @@ def calculate_metrics(file_path):
             "top2": (acc2, p2, r2),
         }
 
-    # Loop through all .json files containing the predictions
-    for json_file in file_path.glob("*.json"):
-        # if json_file.name != "random_forest.json":
-        #     continue
-        # print(config.properties_to_use)
+
+    # Stores the per-point results for each model
+    all_model_results = {}
+
+    # ----------------------------------------------------------
+    # Loop through prediction files
+    # ----------------------------------------------------------
+    for json_file in sorted(file_path.glob("*.json")):
+
         print(f"\nFile: {json_file.name}")
+
         with open(json_file, "r", encoding="utf-8") as f:
             data = json.load(f)["raw"]
 
         results = []
-        for r in data:
-            pred = r["Prediction"]  # dict[label] -> score
-            gt = r["GT"]  # dict[label] -> relevance
 
-            rank_pred, pred_rankable = rank_from_scores(pred, descending=True)
-            rank_gt, gt_rankable = rank_from_scores(gt, descending=True)
+        for r in data:
+
+            pred = r["Prediction"]
+            gt = r["GT"]
+
+            rank_pred, pred_rankable = rank_from_scores(
+                pred,
+                descending=True
+            )
+
+            rank_gt, gt_rankable = rank_from_scores(
+                gt,
+                descending=True
+            )
+
             rankable = pred_rankable and gt_rankable
 
+            # ==================================================
+            # Kendall Tau-b + NDCG
+            # ==================================================
             if rankable:
-                # ---- Kendall's Tau-b on ranks ----
-                # Align to the same label order (use GT's labels as base)
+
+                # Keep identical adverbial order
                 labels = list(gt.keys())
-                x = [rank_pred[l] for l in labels]
-                y = [rank_gt[l] for l in labels]
-                tau, _ = kendalltau(x, y, variant="b", nan_policy="raise", alternative="two-sided", method="auto")
 
-                # ---- NDCG computed on ranks ----
-                # Transform ranks to "higher is better" scores: rel = max_rank + 1 - rank
-                max_r = max(max(rank_gt.values()), max(rank_pred.values()))
-                y_true = [[(max_r + 1 - rank_gt[l]) for l in labels]]
-                y_score = [[(max_r + 1 - rank_pred[l]) for l in labels]]
-                ndcg = ndcg_score(y_true, y_score) if any(v > 0 for v in y_true[0]) else 0.0
+                x = [rank_pred[label] for label in labels]
+                y = [rank_gt[label] for label in labels]
+
+                # ----------------
+                # Kendall Tau-b
+                # ----------------
+                tau, _ = kendalltau(
+                    x,
+                    y,
+                    variant="b",
+                    nan_policy="raise",
+                    alternative="two-sided",
+                    method="auto"
+                )
+
+                # ----------------
+                # NDCG
+                # ----------------
+                # Transform ranks so larger = better
+                max_r = max(
+                    max(rank_gt.values()),
+                    max(rank_pred.values())
+                )
+
+                y_true = [[
+                    max_r + 1 - rank_gt[label]
+                    for label in labels
+                ]]
+
+                y_score = [[
+                    max_r + 1 - rank_pred[label]
+                    for label in labels
+                ]]
+
+                if any(v > 0 for v in y_true[0]):
+                    ndcg = ndcg_score(y_true, y_score)
+                else:
+                    ndcg = np.nan
+
             else:
-                # not rankable (e.g. GPT4 Prompts having only predicted the first item)
-                tau = 0.0
-                ndcg = 0.0
+                # Do NOT interpret "not computable" as 0.
+                tau = np.nan
+                ndcg = np.nan
 
-            # ---- Top-k on ranks ----
-            topk = topk_on_ranks(rank_pred, rank_gt)
+            # ==================================================
+            # Top-k
+            # ==================================================
+            topk = topk_on_ranks(
+                rank_pred,
+                rank_gt
+            )
 
             results.append({
-                "KendallTauB": float(tau) if not math.isnan(tau) else 0.0,
-                "NDCG": float(ndcg),
+                # Identifiers are important for paired tests
+                "Event": r["Event"],
+                "Minutes ago": float(r["Minutes ago"]),
+
+                # Ranking metrics
+                "KendallTauB": (
+                    float(tau)
+                    if not pd.isna(tau)
+                    else np.nan
+                ),
+                "NDCG": (
+                    float(ndcg)
+                    if not pd.isna(ndcg)
+                    else np.nan
+                ),
 
                 # Top-1
                 "Acc_1": topk["top1"][0],
@@ -385,9 +488,365 @@ def calculate_metrics(file_path):
             })
 
         df = pd.DataFrame(results)
-        overall = df.mean(numeric_only=True).to_frame(name="Overall").T
+
+        # File stem is used as model name:
+        # random_forest.json -> "random_forest"
+        model_name = json_file.stem
+
+        all_model_results[model_name] = df
+
+        # ------------------------------------------------------
+        # Print values used for Table 2
+        # ------------------------------------------------------
+        overall = (
+            df.mean(numeric_only=True)
+            .to_frame(name="Overall")
+            .T
+        )
+
         print(overall.round(3))
-    return
+
+    return all_model_results
+
+
+# ======================================================================
+# Helper: align the exact same evaluation points between two models
+# ======================================================================
+
+def align_model_results(df_a, df_b, metric):
+    """
+    Align two models by Event + Minutes ago.
+
+    This guarantees that the significance tests are paired on exactly
+    the same evaluation cases.
+    """
+
+    keys = ["Event", "Minutes ago"]
+
+    a = (
+        df_a[keys + [metric]]
+        .rename(columns={metric: "A"})
+    )
+
+    b = (
+        df_b[keys + [metric]]
+        .rename(columns={metric: "B"})
+    )
+
+    paired = a.merge(
+        b,
+        on=keys,
+        how="inner",
+        validate="one_to_one"
+    )
+
+    return paired
+
+
+# ======================================================================
+# Wilcoxon for Kendall Tau-b and NDCG
+# ======================================================================
+
+def wilcoxon_model_comparison(df_a, df_b, metric):
+    """
+    Two-sided paired Wilcoxon signed-rank test.
+
+    Intended for:
+        - KendallTauB
+        - NDCG
+    """
+
+    paired = align_model_results(
+        df_a,
+        df_b,
+        metric
+    )
+
+    # Remove observations where either model has an undefined value
+    paired = paired.dropna(
+        subset=["A", "B"]
+    )
+
+    x = paired["A"].to_numpy(dtype=float)
+    y = paired["B"].to_numpy(dtype=float)
+
+    if len(x) == 0:
+        return {
+            "N": 0,
+            "Mean A": np.nan,
+            "Mean B": np.nan,
+            "Mean Difference": np.nan,
+            "Median Difference": np.nan,
+            "Statistic": np.nan,
+            "p-value": np.nan,
+        }
+
+    differences = x - y
+
+    # If both models are identical for every point,
+    # Wilcoxon cannot meaningfully calculate a statistic.
+    # In that case p = 1.
+    if np.all(np.isclose(differences, 0.0)):
+
+        statistic = 0.0
+        p_value = 1.0
+
+    else:
+        statistic, p_value = wilcoxon(
+            x,
+            y,
+            alternative="two-sided",
+            zero_method="wilcox",
+            method="auto"
+        )
+
+    return {
+        "N": len(paired),
+        "Mean A": np.mean(x),
+        "Mean B": np.mean(y),
+        "Mean Difference": np.mean(differences),
+        "Median Difference": np.median(differences),
+        "Statistic": statistic,
+        "p-value": p_value,
+    }
+
+
+# ======================================================================
+# Exact McNemar for Top-1 Accuracy
+# ======================================================================
+
+def mcnemar_model_comparison(df_a, df_b):
+    """
+    Exact two-sided McNemar test for paired Top-1 correctness.
+
+    Acc_1 must contain:
+        1 = correct
+        0 = incorrect
+    """
+
+    paired = align_model_results(
+        df_a,
+        df_b,
+        "Acc_1"
+    )
+
+    paired = paired.dropna(
+        subset=["A", "B"]
+    )
+
+    a = paired["A"].astype(int).to_numpy()
+    b = paired["B"].astype(int).to_numpy()
+
+    # Contingency table:
+    #
+    #                   B correct    B incorrect
+    # A correct         both         A only
+    # A incorrect       B only       neither
+
+    both_correct = int(
+        np.sum((a == 1) & (b == 1))
+    )
+
+    a_correct_b_wrong = int(
+        np.sum((a == 1) & (b == 0))
+    )
+
+    a_wrong_b_correct = int(
+        np.sum((a == 0) & (b == 1))
+    )
+
+    both_wrong = int(
+        np.sum((a == 0) & (b == 0))
+    )
+
+    discordant = (
+        a_correct_b_wrong
+        + a_wrong_b_correct
+    )
+
+    # Exact McNemar test is equivalent to a binomial test
+    # on the discordant pairs.
+    if discordant == 0:
+
+        p_value = 1.0
+
+    else:
+
+        p_value = binomtest(
+            k=min(
+                a_correct_b_wrong,
+                a_wrong_b_correct
+            ),
+            n=discordant,
+            p=0.5,
+            alternative="two-sided"
+        ).pvalue
+
+    return {
+        "N": len(paired),
+
+        "Accuracy A": np.mean(a),
+        "Accuracy B": np.mean(b),
+        "Accuracy Difference": (
+            np.mean(a) - np.mean(b)
+        ),
+
+        "Both correct": both_correct,
+        "A correct / B wrong": a_correct_b_wrong,
+        "A wrong / B correct": a_wrong_b_correct,
+        "Both wrong": both_wrong,
+
+        "Discordant pairs": discordant,
+        "p-value": p_value,
+    }
+
+
+# ======================================================================
+# Run all pairwise significance tests
+# ======================================================================
+
+def perform_significance_tests(
+        all_model_results,
+        model_names=None
+):
+    """
+    Perform pairwise significance tests between model configurations.
+
+    KendallTauB -> Wilcoxon signed-rank
+    NDCG        -> Wilcoxon signed-rank
+    Acc_1       -> exact McNemar
+
+    No multiple-comparison correction is applied.
+
+    Parameters
+    ----------
+    all_model_results : dict[str, pd.DataFrame]
+        Output of calculate_metrics().
+
+    model_names : list[str] or None
+        Optional list specifying which models should be compared.
+        If None, all loaded JSON prediction files are compared.
+
+    Returns
+    -------
+    dict[str, pd.DataFrame]
+        Results for KendallTauB, NDCG, and Top1.
+    """
+
+    if model_names is None:
+        model_names = list(
+            all_model_results.keys()
+        )
+
+    print("\nModels included in significance testing:")
+    for model in model_names:
+        print(f"  - {model}")
+
+    # Check that requested models actually exist
+    missing = [
+        model
+        for model in model_names
+        if model not in all_model_results
+    ]
+
+    if missing:
+        raise ValueError(
+            "The following model result files were not found: "
+            + ", ".join(missing)
+        )
+
+    comparisons = list(
+        itertools.combinations(
+            model_names,
+            2
+        )
+    )
+
+    # ==============================================================
+    # Kendall Tau-b
+    # ==============================================================
+    kendall_results = []
+    for model_a, model_b in comparisons:
+        result = wilcoxon_model_comparison(
+            all_model_results[model_a],
+            all_model_results[model_b],
+            metric="KendallTauB"
+        )
+        result = {
+            "Model A": model_a,
+            "Model B": model_b,
+            **result
+        }
+        kendall_results.append(result)
+    kendall_df = pd.DataFrame(
+        kendall_results
+    )
+
+    # ==============================================================
+    # NDCG
+    # ==============================================================
+    ndcg_results = []
+    for model_a, model_b in comparisons:
+        result = wilcoxon_model_comparison(
+            all_model_results[model_a],
+            all_model_results[model_b],
+            metric="NDCG"
+        )
+        result = {
+            "Model A": model_a,
+            "Model B": model_b,
+            **result
+        }
+        ndcg_results.append(result)
+    ndcg_df = pd.DataFrame(ndcg_results)
+
+    # ==============================================================
+    # Top-1 Accuracy
+    # ==============================================================
+    top1_results = []
+    for model_a, model_b in comparisons:
+        result = mcnemar_model_comparison(
+            all_model_results[model_a],
+            all_model_results[model_b]
+        )
+        result = {
+            "Model A": model_a,
+            "Model B": model_b,
+            **result
+        }
+        top1_results.append(result)
+    top1_df = pd.DataFrame(top1_results)
+
+    # ==============================================================
+    # Print
+    # ==============================================================
+    print("\n"+ "=" * 70)
+    print("SIGNIFICANCE TESTS: Kendall Tau-b")
+    print("Two-sided paired Wilcoxon signed-rank test")
+    print("=" * 70)
+
+    print(kendall_df.round(6).to_string(index=False))
+
+    print("\n"+ "=" * 70)
+    print("SIGNIFICANCE TESTS: NDCG")
+    print("Two-sided paired Wilcoxon signed-rank test")
+    print("=" * 70)
+
+    print(ndcg_df.round(6).to_string(index=False))
+
+    print("\n"+ "=" * 70)
+    print("SIGNIFICANCE TESTS: Top-1 Accuracy")
+    print("Exact two-sided McNemar test")
+    print("=" * 70)
+
+    print(top1_df.round(6).to_string(index=False))
+
+    return {
+        "KendallTauB": kendall_df,
+        "NDCG": ndcg_df,
+        "Top1": top1_df,
+    }
+
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 def gpt_chat_answer(model_engine, instructions, prompt):
