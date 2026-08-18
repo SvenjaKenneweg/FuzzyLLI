@@ -6,7 +6,8 @@ from itertools import combinations
 from scripts.train import (fit_event_adverbials, fit_event_specific_embeddings, fit_event_specific_random_forest, fit_event_specific_functions)
 from scripts.plot import plot_all_persons_event_adverbials, plot_events_adverbials_fitted
 from scripts.predictions import (predict_time_frame_embedding, predict_adverbial_embedding, predict_adverbial_functions,
-                             predict_time_frame_random_forest, predict_adverbial_random_forest, get_all_event_properties_gpt)
+                             predict_time_frame_random_forest, predict_adverbial_random_forest, get_all_event_properties_gpt,
+                             predict_adverbial_moc, predict_adverbial_dnn)
 from scripts.evaluation_training_dataset import (get_predictions_classifier, get_predictions_regression,
                                              get_predictions_embedding, get_predictions_random_forest,perform_significance_tests,
                                              get_predictions_functions, run_MAE_MdSE_evaluation, calculate_model_significance,
@@ -183,18 +184,22 @@ def run_full_pipeline():
     """
     Preserve the previous default: train, evaluate, plot, and run a demo prediction.
     """
-
-    # fit_non_factorized_gauss(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
-    # train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
-    # evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True, calculate_MAE=False)
+    train_models(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)  # Trains FuzzyLLI in all variants and the baseline models
+    evaluate_models_training_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True, calculate_MAE=False)
     evaluate_models_test_dataset(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, generate_new_predictions=True)
-    # evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
-    # plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_functions=None)
-    # predict_functions = [predict_adverbial_random_forest, predict_adverbial_functions]
-    # plot_results(["own_birthday"],
-    #              ["I had my birthday"],
-    #              "just", predict_functions=predict_functions)
-    # make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
+    evaluate_event_properties(DEFAULT_EVENTS, DEFAULT_EVENTS_NL)
+    plot_results(DEFAULT_EVENTS, DEFAULT_EVENTS_NL, "long time ago", predict_functions=None)
+    predict_functions = [predict_adverbial_random_forest, predict_adverbial_functions]
+    plot_results(["own_birthday"],
+                 ["I had my birthday"],
+                 "just", predict_functions=predict_functions)
+    make_predictions(DEFAULT_EVENT_NL, DEFAULT_EVENT_PROPERTIES, DEFAULT_ADVERBIAL, DEFAULT_MINUTES_AGO)
+
+    event_nl = "went to concert"
+    result = predict_adverbial_moc(event_nl, 60)
+    print(f"Prediction with the moc for the event {event_nl} 1 hour ago: {result}")
+    result = predict_adverbial_dnn(event_nl, 60)
+    print(f"Prediction with the dnn for the event {event_nl} 1 hour ago: {result}")
 
 
 def build_parser():

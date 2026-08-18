@@ -8,8 +8,11 @@ from openai import OpenAI
 from pathlib import Path
 from typing import Dict
 from joblib import load
-from collections import Counter
 import pandas as pd
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from functools import cache
 from sentence_transformers import SentenceTransformer
 
 from . import config
@@ -19,6 +22,7 @@ from . import config
 # ---------------------------------------------------------------------------
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # ---------------------------------------------------------------------------
 # Persistence helpers
@@ -228,4 +232,97 @@ def predict_adverbial_functions(properties, minutes_ago, function_to_predict=con
         prob_adverbial = config.adverbial_specific_function(config.event_specific_function(minutes_ago, event_std), adverbial_mean, adverbial_std)
         adverbial_probs[adverbial] = prob_adverbial
     return adverbial_probs
+
+
+
+def block(i, o, dropout=None):
+    x = [nn.Linear(i, o), nn.LayerNorm(o), nn.GELU()]
+    return x + ([] if dropout is None else [nn.Dropout(dropout)])
+
+
+class TimeEncoder(nn.Module):
+    def __init__(self, dim, n_freq):
+        super().__init__()
+        self.register_buffer("freqs", torch.empty(n_freq))
+        self.proj = nn.Sequential(*block(2*n_freq+1, dim), *block(dim, dim))
+
+    def forward(self, t):
+        x = torch.log1p(t.float().clamp_min(0))
+        a = x[:, None] * self.freqs
+        return self.proj(torch.cat((x[:, None], a.sin(), a.cos()), 1))
+
+
+class DNN(nn.Module):
+    def __init__(self, c):
+        super().__init__()
+        h, n, td, nf, p = c["hidden_dim"], c["n_layers"], c["time_dim"], c["n_freq"], c["dropout"]
+        self.time_encoder = TimeEncoder(td, nf)
+        self.event_proj = nn.Sequential(*block(c["event_dim"], h))
+        self.time_proj = nn.Sequential(*block(td, h))
+
+        dims = [2*h] + [h]*(n-1) + [h//2]
+        self.fusion_mlp = nn.Sequential(
+            *(m for a, b in zip(dims, dims[1:]) for m in block(a, b, p))
+        )
+        self.output_head = nn.Linear(dims[-1], 4)
+
+    def forward(self, e, t):
+        x = torch.cat((self.event_proj(e), self.time_proj(self.time_encoder(t))), 1)
+        return self.output_head(self.fusion_mlp(x))
+
+
+class MOC(nn.Module):
+    def __init__(self, c):
+        super().__init__()
+        e, h = c["event_dim"], c["hidden_dim"]
+        self.x_scale_raw = nn.Parameter(torch.tensor(0.))
+        self.x_bias = nn.Parameter(torch.tensor(0.))
+        self.thresh_net = nn.Sequential(*block(e, h, 0), nn.Linear(h, 3))
+        self.k_net = nn.Sequential(*block(e, h, 0), nn.Linear(h, 1))
+
+    def forward(self, e, t):
+        x = F.softplus(self.x_scale_raw) * torch.log1p(t.float().clamp_min(0)) + self.x_bias
+        r = self.thresh_net(e)
+        th = torch.cat((r[:, :1], r[:, :1] + F.softplus(r[:, 1:]).cumsum(1)), 1)
+        c = torch.sigmoid((F.softplus(self.k_net(e)) + 1e-6) * (x[:, None] - th))
+        return torch.cat((1-c[:, :1], c[:, :-1]-c[:, 1:], c[:, -1:]), 1)
+
+
+@cache
+def load_model(filename):
+    c = torch.load(config.RESULTS_FILE_PATH / filename, map_location=DEVICE, weights_only=True)
+    model = MOC(c) if c["arch"] == "monotonic_ordinal" else DNN(c)
+    model.load_state_dict(c["model_state"])
+    return model.to(DEVICE).eval(), c
+
+
+@cache
+def embedder(name):
+    return SentenceTransformer(name, device=str(DEVICE))
+
+
+def predict(filename, event, minutes):
+    model, c = load_model(filename)
+    event = event.lower().strip()
+
+    e = c["event_embeddings"].get(event)
+    if e is None:
+        e = embedder(c["embedding_model_name"]).encode(
+            event, convert_to_tensor=True,
+            normalize_embeddings=c["normalize_embeddings"]
+        )
+
+    e = e.to(DEVICE).float().unsqueeze(0)
+    t = torch.tensor([minutes], device=DEVICE)
+
+    with torch.no_grad():
+        return config.VAGUE_ADVERBIALS[model(e, t).argmax(1).item()]
+
+
+def predict_adverbial_moc(event, minutes):
+    return predict(config.MOC_FILE, event, minutes)
+
+
+def predict_adverbial_dnn(event, minutes):
+    return predict(config.DNN_FILE, event, minutes)
 
